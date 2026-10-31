@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { getAllMPRecords } from '@/lib/mp-data';
+import { getAllMPs } from '@/lib/data';
 import { CompareClient } from '@/components/compare/CompareClient';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function ComparePage() {
-  const mps = getAllMPRecords();
+  const mps = getAllMPs();
 
   return (
     <Suspense

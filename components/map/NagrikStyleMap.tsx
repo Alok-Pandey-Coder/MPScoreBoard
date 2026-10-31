@@ -2,9 +2,25 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { Search, Navigation, Layers, Info, MapPin, ChevronRight, ExternalLink, ShieldCheck } from 'lucide-react';
+import type { Feature, Geometry } from 'geojson';
+import { Search, Navigation, MapPin, ChevronRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
+
+/** Properties of ward features (delhi_wards_enriched.geojson) or PC features (delhi_pc.json). */
+interface MapFeatureProps {
+  pc_slug?: string;
+  slug?: string;
+  pc_name?: string;
+  Ward_Name?: string;
+  Ward_No?: string | number;
+  ward_display?: string;
+  center?: [number, number];
+}
+type MapFeature = Feature<Geometry, MapFeatureProps>;
+type FeatureLayer = L.Path & { feature?: MapFeature };
+
+const featureSlug = (feature?: MapFeature) => feature?.properties?.pc_slug || feature?.properties?.slug || '';
 
 interface NagrikStyleMapProps {
   mps: MPRecord[];
@@ -48,14 +64,16 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   const [selectedSlug, setSelectedSlug] = useState<string>(
     externalSelectedSlug || 'chandni-chowk-delhi'
   );
-  const [activeWardNumber, setActiveWardNumber] = useState<string>('20');
   const [searchQuery, setSearchQuery] = useState('');
   const [locating, setLocating] = useState(false);
   const [userLocationError, setUserLocationError] = useState<string | null>(null);
   const [hoveredInfo, setHoveredInfo] = useState<{ name: string; pcName: string; wardNum: string } | null>(null);
 
+  // Leaflet event handlers are created once, so they read the selection via a ref.
   const activeSlugRef = useRef<string>(selectedSlug);
-  activeSlugRef.current = selectedSlug;
+  useEffect(() => {
+    activeSlugRef.current = selectedSlug;
+  }, [selectedSlug]);
 
   // Move or create the orange target reticle marker matching reference screenshot
   const updateTargetReticle = (lat: number, lng: number, label: string) => {
@@ -96,7 +114,6 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     const seat = DELHI_SEATS.find((s) => s.slug === slug);
     const center = centerCoords || seat?.center || [28.6350, 77.1600];
     const wardNum = wardLabel || seat?.defaultWard || '20';
-    setActiveWardNumber(wardNum);
 
     if (mapInstanceRef.current) {
       mapInstanceRef.current.flyTo([center[0], center[1]], 11.5, {
@@ -116,14 +133,17 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       mapInstanceRef.current.remove();
       mapInstanceRef.current = null;
     }
-    if ((mapContainerRef.current as any)._leaflet_id != null) {
-      (mapContainerRef.current as any)._leaflet_id = null;
+    // Leaflet refuses to re-initialise a container it has seen (React strict-mode remount).
+    const container = mapContainerRef.current as HTMLDivElement & { _leaflet_id?: number | null };
+    if (container._leaflet_id != null) {
+      container._leaflet_id = null;
     }
 
     // 1. Initialize map on #080808 pure dark basemap
     const map = L.map(mapContainerRef.current, {
       zoomControl: true,
-      attributionControl: false,
+      // Esri basemap terms require visible attribution.
+      attributionControl: true,
       minZoom: 9,
       maxZoom: 16,
     }).setView([28.6350, 77.1600], 10.5);
@@ -135,6 +155,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       {
         maxZoom: 16,
         className: 'dark-gis-tile-layer',
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
       }
     ).addTo(map);
 
@@ -151,8 +172,8 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
         numberMarkersRef.current = [];
 
         const geoLayer = L.geoJSON(geojson, {
-          style: (feature: any) => {
-            const slug = feature.properties?.pc_slug || feature.properties?.slug;
+          style: (feature?: MapFeature) => {
+            const slug = featureSlug(feature);
             const theme = PARLIAMENTARY_THEMES[slug] || { fill: '#1e293b', stroke: '#64748b' };
             const isSelected = activeSlugRef.current === slug;
             return {
@@ -164,10 +185,10 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
               fillOpacity: isSelected ? 0.85 : 0.72,
             };
           },
-          onEachFeature: (feature: any, layer: any) => {
+          onEachFeature: (feature: MapFeature, layer: L.Layer) => {
             const props = feature.properties;
-            const slug = props.pc_slug || props.slug;
-            const wardNum = props.ward_display || props.Ward_No || '';
+            const slug = featureSlug(feature);
+            const wardNum = String(props.ward_display || props.Ward_No || '');
 
             // Tooltip on hover
             layer.bindTooltip(
@@ -206,20 +227,19 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             }
 
             layer.on({
-              mouseover: (e: any) => {
-                const l = e.target;
+              mouseover: (e: L.LeafletMouseEvent) => {
+                const l = e.target as L.Path;
                 l.setStyle({ fillOpacity: 0.92, weight: 2.2, color: '#ffffff' });
                 l.bringToFront();
                 setHoveredInfo({
-                  name: props.Ward_Name || props.pc_name,
+                  name: props.Ward_Name || props.pc_name || '',
                   pcName: props.pc_name || '',
                   wardNum: wardNum,
                 });
               },
-              mouseout: (e: any) => {
-                const s = feature.properties?.pc_slug || feature.properties?.slug;
-                const l = e.target;
-                if (activeSlugRef.current === s) {
+              mouseout: (e: L.LeafletMouseEvent) => {
+                const l = e.target as L.Path;
+                if (activeSlugRef.current === slug) {
                   l.setStyle({ fillOpacity: 0.85, weight: 2.0, color: '#ffffff' });
                 } else {
                   geoLayer.resetStyle(l);
@@ -258,9 +278,9 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   // Update layer styles when selectedSlug changes
   useEffect(() => {
     if (!geojsonLayerRef.current) return;
-    geojsonLayerRef.current.eachLayer((layer: any) => {
-      const feat = layer.feature;
-      const s = feat?.properties?.pc_slug || feat?.properties?.slug;
+    geojsonLayerRef.current.eachLayer((l) => {
+      const layer = l as FeatureLayer;
+      const s = featureSlug(layer.feature);
       const theme = PARLIAMENTARY_THEMES[s] || { fill: '#1e293b', stroke: '#64748b' };
       const isSelected = selectedSlug === s;
       layer.setStyle({

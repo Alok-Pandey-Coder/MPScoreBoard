@@ -12,19 +12,15 @@ interface ExplainSimplyPanelProps {
 
 export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCopyToast }) => {
   const [lang, setLang] = useState<'en' | 'hinglish'>('en');
-  const [summary, setSummary] = useState<SummaryResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [summary, setSummary] = useState<(SummaryResult & { slug: string }) | null>(null);
   const [copied, setCopied] = useState(false);
+  // Loading until a summary for the current MP and language has arrived.
+  const isLoading = summary?.slug !== mp.slug || summary.lang !== lang;
 
   useEffect(() => {
     let isCurrent = true;
-    setIsLoading(true);
-
     getMPSummary(mp, lang).then((res) => {
-      if (isCurrent) {
-        setSummary(res);
-        setIsLoading(false);
-      }
+      if (isCurrent) setSummary({ ...res, slug: mp.slug });
     });
 
     return () => {
@@ -58,7 +54,7 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
               </span>
             </div>
             <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-              3-to-4 sentence summary grounded strictly in official records
+              A short summary that uses only the data on this card
             </p>
           </div>
         </div>
@@ -90,11 +86,11 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
       </div>
 
       {/* Content Area */}
-      <div className="relative min-h-[90px] flex flex-col justify-between">
+      <div className="relative min-h-[90px] flex flex-col justify-between" aria-live="polite" aria-busy={isLoading}>
         {isLoading ? (
           <div className="flex items-center gap-2.5 py-6 text-stone-500 font-mono text-xs">
-            <RefreshCw className="w-4 h-4 animate-spin text-amber-500" />
-            <span>Synthesizing factual records...</span>
+            <RefreshCw className="w-4 h-4 animate-spin text-amber-500" aria-hidden="true" />
+            <span>Preparing summary…</span>
           </div>
         ) : (
           <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed font-normal">

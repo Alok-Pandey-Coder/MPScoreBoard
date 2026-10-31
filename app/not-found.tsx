@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { getAllMPRecords } from '@/lib/mp-data';
+import { getAllMPs } from '@/lib/data';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function NotFound() {
-  const mps = getAllMPRecords();
+  const mps = getAllMPs();
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-6">
       <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm space-y-4">

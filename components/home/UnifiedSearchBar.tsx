@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, X, ChevronRight, MapPin, Building2, User } from 'lucide-react';
+import { Search, X, ChevronRight, MapPin } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { searchMPs } from '@/lib/search';
 
@@ -30,7 +30,6 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   onSelectGeographicalFeature,
 }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<MPRecord[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -38,18 +37,13 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setIsOpen(false);
-      return;
-    }
-
-    const matched = searchMPs(query, mps);
-    setResults(matched);
-    setIsOpen(true);
+  // Results are derived from the query; typing opens the list and resets the highlight.
+  const results = useMemo<MPRecord[]>(() => (query.trim() ? searchMPs(query, mps) : []), [query, mps]);
+  const updateQuery = (value: string) => {
+    setQuery(value);
+    setIsOpen(value.trim().length > 0);
     setSelectedIndex(0);
-  }, [query, mps]);
+  };
 
   // Handle outside click
   useEffect(() => {
@@ -101,7 +95,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => updateQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
             if (query.trim() && results.length > 0) setIsOpen(true);
@@ -113,9 +107,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
         {query && (
           <button
             onClick={() => {
-              setQuery('');
-              setResults([]);
-              setIsOpen(false);
+              updateQuery('');
               inputRef.current?.focus();
             }}
             className="absolute right-3.5 p-1 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 rounded-md hover:bg-stone-100 dark:hover:bg-[#1A2333] transition-colors"

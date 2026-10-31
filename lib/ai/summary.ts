@@ -174,22 +174,29 @@ export function generateTemplateSummary(mp: MPRecord, lang: 'en' | 'hinglish'): 
 }
 
 /**
- * Main summary getter with timeout and fallback (PRD FR-11, FR-12)
+ * Client-side summary getter (PRD FR-11, FR-12): asks /api/summary, which
+ * uses the LLM when configured, and falls back to the local template on any
+ * error or timeout so the card works offline.
  */
 export async function getMPSummary(
   mp: MPRecord,
   lang: 'en' | 'hinglish' = 'en'
 ): Promise<SummaryResult> {
-  const templateText = generateTemplateSummary(mp, lang);
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        text: templateText,
-        source: 'template',
-        lang,
-        generatedAt: new Date().toISOString(),
-      });
-    }, 250);
-  });
+  try {
+    const res = await fetch('/api/summary', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ slug: mp.slug, lang }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (res.ok) {
+      const data = (await res.json()) as Partial<SummaryResult>;
+      if (typeof data.text === 'string' && (data.source === 'llm' || data.source === 'template')) {
+        return { text: data.text, source: data.source, lang, generatedAt: data.generatedAt ?? new Date().toISOString() };
+      }
+    }
+  } catch {
+    // Offline, timeout or server error: use the template below.
+  }
+  return { text: generateTemplateSummary(mp, lang), source: 'template', lang, generatedAt: new Date().toISOString() };
 }

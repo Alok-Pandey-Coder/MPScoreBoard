@@ -23,7 +23,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
           url: window.location.href,
         });
         return;
-      } catch (err) {
+      } catch {
         // Fall back to copy
       }
     }

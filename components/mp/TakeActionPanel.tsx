@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Send, Copy, Mail, Check, AlertCircle } from 'lucide-react';
 import { CitizenIntent, MPRecord } from '@/types/mp';
 import { generateCitizenDraft } from '@/lib/ai/draft';
@@ -16,22 +16,20 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
   const [citizenName, setCitizenName] = useState('');
   const [locality, setLocality] = useState('');
   const [specificIssue, setSpecificIssue] = useState('');
-  const [editedBody, setEditedBody] = useState('');
-  const [subject, setSubject] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Generate draft when inputs change
-  useEffect(() => {
-    const draft = generateCitizenDraft(mp, {
-      intent,
-      lang,
-      citizenName,
-      locality,
-      specificIssue,
-    });
-    setSubject(draft.subject);
-    setEditedBody(draft.body);
-  }, [mp, intent, lang, citizenName, locality, specificIssue]);
+  // The draft is derived from the inputs. Manual edits are kept only while the
+  // inputs they were made against are unchanged; changing an input regenerates.
+  const draft = useMemo(
+    () => generateCitizenDraft(mp, { intent, lang, citizenName, locality, specificIssue }),
+    [mp, intent, lang, citizenName, locality, specificIssue],
+  );
+  const [edits, setEdits] = useState<{ for: typeof draft; subject?: string; body?: string } | null>(null);
+  const activeEdits = edits?.for === draft ? edits : null;
+  const subject = activeEdits?.subject ?? draft.subject;
+  const editedBody = activeEdits?.body ?? draft.body;
+  const setSubject = (value: string) => setEdits({ ...activeEdits, for: draft, subject: value });
+  const setEditedBody = (value: string) => setEdits({ ...activeEdits, for: draft, body: value });
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`Subject: ${subject}\n\n${editedBody}`);

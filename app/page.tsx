@@ -1,7 +1,7 @@
-import { getAllMPRecords } from '@/lib/mp-data';
+import { getAllMPs } from '@/lib/data';
 import { HomeClient } from '@/components/home/HomeClient';
 
 export default function HomePage() {
-  const mps = getAllMPRecords();
+  const mps = getAllMPs();
   return <HomeClient mps={mps} />;
 }

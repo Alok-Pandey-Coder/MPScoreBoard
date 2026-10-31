@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Plus, Minus, RotateCcw, ArrowLeft, Layers } from 'lucide-react';
+import { Plus, Minus, RotateCcw, ArrowLeft } from 'lucide-react';
 
 export interface MapControlsProps {
   onZoomIn: () => void;

@@ -19,9 +19,12 @@ d:\MPScoreBoard\data\
 │   ├── aliases.json                     # Normalisation aliases (constituency & MP name variants)
 │   ├── validation_report.md             # Automated test proof of zero data errors & exact averages
 │   ├── data_dictionary.md               # Technical field types & nullability specifications
-│   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0)
-│   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data
-│   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids
+│   ├── delhi_pc.json                    # 7 PC polygons + centres used by the app (lib/data.ts, /api/geojson?type=pc, /api/locate); built by scripts/build_delhi_pc_geojson.js
+│   ├── delhi_wards_enriched.geojson     # MCD ward polygons tagged with their PC, served by /api/geojson for the home map; built by scripts/enrich_wards.js
+│   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0); input to the geo build scripts, not read by the app
+│   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data; NOT read by the app (out of current scope)
+│   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids; NOT read by the app (superseded by delhi_pc.json)
+│   ├── prs.parsed.delhi.json            # Intermediate PRS parse (03_parse_prs.py)
 │   ├── normalised.delhi.json            # Intermediate normalised records before merge
 │   ├── mplads.delhi.json                # Intermediate MPLADS blocks per seat (09_intake_mplads.py) + raw source values
 │   ├── mps.india.json                   # UNVALIDATED, NOT FOR PUBLICATION (see 2.4); unused by the app
@@ -292,7 +295,9 @@ To allow direct entry of verified 7 MP figures without editing complex code, pla
 ```
 
 > **MPLADS is no longer read from this file.** As of 2026-10-31 the `mplads` key here
-> (written by `scripts/fetch_empowered_delhi.py`) is legacy and ignored: it stored the
+> (written by an earlier version of `scripts/fetch_empowered_delhi.py`, which no longer
+> touches this file and refuses to run until Empowered Indian access is cleared — see
+> `docs/decisions.md`) is legacy and ignored: it stored the
 > recommended share as `utilisation_pct`, `allocatedAmount` as `funds_released_cr`,
 > assumed `works_sanctioned = works_recommended` and defaulted entitlement to 5.0.
 > MPLADS now comes from the latest dated raw capture

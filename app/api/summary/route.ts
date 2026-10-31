@@ -1,53 +1,49 @@
-import { NextResponse } from "next/server";
-import { createSummary, type SummaryLanguage } from "@/lib/actions";
-import { getMPBySlug, getSnapshotDate } from "@/lib/data";
+import { NextResponse } from 'next/server';
+import { getMPBySlug, getSnapshotDate } from '@/lib/data';
+import { generateTemplateSummary } from '@/lib/ai/summary';
+import { generateLlmSummary } from '@/lib/ai/llm';
+import { apiError, clientKey, createRateLimiter, readJsonBody } from '@/lib/api';
 
-function errorResponse(code: string, message: string, status: number) {
-  return NextResponse.json({ error: { code, message } }, { status });
-}
+type Lang = 'en' | 'hinglish';
+
+// PRD §6.3: 20 requests per minute per IP.
+const limit = createRateLimiter(20, 60_000);
+// LLM output cached per (slug, lang) for the life of the server instance.
+const cache = new Map<string, string>();
 
 export async function POST(request: Request) {
-  let body: { slug?: unknown; lang?: unknown };
-  try {
-    body = await request.json() as { slug?: unknown; lang?: unknown };
-  } catch {
-    return errorResponse("INVALID_REQUEST", "Request body must be valid JSON.", 400);
+  const allowed = limit(clientKey(request));
+  if (!allowed.ok) {
+    return apiError('RATE_LIMITED', 'Too many requests. Please try again shortly.', 429, {
+      'Retry-After': String(allowed.retryAfterSec),
+    });
   }
 
-  if (typeof body.slug !== "string" || !["en", "hinglish"].includes(String(body.lang))) {
-    return errorResponse("INVALID_REQUEST", 'Expected { slug: string, lang: "en" | "hinglish" }.', 400);
+  const body = await readJsonBody(request);
+  const keys = body ? Object.keys(body) : [];
+  if (
+    !body ||
+    typeof body.slug !== 'string' ||
+    (body.lang !== 'en' && body.lang !== 'hinglish') ||
+    keys.some((key) => key !== 'slug' && key !== 'lang')
+  ) {
+    return apiError('INVALID_REQUEST', 'Expected { slug: string, lang: "en" | "hinglish" }.', 400);
   }
 
   const mp = getMPBySlug(body.slug);
-  if (!mp) return errorResponse("INVALID_SLUG", "No MP found for this constituency.", 404);
+  if (!mp) return apiError('INVALID_SLUG', 'No MP found for this constituency.', 404);
 
-  const lang = body.lang as SummaryLanguage;
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (apiKey) {
-    try {
-      const prompt = `Summarise only these facts in 3 neutral sentences, in ${lang === "hinglish" ? "Roman Hindi mixed with English" : "English"}: ${JSON.stringify(mp)}`;
-      const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-        signal: AbortSignal.timeout(8000),
-      });
-      if (upstream.ok) {
-        const data = await upstream.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        const inputNumbers = new Set(JSON.stringify(mp).match(/\b\d+(?:\.\d+)?\b/g) ?? []);
-        const outputNumbers = text?.match(/\b\d+(?:\.\d+)?\b/g) ?? [];
-        if (text && outputNumbers.every((number) => inputNumbers.has(number))) {
-          return NextResponse.json({ text, source: "llm", lang, dataAsOf: getSnapshotDate(), generatedAt: new Date().toISOString() });
-        }
-      }
-    } catch {
-      // Template fallback below keeps the API reliable when Gemini is unavailable.
-    }
+  const lang = body.lang as Lang;
+  const cacheKey = `${mp.slug}:${lang}`;
+  let text = cache.get(cacheKey) ?? null;
+  if (!text) {
+    text = await generateLlmSummary(mp, lang);
+    if (text) cache.set(cacheKey, text);
   }
+
   return NextResponse.json({
-    text: createSummary(mp, lang),
-    source: "template",
+    text: text ?? generateTemplateSummary(mp, lang),
+    source: text ? 'llm' : 'template',
     lang,
     dataAsOf: getSnapshotDate(),
     generatedAt: new Date().toISOString(),

@@ -8,14 +8,15 @@
     "start": "next start -p 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "data:build": "python scripts/build_data.py",
+    "test:data": "python -m pytest tests -q"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.22",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.16.0",
-    "maplibre-gl": "^6.16.0",
     "next": "16.4.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",

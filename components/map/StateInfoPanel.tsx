@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, MapPin, Users, Award, ChevronRight, BarChart2 } from 'lucide-react';
+import { X, MapPin, ChevronRight, BarChart2 } from 'lucide-react';
 import { StateGeoData, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
@@ -21,12 +21,6 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
   onSelectConstituency,
   onClose,
 }) => {
-  // Find MPs belonging to this state
-  const stateMPs = mps.filter(
-    (m) =>
-      m.state.toLowerCase() === state.name.toLowerCase() ||
-      m.state.toLowerCase().includes(state.id)
-  );
 
   // Available mapped constituencies for this state
   const isDelhi = state.id === 'delhi';

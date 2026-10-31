@@ -4,7 +4,7 @@ const path = require('path');
 
 const url = 'https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Delhi/Delhi_Wards.geojson';
 const targetPath = path.join(__dirname, '..', 'data', 'processed', 'delhi_wards_enriched.geojson');
-const pcGeoPath = path.join(__dirname, '..', 'data', 'processed', 'delhi_pc.geojson');
+const pcGeoPath = path.join(__dirname, '..', 'data', 'processed', 'delhi_pc.json');
 
 const pcGeo = JSON.parse(fs.readFileSync(pcGeoPath, 'utf8'));
 

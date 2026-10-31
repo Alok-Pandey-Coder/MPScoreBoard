@@ -1,5 +1,77 @@
 # Project Change Log
 
+## 2026-10-31 — Architecture consolidation: one type, one data layer, dead code removed
+
+- **Summary:** The app had three overlapping MP type systems, two data-access layers and two parallel AI-text implementations:
+  - Types: `types/mp.ts`, `lib/types.ts`, and the `ReportMP` shape built in `lib/data.ts`.
+  - Data access: `lib/data.ts` for the API routes and `lib/mp-data.ts` for the pages.
+  - AI text: `lib/actions.ts` for the API and `lib/ai/*` for the UI.
+
+  The API routes had drifted as a result. For example, `/api/summary` still said MPLADS was unavailable. Now:
+  - `types/mp.ts` (`MPRecord`) is the only MP type.
+  - `lib/data.ts` is the only data layer: it reads `mps.json` directly, and slug aliases redirect with a 308.
+  - `lib/ai/*` is the only text generator, used by both the UI and the API.
+  - The "Explain simply" panel now calls `/api/summary` and falls back to the local template, instead of faking a 250 ms delay.
+  - The LLM path uses the reviewed system prompt, sends only structured facts, keeps the API key in a header, checks the PRD's banned-words list and the numbers guardrail, and caches results per slug and language.
+- **Files or areas changed:**
+  - **Removed, all unreferenced by live code:**
+    - Pages and components: `app/test-frontend/`, `test-frontend/`, `server/server.js`, `scripts/run-all.js`, ten orphaned `app/*` components and two CSS modules, `lib/boundaries.ts`, three empty components, `components/common/ErrorBoundary.tsx`, `public/sw.js`, five template SVGs.
+    - Libraries: `lib/actions.ts`, `lib/mp-data.ts`, `lib/types.ts`.
+    - API routes: `chat`, `constituencies`, `contact`, `data`, `pincode`, `search`.
+    - Test scaffolding: the synthetic test-data generator, its validator and their two jest suites, plus `mps.test.json` and `regions.test.geojson`.
+    - Duplicates: `delhi_pc.geojson` (byte-identical to `delhi_pc.json`), and root `Context.md` and `Plan.md` (identical to `docs/`).
+    - The `maplibre-gl` dependency (only its CSS was imported).
+  - **New:**
+    - `types/location.ts`
+    - `lib/api.ts`: PRD §6.3 error contract, 2 KB body cap, per-IP rate limiter.
+    - `lib/ai/llm.ts`
+    - `__tests__/data-layer.test.ts`
+    - `.env.example`
+    - `docs/decisions.md`: the decision to publish MPLADS data with citation.
+  - **Rewritten:**
+    - Libraries: `lib/data.ts`, `context/ThemeContext.tsx` (`useSyncExternalStore`).
+    - API routes: `summary`, `draft`, `geojson`, `locate`.
+    - `app/mp/[slug]/page.tsx`: 308 alias redirect, canonical and Open Graph tags.
+    - `scripts/fetch_empowered_delhi.py`:
+      - It no longer impersonates a browser or sends the site's own Origin and Referer headers.
+      - It refuses to run without `EMPOWERED_INDIAN_ACCESS_CLEARED=1`.
+      - It never overwrites an existing capture.
+      - It stops on HTTP errors.
+      - It keeps every works row instead of cutting the list to 20.
+      - It no longer writes the legacy enrichment fields.
+  - **Fixed:**
+    - React 19 hook errors in `TakeActionPanel`, `ExplainSimplyPanel`, `UnifiedSearchBar` and `IndiaAtlasMap`. The map's effect cleared the Delhi constituency it had just selected.
+    - `any` types in the map component and API routes.
+    - Esri basemap attribution, which had been switched off.
+  - **Config:**
+    - `.gitignore` now ignores Python caches and lets `.env.example` through.
+    - The ESLint override allows CommonJS `require` in scripts.
+    - `package.json` adds `data:build` and `test:data`.
+  - **Docs:** the `data.md` processed-file inventory now records which geo files the app reads.
+- **Validation performed:**
+  - `tsc --noEmit` passes.
+  - `eslint .` reports 0 errors, down from 75. 3 warnings remain: the custom font, a map hook dependency, and an unused prop.
+  - jest: 38 passed (the agent's 28 UI tests plus 10 new data-layer tests).
+  - pytest: 18 passed.
+  - `python scripts/build_data.py` runs clean.
+  - `next build` succeeds: 57 pages, 6 API routes (down from 13).
+  - An HTTP smoke test against `next start` passed all 51 checks:
+    - Every page and all 7 cards return 200, with the PRD footer disclaimer.
+    - `/mp/new-delhi` returns a 308 to `/mp/new-delhi-delhi`, and unknown slugs and pages return 404.
+    - The removed routes return 404.
+    - Summary and draft validation works: bad language, unknown field, malformed JSON, bad intent, and a name over 60 characters are all rejected.
+    - The draft route rate-limits with a 429 and `Retry-After`.
+    - Location lookup works: Connaught Place resolves to New Delhi.
+    - The minister card shows the not-applicable copy, and no banned words appear.
+- **Remaining caveat or next step:**
+  - The LLM summary needs `GEMINI_API_KEY` and `GEMINI_MODEL` set. Without them the template is used, by design. The live LLM call is not yet exercised.
+  - The rate limiter and the summary cache are in memory, per server instance.
+  - The `/state/*` pages for non-Delhi states have no MP data.
+  - `delhi_regional_hierarchy.json` and `delhiConstituenciesGeo.json` are kept but unused.
+  - `mps.india.json` is still unvalidated.
+  - The 360px layout and the keyboard flow have not been checked in a browser.
+  - Next step: database integration behind `lib/data.ts`.
+
 ## 2026-10-31 — MPLADS block corrected to the `MpladsData` contract; JanWatchdog cross-check added
 
 - **Summary:** The previous MPLADS export showed Empowered Indian's `utilizationPercentage` (recommended ÷ allocated, e.g. 43.8% for Chandni Chowk) as spending utilisation, stored `allocatedAmount` as "funds released", assumed works sanctioned = works recommended, and defaulted entitlement to ₹5 cr without a citation. MPLADS is now normalised from the latest dated raw capture by `scripts/09_intake_mplads.py`: `expenditure_pct` and `recommended_pct` are computed from rupee amounts, `works_count.sanctioned` and `annual_entitlement_cr` are `null`, 20 works per MP are mapped to `MpladsWork` (`works_is_partial: true`), `review_status` is `secondary_only`, and JanWatchdog (snapshot 2026-10-06) is attached as `cross_check` with readable differences. Old keys (`entitlement`, `funds_released`, `expenditure`, `utilisation_pct`, `unspent_balance`, `works{}`) are gone from `mps.json`. Corrected expenditure %: Chandni Chowk 18.0, East Delhi 16.6, New Delhi 14.1, North East Delhi 13.2, North West Delhi 8.5, South Delhi 19.6, West Delhi 8.9.

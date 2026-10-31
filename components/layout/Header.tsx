@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GitCompare, HelpCircle, Menu, X, Search, Compass, MapPin } from 'lucide-react';
+import { GitCompare, HelpCircle, Menu, X, Search, Compass } from 'lucide-react';
 import { ThemeToggle } from '../common/ThemeToggle';
 
 interface HeaderProps {

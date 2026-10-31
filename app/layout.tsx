@@ -5,14 +5,17 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingThemePill } from '@/components/common/FloatingThemePill';
 
+const SITE_DESCRIPTION =
+  'A neutral, source-backed report card for your Lok Sabha MP: attendance, debates, questions, MPLADS funds and declared affidavit details, each with its source and date.';
+
 export const metadata: Metadata = {
-  title: 'Mera MP, Mera Report Card — 18th Lok Sabha Civic Atlas',
-  description:
-    'Neutral, source-backed interactive parliamentary intelligence platform for India. Track attendance, debates, questions, MPLADS funds, and verified affidavits.',
+  // Absolute base for canonical and Open Graph URLs; set NEXT_PUBLIC_SITE_URL on deploy.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  title: 'Mera MP, Mera Report Card — 18th Lok Sabha',
+  description: SITE_DESCRIPTION,
   openGraph: {
-    title: 'Mera MP, Mera Report Card — Interactive India Civic Atlas',
-    description:
-      'Neutral, source-backed interactive parliamentary intelligence platform for India. Track attendance, debates, questions, MPLADS funds, and verified affidavits.',
+    title: 'Mera MP, Mera Report Card',
+    description: SITE_DESCRIPTION,
     type: 'website',
   },
 };

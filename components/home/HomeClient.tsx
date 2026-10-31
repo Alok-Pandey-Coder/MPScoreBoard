@@ -10,7 +10,7 @@ import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { QuickCardsGrid } from '@/components/home/QuickCardsGrid';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
-import { ArrowRight, MapPin, Users, Compass, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Users, Compass } from 'lucide-react';
 
 const NagrikStyleMap = dynamic(
   () => import('@/components/map/NagrikStyleMap').then((mod) => mod.NagrikStyleMap),

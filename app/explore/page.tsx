@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { getAllMPRecords } from '@/lib/mp-data';
+import { getAllMPs } from '@/lib/data';
 import { ExploreAtlasClient } from '@/components/explore/ExploreAtlasClient';
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function ExplorePage() {
-  const mps = getAllMPRecords();
+  const mps = getAllMPs();
   return <ExploreAtlasClient mps={mps} />;
 }
 

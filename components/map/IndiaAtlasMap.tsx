@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { REAL_INDIA_STATES, RealStateData } from '@/lib/realIndiaMapData';
 import { DELHI_CONSTITUENCIES, ConstituencyGeoData } from '@/lib/indiaGeoData';
 import { MPRecord } from '@/types/mp';
@@ -175,7 +175,13 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   onSelectMP,
   className = '',
 }) => {
-  const [selectedStateId, setSelectedStateId] = useState<string | null>(initialStateId || null);
+  // A Delhi constituency implies the Delhi state view.
+  const impliedStateId = (stateId?: string, slug?: string) =>
+    stateId || (slug && DELHI_CONSTITUENCIES.some((c) => c.slug === slug) ? 'delhi' : undefined);
+
+  const [selectedStateId, setSelectedStateId] = useState<string | null>(
+    impliedStateId(initialStateId, initialConstituencySlug) || null
+  );
   const [selectedConstituencySlug, setSelectedConstituencySlug] = useState<string | null>(
     initialConstituencySlug || null
   );
@@ -186,45 +192,41 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
 
   // Default viewBox framing the 100% authentic bounds of India
   const NATIONAL_VIEWBOX = { x: 90, y: 35, w: 820, h: 910 };
-  const [viewBox, setViewBox] = useState<{ x: number; y: number; w: number; h: number }>(NATIONAL_VIEWBOX);
+
+  /** The SVG viewBox that frames a state, or null for an unknown state. */
+  const viewBoxForState = (stateId: string | null | undefined) => {
+    const st = stateId ? REAL_INDIA_STATES.find((s) => s.id === stateId) : undefined;
+    if (!st) return null;
+    if (st.id === 'delhi') return { x: 340, y: 290, w: 20, h: 20 };
+    const [cx, cy] = st.centroid;
+    const span = st.seats > 30 ? 220 : st.seats > 10 ? 150 : 100;
+    return { x: Math.max(50, cx - span / 2), y: Math.max(30, cy - span / 2), w: span, h: span };
+  };
+
+  const [viewBox, setViewBox] = useState<{ x: number; y: number; w: number; h: number }>(
+    () => viewBoxForState(selectedStateId) ?? NATIONAL_VIEWBOX
+  );
 
   const svgRef = useRef<SVGSVGElement>(null);
 
-  useEffect(() => {
-    if (initialStateId) {
-      handleStateSelect(initialStateId);
+  // When the parent changes the requested state/constituency, follow it
+  // (React's "adjust state while rendering" pattern instead of an effect).
+  const [requested, setRequested] = useState({ initialStateId, initialConstituencySlug });
+  if (requested.initialStateId !== initialStateId || requested.initialConstituencySlug !== initialConstituencySlug) {
+    setRequested({ initialStateId, initialConstituencySlug });
+    const stateId = impliedStateId(initialStateId, initialConstituencySlug);
+    if (stateId) {
+      setSelectedStateId(stateId);
+      setViewBox(viewBoxForState(stateId) ?? NATIONAL_VIEWBOX);
     }
-  }, [initialStateId]);
-
-  useEffect(() => {
-    if (initialConstituencySlug) {
-      setSelectedConstituencySlug(initialConstituencySlug);
-      const isDelhi = DELHI_CONSTITUENCIES.some((c) => c.slug === initialConstituencySlug);
-      if (isDelhi) {
-        handleStateSelect('delhi');
-      }
-    }
-  }, [initialConstituencySlug]);
+    setSelectedConstituencySlug(initialConstituencySlug || null);
+  }
 
   const handleStateSelect = (stateId: string) => {
     setSelectedStateId(stateId);
     setSelectedConstituencySlug(null);
-
-    const st = REAL_INDIA_STATES.find((s) => s.id === stateId);
-    if (!st) return;
-
-    if (stateId === 'delhi') {
-      setViewBox({ x: 340, y: 290, w: 20, h: 20 });
-    } else {
-      const [cx, cy] = st.centroid;
-      const span = st.seats > 30 ? 220 : st.seats > 10 ? 150 : 100;
-      setViewBox({
-        x: Math.max(50, cx - span / 2),
-        y: Math.max(30, cy - span / 2),
-        w: span,
-        h: span,
-      });
-    }
+    const box = viewBoxForState(stateId);
+    if (box) setViewBox(box);
   };
 
   const handleResetToNational = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { getAllMPRecords } from '@/lib/mp-data';
+import { getAllMPs } from '@/lib/data';
 import { INDIA_STATES } from '@/lib/indiaGeoData';
 import { StateExplorationClient } from '@/components/state/StateExplorationClient';
 
@@ -31,7 +31,7 @@ export default async function StatePage({
   params: Promise<{ state: string }>;
 }) {
   const { state } = await params;
-  const mps = getAllMPRecords();
+  const mps = getAllMPs();
 
   return <StateExplorationClient mps={mps} stateParam={state} />;
 }

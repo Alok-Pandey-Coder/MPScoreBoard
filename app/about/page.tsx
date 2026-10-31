@@ -1,6 +1,5 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { ExternalLink, Database, ShieldCheck, HelpCircle, Scale, Award } from 'lucide-react';
 import { GitHubIcon } from '@/components/common/GitHubIcon';
 import snapshotData from '@/data/processed/snapshot.json';
