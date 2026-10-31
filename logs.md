@@ -75,6 +75,25 @@ This file records key data changes, pipeline updates, schema modifications, and 
 
 ---
 
+## 2026-10-31 — All-India Normalisation Completed (544 MPs, 100% PRS Match) & Main Sync
+
+- **Summary:** Built `scripts/05_normalise_india.py` to match the 544 Digital Sansad members with 553 PRS directory entries across all 36 States/UTs. Achieved 100.0% match rate using constituency alias dictionary. Exported canonical `mps.india.json` and `validation_report_india.md`. Synced canonical Delhi `mps.json` to `frontend/src/data/mps.json`. Merged `data-india-sansad-masterlist` into `main`.
+- **Files or areas changed:**
+  - `data/processed/mps.india.json` — NEW: 544 national records with identity, minister status, and PRS activity metrics (debates, questions, PMBs).
+  - `data/processed/validation_report_india.md` — NEW: All-India audit report covering 36 States/UTs and minister exemptions.
+  - `scripts/05_normalise_india.py` — NEW: All-India normalisation and fuzzy matching script.
+  - `frontend/src/data/mps.json` — Updated: synced latest Delhi affidavit and election results.
+  - `data.md` — Updated: added All-India processed files to master catalog.
+- **Validation performed:**
+  - 544 out of 544 Sansad members successfully matched with PRS (100.0%).
+  - Minister exemption verified: all Council of Ministers members show `performance.status = "not_applicable"` and `null` metrics.
+  - Re-ran `python scripts/build_data.py` on Delhi foundation: 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - MPLADS block: awaiting user input of final expenditure numbers via `scripts/09_intake_mplads.py`.
+  - All-India affidavits and election results: ready for national bulk tabular intake.
+
+---
+
 ## 2026-10-31 — All-India PRS Manifest Crawled (553 Members)
 
 - **Summary:** Crawled all 62 directory pages (pages 0..61) of the PRS Legislative Research 18th Lok Sabha portal. Captured 553 MP records including constituency, state, party, age, questions, debates, private member bills, and profile URLs.

@@ -21,7 +21,9 @@ d:\MPScoreBoard\data\
 │   ├── data_dictionary.md               # Technical field types & nullability specifications
 │   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0)
 │   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data
-│   └── normalised.delhi.json            # Intermediate normalised records before merge
+│   ├── normalised.delhi.json            # Intermediate normalised records before merge
+│   ├── mps.india.json                   # All-India 544-seat dataset (Sansad + PRS 100% matched)
+│   └── validation_report_india.md       # All-India dataset validation & state breakdown report
 │
 ├── raw/                                 # ACTIVE IMMUTABLE SOURCE CAPTURES
 │   ├── masterlist.delhi.json            # Delhi Government official MP directory capture
