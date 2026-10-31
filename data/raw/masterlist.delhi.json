@@ -1,0 +1,17 @@
+{
+  "source": {
+    "name": "Government of NCT of Delhi - Members of Parliament",
+    "url": "https://delhi.gov.in/members-of-parliament",
+    "retrieved_at": "2026-10-30",
+    "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+  },
+  "records": [
+    {"name": "Praveen Khandelwal", "constituency": "Chandni Chowk", "state": "Delhi", "party": "BJP"},
+    {"name": "Harsh Malhotra", "constituency": "East Delhi", "state": "Delhi", "party": "BJP"},
+    {"name": "Bansuri Swaraj", "constituency": "New Delhi", "state": "Delhi", "party": "BJP"},
+    {"name": "Manoj Kumar Tiwari", "constituency": "North East Delhi", "state": "Delhi", "party": "BJP"},
+    {"name": "Yogender Chandolia", "constituency": "North West Delhi (SC)", "state": "Delhi", "party": "BJP"},
+    {"name": "Ramvir Singh Bidhuri", "constituency": "South Delhi", "state": "Delhi", "party": "BJP"},
+    {"name": "Kamaljeet Sehrawat", "constituency": "West Delhi", "state": "Delhi", "party": "BJP"}
+  ]
+}

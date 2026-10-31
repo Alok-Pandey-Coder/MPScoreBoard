@@ -1,0 +1,19 @@
+{
+  "source": {
+    "name": "PRS Legislative Research MP Track",
+    "url": "https://prsindia.org/mptrack/18th-lok-sabha",
+    "retrieved_at": "2026-10-30",
+    "coverage": "24-06-2024 to 13-08-2026",
+    "collection_method": "profile page extraction with cached HTML responses",
+    "caveat": "Metrics are activity indicators, not quality scores. Ministers are excluded by PRS."
+  },
+  "records": [
+    {"name": "Praveen Khandelwal", "constituency": "Chandni Chowk", "attendance_pct": 99, "debates": 21.5, "questions": 40, "private_member_bills": 0, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal", "collection_status": "direct"},
+    {"name": "Bansuri Swaraj", "constituency": "New Delhi", "attendance_pct": 95, "debates": 21.5, "questions": 41, "private_member_bills": 0, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj", "collection_status": "direct"},
+    {"name": "Ramvir Singh Bidhuri", "constituency": "South Delhi", "attendance_pct": 100, "debates": 21.5, "questions": 169, "private_member_bills": 0, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri", "collection_status": "direct"},
+    {"name": "Kamaljeet Sehrawat", "constituency": "West Delhi", "attendance_pct": 96, "debates": 21.5, "questions": 235, "private_member_bills": 0, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat", "collection_status": "direct"},
+    {"name": "Harsh Malhotra", "constituency": "East Delhi", "attendance_pct": null, "debates": null, "questions": null, "private_member_bills": null, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra", "collection_status": "direct", "null_reason": "Minister; PRS excludes minister participation metrics"},
+    {"name": "Manoj Kumar Tiwari", "constituency": "North East Delhi", "attendance_pct": 90, "debates": 21, "questions": 276, "private_member_bills": 3, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari", "collection_status": "direct"},
+    {"name": "Yogender Chandolia", "constituency": "North West Delhi (SC)", "attendance_pct": 95, "debates": 21, "questions": 176, "private_member_bills": 0, "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya", "collection_status": "direct"}
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "dataset_name": "JanDarpan Delhi Elected Representatives - Affidavit Enrichment",
+  "snapshot_date": "2026-10-31",
+  "counts": {
+    "officials_total": 77,
+    "mlas": 70,
+    "lok_sabha_mps": 7,
+    "rajya_sabha_members_in_separate_base_file": 3,
+    "mla_with_declared_criminal_cases": 31,
+    "mla_with_serious_criminal_cases_adr_classification": 17,
+    "mla_assets_mynet_winners_table_numeric_cross_checked": 63,
+    "mla_assets_mynet_image_cells_recovered_from_individual_profiles": 7,
+    "mla_liabilities_present_after_profile_fallback": 70,
+    "mla_case_profiles_with_detailed_adr_fields_extracted": 21,
+    "mla_graduate_or_above_categories": 45
+  },
+  "financial_checks": {
+    "mla_total_declared_assets_inr_from_adr_pdf": 15429416555,
+    "mla_total_declared_assets_crore": "1542.9417",
+    "mla_average_assets_inr": "220420236.50",
+    "mla_average_assets_crore": "22.0420",
+    "adr_report_summary_rounding_reference": "ADR report states total assets Rs 1,542 Crores and average Rs 22.04 Crores; PDF values sum to Rs 1,542.94 Crores and average Rs 22.04 Crores."
+  },
+  "checks": [
+    {
+      "check": "official_directory_rows_77",
+      "passed": true,
+      "detail": "77 official rows in the base directory"
+    },
+    {
+      "check": "unique_official_ids",
+      "passed": true,
+      "detail": "77 unique IDs"
+    },
+    {
+      "check": "mla_count_70",
+      "passed": true,
+      "detail": "70 MLA records"
+    },
+    {
+      "check": "lok_sabha_mp_count_7",
+      "passed": true,
+      "detail": "7 Lok Sabha MP records (Rajya Sabha excluded)"
+    },
+    {
+      "check": "myneta_mla_winner_rows_70",
+      "passed": true,
+      "detail": "70 rows from MyNeta 2025 winners snapshot"
+    },
+    {
+      "check": "mla_asset_pdf_rows_70",
+      "passed": true,
+      "detail": "70 asset rows from ADR Assembly PDF"
+    },
+    {
+      "check": "mla_joined_to_official_roster_70",
+      "passed": true,
+      "detail": "All 70 joined to the Assembly roster by constituency; known name variants retained"
+    },
+    {
+      "check": "mla_profile_links_70",
+      "passed": true,
+      "detail": "All 70 MyNeta candidate profile links present"
+    },
+    {
+      "check": "mla_asset_components_70",
+      "passed": true,
+      "detail": "70/70 movable + immovable = ADR total assets"
+    },
+    {
+      "check": "mla_myneta_asset_crosscheck_63",
+      "passed": true,
+      "detail": "63 numeric MyNeta totals match ADR; remaining image-only rows use ADR PDF fallback"
+    },
+    {
+      "check": "mla_myneta_image_fallback_7",
+      "passed": true,
+      "detail": "7 image-only winner-list cells recovered using individual MyNeta profiles and checked against ADR PDF"
+    },
+    {
+      "check": "mla_criminal_declaration_count_31",
+      "passed": true,
+      "detail": "31 winners with at least one declared criminal case (Myneta winners table)"
+    },
+    {
+      "check": "mla_serious_case_flag_count_17",
+      "passed": true,
+      "detail": "17 per-candidate Serious IPC/BNS-positive entries, matching ADR 2025 summary"
+    },
+    {
+      "check": "mla_graduate_or_above_45",
+      "passed": true,
+      "detail": "45 categories graduate/professional/postgraduate/doctorate"
+    },
+    {
+      "check": "mla_liabilities_present_70",
+      "passed": true,
+      "detail": "70/70 liabilities available after individual-profile fallback for seven image-only cells"
+    },
+    {
+      "check": "mla_individual_profile_fallback_7",
+      "passed": true,
+      "detail": "Seven individual MyNeta profile pages restore image-only asset/liability fields; each profile total matches the ADR PDF"
+    },
+    {
+      "check": "mla_nomination_age_present_70",
+      "passed": true,
+      "detail": "70/70 ages parsed from ADR asset table"
+    },
+    {
+      "check": "mp_count_7",
+      "passed": true,
+      "detail": "7 MP affidavits matched to current Delhi MP directory by constituency"
+    },
+    {
+      "check": "mp_asset_pdf_crosscheck_7",
+      "passed": true,
+      "detail": "7/7 MP profile total assets matched ADR PDF candidate table"
+    },
+    {
+      "check": "mp_profile_urls_7",
+      "passed": true,
+      "detail": "All seven archived MyNeta candidate profile URLs included"
+    },
+    {
+      "check": "all_77_enriched",
+      "passed": true,
+      "detail": "77 denormalized official rows"
+    }
+  ],
+  "all_checks_passed": true,
+  "warnings": [
+    {
+      "code": "MLA_MYTNETA_IMAGE_ASSET_CELLS",
+      "count": 7,
+      "detail": "Seven MyNeta winner-table asset cells display Image. ADR PDF provides text totals and movable/immovable splits; these seven totals use the PDF value."
+    },
+    {
+      "code": "MLA_CASE_DETAILS_PARTIAL",
+      "count": 21,
+      "detail": "Uploaded ADR 2025 winner report contains individual criminal case counter tables for 21 profiles, while MyNeta winner table reports 31 winning candidates with declared cases. All 31 case counts and profile links are included; 10 individual breakdowns are linked but not present as individual detail sections in this PDF."
+    },
+    {
+      "code": "MP_MANOJ_LIABILITIES_REVIEW",
+      "count": 1,
+      "detail": "Manoj Tiwari MyNeta profile contains more than one liability figure; see the row-level note and separate fields. Verify original ECI affidavit before collapsing."
+    },
+    {
+      "code": "MP_NAME_VARIANTS",
+      "count": 2,
+      "detail": "Manoj Tiwari vs current directory Manoj Kumar Tiwari; Yogender Chandoliya vs current directory Yogender Chandolia. Constituency and party were used to match; source spelling is preserved."
+    },
+    {
+      "code": "MP_ARCHIVAL_AFFIDAVITS",
+      "count": 7,
+      "detail": "MP records are 2024 nomination-time declarations, not current wealth or current case-status data."
+    },
+    {
+      "code": "NO_DIRECT_ECI_AFFIDAVIT_PDF_IDS",
+      "count": 77,
+      "detail": "This pack contains ADR/MyNeta profile URLs and original ADR report page references. Individual ECI affidavit PDF URLs were not separately resolved."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+source_id,source_name,url,source_class,what_it_supports,collection_action
+S1,SEC Delhi MCD Election Report 2022 Volume II,https://sec.delhi.gov.in/sites/default/files/SEC/generic_multiple_files/electionreportvolume2-mcdelections2022.pdf,Official,"Confirms 250 wards; report index identifies final delimitation order (17 Oct 2022) and elected councillor notification (7 Dec 2022), pages 483–499.",Use as primary source; extract schedule and results.
+S2,SEC Delhi MCD 2025 Bye-election results,https://sec.delhi.gov.in/sites/default/files/SEC/generic_multiple_files/result_summary_bye_election2025.pdf,Official,"2025 bye-election result for 12 wards; poll 30 Nov 2025, result notification 3 Dec 2025.",Applied as latest identified election update for these 12 seats.
+S3,SEC Delhi delimitation ward page,https://sec.delhi.gov.in/sec/delimitation-wards-municipal-corporation-delhi,Official,Delimitation reference page.,Need verify available map files and terms.
+S4,MCD GIS portal,https://info.mcd.gov.in/,Official,Colony-to-zone/ward lookup portal.,Interactive lookup; not yet bulk geometry source.
+S5,CEO Delhi maps,https://ceodelhi.gov.in/MapPage.aspx,Official,Assembly and Parliamentary constituency map resources.,Need download maps and confirm reuse terms.
+S6,OpenCity Delhi wards dataset,https://staging.opencity.in/dataset/delhi-wards-information,Catalogue / secondary host,Lists 2022 250-ward KML and zone map.,Inspect file metadata and licence before reuse.
+S7,NDMC official portal,https://ndmc.gov.in/,Official,NDMC institutional source.,Boundary dataset not yet located/verified.
+S8,Delhi Cantonment Board portal,https://delhi.cantt.gov.in/,Official,Cantonment institutional source.,Boundary dataset not yet located/verified.
