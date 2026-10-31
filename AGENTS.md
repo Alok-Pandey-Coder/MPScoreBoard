@@ -62,10 +62,20 @@ the current product documentation in `docs/context.md`, `docs/plan.md`, and
 
 ## Git and permissions
 
-Local inspection, edits, tests, and commits are allowed. Never run `git push`,
-create/update a pull request, or publish externally without explicit permission
-from the user in the current conversation. Before any push, state exactly what
-will be pushed and ask for confirmation.
+Local inspection, edits, tests, and commits are allowed.
+
+- **Branches:** do feature work on a branch, not on `main`. When another tool or
+  person is working in the main checkout at the same time, use a separate
+  `git worktree` so neither overwrites the other's files.
+- **Pull requests:** agents may use the GitHub CLI (`gh`) to create, update,
+  comment on and inspect pull requests and their checks.
+- **Push — ask first:** before every `git push`, state exactly what will be
+  pushed (branch, commits, files) and wait for the user's confirmation in the
+  current conversation.
+- **Merge — ask first:** when a pull request is ready, tell the user and wait
+  for their confirmation before merging; the user may merge it themselves.
+- Never force-push, delete a remote branch, or publish anything else
+  externally without explicit permission in the current conversation.
 
 Do not add AI assistants or agents as co-authors. Commit messages and pull
 request descriptions must not contain `Co-Authored-By` trailers or
