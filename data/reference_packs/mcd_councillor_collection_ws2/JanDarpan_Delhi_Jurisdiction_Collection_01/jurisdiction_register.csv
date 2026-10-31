@@ -1,0 +1,4 @@
+jurisdiction_code,jurisdiction_name,jurisdiction_type,coverage_note,source_url,source_note
+MCD,Municipal Corporation of Delhi,municipal_corporation,250 wards (2022 delimitation),https://sec.delhi.gov.in/sites/default/files/SEC/generic_multiple_files/electionreportvolume2-mcdelections2022.pdf,Official SEC election report
+NDMC,New Delhi Municipal Council,municipal_council,Separate local-body jurisdiction; polygon pending,https://ndmc.gov.in/,Official NDMC portal; boundary file not yet verified
+DELHI_CANTONMENT,Delhi Cantonment Board,cantonment_board,Separate local-body jurisdiction; polygon pending,https://delhi.cantt.gov.in/,Official Cantonment Board portal; boundary file not yet verified

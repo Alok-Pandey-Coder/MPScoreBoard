@@ -27,6 +27,7 @@ unless the user explicitly changes the product scope.
   quality judgment.
 - Preserve raw values and record normalization decisions and validation failures.
 - Do not publish a fact until its source and review status are clear.
+- Whenever new datasets, tables, files, or schema fields are added or modified, always update the master registry in `data.md` so the catalog, dictionary, and file inventories remain complete and current.
 
 ## Source and licensing rules
 
@@ -69,3 +70,13 @@ will be pushed and ask for confirmation.
 Do not add AI assistants or agents as co-authors. Commit messages and pull
 request descriptions must not contain `Co-Authored-By` trailers or
 "Generated with" attribution lines for any AI tool.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

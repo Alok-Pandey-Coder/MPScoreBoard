@@ -1,0 +1,14 @@
+Source-derived notes (for audit)
+
+MCD PMS current dashboard: https://pm.mcd.gov.in/
+- Snapshot 2026-10-31 visible headline totals: 16,635 projects; 15,233 work orders.
+- Zone-level category counts for MLA-LAD and MP-LAD were transcribed from page text.
+
+MCD Project Public Report: https://pm.mcd.gov.in/project_public_report
+- Visible filters: Zone, Ward, Project Type, Assets Type, Name of Scheme; location search by latitude/longitude within 500 metres.
+- Accessible text has no populated search-result rows.
+
+MLALAD official documents: see source_register_expansion.csv. Individual work rows are copied from official sanction orders.
+
+MPLADS citizen report: https://www.mplads.gov.in/MPLADS/AuthenticatedPages/Reports/Citizen/rptCitizenAssmblyAgencyDetails.aspx
+- Report viewer configuration error surfaced in accessible result. No individual work list copied.

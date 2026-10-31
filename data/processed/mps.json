@@ -75,25 +75,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 117039798,
+      "liabilities": 60645587,
+      "declared_criminal_cases": 0,
+      "education": "LLB from Delhi University, 1986; B.A. from Ramjas College, Delhi, 1983.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7896",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7896,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 14
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 516496,
+      "runner_up": {
+        "name": "Jai Parkash Agarwal",
+        "party": "INC",
+        "votes": 427171
+      },
+      "margin": 89325,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -111,6 +126,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7896",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": []
@@ -191,25 +216,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 40824015,
+      "liabilities": 0,
+      "declared_criminal_cases": 0,
+      "education": "LLB from Delhi University, 1987.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7899",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7899,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 15
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 664819,
+      "runner_up": {
+        "name": "Kuldeep Kumar",
+        "party": "AAP",
+        "votes": 571156
+      },
+      "margin": 93663,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -227,6 +267,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7899",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": []
@@ -307,25 +357,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 192946528,
+      "liabilities": 0,
+      "declared_criminal_cases": 0,
+      "education": "Master of Studies (M.St.) from St. Catherines College, University of Oxford, UK in 2009; 2007 - Barrister-at-Law, Honourable Inns of Inner Temple, London, U.K.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7901",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7901,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 14
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 453185,
+      "runner_up": {
+        "name": "Somnath Bharti",
+        "party": "AAP",
+        "votes": 374815
+      },
+      "margin": 78370,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -343,6 +408,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7901",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": []
@@ -423,25 +498,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 328162601,
+      "liabilities": 10171659,
+      "declared_criminal_cases": 2,
+      "education": "M.P.Ed. from Banaras Hindu University, Varanasi, Uttar Pradesh.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7903",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7903,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 14
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 824451,
+      "runner_up": {
+        "name": "Kanhaiya Kumar",
+        "party": "INC",
+        "votes": 685673
+      },
+      "margin": 138778,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -459,6 +549,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7903",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": [
@@ -541,25 +641,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 27623483,
+      "liabilities": 938900,
+      "declared_criminal_cases": 2,
+      "education": "B.A. (Political Science and History) from Swami Vivekanand Subharti University, Meerut, Uttar Pradesh, 2022.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7905",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7905,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 15
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 866483,
+      "runner_up": {
+        "name": "Udit Raj",
+        "party": "INC",
+        "votes": 575634
+      },
+      "margin": 290849,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -577,6 +692,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7905",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": [
@@ -659,25 +784,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 526419941,
+      "liabilities": 1000000,
+      "declared_criminal_cases": 1,
+      "education": "B.A. from Deshbandu Gupta College, Delhi University, 1973.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7907",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7907,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 14
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 692773,
+      "runner_up": {
+        "name": "Sahi Ram Pehalwan",
+        "party": "AAP",
+        "votes": 568440
+      },
+      "margin": 124333,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -695,6 +835,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7907",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": []
@@ -775,25 +925,40 @@
       "review_status": null
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 147436650,
+      "liabilities": 11857294,
+      "declared_criminal_cases": 0,
+      "education": "M.Com from Himachal Pradesh University, Shimla, 1995.",
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7909",
+        "retrieved_at": "2026-10-31",
+        "candidate_id": 7909,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_VI_FinalVer_English.pdf",
+        "adr_pdf_page": 14
+      },
+      "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 842658,
+      "runner_up": {
+        "name": "Mahabal Mishra",
+        "party": "AAP",
+        "votes": 643645
+      },
+      "margin": 199013,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -811,6 +976,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
         "retrieved_at": "2026-10-30",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7909",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
       }
     ],
     "normalisation_notes": []

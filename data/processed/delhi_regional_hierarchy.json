@@ -1,0 +1,765 @@
+[
+  {
+    "parliamentary_constituency": "Chandni Chowk",
+    "slug": "chandni-chowk-delhi",
+    "mp_name": "Praveen Khandelwal",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 4,
+        "assembly_constituency": "Adarsh Nagar",
+        "mla_name": "Raj Kumar Bhatia",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 166043106,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=63"
+      },
+      {
+        "ac_number": 14,
+        "assembly_constituency": "Shalimar Bagh",
+        "mla_name": "Rekha Gupta",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 53134981,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=118"
+      },
+      {
+        "ac_number": 15,
+        "assembly_constituency": "Shakur Basti",
+        "mla_name": "Karnail Singh",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 2596736090,
+        "education": "10th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=369"
+      },
+      {
+        "ac_number": 16,
+        "assembly_constituency": "Tri Nagar",
+        "mla_name": "Tilak Ram Gupta",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 23565559,
+        "education": "10th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=213"
+      },
+      {
+        "ac_number": 17,
+        "assembly_constituency": "Wazirpur",
+        "mla_name": "Poonam Sharma",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 12755121,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=547"
+      },
+      {
+        "ac_number": 18,
+        "assembly_constituency": "Model Town",
+        "mla_name": "Ashok Goel",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 263039120,
+        "education": "Chartered Accountant from ICAI, New Delhi, 1990; B.Com. from Maharishi Dayanand University, Rohtak, 1986",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=177"
+      },
+      {
+        "ac_number": 19,
+        "assembly_constituency": "Sadar Bazar",
+        "mla_name": "Som Dutt",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 2120795,
+        "education": "B.A. Pass from S.G.T.B. Khalsa (E) College, Delhi University in 1997",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=359"
+      },
+      {
+        "ac_number": 20,
+        "assembly_constituency": "Chandni Chowk",
+        "mla_name": "Punardeep Singh Sawhney",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 212150426,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=249"
+      },
+      {
+        "ac_number": 21,
+        "assembly_constituency": "Matia Mahal",
+        "mla_name": "Aaley Mohammed Iqbal",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 11794437,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=812"
+      },
+      {
+        "ac_number": 22,
+        "assembly_constituency": "Ballimaran",
+        "mla_name": "Imran Hussain",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 35646554,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=128"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "East Delhi",
+    "slug": "east-delhi-delhi",
+    "mp_name": "Harsh Malhotra",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 41,
+        "assembly_constituency": "Jangpura",
+        "mla_name": "Tarvinder Singh Marwah",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 496768001,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=402"
+      },
+      {
+        "ac_number": 54,
+        "assembly_constituency": "Okhla",
+        "mla_name": "Amanatullah Khan",
+        "party": "AAP",
+        "declared_criminal_cases": 19,
+        "declared_assets_inr": 18415626,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=324"
+      },
+      {
+        "ac_number": 55,
+        "assembly_constituency": "Trilokpuri (SC)",
+        "mla_name": "Ravi Kant",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 2047145,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=566"
+      },
+      {
+        "ac_number": 56,
+        "assembly_constituency": "Kondli (SC)",
+        "mla_name": "Kuldeep Kumar",
+        "party": "AAP",
+        "declared_criminal_cases": 7,
+        "declared_assets_inr": 5300281,
+        "education": "B.A. (Honors) 2nd Year Passed in 2013 from Shyam Lal College, Delhi University",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=275"
+      },
+      {
+        "ac_number": 57,
+        "assembly_constituency": "Patparganj",
+        "mla_name": "Ravinder Singh Negi",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 17840741,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=334"
+      },
+      {
+        "ac_number": 58,
+        "assembly_constituency": "Laxmi Nagar",
+        "mla_name": "Abhay Verma",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 19780321,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=93"
+      },
+      {
+        "ac_number": 59,
+        "assembly_constituency": "Vishwas Nagar",
+        "mla_name": "Om Prakash Sharma",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 251231937,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=65"
+      },
+      {
+        "ac_number": 60,
+        "assembly_constituency": "Krishna Nagar",
+        "mla_name": "Dr. Anil Goyal",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 781842401,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=280"
+      },
+      {
+        "ac_number": 61,
+        "assembly_constituency": "Gandhi Nagar",
+        "mla_name": "Arvinder Singh Lovely",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 116502287,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=219"
+      },
+      {
+        "ac_number": 62,
+        "assembly_constituency": "Shahdara",
+        "mla_name": "Sanjay Goyal",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 544744218,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=601"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "New Delhi",
+    "slug": "new-delhi-delhi",
+    "mp_name": "Bansuri Swaraj",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 23,
+        "assembly_constituency": "Karol Bagh (SC)",
+        "mla_name": "Vishesh Ravi",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 4147048,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=136"
+      },
+      {
+        "ac_number": 24,
+        "assembly_constituency": "Patel Nagar (SC)",
+        "mla_name": "Pravesh Ratn",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 15282007,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=108"
+      },
+      {
+        "ac_number": 25,
+        "assembly_constituency": "Moti Nagar",
+        "mla_name": "Harish Khurana",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 27046864,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=98"
+      },
+      {
+        "ac_number": 38,
+        "assembly_constituency": "Delhi Cantt",
+        "mla_name": "Virender Singh Kadian",
+        "party": "AAP",
+        "declared_criminal_cases": 2,
+        "declared_assets_inr": 60044332,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=252"
+      },
+      {
+        "ac_number": 39,
+        "assembly_constituency": "Rajinder Nagar",
+        "mla_name": null,
+        "party": null,
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": null,
+        "education": null,
+        "myneta_url": null
+      },
+      {
+        "ac_number": 40,
+        "assembly_constituency": "New Delhi",
+        "mla_name": "Parvesh Sahib Singh",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 1156383180,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=157"
+      },
+      {
+        "ac_number": 42,
+        "assembly_constituency": "Kasturba Nagar",
+        "mla_name": "Neeraj Basoya",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 72450155,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=274"
+      },
+      {
+        "ac_number": 43,
+        "assembly_constituency": "Malviya Nagar",
+        "mla_name": "Satish Upadhyay",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 132251447,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=141"
+      },
+      {
+        "ac_number": 44,
+        "assembly_constituency": "R.K. Puram",
+        "mla_name": "Anil Kumar Sharma",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 71300145,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=342"
+      },
+      {
+        "ac_number": 50,
+        "assembly_constituency": "Greater Kailash",
+        "mla_name": "Shikha Roy",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 161344383,
+        "education": "M.A. English from Govt College for Boys Ludhiana, Punjab University in 1985; L.L.B. from Department of Law, Punjab University, Chandigarh in 1988",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=413"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "North East Delhi",
+    "slug": "north-east-delhi-delhi",
+    "mp_name": "Manoj Kumar Tiwari",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 2,
+        "assembly_constituency": "Burari",
+        "mla_name": "Sanjeev Jha",
+        "party": "AAP",
+        "declared_criminal_cases": 2,
+        "declared_assets_inr": 1447331,
+        "education": "B.A. (Hons.) from R.K. College, Madhubani, Bihar in 2001",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=173"
+      },
+      {
+        "ac_number": 3,
+        "assembly_constituency": "Timarpur",
+        "mla_name": "Surya Prakash Khatri",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 269150712,
+        "education": "LLB from Campus Law Centre, Faculty of Law in 1990; B.A. from Hansraj College, Delhi University in 1985",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=120"
+      },
+      {
+        "ac_number": 63,
+        "assembly_constituency": "Seemapuri (SC)",
+        "mla_name": null,
+        "party": null,
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": null,
+        "education": null,
+        "myneta_url": null
+      },
+      {
+        "ac_number": 64,
+        "assembly_constituency": "Rohtas Nagar",
+        "mla_name": "Jitender Mahajan",
+        "party": "BJP",
+        "declared_criminal_cases": 3,
+        "declared_assets_inr": 25758304,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=114"
+      },
+      {
+        "ac_number": 65,
+        "assembly_constituency": "Seelampur",
+        "mla_name": "Chaudhary Zubair Ahmad",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 36925933,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=24"
+      },
+      {
+        "ac_number": 66,
+        "assembly_constituency": "Ghonda",
+        "mla_name": "Ajay Kumar Mahawar",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 77106885,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=132"
+      },
+      {
+        "ac_number": 67,
+        "assembly_constituency": "Babarpur",
+        "mla_name": "Gopal Rai",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 14199753,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=216"
+      },
+      {
+        "ac_number": 68,
+        "assembly_constituency": "Gokalpur (SC)",
+        "mla_name": "Surendra Kumar",
+        "party": "AAP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 45520497,
+        "education": "Others",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=264"
+      },
+      {
+        "ac_number": 69,
+        "assembly_constituency": "Mustafabad",
+        "mla_name": "Mohan Singh Bisht",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 78293737,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=303"
+      },
+      {
+        "ac_number": 70,
+        "assembly_constituency": "Karawal Nagar",
+        "mla_name": "Kapil Mishra",
+        "party": "BJP",
+        "declared_criminal_cases": 3,
+        "declared_assets_inr": 10654682,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=271"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "North West Delhi (SC)",
+    "slug": "north-west-delhi-delhi",
+    "mp_name": "Yogender Chandolia",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 1,
+        "assembly_constituency": "Narela",
+        "mla_name": "Raj Karan Khatri",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 104411275,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=102"
+      },
+      {
+        "ac_number": 5,
+        "assembly_constituency": "Badli",
+        "mla_name": "Aahir Deepak Chaudharyy",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 15841080,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=233"
+      },
+      {
+        "ac_number": 6,
+        "assembly_constituency": "Rithala",
+        "mla_name": "Kulwant Rana",
+        "party": "BJP",
+        "declared_criminal_cases": 3,
+        "declared_assets_inr": 701125079,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=76"
+      },
+      {
+        "ac_number": 7,
+        "assembly_constituency": "Bawana (SC)",
+        "mla_name": "Ravinder Indraj Singh",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 72337348,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=461"
+      },
+      {
+        "ac_number": 8,
+        "assembly_constituency": "Mundka",
+        "mla_name": "Gajender Drall",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 127169681,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=223"
+      },
+      {
+        "ac_number": 9,
+        "assembly_constituency": "Kirari",
+        "mla_name": "Anil Jha",
+        "party": "AAP",
+        "declared_criminal_cases": 3,
+        "declared_assets_inr": 43302165,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=227"
+      },
+      {
+        "ac_number": 10,
+        "assembly_constituency": "Sultan Pur Majra (SC)",
+        "mla_name": null,
+        "party": null,
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": null,
+        "education": null,
+        "myneta_url": null
+      },
+      {
+        "ac_number": 11,
+        "assembly_constituency": "Nangloi Jat",
+        "mla_name": "Manoj Kumar Shokeen",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 131283303,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=155"
+      },
+      {
+        "ac_number": 12,
+        "assembly_constituency": "Mangol Puri (SC)",
+        "mla_name": "Raj Kumar Chauhan",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 118332064,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=142"
+      },
+      {
+        "ac_number": 13,
+        "assembly_constituency": "Rohini",
+        "mla_name": "Vijender Gupta",
+        "party": "BJP",
+        "declared_criminal_cases": 4,
+        "declared_assets_inr": 161028211,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=113"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "South Delhi",
+    "slug": "south-delhi-delhi",
+    "mp_name": "Ramvir Singh Bidhuri",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 36,
+        "assembly_constituency": "Bijwasan",
+        "mla_name": "Kailash Gahlot",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 599114620,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=130"
+      },
+      {
+        "ac_number": 37,
+        "assembly_constituency": "Palam",
+        "mla_name": "Kuldeep Solanki",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 136242582,
+        "education": "Matriculation from Govt Boys Sr. Secondary School, Delhi Cantt, New Delhi, 1983",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=330"
+      },
+      {
+        "ac_number": 45,
+        "assembly_constituency": "Mehrauli",
+        "mla_name": "Gajender Singh Yadav",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 301102326,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=53"
+      },
+      {
+        "ac_number": 46,
+        "assembly_constituency": "Chhatarpur",
+        "mla_name": "Kartar Singh Tanwar",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 252159151,
+        "education": "Others",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=174"
+      },
+      {
+        "ac_number": 47,
+        "assembly_constituency": "Deoli (SC)",
+        "mla_name": "Prem Chauhan",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 1649779,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=256"
+      },
+      {
+        "ac_number": 48,
+        "assembly_constituency": "Ambedkar Nagar (SC)",
+        "mla_name": "Dr. Ajay Dutt",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 119294435,
+        "education": "Doctorate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=77"
+      },
+      {
+        "ac_number": 49,
+        "assembly_constituency": "Sangam Vihar",
+        "mla_name": "Chandan Kumar Choudhary",
+        "party": "BJP",
+        "declared_criminal_cases": 5,
+        "declared_assets_inr": 39473899,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=613"
+      },
+      {
+        "ac_number": 51,
+        "assembly_constituency": "Kalkaji",
+        "mla_name": "Atishi",
+        "party": "AAP",
+        "declared_criminal_cases": 4,
+        "declared_assets_inr": 7693374,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=28"
+      },
+      {
+        "ac_number": 52,
+        "assembly_constituency": "Tughlakabad",
+        "mla_name": "Sahi Ram",
+        "party": "AAP",
+        "declared_criminal_cases": 2,
+        "declared_assets_inr": 13899388,
+        "education": "10th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=122"
+      },
+      {
+        "ac_number": 53,
+        "assembly_constituency": "Badarpur",
+        "mla_name": "Ram Singh Netaji",
+        "party": "AAP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 896703141,
+        "education": "5th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=79"
+      }
+    ]
+  },
+  {
+    "parliamentary_constituency": "West Delhi",
+    "slug": "west-delhi-delhi",
+    "mp_name": "Kamaljeet Sehrawat",
+    "mp_party": "BJP",
+    "mla_count": 10,
+    "mlas": [
+      {
+        "ac_number": 26,
+        "assembly_constituency": "Madipur (SC)",
+        "mla_name": "Kailash Gangwal",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 7679369,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=815"
+      },
+      {
+        "ac_number": 27,
+        "assembly_constituency": "Rajouri Garden",
+        "mla_name": "Manjinder Singh Sirsa",
+        "party": "BJP",
+        "declared_criminal_cases": 5,
+        "declared_assets_inr": 2488552444,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=348"
+      },
+      {
+        "ac_number": 28,
+        "assembly_constituency": "Hari Nagar",
+        "mla_name": "Shyam Sharma",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 160114845,
+        "education": "10th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=133"
+      },
+      {
+        "ac_number": 29,
+        "assembly_constituency": "Tilak Nagar",
+        "mla_name": "Jarnail Singh",
+        "party": "AAP",
+        "declared_criminal_cases": 4,
+        "declared_assets_inr": 40697670,
+        "education": "12th Pass",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=167"
+      },
+      {
+        "ac_number": 30,
+        "assembly_constituency": "Janakpuri",
+        "mla_name": "Ashish Sood",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 92202367,
+        "education": "Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=50"
+      },
+      {
+        "ac_number": 31,
+        "assembly_constituency": "Vikaspuri",
+        "mla_name": "Pankaj Kumar Singh",
+        "party": "BJP",
+        "declared_criminal_cases": 1,
+        "declared_assets_inr": 49406844,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=124"
+      },
+      {
+        "ac_number": 32,
+        "assembly_constituency": "Uttam Nagar",
+        "mla_name": "Pawan Sharma",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 64685034,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=389"
+      },
+      {
+        "ac_number": 33,
+        "assembly_constituency": "Dwarka",
+        "mla_name": "Parduymn Singh Rajput",
+        "party": "BJP",
+        "declared_criminal_cases": 2,
+        "declared_assets_inr": 425316587,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=185"
+      },
+      {
+        "ac_number": 34,
+        "assembly_constituency": "Matiala",
+        "mla_name": "Sandeep Sehrawat",
+        "party": "BJP",
+        "declared_criminal_cases": 2,
+        "declared_assets_inr": 18438177,
+        "education": "Graduate Professional",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=292"
+      },
+      {
+        "ac_number": 35,
+        "assembly_constituency": "Najafgarh",
+        "mla_name": "Neelam Pahalwan",
+        "party": "BJP",
+        "declared_criminal_cases": 0,
+        "declared_assets_inr": 125010791,
+        "education": "Post Graduate",
+        "myneta_url": "https://myneta.info/Delhi2025/candidate.php?candidate_id=56"
+      }
+    ]
+  }
+]
