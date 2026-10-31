@@ -1,0 +1,13 @@
+﻿source_name,source_url,publisher,source_date_or_snapshot,what_was_extracted_or_limitation
+MCD PMS live dashboard,https://pm.mcd.gov.in/,Official MCD,2026-10-31,Zone totals and MLA-LAD/MP-LAD project/work-order counts visible in page text; no individual rows.
+MCD Project Public Report,https://pm.mcd.gov.in/project_public_report,Official MCD,2026-10-31,"Filters visible (zone, ward, project type, asset type, scheme, lat/long within 500m); no populated result rows surfaced in text."
+Delhi UD MLALAD AC-23 2026-27 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac_23_1143-1151_25-05-2026.pdf,Official GNCTD UD,2026-05-25,"Two individual works in Ward 83, Karol Bagh; estimates and first installment recorded."
+Delhi UD MLALAD AC-34 2026-27 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac-34_2337-2345_20-07-2026.pdf,Official GNCTD UD,2026-07-20,Two individual works in Ward 125; MCD executing agency; values from sanction table.
+Delhi UD MLALAD AC-29 2025-26 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac-29_11112-11124_13-06-2025.pdf,Official GNCTD UD,2025-06-13,"Four lane/drainage works in Ward 102, Khayala; source text includes estimated and contractual amount fields."
+Delhi UD MLALAD AC-55 2025-26 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac_55_4289-4299_13-09-2025.pdf,Official GNCTD UD,2025-09-13,"Cross-culvert work in Ward 190, Chilla Village; estimate and first instalment."
+Delhi UD MLALAD AC-26 2025-26 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac_26_12056-12072_15-07-2025.pdf,Official GNCTD UD,2025-07-15,"Two drain works in Ward 92, Basai Darapur."
+Delhi UD MLALAD AC-06 2025-26 sanction,https://udd.delhi.gov.in/sites/default/files/UD/mlalad/ac_06_12222-12238_18-07-2025.pdf,Official GNCTD UD,2025-07-18,"Four work descriptions captured; amount columns OCR alignment ambiguous, omitted."
+Delhi UD MLALAD orders index,https://udd.delhi.gov.in/ud/mla-fund-orders,Official GNCTD UD,2026-10-31,"Lists 2026-05-05 allocation order, 2025 orders, satisfaction order and 2024 orders."
+MPLADS work-level citizen report,https://www.mplads.gov.in/MPLADS/AuthenticatedPages/Reports/Citizen/rptCitizenAssmblyAgencyDetails.aspx,Official MoSPI,2026-10-31,Report viewer config error; work-level export not extracted.
+Official MPLADS portal,https://www.mplads.gov.in/,Official MoSPI,2026-10-31,Portal exposes work register/recommended/completed reports; current eSAKSHI detailed extraction still pending.
+Government eProcurement,https://www.etenders.gov.in/eprocure/app,Official procurement portal,2026-10-31,18 MCD tender listings in inherited CSV; no reliable PMS cross-link established.

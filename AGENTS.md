@@ -27,6 +27,7 @@ unless the user explicitly changes the product scope.
   quality judgment.
 - Preserve raw values and record normalization decisions and validation failures.
 - Do not publish a fact until its source and review status are clear.
+- Whenever new datasets, tables, files, or schema fields are added or modified, always update the master registry in `data.md` so the catalog, dictionary, and file inventories remain complete and current.
 
 ## Source and licensing rules
 

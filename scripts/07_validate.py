@@ -94,6 +94,19 @@ def main() -> None:
         if perf["status"] == "not_available":
             warnings.append(f"{who}: no PRS performance record.")
 
+        aff = row.get("affidavit", {})
+        if aff.get("status") == "reported":
+            if not aff.get("source") or not aff["source"].get("url") or not aff.get("as_of"):
+                errors.append(f"{who}: reported affidavit lacks a source URL or as-of date.")
+            if aff.get("assets") is not None and aff["assets"] < 0:
+                errors.append(f"{who}: affidavit assets cannot be negative.")
+            if aff.get("liabilities") is not None and aff["liabilities"] < 0:
+                errors.append(f"{who}: affidavit liabilities cannot be negative.")
+            if aff.get("declared_criminal_cases") is not None and aff["declared_criminal_cases"] < 0:
+                errors.append(f"{who}: affidavit declared criminal cases cannot be negative.")
+            if aff.get("election_year") != 2024:
+                errors.append(f"{who}: affidavit election year is '{aff.get('election_year')}'.")
+
     # Reconcile computed state averages (excluding ministers and nulls) with PRS-published ones.
     reconciliation = []
     for state in sorted(expected_states):

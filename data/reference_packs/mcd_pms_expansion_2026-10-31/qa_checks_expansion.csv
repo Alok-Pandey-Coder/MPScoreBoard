@@ -1,0 +1,10 @@
+﻿check,observed,expected_or_note,status
+inherited_tender_records,18,18 expected,PASS
+tender_to_pms_linked_records,0,0 supported links found,PASS - no false matches
+pms_zone_rows,26,26 rows (13 zones x 2 record types),PASS
+pms_project_total_sum,16635,16635 headline,PASS
+pms_work_order_total_sum,15233,15233 headline,PASS
+mla_lad_individual_work_rows,15,Official order-derived sample; not full scheme census,PARTIAL
+mp_lad_individual_work_rows,0,Work-level records still pending,NOT EXTRACTED
+mp_lad_zone_aggregate_rows,13,13 zones,PASS
+ward_geometry_or_coordinates,0,Deferred until trusted source geometry and locations available,NOT IN SCOPE

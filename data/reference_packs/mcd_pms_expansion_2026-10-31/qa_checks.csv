@@ -1,0 +1,9 @@
+check,result,status,notes
+tender_notice_rows,18,PASS,18 records retained
+unique_tender_ids,18,PASS,No duplicate tender IDs in sample
+detail_pages_reviewed,1,PASS_WITH_LIMITATION,Only 2026_MCD_296190_1 reviewed
+nit_boq_files_inspected,0,PENDING,Portal document retrieval timed out
+award_contractor_payment_fields,0 populated,PASS,No unsupported claims inserted
+project_zone_totals,13 groupings; sum 16585,PASS,Matches captured headline project count
+work_order_zone_totals,7 groupings; subtotal 7786,PARTIAL,Remaining zone values not captured
+project_level_pms_records,0,NOT_DONE,No project-level rows extracted

@@ -1,0 +1,21 @@
+record_type,zone_dashboard_label,count,snapshot_date,source_url,source_note
+projects,Central (Karol Bagh),625,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,Central North (Keshavpuram),1546,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,East (Shahdara South),2439,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,MCD-HQ,82,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,North (Civil Lines),910,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,North East (Shahdara North),1728,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,North West (Rohini),1116,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,Old Delhi (City SP),680,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,Outer North (Narela),1095,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,South,1564,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,South East (Central),1656,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,South West (Najafgarh),1303,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+projects,West,1841,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,Central (Karol Bagh),579,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,Central North (Keshavpuram),1470,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,East (Shahdara South),2211,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,MCD-HQ,78,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,North (Civil Lines),842,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,North East (Shahdara North),1589,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
+work_orders,North West (Rohini),1017,2026-10-31,https://pm.mcd.gov.in/,Current page extraction; page text excerpt exposed first zones only for work-order list. Remaining zone-level work-order breakdown not included.
