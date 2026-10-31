@@ -93,14 +93,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 516496,
+      "runner_up": {
+        "name": "Jai Parkash Agarwal",
+        "party": "INC",
+        "votes": 427171
+      },
+      "margin": 89325,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -122,6 +130,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7896",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -221,14 +234,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 664819,
+      "runner_up": {
+        "name": "Kuldeep Kumar",
+        "party": "AAP",
+        "votes": 571156
+      },
+      "margin": 93663,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -250,6 +271,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7899",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -349,14 +375,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 453185,
+      "runner_up": {
+        "name": "Somnath Bharti",
+        "party": "AAP",
+        "votes": 374815
+      },
+      "margin": 78370,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -378,6 +412,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7901",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -477,14 +516,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 824451,
+      "runner_up": {
+        "name": "Kanhaiya Kumar",
+        "party": "INC",
+        "votes": 685673
+      },
+      "margin": 138778,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -506,6 +553,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7903",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -607,14 +659,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 866483,
+      "runner_up": {
+        "name": "Udit Raj",
+        "party": "INC",
+        "votes": 575634
+      },
+      "margin": 290849,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -636,6 +696,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7905",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -737,14 +802,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 692773,
+      "runner_up": {
+        "name": "Sahi Ram Pehalwan",
+        "party": "AAP",
+        "votes": 568440
+      },
+      "margin": 124333,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -766,6 +839,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7907",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
@@ -865,14 +943,22 @@
       "review_status": "cross_checked"
     },
     "election": {
-      "status": "pending",
-      "election_year": null,
-      "votes": null,
-      "runner_up": null,
-      "margin": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "votes": 842658,
+      "runner_up": {
+        "name": "Mahabal Mishra",
+        "party": "AAP",
+        "votes": 643645
+      },
+      "margin": 199013,
+      "as_of": "2024-06-04",
+      "source": {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "sources": [
       {
@@ -894,6 +980,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7909",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Election Commission of India",
+        "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
       }
     ],
