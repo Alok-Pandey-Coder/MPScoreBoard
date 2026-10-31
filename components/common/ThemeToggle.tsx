@@ -3,6 +3,8 @@
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { useMessages } from '@/context/LanguageContext';
+import { commonMessages } from '@/lib/messages/common';
 
 interface ThemeToggleProps {
   className?: string;
@@ -10,6 +12,7 @@ interface ThemeToggleProps {
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
   const { toggleTheme, isDark } = useTheme();
+  const t = useMessages(commonMessages);
 
   return (
     <button
@@ -24,8 +27,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
           ? 'bg-slate-800/80 border-slate-700 text-amber-400 hover:bg-slate-800 hover:text-amber-300 shadow-sm'
           : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80 hover:text-slate-900 shadow-sm'
       } ${className}`}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={isDark ? t.switchToLight : t.switchToDark}
+      title={isDark ? t.switchToLight : t.switchToDark}
     >
       <div className="relative w-5 h-5 flex items-center justify-center">
         {isDark ? (
