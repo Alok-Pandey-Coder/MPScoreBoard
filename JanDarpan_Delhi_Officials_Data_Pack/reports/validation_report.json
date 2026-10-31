@@ -1,0 +1,95 @@
+{
+  "dataset_name": "JanDarpan Delhi Public Representatives - Initial Data Pack",
+  "as_of": "2026-10-31",
+  "summary": {
+    "total_officials": 77,
+    "mlas": 70,
+    "lok_sabha_mps": 7,
+    "separate_rajya_sabha_entries": 3,
+    "mla_party_split": {
+      "BJP": 48,
+      "AAP": 22
+    }
+  },
+  "checks": [
+    {
+      "check": "total_officials_77",
+      "passed": true,
+      "detail": "77 rows; expected 70 MLAs + 7 Lok Sabha MPs"
+    },
+    {
+      "check": "mla_count_70",
+      "passed": true,
+      "detail": "70 MLA rows"
+    },
+    {
+      "check": "lok_sabha_mp_count_7",
+      "passed": true,
+      "detail": "7 Lok Sabha MP rows"
+    },
+    {
+      "check": "mla_ac_numbers_1_to_70",
+      "passed": true,
+      "detail": "AC numbers form an exact sequence from 1 to 70"
+    },
+    {
+      "check": "unique_mla_constituencies",
+      "passed": true,
+      "detail": "70 unique constituency labels after case folding"
+    },
+    {
+      "check": "unique_mla_names",
+      "passed": true,
+      "detail": "70 unique MLA names after case folding"
+    },
+    {
+      "check": "mla_party_split_bjp_48_aap_22",
+      "passed": true,
+      "detail": "Observed split: {'BJP': 48, 'AAP': 22}"
+    },
+    {
+      "check": "unique_official_ids",
+      "passed": true,
+      "detail": "All internal IDs are unique"
+    },
+    {
+      "check": "no_personal_contact_fields",
+      "passed": true,
+      "detail": "No residential address, personal phone or email columns in officials.csv"
+    },
+    {
+      "check": "separate_rajya_sabha",
+      "passed": true,
+      "detail": "3 Rajya Sabha rows stored separately from 7 Lok Sabha MPs"
+    },
+    {
+      "check": "affidavit_rows_match_officials",
+      "passed": true,
+      "detail": "One explicit enrichment queue row per official; affidavit values intentionally blank"
+    },
+    {
+      "check": "prs_rows_70",
+      "passed": true,
+      "detail": "70 PRS observations; secondary source"
+    },
+    {
+      "check": "prs_identity_exceptions_flagged",
+      "passed": true,
+      "detail": "Gajender Singh Daral vs Gajender Drall; Jitender Kumar vs Jitender Mahajan are flagged and not silently merged"
+    },
+    {
+      "check": "no_negative_activity_metrics",
+      "passed": true,
+      "detail": "Attendance percentages within 0-100 and question counts nonnegative"
+    }
+  ],
+  "all_checks_passed": true,
+  "limitations": [
+    "This is a validated base roster and partial legislative-metrics snapshot, not a complete dossier for all 77 people.",
+    "Individual ECI affidavit documents were not individually matched, extracted and human-reviewed; assets, liabilities, education and criminal-case fields remain blank by design.",
+    "MLA vote totals, vote shares and winning margins were not imported.",
+    "PRS activity fields are secondary-source observations, may be incomplete and should not be used as an overall representative score.",
+    "Two PRS name discrepancies are excluded from identity-level joining pending review.",
+    "MLA individual roster document is dated 2025-08; current official eVidhan portal confirms 70 Assembly members and party totals, while Assembly history lists VIII term membership. Recheck individual roster before production publication."
+  ]
+}

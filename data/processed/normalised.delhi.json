@@ -1,0 +1,661 @@
+{
+  "records": [
+    {
+      "slug": "chandni-chowk-delhi",
+      "state_key": "delhi",
+      "constituency_key": "chandni-chowk",
+      "name_key": "praveen-khandelwal",
+      "name": "Praveen Khandelwal",
+      "constituency": "Chandni Chowk",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/praveen-khandelwal.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
+        "name": "Praveen Khandelwal",
+        "state": "Delhi",
+        "constituency": "Chandni Chowk",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "65",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "99",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 99,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "4",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 4,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "40",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 40,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 0,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5661,
+        "name": "Praveen Khandelwal",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5661",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": []
+    },
+    {
+      "slug": "east-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "east-delhi",
+      "name_key": "harsh-malhotra",
+      "name": "Harsh Malhotra",
+      "constituency": "East Delhi",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/harsh-malhotra.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
+        "name": "Harsh Malhotra",
+        "state": "Delhi",
+        "constituency": "East Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "62",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": true,
+        "performance_status": "not_applicable",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "N/A",
+              "national_average": "N/A",
+              "state_average": "N/A"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "debates": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "questions": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5563,
+        "name": "Harsh Malhotra",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5563",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": []
+    },
+    {
+      "slug": "new-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "new-delhi",
+      "name_key": "bansuri-swaraj",
+      "name": "Bansuri Swaraj",
+      "constituency": "New Delhi",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/bansuri-swaraj.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
+        "name": "Bansuri Swaraj",
+        "state": "Delhi",
+        "constituency": "New Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "42",
+        "gender": "Female",
+        "education": "Post Graduate and above",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "95",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 95,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "17",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 17,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "41",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 41,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 0,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5588,
+        "name": "Bansuri Swaraj",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5588",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": []
+    },
+    {
+      "slug": "north-east-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "north-east-delhi",
+      "name_key": "manoj-kumar-tiwari",
+      "name": "Manoj Kumar Tiwari",
+      "constituency": "North East Delhi",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/manoj-kumar-tiwari.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
+        "name": "Manoj Tiwari",
+        "state": "Delhi",
+        "constituency": "North East Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "Third Term",
+        "age": "55",
+        "gender": "Male",
+        "education": "Post Graduate and above",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "90",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 90,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "21",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 21,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "276",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 276,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "3",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 3,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 4606,
+        "name": "Manoj Tiwari",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 3,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/4606",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": [
+        "PRS name 'Manoj Tiwari' matched 'Manoj Kumar Tiwari' via aliases.json."
+      ]
+    },
+    {
+      "slug": "north-west-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "north-west-delhi",
+      "name_key": "yogender-chandolia",
+      "name": "Yogender Chandolia",
+      "constituency": "North West Delhi (SC)",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/yogender-chandolia.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
+        "name": "Yogender Chandolia",
+        "state": "Delhi",
+        "constituency": "North West Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "64",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "97",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 97,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "28",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 28,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "271",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 271,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 0,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5587,
+        "name": "Yogender Chandolia",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "SC",
+        "url": "https://sansad.in/api_ls/member/5587",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": [
+        "PRS constituency 'North West Delhi' matched 'North West Delhi (SC)' after removing the reservation suffix."
+      ]
+    },
+    {
+      "slug": "south-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "south-delhi",
+      "name_key": "ramvir-singh-bidhuri",
+      "name": "Ramvir Singh Bidhuri",
+      "constituency": "South Delhi",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/ramvir-singh-bidhuri.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
+        "name": "Ramvir Singh Bidhuri",
+        "state": "Delhi",
+        "constituency": "South Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "73",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "100",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 100,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "30",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 30,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "169",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 169,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 0,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5543,
+        "name": "Ramvir Singh Bidhuri",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5543",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": []
+    },
+    {
+      "slug": "west-delhi-delhi",
+      "state_key": "delhi",
+      "constituency_key": "west-delhi",
+      "name_key": "kamaljeet-sehrawat",
+      "name": "Kamaljeet Sehrawat",
+      "constituency": "West Delhi",
+      "state": "Delhi",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30",
+        "coverage": "18th Lok Sabha, Delhi's seven constituencies"
+      },
+      "prs": {
+        "file": "data/raw/prs.delhi.2026-10-30/kamaljeet-sehrawat.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
+        "name": "Kamaljeet Sehrawat",
+        "state": "Delhi",
+        "constituency": "West Delhi",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "53",
+        "gender": "Female",
+        "education": "Post Graduate and above",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "96",
+              "national_average": "85",
+              "state_average": "96"
+            },
+            "mp": 96,
+            "national_average": 85,
+            "state_average": 96
+          },
+          "debates": {
+            "raw": {
+              "mp": "21",
+              "national_average": "21.5",
+              "state_average": "20.2"
+            },
+            "mp": 21,
+            "national_average": 21.5,
+            "state_average": 20.2
+          },
+          "questions": {
+            "raw": {
+              "mp": "235",
+              "national_average": "120",
+              "state_average": "172"
+            },
+            "mp": 235,
+            "national_average": 120,
+            "state_average": 172
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "0.4",
+              "state_average": "0.5"
+            },
+            "mp": 0,
+            "national_average": 0.4,
+            "state_average": 0.5
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-10-30"
+      },
+      "sansad": {
+        "mpsno": 5565,
+        "name": "Kamaljeet Sehrawat",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5565",
+        "retrieved_at": "2026-10-30"
+      },
+      "normalisation_notes": []
+    }
+  ],
+  "unmatched_prs": [],
+  "unmatched_sansad": []
+}

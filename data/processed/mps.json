@@ -1,0 +1,818 @@
+[
+  {
+    "slug": "chandni-chowk-delhi",
+    "name": "Praveen Khandelwal",
+    "constituency": "Chandni Chowk",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5661,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 65,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/praveen-khandelwal.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 99,
+      "debates": 4,
+      "questions": 40,
+      "private_member_bills": 0,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/praveen-khandelwal.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5661",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": []
+  },
+  {
+    "slug": "east-delhi-delhi",
+    "name": "Harsh Malhotra",
+    "constituency": "East Delhi",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": true,
+    "special_role": null,
+    "sansad_mpsno": 5563,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 62,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/harsh-malhotra.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "not_applicable",
+      "attendance_pct": null,
+      "debates": null,
+      "questions": null,
+      "private_member_bills": null,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": null,
+          "debates": null,
+          "questions": null,
+          "private_member_bills": null
+        },
+        "state": {
+          "attendance_pct": null,
+          "debates": null,
+          "questions": null,
+          "private_member_bills": null
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/harsh-malhotra.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5563",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": []
+  },
+  {
+    "slug": "new-delhi-delhi",
+    "name": "Bansuri Swaraj",
+    "constituency": "New Delhi",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5588,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 42,
+      "gender": "Female",
+      "education": "Post Graduate and above",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/bansuri-swaraj.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 95,
+      "debates": 17,
+      "questions": 41,
+      "private_member_bills": 0,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/bansuri-swaraj.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5588",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": []
+  },
+  {
+    "slug": "north-east-delhi-delhi",
+    "name": "Manoj Kumar Tiwari",
+    "constituency": "North East Delhi",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 4606,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 55,
+      "gender": "Male",
+      "education": "Post Graduate and above",
+      "term_number": "Third Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/manoj-kumar-tiwari.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 90,
+      "debates": 21,
+      "questions": 276,
+      "private_member_bills": 3,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/manoj-kumar-tiwari.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/4606",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": [
+      "PRS name 'Manoj Tiwari' matched 'Manoj Kumar Tiwari' via aliases.json."
+    ]
+  },
+  {
+    "slug": "north-west-delhi-delhi",
+    "name": "Yogender Chandolia",
+    "constituency": "North West Delhi (SC)",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "SC",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5587,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 64,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/yogender-chandolia.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 97,
+      "debates": 28,
+      "questions": 271,
+      "private_member_bills": 0,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/yogender-chandolia.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5587",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": [
+      "PRS constituency 'North West Delhi' matched 'North West Delhi (SC)' after removing the reservation suffix."
+    ]
+  },
+  {
+    "slug": "south-delhi-delhi",
+    "name": "Ramvir Singh Bidhuri",
+    "constituency": "South Delhi",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5543,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 73,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/ramvir-singh-bidhuri.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 100,
+      "debates": 30,
+      "questions": 169,
+      "private_member_bills": 0,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/ramvir-singh-bidhuri.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5543",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": []
+  },
+  {
+    "slug": "west-delhi-delhi",
+    "name": "Kamaljeet Sehrawat",
+    "constituency": "West Delhi",
+    "state": "Delhi",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5565,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 53,
+      "gender": "Female",
+      "education": "Post Graduate and above",
+      "term_number": "First Term",
+      "as_of": "2026-10-30",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/kamaljeet-sehrawat.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 96,
+      "debates": 21,
+      "questions": 235,
+      "private_member_bills": 0,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 96,
+          "debates": 20.2,
+          "questions": 172,
+          "private_member_bills": 0.5
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
+        "retrieved_at": "2026-10-30",
+        "raw_file": "data/raw/prs.delhi.2026-10-30/kamaljeet-sehrawat.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "entitlement": null,
+      "funds_released": null,
+      "expenditure": null,
+      "utilisation_pct": null,
+      "unspent_balance": null,
+      "works": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Government of NCT of Delhi - Members of Parliament",
+        "url": "https://delhi.gov.in/members-of-parliament",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5565",
+        "retrieved_at": "2026-10-30"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
+        "retrieved_at": "2026-10-30",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": []
+  }
+]

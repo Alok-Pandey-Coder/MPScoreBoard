@@ -1,0 +1,22 @@
+﻿adr_sno,adr_profile_name,constituency_as_in_adr_pdf,party_as_in_adr_pdf,total_cases_adr_pdf,serious_ipc_charge_count,serious_bns_charge_count,other_ipc_charge_count,other_bns_charge_count,adr_pdf_pages,note
+1,Amanatullah Khan,OKHLA,AAP,19,15,0,41,2,25;26;27,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+2,Chandan Kumar Choudhary,SANGAM VIHAR,BJP,5,4,0,8,0,27;28,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+3,Jitender Mahajan,ROHTAS NAGAR,BJP,3,3,0,6,0,28;29,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+4,Sanjeev Jha,BURARI,AAP,2,3,0,5,0,29,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+5,Virender Singh Kadian,DELHI CANTT,AAP,2,3,0,4,0,29;30,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+6,Atishi,KALKAJI,AAP,4,2,0,11,0,30;31,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+7,Kulwant Rana,RITHALA,BJP,3,2,0,6,0,31,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+8,Abhay Kumar Verma,LAXMI NAGAR,BJP,1,2,0,3,0,31;32,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+9,Jarnail Singh,TILAK NAGAR,AAP,4,1,1,5,2,32;33,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+10,Kapil Mishra,KARAWAL NAGAR,BJP,3,1,0,6,0,33,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+11,Anil Jha,KIRARI,AAP,3,1,0,3,0,33;34,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+12,Sandeep Sehrawat,MATIALA,BJP,2,1,0,6,0,34;35,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+13,Parduymn Singh Rajput,DWARKA,BJP,2,1,0,3,0,35,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+14,Sahi Ram,TUGHLAKABAD,AAP,2,1,0,5,0,35;36,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+15,Surendra Kumar,GOKALPUR,AAP,1,1,0,4,0,36,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+16,Som Dutt,SADAR BAZAR,AAP,1,1,0,0,0,36;37,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+17,Gopal Rai,BABARPUR,AAP,1,1,0,3,0,37,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+18,Kuldeep Kumar,KONDLI,AAP,7,0,0,8,2,37;38;39,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+19,Manjinder Singh Sirsa,RAJOURI GARDEN,BJP,5,0,0,9,0,39;40,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+20,Mukesh Kumar Ahlawat,SULTAN PUR MAJRA,AAP,4,0,0,0,0,40;41,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.
+21,Vijender Gupta,ROHINI,BJP,4,0,0,13,0,41,These are ADR report field labels and charge counts; Serious IPC/BNS values are not counts of separate court cases.

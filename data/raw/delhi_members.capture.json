@@ -1,0 +1,21 @@
+{
+  "source": {
+    "name": "Government of NCT of Delhi - Members of Parliament",
+    "url": "https://delhi.gov.in/members-of-parliament",
+    "retrieved_at": "2026-10-30",
+    "capture_type": "web_table",
+    "note": "The page lists seven Lok Sabha members followed by three Rajya Sabha members. The seven Lok Sabha rows are the product seed."
+  },
+  "records": [
+    {"name": "Bansuri Swaraj", "constituency": "New Delhi", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/ms-bansuri-swaraj"},
+    {"name": "Praveen Khandelwal", "constituency": "Chandni Chowk", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/shri-praveen-khandelwal"},
+    {"name": "Ramvir Singh Bidhuri", "constituency": "South Delhi", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/shri-ramvir-singh-bidhuri"},
+    {"name": "Kamaljeet Sehrawat", "constituency": "West Delhi", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/smt-kamaljeet-sehrawat"},
+    {"name": "Harsh Malhotra", "constituency": "East Delhi", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/shri-harsh-malhotra"},
+    {"name": "Manoj Kumar Tiwari", "constituency": "North East Delhi", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/shri-manoj-kumar-tiwari"},
+    {"name": "Yogender Chandolia", "constituency": "North West Delhi (SC)", "state": "National Capital Territory of Delhi", "party": "BJP", "house": "Lok Sabha", "profile_url": "https://delhi.gov.in/profile/shri-yogender-chandolia"},
+    {"name": "Narain Dass Gupta", "constituency": null, "state": "National Capital Territory of Delhi", "party": "AAP", "house": "Rajya Sabha", "profile_url": "https://delhi.gov.in/profile/shri-narain-dass-gupta"},
+    {"name": "Sanjay Singh", "constituency": null, "state": "National Capital Territory of Delhi", "party": "AAP", "house": "Rajya Sabha", "profile_url": "https://delhi.gov.in/profile/shri-sanjay-singh"},
+    {"name": "Swati Maliwal", "constituency": null, "state": "National Capital Territory of Delhi", "party": "AAP", "house": "Rajya Sabha", "profile_url": "https://delhi.gov.in/profile/ms-swati-maliwal"}
+  ]
+}

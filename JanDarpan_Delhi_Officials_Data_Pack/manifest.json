@@ -1,0 +1,60 @@
+{
+  "snapshot_date": "2026-10-31",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2636,
+      "sha256": "fb02890dc4e3950eab963cfd8440b669083888e3ecf8c3dbc0d2b2cac50429ca"
+    },
+    {
+      "path": "data/affidavit_enrichment_queue.csv",
+      "bytes": 18550,
+      "sha256": "899dbb99acc7f2a7cd11e6ea9cb9422f5869bb8483b5b37c41c1e02ff45f8e2b"
+    },
+    {
+      "path": "data/lok_sabha_mps.csv",
+      "bytes": 951,
+      "sha256": "4f4d4b2674ae7a071915d78f5031a9eac00f269d4987144df553503aadd927e3"
+    },
+    {
+      "path": "data/mla_constituency_roster.csv",
+      "bytes": 10614,
+      "sha256": "1faeab1c12595ed8aa18a34a2658413ab7163ddbde6295232fb86a8765b05520"
+    },
+    {
+      "path": "data/officials.csv",
+      "bytes": 47908,
+      "sha256": "6e9582c47cfde3233112d63dfcd0058c03ee6b686bbb70b736e5d24f0f4ce0dd"
+    },
+    {
+      "path": "data/prs_mla_activity_observations.csv",
+      "bytes": 13587,
+      "sha256": "e75dd5cf806b146fa01a602bf6755bb30eadc188ed559a10e163abfda1c60ce8"
+    },
+    {
+      "path": "data/rajya_sabha_separate.csv",
+      "bytes": 309,
+      "sha256": "ecee050cfc9db8466b513a6f46489a0d799e55e2a65ba0bb7ceff2726b3f63de"
+    },
+    {
+      "path": "data/source_register.csv",
+      "bytes": 2912,
+      "sha256": "e21f1901800039c62bc5af09006fba0dc4e218bc17ab2f862892510e6f2789a8"
+    },
+    {
+      "path": "reports/data_discrepancies.md",
+      "bytes": 1103,
+      "sha256": "0324a2c0b41df599d9fa54ab6c3973ca86a5a8042178dfc484a86c6c7e8b813e"
+    },
+    {
+      "path": "reports/validation_report.json",
+      "bytes": 3247,
+      "sha256": "63c9ea71c66abf4c6bc2ba822ea831784f5bced05ff037182200f95f5fa90e70"
+    },
+    {
+      "path": "sql/starter_schema.sql",
+      "bytes": 1859,
+      "sha256": "33e4e9c1ad84e3973394c8dab4bb79d7e8ab31475ef4227d724cf091268ca311"
+    }
+  ]
+}
