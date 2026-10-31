@@ -283,7 +283,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
 
   return (
     <div
-      className={`relative w-full rounded-3xl bg-[#070b10] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
+      className={`relative isolate w-full rounded-3xl bg-[#070b10] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
       style={{ minHeight: '660px' }}
       onMouseMove={handleMouseMove}
     >
