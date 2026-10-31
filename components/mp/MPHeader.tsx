@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Share2, Award, MapPin, Calendar, Info, Copy, GraduationCap, Clock } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { formatDate } from '@/lib/formatters';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { cardMessages } from '@/lib/messages/card';
 
 interface MPHeaderProps {
   mp: MPRecord;
@@ -12,14 +14,16 @@ interface MPHeaderProps {
 
 export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
   const [showMinisterModal, setShowMinisterModal] = useState(false);
+  const t = useMessages(cardMessages);
+  const { lang } = useLang();
   const isMinister = mp.is_minister || mp.performance.status === 'not_applicable';
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${mp.name} — ${mp.constituency}, ${mp.state}: Lok Sabha Report Card`,
-          text: `Check out the parliamentary record of ${mp.name} (${mp.constituency}) on Mera MP, Mera Report Card.`,
+          title: t.shareTitle(mp.name, mp.constituency, mp.state),
+          text: t.shareText(mp.name, mp.constituency),
           url: window.location.href,
         });
         return;
@@ -59,10 +63,10 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                 <button
                   onClick={() => setShowMinisterModal(true)}
                   className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-mono font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition-colors cursor-pointer"
-                  title="Click to view minister explanation"
+                  title={t.ministerBadgeTitle}
                 >
                   <Award className="w-3.5 h-3.5" />
-                  <span>Minister</span>
+                  <span>{t.ministerBadge}</span>
                   <Info className="w-3 h-3 text-amber-500 ml-0.5" />
                 </button>
               )}
@@ -81,7 +85,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                 <>
                   <span>·</span>
                   <span className="px-1.5 py-0.2 rounded text-[10px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30 font-bold">
-                    {mp.reservation} Category
+                    {t.reservationCategory(mp.reservation)}
                   </span>
                 </>
               )}
@@ -91,7 +95,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
               {mp.since_date && (
                 <span className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C28] px-2 py-0.5 rounded border border-stone-200 dark:border-[#202B3B]">
                   <Calendar className="w-3 h-3 text-stone-400" />
-                  Elected {formatDate(mp.since_date)}
+                  {t.electedOn(formatDate(mp.since_date, lang))}
                 </span>
               )}
               {mp.profile?.education && (
@@ -117,13 +121,13 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
             className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono font-semibold text-stone-700 dark:text-stone-200 bg-stone-100 dark:bg-[#141C28] hover:bg-stone-200 dark:hover:bg-[#1A2536] border border-stone-200 dark:border-[#222E42] transition-colors cursor-pointer"
           >
             <Share2 className="w-3.5 h-3.5 text-stone-400" />
-            <span>Share Dossier</span>
+            <span>{t.shareButton}</span>
           </button>
           <button
             onClick={onCopyLink}
             className="p-2 rounded-lg text-stone-600 dark:text-stone-300 bg-stone-100 dark:bg-[#141C28] hover:bg-stone-200 dark:hover:bg-[#1A2536] border border-stone-200 dark:border-[#222E42] transition-colors cursor-pointer"
-            title="Copy direct dossier link"
-            aria-label="Copy direct dossier link"
+            title={t.copyLinkLabel}
+            aria-label={t.copyLinkLabel}
           >
             <Copy className="w-3.5 h-3.5" />
           </button>
@@ -140,23 +144,25 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
               </div>
               <div>
                 <h3 className="text-base font-bold text-stone-900 dark:text-white font-sans">
-                  Why are parliamentary metrics not applicable?
+                  {t.ministerModalTitle}
                 </h3>
-                <p className="text-xs font-mono text-stone-500 dark:text-stone-400">PRS Legislative Research excludes ministers from these indicators</p>
+                <p className="text-xs font-mono text-stone-500 dark:text-stone-400">{t.ministerModalSubtitle}</p>
               </div>
             </div>
 
             <div className="text-xs text-stone-600 dark:text-stone-300 space-y-3 leading-relaxed mb-5">
               <p>
-                In the Parliament of India, Members of Parliament who serve in the Union Council of Ministers (Cabinet Ministers or Ministers of State) represent the Government on the treasury bench.
+                {t.ministerModalIntro}
               </p>
               <ul className="list-disc pl-5 space-y-1 text-stone-700 dark:text-stone-200 font-mono text-[11px]">
-                <li>Ministers do not sign the attendance register on the floor of the House.</li>
-                <li>Ministers cannot submit questions to the government (they answer questions on behalf of ministries).</li>
-                <li>Ministers cannot introduce Private Member Bills.</li>
+                <li>{t.ministerModalPoint1}</li>
+                <li>{t.ministerModalPoint2}</li>
+                <li>{t.ministerModalPoint3}</li>
               </ul>
               <p className="text-[11px] text-stone-500 dark:text-stone-400 bg-stone-50 dark:bg-[#141C28] p-3 rounded-lg border border-stone-200 dark:border-[#222E42]">
-                Therefore, standard activity metrics are accurately recorded as <strong>Not Applicable (Minister)</strong> rather than zero, ensuring factual reporting per parliamentary conventions.
+                {t.ministerModalNoteBefore}
+                <strong>{t.ministerModalNoteStrong}</strong>
+                {t.ministerModalNoteAfter}
               </p>
             </div>
 
@@ -165,7 +171,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                 onClick={() => setShowMinisterModal(false)}
                 className="px-4 py-2 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
               >
-                Understood
+                {t.ministerModalClose}
               </button>
             </div>
           </div>

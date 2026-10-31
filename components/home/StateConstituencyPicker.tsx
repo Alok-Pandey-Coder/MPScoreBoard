@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Building, ArrowRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
+import { useMessages } from '@/context/LanguageContext';
+import { homeMessages } from '@/lib/messages/home';
 
 interface StateConstituencyPickerProps {
   mps: MPRecord[];
@@ -11,6 +13,7 @@ interface StateConstituencyPickerProps {
 
 export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = ({ mps }) => {
   const router = useRouter();
+  const t = useMessages(homeMessages);
 
   // Extract unique states
   const states = Array.from(new Set(mps.map((m) => m.state)));
@@ -41,7 +44,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
     <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-6 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
       <div className="flex items-center gap-2 mb-3.5 text-xs font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
         <Building className="w-3.5 h-3.5" />
-        <span>Direct Seat Directory</span>
+        <span>{t.pickerTitle}</span>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
@@ -51,7 +54,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
             htmlFor="state-select"
             className="block text-xs font-mono font-medium text-stone-600 dark:text-stone-400 mb-1"
           >
-            Select State / UT
+            {t.selectState}
           </label>
           <div className="relative">
             <select
@@ -62,7 +65,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
             >
               {states.map((st) => (
                 <option key={st} value={st} className="dark:bg-[#141C29]">
-                  {st} ({mps.filter((m) => m.state === st).length} Seats)
+                  {st} ({t.seatsOption(mps.filter((m) => m.state === st).length)})
                 </option>
               ))}
             </select>
@@ -80,7 +83,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
             htmlFor="constituency-select"
             className="block text-xs font-mono font-medium text-stone-600 dark:text-stone-400 mb-1"
           >
-            Select Parliamentary Seat
+            {t.selectSeat}
           </label>
           <div className="relative">
             <select
@@ -109,7 +112,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
             type="submit"
             className="w-full flex items-center justify-center gap-1.5 px-4 py-2.5 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 rounded-lg text-xs font-mono font-bold uppercase tracking-wider shadow-sm transition-all cursor-pointer"
           >
-            <span>Open</span>
+            <span>{t.open}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

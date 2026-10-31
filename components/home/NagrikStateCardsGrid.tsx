@@ -1,7 +1,11 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Landmark, Building2, ArrowUpRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
+import { useMessages } from '@/context/LanguageContext';
+import { homeMessages } from '@/lib/messages/home';
 
 interface NagrikStateCardsGridProps {
   mps: MPRecord[];
@@ -21,6 +25,7 @@ const FEATURED_STATES = [
 const toStateId = (state: string) => state.trim().toLowerCase().replace(/\s+/g, '-');
 
 export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps }) => {
+  const t = useMessages(homeMessages);
   const cardsByState = new Map<string, number>();
   for (const mp of mps) {
     const id = toStateId(mp.state);
@@ -50,14 +55,14 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
                       {st.name}
                     </h3>
                     <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400">
-                      {st.regionalName} · {st.type}
+                      {st.regionalName} · {st.type === 'State' ? t.typeState : t.typeUnionTerritory}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right">
                   <div className="text-[10px] font-mono uppercase font-bold tracking-wider text-stone-400">
-                    Lok Sabha seats
+                    {t.lokSabhaSeats}
                   </div>
                   <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white flex items-center justify-end gap-1 tabular-nums">
                     <span>{st.seats}</span>
@@ -74,7 +79,7 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
                       : 'bg-stone-100 dark:bg-[#151D2A] text-stone-600 dark:text-stone-400 border-stone-200 dark:border-[#222E40]'
                   }`}
                 >
-                  {available ? `${cardCount} of ${st.seats} report cards available` : 'Report cards coming soon'}
+                  {available ? t.cardsAvailable(cardCount, st.seats) : t.cardsComingSoon}
                 </span>
               </div>
             </div>
@@ -84,18 +89,18 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
                 href={available ? '#find-constituency' : `/state/${st.id}`}
                 className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
-                Constituencies
+                {t.linkConstituencies}
               </Link>
               <span aria-hidden="true">·</span>
               <Link
                 href={available ? '#mp-cards' : `/state/${st.id}`}
                 className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
-                MPs
+                {t.linkMPs}
               </Link>
               <span aria-hidden="true">·</span>
               <Link href="/about" className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors">
-                About the data
+                {t.aboutData}
               </Link>
             </div>
           </div>

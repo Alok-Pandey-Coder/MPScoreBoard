@@ -1,4 +1,5 @@
 import type { MPRecord } from '@/types/mp';
+import type { Lang } from '@/lib/i18n';
 
 /** Lok Sabha seats in the 18th Lok Sabha. */
 export const TOTAL_LOK_SABHA_SEATS = 543;
@@ -32,7 +33,12 @@ export function getCoverage(mps: MPRecord[]): Coverage {
 }
 
 /** e.g. "Report cards for 7 of 543 constituencies so far. More are being added." */
-export function coverageNote(c: Coverage): string {
+export function coverageNote(c: Coverage, lang: Lang = 'en'): string {
+  if (lang === 'hi') {
+    const phrase =
+      c.seatCount === 1 ? 'निर्वाचन क्षेत्र का रिपोर्ट कार्ड उपलब्ध है' : 'निर्वाचन क्षेत्रों के रिपोर्ट कार्ड उपलब्ध हैं';
+    return `अब तक ${TOTAL_LOK_SABHA_SEATS} में से ${c.seatCount} ${phrase}। और जोड़े जा रहे हैं।`;
+  }
   const noun = c.seatCount === 1 ? 'constituency' : 'constituencies';
   return `Report cards for ${c.seatCount} of ${TOTAL_LOK_SABHA_SEATS} ${noun} so far. More are being added.`;
 }

@@ -6,6 +6,18 @@ import Link from 'next/link';
 import { GitCompare, Share2, ExternalLink, Info } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { Toast } from '@/components/common/Toast';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { compareMessages } from '@/lib/messages/compare';
+import { formatNumber, formatPct } from '@/lib/formatters';
+
+type MetricKey = 'attendance_pct' | 'debates' | 'questions' | 'private_member_bills';
+
+const METRIC_ROWS: { key: MetricKey; label: 'attendance' | 'debates' | 'questions' | 'privateMemberBills' }[] = [
+  { key: 'attendance_pct', label: 'attendance' },
+  { key: 'debates', label: 'debates' },
+  { key: 'questions', label: 'questions' },
+  { key: 'private_member_bills', label: 'privateMemberBills' },
+];
 
 interface CompareClientProps {
   mps: MPRecord[];
@@ -14,6 +26,8 @@ interface CompareClientProps {
 export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { lang } = useLang();
+  const t = useMessages(compareMessages);
 
   const slugA = searchParams?.get('a') || mps[0]?.slug || '';
   const slugB = searchParams?.get('b') || mps[2]?.slug || mps[1]?.slug || '';
@@ -31,6 +45,16 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
   const mpA = mps.find((m) => m.slug === selectedA) || mps[0];
   const mpB = mps.find((m) => m.slug === selectedB) || mps[1];
 
+  // Ministers are outside PRS's tracking: their indicators are "not applicable",
+  // never zero. Other missing values read "not available".
+  const metricText = (mp: MPRecord, key: MetricKey): string => {
+    const value = mp.performance?.[key];
+    if (value === null || value === undefined) {
+      if (mp.is_minister || mp.performance?.status === 'not_applicable') return t.notApplicableMinister;
+    }
+    return key === 'attendance_pct' ? formatPct(value, lang) : formatNumber(value, lang);
+  };
+
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
@@ -44,23 +68,25 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-stone-200 dark:border-[#1E2636]">
         <div>
           <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-            PARLIAMENTARY BENCHMARK MATRIX
+            {t.eyebrow}
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-sans tracking-tight flex items-center gap-2.5">
             <GitCompare className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-            <span>Side-by-Side MP Comparison</span>
+            <span>{t.title}</span>
           </h1>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
-            Factual indicator benchmarking without subjective scoring or ordinal rankings
+            {t.subtitle}
           </p>
         </div>
 
         <button
+          type="button"
           onClick={handleShare}
+          aria-label={t.shareAria}
           className="inline-flex items-center gap-2 px-3.5 py-2 bg-stone-100 dark:bg-[#141C28] hover:bg-stone-200 dark:hover:bg-[#1E2838] text-stone-700 dark:text-stone-300 rounded-lg text-xs font-mono font-semibold transition-colors self-start sm:self-auto border border-stone-200 dark:border-[#222E42] cursor-pointer"
         >
           <Share2 className="w-3.5 h-3.5 text-stone-400" />
-          <span>Share Link</span>
+          <span>{t.share}</span>
         </button>
       </div>
 
@@ -68,7 +94,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
       <div className="bg-stone-50 dark:bg-[#101622] border border-stone-200 dark:border-[#1E2636] rounded-lg p-3.5 flex items-center gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
         <Info className="w-4 h-4 text-amber-500 shrink-0" />
         <span>
-          These are activity indicators from PRS Legislative Research, shown side by side. They are not a rank, score or judgement of an MP&apos;s work.
+          {t.notice}
         </span>
       </div>
 
@@ -76,10 +102,14 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Selector MP A */}
         <div className="bg-white dark:bg-[#0E1420] p-4 sm:p-5 rounded-xl border border-stone-200/90 dark:border-[#1E2636] shadow-xs">
-          <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
-            Member A
+          <label
+            htmlFor="compare-member-a"
+            className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5"
+          >
+            {t.memberA}
           </label>
           <select
+            id="compare-member-a"
             value={selectedA}
             onChange={(e) => setSelectedA(e.target.value)}
             className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
@@ -94,10 +124,14 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
 
         {/* Selector MP B */}
         <div className="bg-white dark:bg-[#0E1420] p-4 sm:p-5 rounded-xl border border-stone-200/90 dark:border-[#1E2636] shadow-xs">
-          <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
-            Member B
+          <label
+            htmlFor="compare-member-b"
+            className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5"
+          >
+            {t.memberB}
           </label>
           <select
+            id="compare-member-b"
             value={selectedB}
             onChange={(e) => setSelectedB(e.target.value)}
             className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
@@ -123,7 +157,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               </span>
               {mpA.is_minister && (
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  Minister
+                  {t.minister}
                 </span>
               )}
             </div>
@@ -137,7 +171,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               href={`/mp/${mpA.slug}`}
               className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
             >
-              <span>View Full Dossier</span>
+              <span>{t.viewFull}</span>
               <ExternalLink className="w-3 h-3" />
             </Link>
           </div>
@@ -150,7 +184,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               </span>
               {mpB.is_minister && (
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  Minister
+                  {t.minister}
                 </span>
               )}
             </div>
@@ -164,119 +198,37 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               href={`/mp/${mpB.slug}`}
               className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
             >
-              <span>View Full Dossier</span>
+              <span>{t.viewFull}</span>
               <ExternalLink className="w-3 h-3" />
             </Link>
           </div>
         </div>
 
-        {/* Row 1: Attendance */}
-        <div className="p-5 bg-stone-50/50 dark:bg-[#0C121D]/50">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Parliamentary Attendance Rate
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
-            <div className="text-center md:text-right">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpA.performance?.attendance_pct !== null && mpA.performance?.attendance_pct !== undefined
-                  ? `${mpA.performance.attendance_pct}%`
-                  : mpA.is_minister
-                    ? 'Not applicable (minister)'
-                    : 'Not available'}
-              </div>
+        {METRIC_ROWS.map((row, i) => (
+          <div key={row.key} className={i % 2 === 0 ? 'p-5 bg-stone-50/50 dark:bg-[#0C121D]/50' : 'p-5'}>
+            <div className="text-center mb-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+                {t[row.label]}
+              </span>
             </div>
-            <div className="text-center md:text-left">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpB.performance?.attendance_pct !== null && mpB.performance?.attendance_pct !== undefined
-                  ? `${mpB.performance.attendance_pct}%`
-                  : mpB.is_minister
-                    ? 'Not applicable (minister)'
-                    : 'Not available'}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
+              <div className="text-center md:text-right">
+                <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
+                  {metricText(mpA, row.key)}
+                </div>
+              </div>
+              <div className="text-center md:text-left">
+                <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
+                  {metricText(mpB, row.key)}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Row 2: Debates */}
-        <div className="p-5">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Debates Participated
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
-            <div className="text-center md:text-right">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpA.performance?.debates !== null && mpA.performance?.debates !== undefined
-                  ? mpA.performance.debates
-                  : 'Not available'}
-              </div>
-            </div>
-            <div className="text-center md:text-left">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpB.performance?.debates !== null && mpB.performance?.debates !== undefined
-                  ? mpB.performance.debates
-                  : 'Not available'}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Row 3: Questions */}
-        <div className="p-5 bg-stone-50/50 dark:bg-[#0C121D]/50">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Questions Submitted
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
-            <div className="text-center md:text-right">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpA.performance?.questions !== null && mpA.performance?.questions !== undefined
-                  ? mpA.performance.questions
-                  : 'Not available'}
-              </div>
-            </div>
-            <div className="text-center md:text-left">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpB.performance?.questions !== null && mpB.performance?.questions !== undefined
-                  ? mpB.performance.questions
-                  : 'Not available'}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Row 4: Private Member Bills */}
-        <div className="p-5">
-          <div className="text-center mb-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-              Private Member Bills
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
-            <div className="text-center md:text-right">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpA.performance?.private_member_bills !== null && mpA.performance?.private_member_bills !== undefined
-                  ? mpA.performance.private_member_bills
-                  : 0}
-              </div>
-            </div>
-            <div className="text-center md:text-left">
-              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                {mpB.performance?.private_member_bills !== null && mpB.performance?.private_member_bills !== undefined
-                  ? mpB.performance.private_member_bills
-                  : 0}
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       <Toast
-        message="Comparison link copied to clipboard!"
+        message={t.copied}
         isOpen={toastOpen}
         onClose={() => setToastOpen(false)}
       />

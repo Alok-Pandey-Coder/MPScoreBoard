@@ -1,12 +1,15 @@
 import 'server-only';
 import type { MPRecord } from '@/types/mp';
 import { SYSTEM_PROMPT_SUMMARY } from './prompts';
-import { verifyGuardrails } from './summary';
-
-/** Words the PRD (§5.9) forbids in any copy or AI output. */
-const BANNED = /\b(criminal mp|worst|best|lazy|failed|useless)\b/i;
+import { containsBannedWords, verifyGuardrails, type AiLang } from './summary';
 
 const TIMEOUT_MS = 8000;
+
+const LANGUAGE_INSTRUCTION: Record<AiLang, string> = {
+  en: 'simple English',
+  hi: 'Hindi in Devanagari script, simple everyday words (digits 0-9)',
+  hinglish: 'Hinglish (Hindi in Roman script mixed with English)',
+};
 
 /**
  * The structured facts the model may use: identity, the four indicators with
@@ -51,12 +54,12 @@ function summaryFacts(mp: MPRecord) {
  * model, timeout, HTTP error, empty output, or any guardrail failure; the
  * caller then uses the deterministic template.
  */
-export async function generateLlmSummary(mp: MPRecord, lang: 'en' | 'hinglish'): Promise<string | null> {
+export async function generateLlmSummary(mp: MPRecord, lang: AiLang): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   const model = process.env.GEMINI_MODEL;
   if (!apiKey || !model) return null;
 
-  const language = lang === 'hinglish' ? 'Hinglish (Hindi in Roman script mixed with English)' : 'simple English';
+  const language = LANGUAGE_INSTRUCTION[lang];
   try {
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
@@ -74,7 +77,7 @@ export async function generateLlmSummary(mp: MPRecord, lang: 'en' | 'hinglish'):
     if (!res.ok) return null;
     const data = (await res.json()) as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
     const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text ?? '').join('').trim();
-    if (!text || BANNED.test(text) || !verifyGuardrails(text, mp)) return null;
+    if (!text || containsBannedWords(text) || !verifyGuardrails(text, mp)) return null;
     return text;
   } catch {
     return null;

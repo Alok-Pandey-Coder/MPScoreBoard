@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import { BarChart3, Info, ExternalLink } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { compareWithAverage } from '@/lib/comparisons';
+import { describeAgainstAverage } from '@/lib/comparisons';
 import { formatDate } from '@/lib/formatters';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { cardMessages } from '@/lib/messages/card';
 
 interface ComparisonSectionProps {
   mp: MPRecord;
@@ -19,12 +23,13 @@ interface BarRowProps {
   maxVal: number;
   barClass: string;
   emphasis?: boolean;
+  notAvailableText: string;
 }
 
-const BarRow: React.FC<BarRowProps> = ({ label, value, unit, maxVal, barClass, emphasis }) => {
+const BarRow: React.FC<BarRowProps> = ({ label, value, unit, maxVal, barClass, emphasis, notAvailableText }) => {
   const present = isPresent(value);
   const width = present && maxVal > 0 ? Math.min(100, (value / maxVal) * 100) : 0;
-  const text = present ? `${value}${unit}` : 'Not available';
+  const text = present ? `${value}${unit}` : notAvailableText;
   return (
     <div className="flex items-center gap-3">
       <span className="w-28 sm:w-40 shrink-0 text-stone-600 dark:text-stone-400 leading-tight">{label}</span>
@@ -49,6 +54,8 @@ const BarRow: React.FC<BarRowProps> = ({ label, value, unit, maxVal, barClass, e
 };
 
 export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
+  const t = useMessages(cardMessages);
+  const { lang } = useLang();
   if (mp.is_minister || mp.performance.status === 'not_applicable') {
     return null;
   }
@@ -61,11 +68,9 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     return (
       <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
         <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-          Compared to Averages
+          {t.comparisonHeading}
         </h2>
-        <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-2">
-          Averages not available from the source.
-        </p>
+        <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-2">{t.averagesNotAvailable}</p>
       </div>
     );
   }
@@ -74,7 +79,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
 
   const metrics = [
     {
-      title: 'Attendance',
+      title: t.metricAttendance,
       mpVal: perf.attendance_pct,
       stateVal: state?.attendance_pct,
       natVal: nat?.attendance_pct,
@@ -83,7 +88,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
       unit: '%',
     },
     {
-      title: 'Debates',
+      title: t.metricDebates,
       mpVal: perf.debates,
       stateVal: state?.debates,
       natVal: nat?.debates,
@@ -92,7 +97,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
       unit: '',
     },
     {
-      title: 'Questions',
+      title: t.metricQuestions,
       mpVal: perf.questions,
       stateVal: state?.questions,
       natVal: nat?.questions,
@@ -101,7 +106,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
       unit: '',
     },
     {
-      title: 'Private Member Bills',
+      title: t.metricBills,
       mpVal: perf.private_member_bills,
       stateVal: state?.private_member_bills,
       natVal: nat?.private_member_bills,
@@ -111,17 +116,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     },
   ];
 
-  const asOf = perf.as_of ? formatDate(perf.as_of) : null;
-
-  const describe = (avg: number | null | undefined, which: string, mpVal: number | null | undefined, type: 'percentage' | 'count') => {
-    const r = compareWithAverage(mpVal, avg, type);
-    if (r.relation === 'unavailable') return null;
-    if (r.relation === 'similar') return `similar to the ${which} average`;
-    const unit = type === 'percentage' ? ' points' : '';
-    const amount = Math.abs(r.diffValue ?? 0);
-    const amountText = Number.isInteger(amount) ? String(amount) : amount.toFixed(1);
-    return `${amountText}${unit} ${r.relation} than the ${which} average`;
-  };
+  const asOf = perf.as_of ? formatDate(perf.as_of, lang) : null;
 
   return (
     <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
@@ -129,11 +124,11 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-            <span>Compared to Averages</span>
+            <span>{t.comparisonHeading}</span>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-            PRS-published {mp.state} and national averages for the 18th Lok Sabha
-            {asOf ? `, as of ${asOf}` : ''}
+            {t.comparisonSubtitle(mp.state)}
+            {asOf ? t.comparisonAsOfSuffix(asOf) : ''}
             {perf.source?.url && (
               <>
                 {' · '}
@@ -153,40 +148,46 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
 
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-stone-50 dark:bg-[#141C29] text-stone-600 dark:text-stone-400 text-[11px] font-mono self-start sm:self-auto border border-stone-200/80 dark:border-[#222F42]">
           <Info className="w-3.5 h-3.5 text-stone-400 shrink-0" aria-hidden="true" />
-          <span>These indicators show activity, not the quality of an MP&apos;s work.</span>
+          <span>{t.activityNotQuality}</span>
         </div>
       </div>
 
       <div className="space-y-6">
         {metrics.map((m) => {
-          const stateText = describe(m.stateVal, `${mp.state}`, m.mpVal, m.type);
-          const natText = describe(m.natVal, 'national', m.mpVal, m.type);
-          const summary = [stateText, natText].filter(Boolean).join('; ');
+          const stateText = describeAgainstAverage(m.mpVal, m.stateVal, m.type, { kind: 'state', name: mp.state }, lang);
+          const natText = describeAgainstAverage(m.mpVal, m.natVal, m.type, { kind: 'national' }, lang);
+          const summary = [stateText, natText].filter(Boolean).join(t.listSeparator);
 
           return (
             <div key={m.title} className="p-4 rounded-lg bg-stone-50/80 dark:bg-[#121A26] border border-stone-200/80 dark:border-[#1E293B]">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs font-mono mb-3">
                 <span className="font-bold text-stone-900 dark:text-stone-100">{m.title}</span>
                 <span className="text-stone-500 dark:text-stone-400">
-                  {isPresent(m.mpVal) ? (summary ? `${mp.name}: ${summary}` : 'Average comparison unavailable') : 'Not available from the source.'}
+                  {isPresent(m.mpVal)
+                    ? summary
+                      ? `${mp.name}: ${summary}`
+                      : t.comparisonUnavailable
+                    : t.notAvailableFromSource}
                 </span>
               </div>
 
               <div className="space-y-2 text-[11px] font-mono">
-                <BarRow label={mp.name} value={m.mpVal} unit={m.unit} maxVal={m.maxVal} barClass="bg-blue-700 dark:bg-blue-400" emphasis />
+                <BarRow label={mp.name} value={m.mpVal} unit={m.unit} maxVal={m.maxVal} barClass="bg-blue-700 dark:bg-blue-400" emphasis notAvailableText={t.barNotAvailable} />
                 <BarRow
-                  label={`PRS-published ${mp.state} average`}
+                  label={t.stateAverageLabel(mp.state)}
                   value={m.stateVal}
                   unit={m.unit}
                   maxVal={m.maxVal}
                   barClass="bg-stone-500 dark:bg-stone-400"
+                  notAvailableText={t.barNotAvailable}
                 />
                 <BarRow
-                  label="PRS-published national average"
+                  label={t.nationalAverageLabel}
                   value={m.natVal}
                   unit={m.unit}
                   maxVal={m.maxVal}
                   barClass="bg-stone-400 dark:bg-stone-600"
+                  notAvailableText={t.barNotAvailable}
                 />
               </div>
             </div>

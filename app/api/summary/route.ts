@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getMPBySlug, getSnapshotDate } from '@/lib/data';
-import { generateTemplateSummary } from '@/lib/ai/summary';
+import { AI_LANGS_TEXT, generateTemplateSummary, parseSummaryRequest } from '@/lib/ai/summary';
 import { generateLlmSummary } from '@/lib/ai/llm';
 import { apiError, clientKey, createRateLimiter, readJsonBody } from '@/lib/api';
-
-type Lang = 'en' | 'hinglish';
 
 // PRD §6.3: 20 requests per minute per IP.
 const limit = createRateLimiter(20, 60_000);
@@ -19,21 +17,15 @@ export async function POST(request: Request) {
     });
   }
 
-  const body = await readJsonBody(request);
-  const keys = body ? Object.keys(body) : [];
-  if (
-    !body ||
-    typeof body.slug !== 'string' ||
-    (body.lang !== 'en' && body.lang !== 'hinglish') ||
-    keys.some((key) => key !== 'slug' && key !== 'lang')
-  ) {
-    return apiError('INVALID_REQUEST', 'Expected { slug: string, lang: "en" | "hinglish" }.', 400);
+  const parsed = parseSummaryRequest(await readJsonBody(request));
+  if (!parsed) {
+    return apiError('INVALID_REQUEST', `Expected { slug: string, lang: ${AI_LANGS_TEXT} }.`, 400);
   }
 
-  const mp = getMPBySlug(body.slug);
+  const mp = getMPBySlug(parsed.slug);
   if (!mp) return apiError('INVALID_SLUG', 'No MP found for this constituency.', 404);
 
-  const lang = body.lang as Lang;
+  const lang = parsed.lang;
   const cacheKey = `${mp.slug}:${lang}`;
   let text = cache.get(cacheKey) ?? null;
   if (!text) {

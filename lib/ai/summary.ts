@@ -1,10 +1,45 @@
 import { MPRecord } from '../../types/mp';
 import { formatDate } from '../formatters';
 
+/**
+ * Languages for generated text (summary and draft): English, Hindi in
+ * Devanagari, and Hinglish (Hindi in Roman script). Separate from the UI
+ * language (lib/i18n.ts), which only has 'en' and 'hi'.
+ */
+export const AI_LANGS = ['en', 'hi', 'hinglish'] as const;
+export type AiLang = (typeof AI_LANGS)[number];
+
+export function isAiLang(value: unknown): value is AiLang {
+  return typeof value === 'string' && (AI_LANGS as readonly string[]).includes(value);
+}
+
+/** Human-readable list for API error messages: "en" | "hi" | "hinglish". */
+export const AI_LANGS_TEXT = AI_LANGS.map((l) => `"${l}"`).join(' | ');
+
+/**
+ * Validates a /api/summary body: exactly { slug: string, lang: AiLang }.
+ * Returns null for anything else.
+ */
+export function parseSummaryRequest(body: Record<string, unknown> | null): { slug: string; lang: AiLang } | null {
+  if (!body || typeof body.slug !== 'string' || !isAiLang(body.lang)) return null;
+  if (Object.keys(body).some((key) => key !== 'slug' && key !== 'lang')) return null;
+  return { slug: body.slug, lang: body.lang };
+}
+
+/** Words the PRD (§5.9) forbids in any copy or AI output (English). */
+const BANNED_EN = /\b(criminal mp|worst|best|lazy|failed|useless)\b/i;
+/** Hindi equivalents; `\b` does not work for Devanagari, so plain substrings. */
+export const BANNED_HI = ['आपराधिक सांसद', 'सबसे खराब', 'सबसे अच्छा', 'आलसी', 'नाकाम', 'बेकार'] as const;
+
+/** True when text contains a word banned by PRD §5.9, in English or Hindi. */
+export function containsBannedWords(text: string): boolean {
+  return BANNED_EN.test(text) || BANNED_HI.some((word) => text.includes(word));
+}
+
 export interface SummaryResult {
   text: string;
   source: 'template' | 'llm';
-  lang: 'en' | 'hinglish';
+  lang: AiLang;
   generatedAt: string;
 }
 
@@ -68,12 +103,17 @@ function crore(value: number): string {
   return value.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 0 });
 }
 
-function mpladsSentence(mp: MPRecord, lang: 'en' | 'hinglish'): string | null {
+function mpladsSentence(mp: MPRecord, lang: AiLang): string | null {
   const m = mp.mplads;
   if (!m || m.status !== 'reported') return null;
   if (!isPresent(m.expenditure_cr) || !isPresent(m.allocated_cr)) return null;
-  const date = m.as_of ? formatDate(m.as_of) : null;
+  const date = m.as_of ? formatDate(m.as_of, lang === 'hi' ? 'hi' : 'en') : null;
   const sourceName = m.source?.name ?? null;
+  if (lang === 'hi') {
+    return `MPLADS के तहत आवंटित ₹${crore(m.allocated_cr)} करोड़ में से ₹${crore(m.expenditure_cr)} करोड़ खर्च हुए हैं${
+      date ? ` (${date} तक)` : ''
+    }${sourceName ? `, स्रोत: ${sourceName}` : ''}।`;
+  }
   if (lang === 'en') {
     return `Under MPLADS, ₹${crore(m.expenditure_cr)} crore of ₹${crore(m.allocated_cr)} crore allocated had been spent${
       date ? ` as of ${date}` : ''
@@ -89,7 +129,8 @@ function mpladsSentence(mp: MPRecord, lang: 'en' | 'hinglish'): string | null {
  * Every number in the output comes from the MP record; missing values are
  * stated as not available rather than replaced.
  */
-export function generateTemplateSummary(mp: MPRecord, lang: 'en' | 'hinglish'): string {
+export function generateTemplateSummary(mp: MPRecord, lang: AiLang): string {
+  if (lang === 'hi') return hindiTemplateSummary(mp);
   const isMinister = mp.is_minister || mp.performance.status === 'not_applicable';
   const perf = mp.performance;
   const asOf = perf.as_of ? formatDate(perf.as_of) : null;
@@ -174,13 +215,62 @@ export function generateTemplateSummary(mp: MPRecord, lang: 'en' | 'hinglish'): 
 }
 
 /**
+ * Hindi (Devanagari) template summary. Same facts and order as the English
+ * one; digits stay 0–9 so the guardrail can check every number.
+ */
+function hindiTemplateSummary(mp: MPRecord): string {
+  const isMinister = mp.is_minister || mp.performance.status === 'not_applicable';
+  const perf = mp.performance;
+  const asOf = perf.as_of ? formatDate(perf.as_of, 'hi') : null;
+  const sourceName = perf.source?.name ?? null;
+  const stAtt = perf.prs_averages?.state?.attendance_pct;
+  const natAtt = perf.prs_averages?.national?.attendance_pct;
+  const mpladsLine = mpladsSentence(mp, 'hi');
+  const sentences: string[] = [];
+  const intro = `${mp.name} 18वीं लोकसभा में ${mp.state} के ${mp.constituency} निर्वाचन क्षेत्र से सांसद`;
+
+  if (isMinister) {
+    sentences.push(`${intro} और मंत्री हैं।`);
+    sentences.push(
+      'मंत्री उपस्थिति रजिस्टर पर हस्ताक्षर नहीं करते, प्रश्न नहीं पूछते और निजी सदस्य विधेयक पेश नहीं करते, इसलिए ये संकेतक लागू नहीं होते।'
+    );
+    if (mpladsLine) sentences.push(mpladsLine);
+    return sentences.join(' ');
+  }
+
+  sentences.push(`${intro} हैं।`);
+  const prefix = asOf ? `${asOf} तक` : 'स्रोत के अनुसार';
+  if (isPresent(perf.attendance_pct)) {
+    const avgParts: string[] = [];
+    if (isPresent(stAtt)) avgParts.push(`PRS द्वारा प्रकाशित ${mp.state} का औसत ${stAtt}%`);
+    if (isPresent(natAtt)) avgParts.push(`राष्ट्रीय औसत ${natAtt}%`);
+    sentences.push(
+      `${prefix} दर्ज उपस्थिति ${perf.attendance_pct}% है${avgParts.length ? `, जबकि ${avgParts.join(' और ')} है` : ''}।`
+    );
+  } else {
+    sentences.push(`${prefix} उपस्थिति का आँकड़ा स्रोत से उपलब्ध नहीं है।`);
+  }
+  const count = (value: number | null | undefined, label: string) =>
+    isPresent(value) ? `${value} ${label}` : `${label}: उपलब्ध नहीं`;
+  sentences.push(
+    `${sourceName ? `${sourceName} के रिकॉर्ड में` : 'स्रोत के रिकॉर्ड में'} ${count(perf.debates, 'बहस')}, ${count(
+      perf.questions,
+      'प्रश्न'
+    )} और ${count(perf.private_member_bills, 'निजी सदस्य विधेयक')} दर्ज हैं।`
+  );
+  if (mpladsLine) sentences.push(mpladsLine);
+  sentences.push('ये संकेतक गतिविधि दिखाते हैं, सांसद के काम की गुणवत्ता नहीं।');
+  return sentences.join(' ');
+}
+
+/**
  * Client-side summary getter (PRD FR-11, FR-12): asks /api/summary, which
  * uses the LLM when configured, and falls back to the local template on any
  * error or timeout so the card works offline.
  */
 export async function getMPSummary(
   mp: MPRecord,
-  lang: 'en' | 'hinglish' = 'en'
+  lang: AiLang = 'en'
 ): Promise<SummaryResult> {
   try {
     const res = await fetch('/api/summary', {

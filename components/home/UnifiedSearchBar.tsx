@@ -6,6 +6,8 @@ import { Search, X, ChevronRight, MapPin } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { searchMPs } from '@/lib/search';
 import { coverageNote, getCoverage } from '@/lib/coverage';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { homeMessages } from '@/lib/messages/home';
 
 interface UnifiedSearchBarProps {
   mps: MPRecord[];
@@ -29,6 +31,8 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const router = useRouter();
+  const t = useMessages(homeMessages);
+  const { lang } = useLang();
   const quickSeats = useMemo(
     () =>
       mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
@@ -105,7 +109,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             if (query.trim() && results.length > 0) setIsOpen(true);
           }}
           autoFocus={autoFocus}
-          placeholder="Search by MP name, constituency or state"
+          placeholder={t.searchPlaceholder}
           className="w-full pl-11 pr-11 py-3.5 bg-white dark:bg-[#121824] border border-stone-300 dark:border-[#222E42] rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 shadow-sm focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm"
         />
         {query && (
@@ -115,7 +119,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
               inputRef.current?.focus();
             }}
             className="absolute right-3.5 p-1 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 rounded-md hover:bg-stone-100 dark:hover:bg-[#1A2333] transition-colors"
-            aria-label="Clear search"
+            aria-label={t.clearSearch}
           >
             <X className="w-4 h-4" />
           </button>
@@ -125,7 +129,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
       {/* Fast Seat Quick Filter Chips */}
       <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
         <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
-          Jump to:
+          {t.jumpTo}
         </span>
         {quickSeats.map((seat) => (
           <button
@@ -152,8 +156,8 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
           {results.length > 0 ? (
             <div>
               <div className="px-4 py-2 bg-stone-50 dark:bg-[#0E131E] text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider flex items-center justify-between border-b border-stone-100 dark:border-[#1E283A]">
-                <span>Matching Constituencies &amp; MPs ({results.length})</span>
-                <span className="text-[10px] text-stone-400 dark:text-stone-500">↑↓ to navigate · Enter to select</span>
+                <span>{t.resultsHeading(results.length)}</span>
+                <span className="text-[10px] text-stone-400 dark:text-stone-500">{t.keyboardHint}</span>
               </div>
               {results.map((mp, index) => {
                 const isSelected = index === selectedIndex;
@@ -187,7 +191,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                           </span>
                           {mp.is_minister && (
                             <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 font-medium">
-                              Minister
+                              {t.minister}
                             </span>
                           )}
                         </div>
@@ -203,7 +207,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                     <div className="flex items-center gap-3">
                       {attendance !== null && !mp.is_minister && (
                         <div className="text-right hidden sm:block">
-                          <div className="text-[10px] text-stone-400 font-mono">Attendance</div>
+                          <div className="text-[10px] text-stone-400 font-mono">{t.attendance}</div>
                           <div className="text-xs font-bold font-mono text-stone-800 dark:text-stone-200 tabular-nums">
                             {attendance}%
                           </div>
@@ -217,7 +221,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             </div>
           ) : (
             <div className="p-6 text-center text-xs text-stone-500 dark:text-stone-400">
-              No MP or constituency matches &quot;{query}&quot;. {coverageNote(getCoverage(mps))}
+              {t.noMatch(query)} {coverageNote(getCoverage(mps), lang)}
             </div>
           )}
         </div>

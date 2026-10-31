@@ -7,6 +7,8 @@ import { MPRecord } from '@/types/mp';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { INDIA_STATES } from '@/lib/indiaGeoData';
+import { useMessages } from '@/context/LanguageContext';
+import { exploreMessages } from '@/lib/messages/explore';
 
 interface ExploreAtlasClientProps {
   mps: MPRecord[];
@@ -14,6 +16,7 @@ interface ExploreAtlasClientProps {
 
 export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) => {
   const [selectedStateId, setSelectedStateId] = useState<string>('delhi');
+  const t = useMessages(exploreMessages);
   const [selectedSlug, setSelectedSlug] = useState<string | undefined>(undefined);
 
   const handleSelectFeature = (stateId: string, constituencySlug?: string) => {
@@ -34,13 +37,13 @@ export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) =
               className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Home</span>
+              <span>{t.backHome}</span>
             </Link>
             <span className="text-slate-400 dark:text-slate-500">•</span>
-            <span className="text-xs text-cyan-600 dark:text-cyan-400 font-semibold">Geospatial Explorer</span>
+            <span className="text-xs text-cyan-600 dark:text-cyan-400 font-semibold">{t.eyebrow}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-            India Parliamentary Atlas
+            {t.title}
           </h1>
         </div>
 
@@ -54,14 +57,21 @@ export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) =
       </div>
 
       {/* State Quick Switcher Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+      <div
+        role="group"
+        aria-label={t.quickJumpAria}
+        className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar"
+      >
         <span className="text-slate-400 font-bold uppercase text-[10px] shrink-0 mr-1">
-          Quick Jump:
+          {t.quickJump}
         </span>
         {INDIA_STATES.slice(0, 10).map((s) => (
           <button
             key={s.id}
+            type="button"
             onClick={() => handleSelectFeature(s.id)}
+            aria-pressed={selectedStateId === s.id}
+            aria-label={t.stateSeatsAria(s.name, s.seats)}
             className={`px-3 py-1.5 rounded-xl border text-xs font-semibold shrink-0 transition-all cursor-pointer ${
               selectedStateId === s.id
                 ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-bold'

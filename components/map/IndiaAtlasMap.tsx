@@ -8,6 +8,8 @@ import { MapControls } from './MapControls';
 import { StateInfoPanel } from './StateInfoPanel';
 import { ConstituencyInfoPanel } from './ConstituencyInfoPanel';
 import { Compass, Sparkles } from 'lucide-react';
+import { useMessages } from '@/context/LanguageContext';
+import { mapMessages } from '@/lib/messages/map';
 
 // ============================================================================
 // Regional Thematic Color Palette Configuration
@@ -175,6 +177,9 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   onSelectMP,
   className = '',
 }) => {
+  const t = useMessages(mapMessages);
+  const regionShortName = (id: string) => t.regionShortName[id as keyof typeof t.regionShortName] ?? REGIONS[id]?.shortName;
+  const regionName = (id: string) => t.regionName[id as keyof typeof t.regionName] ?? REGIONS[id]?.name;
   // A Delhi constituency implies the Delhi state view.
   const impliedStateId = (stateId?: string, slug?: string) =>
     stateId || (slug && DELHI_CONSTITUENCIES.some((c) => c.slug === slug) ? 'delhi' : undefined);
@@ -283,15 +288,15 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 bg-[#10151d]/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-[#27323f] text-xs shadow-xl">
         <Compass className="w-4 h-4 text-cyan-400 animate-pulse" />
         <span className="font-bold text-white font-['Outfit']">
-          {selectedStateObj ? selectedStateObj.name : 'Republic of India — 18th Lok Sabha'}
+          {selectedStateObj ? selectedStateObj.name : t.nationalTitle}
         </span>
         <span className="text-[11px] font-semibold text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800">
-          {selectedStateObj ? `${selectedStateObj.seats} LS Seats` : '543 Parliamentary Seats'}
+          {selectedStateObj ? t.stateSeats(selectedStateObj.seats) : t.nationalSeats}
         </span>
         {!selectedStateObj && (
           <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-amber-300 font-medium px-2 py-0.5 rounded-full bg-amber-950/60 border border-amber-800/80">
             <Sparkles className="w-3 h-3 text-amber-400" />
-            <span>Authentic Geographical Atlas • 36 States &amp; UTs</span>
+            <span>{t.atlasBadge}</span>
           </span>
         )}
       </div>
@@ -519,7 +524,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                             fontFamily="Outfit, sans-serif"
                             letterSpacing="0.4"
                           >
-                            DL • 7 SEATS
+                            {t.delhiBadgeSeats}
                           </text>
                           <text
                             textAnchor="middle"
@@ -529,7 +534,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                             fontWeight="800"
                             fontFamily="Outfit, sans-serif"
                           >
-                            ★ LIVE PILOT
+                            {t.delhiBadgeLive}
                           </text>
                         </g>
                       </>
@@ -674,7 +679,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       <div className="px-4 py-3 bg-[#0a0f16] border-t border-[#232c37] flex flex-wrap items-center justify-between gap-2 text-xs">
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
-            Regions:
+            {t.regionsLabel}
           </span>
 
           {/* All India Reset Pill */}
@@ -689,7 +694,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                 : 'bg-[#151c24] text-slate-400 border-[#25303d] hover:text-white'
             }`}
           >
-            All India (543)
+            {t.allIndia}
           </button>
 
           {/* Regional Filter Pills */}
@@ -718,7 +723,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                   className="w-2.5 h-2.5 rounded-full inline-block shadow-sm"
                   style={{ backgroundColor: reg.color }}
                 />
-                <span>{reg.shortName}</span>
+                <span>{regionShortName(reg.id)}</span>
                 <span className="text-[10px] opacity-80">({reg.totalSeats})</span>
               </button>
             );
@@ -726,7 +731,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
         </div>
 
         <div className="text-[11px] text-slate-400 hidden lg:block">
-          Click any state badge or region pill to view seat distribution &amp; MPs
+          {t.atlasClickHint}
         </div>
       </div>
 
@@ -757,27 +762,27 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                 backgroundColor: REGIONS[hoveredState.region].color,
               }}
             >
-              {REGIONS[hoveredState.region].shortName}
+              {regionShortName(hoveredState.region)}
             </span>
           </div>
 
           <div className="text-[11px] text-slate-300 space-y-1">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">Lok Sabha Seats:</span>
+              <span className="text-slate-400">{t.tooltipSeats}</span>
               <strong className="text-white text-xs">{hoveredState.seats}</strong>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">Regional Allocation:</span>
-              <span className="text-slate-200">{REGIONS[hoveredState.region].name}</span>
+              <span className="text-slate-400">{t.tooltipRegion}</span>
+              <span className="text-slate-200">{regionName(hoveredState.region)}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">Active Pilot Records:</span>
+              <span className="text-slate-400">{t.tooltipRecords}</span>
               <strong className="text-cyan-400">{hoveredState.id === 'delhi' ? '7 / 7 (100%)' : `0 / ${hoveredState.seats}`}</strong>
             </div>
           </div>
 
           <span className="text-[10px] text-cyan-400 font-semibold block mt-2 pt-1 border-t border-slate-800/80">
-            {hoveredState.id === 'delhi' ? 'Click to zoom into 7 Delhi PCs →' : 'Click to inspect state details →'}
+            {hoveredState.id === 'delhi' ? t.tooltipZoomDelhi : t.tooltipInspectState}
           </span>
         </div>
       )}
@@ -794,14 +799,14 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
             {hoveredConstituency.name}
           </div>
           <div className="text-[11px] text-slate-300 mt-1 space-y-0.5">
-            <div>Sitting MP: <strong className="text-white">{hoveredConstituency.sittingMP}</strong> ({hoveredConstituency.party})</div>
+            <div>{t.tooltipSittingMP} <strong className="text-white">{hoveredConstituency.sittingMP}</strong> ({hoveredConstituency.party})</div>
             {hoveredConstituency.attendancePct && (
-              <div>Attendance: <strong className="text-emerald-400">{hoveredConstituency.attendancePct}%</strong></div>
+              <div>{t.tooltipAttendance} <strong className="text-emerald-400">{hoveredConstituency.attendancePct}%</strong></div>
             )}
-            <div>Questions: <strong className="text-cyan-400">{hoveredConstituency.questions}</strong> | Debates: <strong className="text-amber-400">{hoveredConstituency.debates}</strong></div>
+            <div>{t.tooltipQuestions} <strong className="text-cyan-400">{hoveredConstituency.questions}</strong> | {t.tooltipDebates} <strong className="text-amber-400">{hoveredConstituency.debates}</strong></div>
           </div>
           <span className="text-[9px] text-cyan-400 font-semibold block mt-1">
-            Click to view full MP report card →
+            {t.tooltipViewReportCard}
           </span>
         </div>
       )}

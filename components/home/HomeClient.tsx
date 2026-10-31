@@ -12,19 +12,26 @@ import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
 import { ArrowRight, Users, Compass } from 'lucide-react';
 import { coverageNote, getCoverage, TOTAL_LOK_SABHA_SEATS } from '@/lib/coverage';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { homeMessages } from '@/lib/messages/home';
+
+const MapLoading: React.FC = () => {
+  const t = useMessages(homeMessages);
+  return (
+    <div className="w-full h-[600px] rounded-2xl bg-[#0C1017] border border-[#1E2636] flex items-center justify-center text-stone-400">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-6 h-6 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
+        <span className="text-xs font-mono font-medium text-stone-400">{t.loadingMap}</span>
+      </div>
+    </div>
+  );
+};
 
 const NagrikStyleMap = dynamic(
   () => import('@/components/map/NagrikStyleMap').then((mod) => mod.NagrikStyleMap),
   {
     ssr: false,
-    loading: () => (
-      <div className="w-full h-[600px] rounded-2xl bg-[#0C1017] border border-[#1E2636] flex items-center justify-center text-stone-400">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
-          <span className="text-xs font-mono font-medium text-stone-400">Loading map…</span>
-        </div>
-      </div>
-    ),
+    loading: () => <MapLoading />,
   }
 );
 
@@ -35,6 +42,8 @@ interface HomeClientProps {
 export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
   const [selectedMapSlug, setSelectedMapSlug] = useState<string>('new-delhi-delhi');
   const coverage = getCoverage(mps);
+  const t = useMessages(homeMessages);
+  const { lang } = useLang();
 
   const handleSelectGeographicalFeature = (stateId: string, constituencySlug?: string) => {
     if (constituencySlug) {
@@ -54,23 +63,21 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-200 dark:border-[#222E42] text-xs font-mono text-stone-700 dark:text-stone-300 mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
           <span className="tracking-wide">
-            LOK SABHA 2024–29 · PUBLIC RECORDS · NON-PARTISAN
+            {t.heroEyebrow}
           </span>
         </div>
 
         <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-stone-900 dark:text-stone-100 tracking-tight font-sans leading-[1.12] mb-5">
-          Know your MP&apos;s record{' '}
+          {t.heroTitleLead}{' '}
           <span className="text-amber-600 dark:text-amber-400 underline decoration-amber-500/30 underline-offset-8">
-            in 60 seconds.
+            {t.heroTitleAccent}
           </span>
         </h1>
 
         <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 max-w-2xl mx-auto mb-3 leading-relaxed font-normal">
-          A neutral report card for your Member of Parliament: attendance, debates, questions, private member bills,
-          local development (MPLADS) funds and the details they declared when they stood for election. Every number
-          links to its public source and date.
+          {t.heroIntro}
         </p>
-        <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-8">{coverageNote(coverage)}</p>
+        <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-8">{coverageNote(coverage, lang)}</p>
 
         {/* Smart Search Bar with Fast Select Chips */}
         <div className="mb-8">
@@ -86,7 +93,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
             href="#find-constituency"
             className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 font-bold rounded-lg transition-all shadow-sm cursor-pointer"
           >
-            <span>Find your area on the map</span>
+            <span>{t.ctaMap}</span>
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </a>
           <a
@@ -94,14 +101,14 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
             className="inline-flex items-center gap-2 px-4 py-2 bg-stone-100 dark:bg-[#131B27] hover:bg-stone-200 dark:hover:bg-[#1A2433] text-stone-800 dark:text-stone-200 font-semibold rounded-lg border border-stone-200 dark:border-[#222E42] transition-all cursor-pointer"
           >
             <Users className="w-3.5 h-3.5 text-amber-500" aria-hidden="true" />
-            <span>See all MP report cards</span>
+            <span>{t.ctaCards}</span>
           </a>
           <a
             href="#by-state"
             className="inline-flex items-center gap-2 px-4 py-2 bg-stone-100 dark:bg-[#131B27] hover:bg-stone-200 dark:hover:bg-[#1A2433] text-stone-800 dark:text-stone-200 font-semibold rounded-lg border border-stone-200 dark:border-[#222E42] transition-all cursor-pointer"
           >
             <Compass className="w-3.5 h-3.5 text-stone-400" aria-hidden="true" />
-            <span>Browse by state</span>
+            <span>{t.ctaStates}</span>
           </a>
         </div>
       </section>
@@ -124,17 +131,17 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
             <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-              LOK SABHA 2024–29
+              {t.termEyebrow}
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-              MP report cards
+              {t.cardsTitle}
             </h2>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
-              Each card lists its sources, retrieval dates and review status.
+              {t.cardsIntro}
             </p>
           </div>
           <span className="text-xs font-mono font-medium px-3 py-1 bg-stone-100 dark:bg-[#131B27] text-stone-700 dark:text-stone-300 rounded-md border border-stone-200 dark:border-[#222E42] self-start sm:self-auto">
-            Sources linked on every card
+            {t.cardsBadge}
           </span>
         </div>
 
@@ -146,17 +153,17 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
             <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-              BY STATE
+              {t.statesEyebrow}
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-              Browse by state and union territory
+              {t.statesTitle}
             </h2>
           </div>
           <Link
             href="/explore"
             className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1.5 self-start sm:self-auto"
           >
-            <span>Open the map</span>
+            <span>{t.openMap}</span>
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
         </div>
@@ -169,10 +176,10 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <div className="flex items-center justify-between gap-4 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
             <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-stone-500 dark:text-stone-400 mb-0.5">
-              MAP OF INDIA
+              {t.indiaEyebrow}
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-              36 states and union territories, {TOTAL_LOK_SABHA_SEATS} Lok Sabha seats
+              {t.indiaTitle(TOTAL_LOK_SABHA_SEATS)}
             </h3>
           </div>
         </div>
@@ -184,7 +191,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
       <section className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-3">
           <span className="text-[11px] font-mono uppercase tracking-widest font-semibold text-stone-500 dark:text-stone-400">
-            or pick a state and constituency
+            {t.pickerLead}
           </span>
         </div>
         <StateConstituencyPicker mps={mps} />

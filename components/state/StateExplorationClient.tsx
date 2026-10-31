@@ -6,6 +6,8 @@ import { ArrowLeft, Building, ChevronRight, Award } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { INDIA_STATES, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
+import { useMessages } from '@/context/LanguageContext';
+import { stateMessages } from '@/lib/messages/state';
 
 interface StateExplorationClientProps {
   mps: MPRecord[];
@@ -16,6 +18,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
   mps,
   stateParam,
 }) => {
+  const t = useMessages(stateMessages);
   const stateId = stateParam?.toLowerCase() || 'delhi';
 
   const state =
@@ -35,18 +38,18 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
             className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 mb-2 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to All-India Atlas</span>
+            <span>{t.backToAtlas}</span>
           </Link>
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
               {state.name}
             </h1>
             <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-[#161d26] border border-slate-200 dark:border-[#273342] text-cyan-600 dark:text-cyan-400 font-bold">
-              {state.seats} Lok Sabha Seats
+              {t.seats(state.seats)}
             </span>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Capital: {state.capital} • State representation in the 18th Lok Sabha
+            {t.capital} {state.capital} • {state.type === 'ut' ? t.representationUt : t.representationState}
           </p>
         </div>
       </div>
@@ -65,7 +68,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
         <div className="lg:col-span-5 bg-white dark:bg-[#161c24] border border-slate-200 dark:border-[#27323f] rounded-3xl p-6 shadow-sm">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white font-['Outfit'] mb-4 flex items-center gap-2">
             <Building className="w-4 h-4 text-cyan-500" />
-            <span>Constituencies in {state.name}</span>
+            <span>{t.constituenciesIn(state.name)}</span>
           </h2>
 
           {isDelhi ? (
@@ -95,7 +98,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
                         {c.isMinister && (
                           <span className="text-[10px] text-amber-500 font-semibold flex items-center gap-0.5">
                             <Award className="w-3 h-3" />
-                            Minister
+                            {t.minister}
                           </span>
                         )}
                       </div>
@@ -108,19 +111,20 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
           ) : (
             <div className="bg-slate-50 dark:bg-[#1a222d] border border-slate-200 dark:border-[#27323f] rounded-2xl p-5 text-xs text-slate-600 dark:text-slate-400 space-y-3 leading-relaxed">
               <p>
-                <strong>{state.name}</strong> is represented by{' '}
-                <strong>{state.seats} elected Members of Parliament</strong> in the lower house.
+                <strong>{state.name}</strong>
+                {t.representedBy}
+                <strong>{t.electedMembers(state.seats)}</strong>
+                {t.inLowerHouse}
               </p>
               <p>
-                Report cards for {state.name} are not available yet. States are being added one at a time; this page
-                will list each MP&apos;s report card once its data has been collected and checked.
+                {t.notAvailableYet(state.name)}
               </p>
               <div className="pt-2">
                 <Link
                   href="/explore"
                   className="text-cyan-600 dark:text-cyan-400 hover:underline font-semibold flex items-center gap-1"
                 >
-                  <span>Explore on national map</span>
+                  <span>{t.exploreNational}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
