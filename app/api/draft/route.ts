@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const parsed = parseDraftRequest(await readJsonBody(request));
   if (!parsed) return apiError('INVALID_REQUEST', DRAFT_REQUEST_SHAPE, 400);
 
-  const mp = getMPBySlug(parsed.slug);
+  const mp = await getMPBySlug(parsed.slug);
   if (!mp) return apiError('INVALID_SLUG', 'No MP found for this constituency.', 404);
 
   const draft = generateCitizenDraft(mp, {

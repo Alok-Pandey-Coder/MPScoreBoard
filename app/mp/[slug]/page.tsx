@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { getAllMPs, getMPBySlug, resolveCanonicalSlug } from '@/lib/data';
 import { MPReportCardClient } from '@/components/mp/MPReportCardClient';
 
-export function generateStaticParams() {
-  return getAllMPs().map((mp) => ({ slug: mp.slug }));
+export async function generateStaticParams() {
+  return (await getAllMPs()).map((mp) => ({ slug: mp.slug }));
 }
 
 export async function generateMetadata({
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const mp = getMPBySlug(slug);
+  const mp = await getMPBySlug(slug);
   if (!mp) {
     return { title: 'MP Not Found — Mera MP, Mera Report Card' };
   }
@@ -34,10 +34,10 @@ export default async function MPPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const mp = getMPBySlug(slug);
+  const mp = await getMPBySlug(slug);
   if (!mp) {
     // PRD §5.7: old or short slugs redirect permanently to the canonical card.
-    const canonical = resolveCanonicalSlug(slug);
+    const canonical = await resolveCanonicalSlug(slug);
     if (canonical) permanentRedirect(`/mp/${canonical}`);
     notFound();
   }

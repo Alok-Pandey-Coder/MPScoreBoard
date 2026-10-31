@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   const body = await readJsonBody(req);
   const parsed = body && toRequest(body);
   if (!parsed) return apiError('INVALID_REQUEST', 'Expected { lat, lng } or { pincode } or { query }.', 400);
-  return respond(resolveLocation(parsed));
+  return respond(await resolveLocation(parsed));
 }
 
 export async function GET(req: NextRequest) {
@@ -41,5 +41,5 @@ export async function GET(req: NextRequest) {
     query: params.get('q') ?? params.get('query') ?? undefined,
   });
   if (!parsed) return apiError('INVALID_REQUEST', 'lat and lng must be numbers.', 400);
-  return respond(resolveLocation(parsed));
+  return respond(await resolveLocation(parsed));
 }

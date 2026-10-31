@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     return apiError('INVALID_REQUEST', `Expected { slug: string, lang: ${AI_LANGS_TEXT} }.`, 400);
   }
 
-  const mp = getMPBySlug(parsed.slug);
+  const mp = await getMPBySlug(parsed.slug);
   if (!mp) return apiError('INVALID_SLUG', 'No MP found for this constituency.', 404);
 
   const lang = parsed.lang;
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     text: text ?? generateTemplateSummary(mp, lang),
     source: text ? 'llm' : 'template',
     lang,
-    dataAsOf: getSnapshotDate(),
+    dataAsOf: await getSnapshotDate(),
     generatedAt: new Date().toISOString(),
   });
 }

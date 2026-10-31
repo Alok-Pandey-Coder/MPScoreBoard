@@ -2,3 +2,4 @@
 # The Delhi refresh itself uses only the standard library.
 pytest==8.2.0
 beautifulsoup4==4.12.3  # used by scripts/02_crawl_prs_manifest_india.py only
+psycopg[binary]==3.2.3  # scripts/load_db.py (YugabyteDB / PostgreSQL)

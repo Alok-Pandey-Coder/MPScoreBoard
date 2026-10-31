@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: 'Side-by-side neutral comparison of parliamentary attendance, debates, questions, and private member bills.',
 };
 
-export default function ComparePage() {
-  const mps = getAllMPs();
+export default async function ComparePage() {
+  const mps = await getAllMPs();
 
   return (
     <Suspense fallback={<CompareLoading />}>

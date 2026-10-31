@@ -1,5 +1,40 @@
 # Project Change Log
 
+## 2026-11-01 — YugabyteDB data store (branch feat/yugabytedb)
+
+- **Summary:**
+  - Approved snapshots are stored in **YugabyteDB** (YSQL, PostgreSQL-compatible). The Python pipeline stays the source of truth for fetching, parsing and validation.
+  - `scripts/load_db.py` loads `mps.json` + `snapshot.json`:
+    - It is idempotent: a sha256 already loaded is skipped.
+    - Each snapshot loads in one transaction.
+    - It refuses a snapshot whose hash does not match `mps.json`, and never deletes anything.
+  - Every load is a new snapshot, so per-seat values keep their history.
+  - Tables: `snapshots`, `constituencies`, `member_records`, `performance`, `mplads_summaries`, `mplads_works`, `affidavits`, `elections`, `member_sources`. Block tables carry typed columns plus the approved block; works and the source list are fully normalised. `is_minister` is nullable (unknown is never coerced to false).
+  - `lib/data.ts` is now async:
+    - It reads the most recently *loaded* snapshot from YugabyteDB when `DATABASE_URL` is set, otherwise the JSON snapshot.
+    - If the database is unreachable it serves the JSON snapshot, so the offline demo is unaffected.
+    - `/api/health` reports `dataSource` and the snapshot hash.
+  - New `.github/workflows/db-load.yml` loads each approved snapshot after it is merged to `main` (needs the `DATABASE_URL` secret). New `docker-compose.yml` pins `yugabytedb/yugabyte:2025.2.7.0-b107` for local use.
+  - Added dependencies: `pg@8.13.1`, `@types/pg@8.11.10`, `psycopg[binary]==3.2.3`.
+- **Files or areas changed:**
+  - New: `db/schema.sql`, `scripts/load_db.py`, `lib/db.ts`, `__tests__/db-parity.test.ts`, `__tests__/stubs/server-only.ts`, `.github/workflows/db-load.yml`, `docker-compose.yml`.
+  - Data layer: `lib/data.ts`.
+  - Pages and routes now awaiting the async data layer: home, compare, explore, `mp/[slug]`, `state/[state]`, not-found, and the APIs (summary, draft, locate, search-index, health).
+  - Tests and config: `__tests__/data-layer.test.ts`, `jest.config.ts`.
+  - Dependencies and env: `package.json`/lockfile, `requirements.txt`, `.env.example`.
+  - Docs: `data.md` §7.
+- **Validation performed, on a local YugabyteDB 2025.2.7 (PostgreSQL 15.12-YB):**
+  - The schema applies cleanly.
+  - The load works, and a second load is a no-op.
+  - **Parity test passes:** all 7 records read back from the normalised tables equal `mps.json` field for field, and the hash matches.
+  - The production build with the database generates 56/56 pages. `/api/health` reports `dataSource: yugabytedb`, and the HTTP smoke test passes 50/51.
+  - With the database unreachable, the build still succeeds and the site serves the JSON snapshot. `/api/health` reports `json-snapshot (database unreachable)`, and the smoke test passes 50/51.
+  - Without a database: `tsc` passes; jest 312 passed, with the parity test skipped; pytest 36 passed; eslint reports 0 errors.
+- **Remaining caveat or next step:**
+  - The one smoke failure is a **pre-existing bug on `main`**, reproduced on main's commit `21c59a5`: an unknown `/mp/<slug>` returns 404 but the 404 content is not in the server-rendered HTML (it renders only on the client).
+  - A real YugabyteDB Aeon cluster and the `DATABASE_URL` secret are still needed for the deployed site.
+  - Found while testing: an unapproved snapshot loaded earlier had been served because "latest" was ordered by `generated_at`. "Current" now means the most recently loaded snapshot (`loaded_at`), since loads happen only after approval.
+
 ## 2026-11-01 — Streamline Homepage UI: Remove Hero Controls Pill & MP Cards Grid
 
 - **Summary:**

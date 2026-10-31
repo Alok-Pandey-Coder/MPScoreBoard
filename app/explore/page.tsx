@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'Map of Indian states and Lok Sabha constituencies. MP report cards are being added state by state.',
 };
 
-export default function ExplorePage() {
-  const mps = getAllMPs();
+export default async function ExplorePage() {
+  const mps = await getAllMPs();
   return <ExploreAtlasClient mps={mps} />;
 }
 

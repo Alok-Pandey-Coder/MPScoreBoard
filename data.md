@@ -361,3 +361,43 @@ python scripts/build_data.py
 6. **Snapshot truthfulness:** `snapshot.json` `source_status` is derived by `08_snapshot.py` from the block and
    review statuses in `mps.json`; `sha256` is the hash of the exported `mps.json` bytes.
 
+
+---
+
+## 7. Database: YugabyteDB (YSQL)
+
+The approved snapshot is also stored in **YugabyteDB** (PostgreSQL-compatible YSQL). The
+Python pipeline remains the source of truth for fetching, parsing and validation; the
+database stores approved snapshots and their history.
+
+| Piece | Role |
+|---|---|
+| `db/schema.sql` | Tables (re-runnable): `snapshots`, `constituencies`, `member_records`, `performance`, `mplads_summaries`, `mplads_works`, `affidavits`, `elections`, `member_sources` |
+| `scripts/load_db.py` | Loads `data/processed/mps.json` + `snapshot.json`. Idempotent (skips a sha256 already loaded); one transaction per snapshot; refuses a snapshot whose sha256 does not match `mps.json`; never deletes |
+| `lib/db.ts` | Read-only. Reads the latest snapshot and rebuilds the exact `MPRecord` shape |
+| `lib/data.ts` | Uses the database when `DATABASE_URL` is set, otherwise the JSON snapshot. If the database is unreachable it serves the JSON snapshot; `/api/health` reports `dataSource` |
+| `.github/workflows/db-load.yml` | After a reviewed refresh is merged to `main`, validates and loads the snapshot (needs the `DATABASE_URL` secret) |
+| `docker-compose.yml` | Local YugabyteDB `2025.2.7.0-b107` on port 5433 (web UI on 15433) |
+
+**Model.** Every load is a new row in `snapshots`. Per-seat rows are keyed by
+`(snapshot_id, constituency_slug)`, so values keep their history across refreshes, for
+example attendance per snapshot in `performance`. Block tables store typed columns
+(status, key figures, `as_of`, `review_status`) for queries and history, plus `data`, the
+block exactly as approved. MPLADS works and the card source list are fully normalised into
+`mplads_works` and `member_sources`. `is_minister` is nullable: unknown stays unknown and is
+never coerced to `false`.
+
+**Parity.** `__tests__/db-parity.test.ts` checks that records read back from the database
+equal `mps.json` field for field. It runs whenever `DATABASE_URL` is set.
+
+**Optional by design.** Without `DATABASE_URL` (the default), or when the database is unreachable,
+the site serves the JSON snapshot `data/processed/mps.json` exactly as before. No Docker or
+database is needed to develop, build or demo.
+
+**Run locally with YugabyteDB:**
+```powershell
+docker compose up -d yugabyte
+$env:DATABASE_URL = "postgresql://yugabyte:yugabyte@localhost:5433/yugabyte"
+python scripts\load_db.py --schema
+npx jest __tests__/db-parity.test.ts
+```
