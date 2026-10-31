@@ -1,5 +1,22 @@
 # Project Change Log
 
+## 2026-11-01 — Fix Map & Sticky Navbar Stacking Context Overlap (fix/map-navbar-overlap)
+
+- **Summary**: Fixed visual overlap where the Leaflet ward map container, zoom controls, and meta pills bled on top of the sticky navigation bar during page scrolling:
+  1. **Stacking Context Isolation**: Added CSS `relative isolate` to `NagrikStyleMap` and `IndiaAtlasMap`. This traps Leaflet's high default internal z-indices (panes `z-index: 400`, zoom controls `z-index: 1000`, and meta pills `z-[500]`) entirely within the map's local stacking context.
+  2. **Global Leaflet Container Base**: Set `.leaflet-container { z-index: 1 !important; }` in `app/globals.css` ensuring map tiles and controls never escape parent boundaries.
+  3. **Header Elevation & Modal Hierarchy**: Promoted sticky `<header>` from `z-40` to `z-50` so the navbar always slides smoothly over page content without any clipping. Synchronized modals (`MinisterModal`) to `z-[100]` and notifications (`Toast`) to `z-[110]` for a clear, predictable z-index hierarchy.
+- **Files/Areas Changed**:
+  - `components/layout/Header.tsx`: Promoted header to `z-50`.
+  - `components/map/NagrikStyleMap.tsx`: Added `relative isolate` to outer container.
+  - `components/map/IndiaAtlasMap.tsx`: Added `isolate` to SVG map container.
+  - `app/globals.css`: Enforced `.leaflet-container { z-index: 1 !important; }`.
+  - `components/mp/MPHeader.tsx`, `components/common/Toast.tsx`: Aligned overlay z-indexes.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: All 304 unit tests passed 100%.
+  - `npm run build`: Successfully built 57/57 static and dynamic routes.
+
 ## 2026-11-01 — Fix Atlas Map ViewBox Scaling & Delhi Constituency SVG Coordinates
 
 - **Summary**: Resolved issues with the All-India Atlas map (`IndiaAtlasMap`) where selecting Delhi or loading `/explore` initially produced an extreme 45x over-zoom and rendered oversized, distorted polygon boundaries across neighboring states:
