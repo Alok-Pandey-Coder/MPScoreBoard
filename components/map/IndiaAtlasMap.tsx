@@ -9,6 +9,7 @@ import { StateInfoPanel } from './StateInfoPanel';
 import { ConstituencyInfoPanel } from './ConstituencyInfoPanel';
 import { Compass, Sparkles } from 'lucide-react';
 import { useMessages } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 import { mapMessages } from '@/lib/messages/map';
 
 // ============================================================================
@@ -27,7 +28,7 @@ export interface RegionConfig {
   badgeBg: string;
 }
 
-export const REGIONS: Record<string, RegionConfig> = {
+export const REGIONS_DARK: Record<string, RegionConfig> = {
   delhi: {
     id: 'delhi',
     name: 'Delhi',
@@ -114,6 +115,96 @@ export const REGIONS: Record<string, RegionConfig> = {
   },
 };
 
+export const REGIONS_LIGHT: Record<string, RegionConfig> = {
+  delhi: {
+    id: 'delhi',
+    name: 'Delhi',
+    shortName: 'Delhi',
+    totalSeats: 7,
+    color: '#0891b2', // Deep Cyan
+    fill: 'rgba(6, 182, 212, 0.24)',
+    hoverFill: 'rgba(6, 182, 212, 0.45)',
+    stroke: '#0891b2',
+    glow: 'rgba(6, 182, 212, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  north: {
+    id: 'north',
+    name: 'Northern Region',
+    shortName: 'North',
+    totalSeats: 39,
+    color: '#0284c7', // Sky Blue
+    fill: 'rgba(56, 189, 248, 0.20)',
+    hoverFill: 'rgba(56, 189, 248, 0.42)',
+    stroke: '#0284c7',
+    glow: 'rgba(56, 189, 248, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  central: {
+    id: 'central',
+    name: 'Central Region',
+    shortName: 'Central',
+    totalSeats: 120,
+    color: '#d97706', // Amber 600
+    fill: 'rgba(245, 158, 11, 0.20)',
+    hoverFill: 'rgba(245, 158, 11, 0.42)',
+    stroke: '#d97706',
+    glow: 'rgba(245, 158, 11, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  west: {
+    id: 'west',
+    name: 'Western Region',
+    shortName: 'West',
+    totalSeats: 103,
+    color: '#059669', // Emerald 600
+    fill: 'rgba(16, 185, 129, 0.20)',
+    hoverFill: 'rgba(16, 185, 129, 0.42)',
+    stroke: '#059669',
+    glow: 'rgba(16, 185, 129, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  east: {
+    id: 'east',
+    name: 'Eastern Region',
+    shortName: 'East',
+    totalSeats: 117,
+    color: '#9333ea', // Purple 600
+    fill: 'rgba(168, 85, 247, 0.20)',
+    hoverFill: 'rgba(168, 85, 247, 0.42)',
+    stroke: '#9333ea',
+    glow: 'rgba(168, 85, 247, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  south: {
+    id: 'south',
+    name: 'Southern Region',
+    shortName: 'South',
+    totalSeats: 132,
+    color: '#e11d48', // Rose 600
+    fill: 'rgba(244, 63, 94, 0.20)',
+    hoverFill: 'rgba(244, 63, 94, 0.42)',
+    stroke: '#e11d48',
+    glow: 'rgba(244, 63, 94, 0.4)',
+    badgeBg: '#ffffff',
+  },
+  northeast: {
+    id: 'northeast',
+    name: 'North-Eastern Region',
+    shortName: 'North-East',
+    totalSeats: 25,
+    color: '#0d9488', // Teal 600
+    fill: 'rgba(20, 184, 166, 0.20)',
+    hoverFill: 'rgba(20, 184, 166, 0.42)',
+    stroke: '#0d9488',
+    glow: 'rgba(20, 184, 166, 0.4)',
+    badgeBg: '#ffffff',
+  },
+};
+
+// Preserve backwards-compatible export
+export const REGIONS = REGIONS_DARK;
+
 // ============================================================================
 // Layout Coordinates for Number Pointers & Badges (Matching Real Centroids)
 // ============================================================================
@@ -177,9 +268,12 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   onSelectMP,
   className = '',
 }) => {
+  const { isDark } = useTheme();
+  const activeRegions = isDark ? REGIONS_DARK : REGIONS_LIGHT;
+
   const t = useMessages(mapMessages);
-  const regionShortName = (id: string) => t.regionShortName[id as keyof typeof t.regionShortName] ?? REGIONS[id]?.shortName;
-  const regionName = (id: string) => t.regionName[id as keyof typeof t.regionName] ?? REGIONS[id]?.name;
+  const regionShortName = (id: string) => t.regionShortName[id as keyof typeof t.regionShortName] ?? activeRegions[id]?.shortName;
+  const regionName = (id: string) => t.regionName[id as keyof typeof t.regionName] ?? activeRegions[id]?.name;
   // A Delhi constituency implies the Delhi state view.
   const impliedStateId = (stateId?: string, slug?: string) =>
     stateId || (slug && DELHI_CONSTITUENCIES.some((c) => c.slug === slug) ? 'delhi' : undefined);
@@ -283,22 +377,22 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
 
   return (
     <div
-      className={`relative isolate w-full rounded-3xl bg-[#070b10] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
+      className={`relative isolate w-full rounded-3xl bg-stone-50 dark:bg-[#070b10] border border-stone-200 dark:border-[#232c37] overflow-hidden shadow-2xl flex flex-col transition-colors duration-200 ${className}`}
       style={{ minHeight: '660px' }}
       onMouseMove={handleMouseMove}
     >
       {/* Top Map Context & Info Bar */}
-      <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 bg-[#10151d]/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-[#27323f] text-xs shadow-xl">
-        <Compass className="w-4 h-4 text-cyan-400 animate-pulse" />
-        <span className="font-bold text-white font-['Outfit']">
+      <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 bg-white/95 dark:bg-[#10151d]/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-stone-200 dark:border-[#27323f] text-xs shadow-md dark:shadow-xl">
+        <Compass className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-pulse" />
+        <span className="font-bold text-stone-900 dark:text-white font-['Outfit']">
           {selectedStateObj ? selectedStateObj.name : t.nationalTitle}
         </span>
-        <span className="text-[11px] font-semibold text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800">
+        <span className="text-[11px] font-semibold text-cyan-800 dark:text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-100/80 dark:bg-cyan-950/80 border border-cyan-300 dark:border-cyan-800">
           {selectedStateObj ? t.stateSeats(selectedStateObj.seats) : t.nationalSeats}
         </span>
         {!selectedStateObj && (
-          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-amber-300 font-medium px-2 py-0.5 rounded-full bg-amber-950/60 border border-amber-800/80">
-            <Sparkles className="w-3 h-3 text-amber-400" />
+          <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-amber-800 dark:text-amber-300 font-medium px-2 py-0.5 rounded-full bg-amber-100/80 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800/80">
+            <Sparkles className="w-3 h-3 text-amber-600 dark:text-amber-400" />
             <span>{t.atlasBadge}</span>
           </span>
         )}
@@ -359,12 +453,17 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
         >
           {/* Subtle grid pattern background & filters */}
           <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <pattern id="grid-dark" width="40" height="40" patternUnits="userSpaceOnUse">
               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#121820" strokeWidth="0.8" />
+            </pattern>
+            <pattern id="grid-light" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" strokeWidth="0.8" />
             </pattern>
           </defs>
 
-          <rect width="1000" height="1000" fill="url(#grid)" />
+          {/* Opaque SVG canvas background for crisp rendering */}
+          <rect width="1000" height="1000" fill={isDark ? '#070b10' : '#f8fafc'} />
+          <rect width="1000" height="1000" fill={isDark ? 'url(#grid-dark)' : 'url(#grid-light)'} />
 
           {/* ============================================================= */}
           {/* Layer 1: Authentic Real India State Geographic Boundaries     */}
@@ -374,7 +473,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
               const isSelected = selectedStateId === state.id;
               const isHovered = hoveredState?.id === state.id;
               const isDelhi = state.id === 'delhi';
-              const region = REGIONS[state.region] || REGIONS.north;
+              const region = activeRegions[state.region] || activeRegions.north;
 
               const isDimmed = activeRegionFilter && activeRegionFilter !== state.region && !isSelected && !isHovered;
 
@@ -390,13 +489,13 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
               }
 
               if (isSelected) {
-                fill = '#3b2f15';
-                stroke = '#F5AA27';
+                fill = isDark ? '#3b2f15' : '#fef3c7';
+                stroke = isDark ? '#F5AA27' : '#d97706';
                 strokeWidth = '2.4';
                 opacity = 1;
               } else if (isHovered) {
                 fill = region.hoverFill;
-                stroke = '#FFFFFF';
+                stroke = isDark ? '#FFFFFF' : '#0f172a';
                 strokeWidth = '2';
                 opacity = 1;
               }
@@ -433,9 +532,21 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                   <path
                     key={constituency.slug}
                     d={constituency.path}
-                    fill={isSelected ? '#F5AA27' : isHovered ? '#38BDF8' : '#083344'}
-                    fillOpacity={isSelected ? 0.85 : isHovered ? 0.75 : 0.6}
-                    stroke={isSelected ? '#F5AA27' : isHovered ? '#38BDF8' : '#22D3EE'}
+                    fill={
+                      isSelected
+                        ? (isDark ? '#F5AA27' : '#d97706')
+                        : isHovered
+                        ? (isDark ? '#38BDF8' : '#0284c7')
+                        : (isDark ? '#083344' : '#e0f2fe')
+                    }
+                    fillOpacity={isSelected ? 0.85 : isHovered ? 0.75 : (isDark ? 0.6 : 0.8)}
+                    stroke={
+                      isSelected
+                        ? (isDark ? '#F5AA27' : '#b45309')
+                        : isHovered
+                        ? (isDark ? '#38BDF8' : '#0369a1')
+                        : (isDark ? '#22D3EE' : '#0284c7')
+                    }
                     strokeWidth={isSelected ? '0.3' : '0.15'}
                     strokeDasharray={isSelected ? 'none' : '0.4,0.2'}
                     className="transition-all duration-200 cursor-pointer"
@@ -464,7 +575,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
               const isSelected = selectedStateId === state.id;
               const isHovered = hoveredState?.id === state.id;
               const isDelhi = state.id === 'delhi';
-              const region = REGIONS[state.region] || REGIONS.north;
+              const region = activeRegions[state.region] || activeRegions.north;
               const isDimmed = activeRegionFilter && activeRegionFilter !== state.region && !isSelected && !isHovered;
 
               const opacity = isDimmed ? 0.35 : 1;
@@ -483,13 +594,13 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                     onMouseLeave={() => setHoveredState(null)}
                   >
                     {/* Pulsing ring beacon on Delhi centroid */}
-                    <circle cx={pointer.anchor[0]} cy={pointer.anchor[1]} r="4.5" fill="#06B6D4" />
+                    <circle cx={pointer.anchor[0]} cy={pointer.anchor[1]} r="4.5" fill={isDark ? '#06B6D4' : '#0891b2'} />
                     <circle
                       cx={pointer.anchor[0]}
                       cy={pointer.anchor[1]}
                       r="10"
                       fill="none"
-                      stroke="#22D3EE"
+                      stroke={isDark ? '#22D3EE' : '#06b6d4'}
                       strokeWidth="1.8"
                       opacity="0.8"
                     />
@@ -502,7 +613,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                           y1={pointer.anchor[1]}
                           x2={pointer.badge[0] - 32}
                           y2={pointer.badge[1]}
-                          stroke="#22D3EE"
+                          stroke={isDark ? '#22D3EE' : '#0891b2'}
                           strokeWidth="2"
                         />
                         {/* Callout Pill Badge for Delhi */}
@@ -513,15 +624,23 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                             width="64"
                             height="26"
                             rx="8"
-                            fill={isHovered || isSelected ? '#06B6D4' : '#083344'}
-                            stroke="#22D3EE"
+                            fill={
+                              isHovered || isSelected
+                                ? (isDark ? '#06B6D4' : '#0891b2')
+                                : (isDark ? '#083344' : '#ffffff')
+                            }
+                            stroke={isDark ? '#22D3EE' : '#0891b2'}
                             strokeWidth={isHovered ? '2.5' : '1.8'}
-                            filter="drop-shadow(0 4px 10px rgba(6,182,212,0.5))"
+                            filter={isDark ? 'drop-shadow(0 4px 10px rgba(6,182,212,0.5))' : 'drop-shadow(0 2px 6px rgba(0,0,0,0.12))'}
                           />
                           <text
                             textAnchor="middle"
                             y="-2"
-                            fill="#E0F2FE"
+                            fill={
+                              isHovered || isSelected
+                                ? '#FFFFFF'
+                                : (isDark ? '#E0F2FE' : '#0e7490')
+                            }
                             fontSize="7.5"
                             fontWeight="800"
                             fontFamily="Outfit, sans-serif"
@@ -532,7 +651,11 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                           <text
                             textAnchor="middle"
                             y="8"
-                            fill={isHovered || isSelected ? '#FFFFFF' : '#38BDF8'}
+                            fill={
+                              isHovered || isSelected
+                                ? '#FFFFFF'
+                                : (isDark ? '#38BDF8' : '#0284c7')
+                            }
                             fontSize="8"
                             fontWeight="800"
                             fontFamily="Outfit, sans-serif"
@@ -564,8 +687,8 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                       cx={pointer.anchor[0]}
                       cy={pointer.anchor[1]}
                       r={isHovered ? 4 : 3}
-                      fill={isHovered ? '#FFFFFF' : region.color}
-                      stroke="#070b10"
+                      fill={isHovered ? (isDark ? '#FFFFFF' : '#0f172a') : region.color}
+                      stroke={isDark ? '#070b10' : '#ffffff'}
                       strokeWidth="1.2"
                     />
 
@@ -575,7 +698,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                       y1={pointer.anchor[1]}
                       x2={pointer.badge[0]}
                       y2={pointer.badge[1]}
-                      stroke={isHovered ? '#FFFFFF' : region.stroke}
+                      stroke={isHovered ? (isDark ? '#FFFFFF' : '#0f172a') : region.stroke}
                       strokeWidth={isHovered ? 1.8 : 1.2}
                       strokeDasharray="3,2"
                       opacity={isHovered ? 1 : 0.75}
@@ -590,15 +713,15 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                         height="22"
                         rx="7"
                         fill={isHovered || isSelected ? region.color : region.badgeBg}
-                        fillOpacity={isHovered || isSelected ? 1 : 0.92}
-                        stroke={isHovered || isSelected ? '#FFFFFF' : region.stroke}
+                        fillOpacity={isHovered || isSelected ? 1 : (isDark ? 0.92 : 0.98)}
+                        stroke={isHovered || isSelected ? (isDark ? '#FFFFFF' : '#0f172a') : region.stroke}
                         strokeWidth={isHovered || isSelected ? 2 : 1.2}
-                        filter="drop-shadow(0 3px 6px rgba(0,0,0,0.7))"
+                        filter={isDark ? 'drop-shadow(0 3px 6px rgba(0,0,0,0.7))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))'}
                       />
                       <text
                         textAnchor="middle"
                         y="-1.5"
-                        fill={isHovered || isSelected ? '#FFFFFF' : '#94A3B8'}
+                        fill={isHovered || isSelected ? '#FFFFFF' : (isDark ? '#94A3B8' : '#64748b')}
                         fontSize="6.5"
                         fontWeight="700"
                         fontFamily="Outfit, sans-serif"
@@ -633,7 +756,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                   onMouseEnter={() => setHoveredState(state)}
                   onMouseLeave={() => setHoveredState(null)}
                 >
-                  {/* Glassmorphic Number Pill Badge */}
+                  {/* Number Pill Badge */}
                   <rect
                     x="-23"
                     y="-13"
@@ -641,16 +764,16 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                     height="26"
                     rx="8"
                     fill={isHovered || isSelected ? region.color : region.badgeBg}
-                    fillOpacity={isHovered || isSelected ? 1 : 0.88}
-                    stroke={isHovered || isSelected ? '#FFFFFF' : region.stroke}
+                    fillOpacity={isHovered || isSelected ? 1 : (isDark ? 0.88 : 0.98)}
+                    stroke={isHovered || isSelected ? (isDark ? '#FFFFFF' : '#0f172a') : region.stroke}
                     strokeWidth={isHovered || isSelected ? 2 : 1.2}
-                    filter="drop-shadow(0 4px 8px rgba(0,0,0,0.7))"
+                    filter={isDark ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.7))' : 'drop-shadow(0 2px 5px rgba(0,0,0,0.12))'}
                   />
                   {/* State Code Abbreviation */}
                   <text
                     textAnchor="middle"
                     y="-2"
-                    fill={isHovered || isSelected ? '#FFFFFF' : '#94A3B8'}
+                    fill={isHovered || isSelected ? '#FFFFFF' : (isDark ? '#94A3B8' : '#64748b')}
                     fontSize="7"
                     fontWeight="700"
                     fontFamily="Outfit, sans-serif"
@@ -679,9 +802,9 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       {/* ================================================================= */}
       {/* Bottom Region Filter / Legend Bar */}
       {/* ================================================================= */}
-      <div className="px-4 py-3 bg-[#0a0f16] border-t border-[#232c37] flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="px-4 py-3 bg-stone-100/90 dark:bg-[#0a0f16] border-t border-stone-200 dark:border-[#232c37] flex flex-wrap items-center justify-between gap-2 text-xs">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
+          <span className="text-[11px] font-bold text-stone-600 dark:text-slate-400 uppercase tracking-wider mr-1">
             {t.regionsLabel}
           </span>
 
@@ -693,15 +816,15 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
             }}
             className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border ${
               activeRegionFilter === null
-                ? 'bg-slate-800 text-white border-slate-600 shadow-sm'
-                : 'bg-[#151c24] text-slate-400 border-[#25303d] hover:text-white'
+                ? 'bg-stone-900 text-white border-stone-900 dark:bg-slate-800 dark:border-slate-600 shadow-sm'
+                : 'bg-white text-stone-700 border-stone-300 dark:bg-[#151c24] dark:text-slate-400 dark:border-[#25303d] hover:text-stone-950 dark:hover:text-white'
             }`}
           >
             {t.allIndia}
           </button>
 
           {/* Regional Filter Pills */}
-          {Object.values(REGIONS).map((reg) => {
+          {Object.values(activeRegions).map((reg) => {
             const isActive = activeRegionFilter === reg.id;
             return (
               <button
@@ -715,11 +838,11 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border ${
                   isActive
                     ? 'text-white border-white shadow-md'
-                    : 'bg-[#131922] text-slate-300 border-[#263240] hover:border-slate-500'
+                    : 'bg-white text-stone-700 border-stone-300 dark:bg-[#131922] dark:text-slate-300 dark:border-[#263240] hover:border-stone-400 dark:hover:border-slate-500'
                 }`}
                 style={{
                   backgroundColor: isActive ? reg.color : undefined,
-                  borderColor: isActive ? '#FFFFFF' : undefined,
+                  borderColor: isActive ? (isDark ? '#FFFFFF' : reg.color) : undefined,
                 }}
               >
                 <span
@@ -733,7 +856,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
           })}
         </div>
 
-        <div className="text-[11px] text-slate-400 hidden lg:block">
+        <div className="text-[11px] text-stone-500 dark:text-slate-400 hidden lg:block">
           {t.atlasClickHint}
         </div>
       </div>
@@ -743,48 +866,48 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       {/* ================================================================= */}
       {hoveredState && tooltipPos && !isDelhiZoomed && (
         <div
-          className="absolute z-30 pointer-events-none bg-[#10151d]/95 backdrop-blur-md text-white p-3.5 rounded-2xl border shadow-2xl text-xs -translate-x-1/2 -translate-y-full mb-3"
+          className="absolute z-30 pointer-events-none bg-white/95 dark:bg-[#10151d]/95 backdrop-blur-md text-stone-900 dark:text-white p-3.5 rounded-2xl border shadow-xl dark:shadow-2xl text-xs -translate-x-1/2 -translate-y-full mb-3 font-sans"
           style={{
             left: `${tooltipPos.x}px`,
             top: `${tooltipPos.y}px`,
-            borderColor: REGIONS[hoveredState.region].color,
+            borderColor: activeRegions[hoveredState.region].color,
           }}
         >
-          <div className="flex items-center justify-between gap-3 border-b border-slate-700 pb-1.5 mb-2">
+          <div className="flex items-center justify-between gap-3 border-b border-stone-200 dark:border-slate-700 pb-1.5 mb-2">
             <div>
-              <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-stone-100 dark:bg-slate-800 text-stone-700 dark:text-slate-300 border border-stone-200 dark:border-slate-700">
                 {hoveredState.code}
               </span>
-              <span className="font-bold text-white font-['Outfit'] text-sm ml-1.5">
+              <span className="font-bold text-stone-900 dark:text-white font-['Outfit'] text-sm ml-1.5">
                 {hoveredState.name}
               </span>
             </div>
             <span
               className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
               style={{
-                backgroundColor: REGIONS[hoveredState.region].color,
+                backgroundColor: activeRegions[hoveredState.region].color,
               }}
             >
               {regionShortName(hoveredState.region)}
             </span>
           </div>
 
-          <div className="text-[11px] text-slate-300 space-y-1">
+          <div className="text-[11px] text-stone-600 dark:text-slate-300 space-y-1">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">{t.tooltipSeats}</span>
-              <strong className="text-white text-xs">{hoveredState.seats}</strong>
+              <span className="text-stone-500 dark:text-slate-400">{t.tooltipSeats}</span>
+              <strong className="text-stone-900 dark:text-white text-xs">{hoveredState.seats}</strong>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">{t.tooltipRegion}</span>
-              <span className="text-slate-200">{regionName(hoveredState.region)}</span>
+              <span className="text-stone-500 dark:text-slate-400">{t.tooltipRegion}</span>
+              <span className="text-stone-800 dark:text-slate-200">{regionName(hoveredState.region)}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-slate-400">{t.tooltipRecords}</span>
-              <strong className="text-cyan-400">{hoveredState.id === 'delhi' ? '7 / 7 (100%)' : `0 / ${hoveredState.seats}`}</strong>
+              <span className="text-stone-500 dark:text-slate-400">{t.tooltipRecords}</span>
+              <strong className="text-cyan-600 dark:text-cyan-400">{hoveredState.id === 'delhi' ? '7 / 7 (100%)' : `0 / ${hoveredState.seats}`}</strong>
             </div>
           </div>
 
-          <span className="text-[10px] text-cyan-400 font-semibold block mt-2 pt-1 border-t border-slate-800/80">
+          <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-semibold block mt-2 pt-1 border-t border-stone-200 dark:border-slate-800/80">
             {hoveredState.id === 'delhi' ? t.tooltipZoomDelhi : t.tooltipInspectState}
           </span>
         </div>
@@ -795,20 +918,20 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       {/* ================================================================= */}
       {hoveredConstituency && tooltipPos && isDelhiZoomed && (
         <div
-          className="absolute z-30 pointer-events-none bg-[#10151d]/95 backdrop-blur-md text-white p-3 rounded-2xl border border-cyan-400 shadow-2xl text-xs -translate-x-1/2 -translate-y-full mb-3"
+          className="absolute z-30 pointer-events-none bg-white/95 dark:bg-[#10151d]/95 backdrop-blur-md text-stone-900 dark:text-white p-3 rounded-2xl border border-cyan-500 dark:border-cyan-400 shadow-xl dark:shadow-2xl text-xs -translate-x-1/2 -translate-y-full mb-3 font-sans"
           style={{ left: `${tooltipPos.x}px`, top: `${tooltipPos.y}px` }}
         >
-          <div className="font-bold text-white font-['Outfit'] text-sm">
+          <div className="font-bold text-stone-900 dark:text-white font-['Outfit'] text-sm">
             {hoveredConstituency.name}
           </div>
-          <div className="text-[11px] text-slate-300 mt-1 space-y-0.5">
-            <div>{t.tooltipSittingMP} <strong className="text-white">{hoveredConstituency.sittingMP}</strong> ({hoveredConstituency.party})</div>
+          <div className="text-[11px] text-stone-600 dark:text-slate-300 mt-1 space-y-0.5">
+            <div>{t.tooltipSittingMP} <strong className="text-stone-900 dark:text-white">{hoveredConstituency.sittingMP}</strong> ({hoveredConstituency.party})</div>
             {hoveredConstituency.attendancePct && (
-              <div>{t.tooltipAttendance} <strong className="text-emerald-400">{hoveredConstituency.attendancePct}%</strong></div>
+              <div>{t.tooltipAttendance} <strong className="text-emerald-600 dark:text-emerald-400">{hoveredConstituency.attendancePct}%</strong></div>
             )}
-            <div>{t.tooltipQuestions} <strong className="text-cyan-400">{hoveredConstituency.questions}</strong> | {t.tooltipDebates} <strong className="text-amber-400">{hoveredConstituency.debates}</strong></div>
+            <div>{t.tooltipQuestions} <strong className="text-cyan-600 dark:text-cyan-400">{hoveredConstituency.questions}</strong> | {t.tooltipDebates} <strong className="text-amber-600 dark:text-amber-400">{hoveredConstituency.debates}</strong></div>
           </div>
-          <span className="text-[9px] text-cyan-400 font-semibold block mt-1">
+          <span className="text-[9px] text-cyan-600 dark:text-cyan-400 font-semibold block mt-1">
             {t.tooltipViewReportCard}
           </span>
         </div>

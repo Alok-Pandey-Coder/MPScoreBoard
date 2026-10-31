@@ -1,5 +1,43 @@
 # Project Change Log
 
+## 2026-11-01 — Geospatial Map Light & Dark Adaptive Theming (Leaflet Delhi Ward Map & Vector India Atlas Map)
+
+- **Summary:**
+  - Resolved theme styling issues where maps displayed as solid pitch-black rectangles when switching to the light theme.
+  - **CSS Foundations (`app/globals.css`)**:
+    - Scoped dark background overrides (`.leaflet-container`) so light mode defaults to `#f8fafc`, while dark mode applies `#080808`.
+    - Added separate `.light-gis-tile-layer` with clean contrast alongside `.dark-gis-tile-layer`.
+    - Styled Leaflet scale control (`.leaflet-control-scale-line`) and tooltips (`.dark-map-tooltip`) to render with high-contrast light borders and backgrounds in light mode.
+  - **Delhi Ward Map (`components/map/NagrikStyleMap.tsx`)**:
+    - Connected `useTheme` hook with reactive dynamic tile layer swapping between ESRI World Dark Gray Base (`/Canvas/World_Dark_Gray_Base/...`) and ESRI World Light Gray Base (`/Canvas/World_Light_Gray_Base/...`) via `tileLayerRef.current.setUrl()`.
+    - Configured dual parliamentary block palettes: `PARLIAMENTARY_THEMES_LIGHT` (clean pastel/vibrant fills with sharp dark strokes) and `PARLIAMENTARY_THEMES_DARK` (deep jewel tones).
+    - Dynamically updated 290 municipal ward polygon styles and ward number label marker text shadows/colors on theme toggle without remounting Leaflet.
+    - Added responsive light/dark classes across container, editorial header, basemap pill, search input, constituency inspector, and MP representative dossier card.
+  - **All-India Vector Atlas (`components/map/IndiaAtlasMap.tsx`)**:
+    - Integrated `useTheme` hook with dual regional palettes (`REGIONS_LIGHT` and `REGIONS_DARK`).
+    - Added adaptive SVG background grid `<defs>` with light pattern (`#e2e8f0`) and dark pattern (`#121820`).
+    - Configured light-mode state fills, leader lines, and high-readability white number badges (`#ffffff` fill with colored borders and text).
+    - Upgraded Delhi beacon, live pilot badge, top bar, bottom region filter pills, and hover tooltips for full light/dark responsiveness.
+  - **Floating Inspection Panels (`StateInfoPanel.tsx` & `ConstituencyInfoPanel.tsx`)**:
+    - Replaced hardcoded dark background and border colors with responsive Tailwind light/dark variants (`bg-white/95 dark:bg-[#171D24]/95`, `border-stone-200 dark:border-[#303A45]`, `text-stone-900 dark:text-white`).
+  - **Automated Test Coverage (`__tests__/map-theme.test.ts`)**:
+    - Added 7 unit tests verifying 100% constituency and regional palette coverage, backward compatibility of palette exports, light-theme contrast, and live pilot configuration.
+- **Files or areas changed:**
+  - `app/globals.css`
+  - `components/map/NagrikStyleMap.tsx`
+  - `components/map/IndiaAtlasMap.tsx`
+  - `components/map/MapControls.tsx`
+  - `components/map/StateInfoPanel.tsx`
+  - `components/map/ConstituencyInfoPanel.tsx`
+  - `__tests__/map-theme.test.ts` (new)
+- **Validation performed:**
+  - `npm run typecheck`: 0 TypeScript errors.
+  - `npm test`: 5 test suites passed, 311/311 tests passed (7 new map theme tests).
+  - `npm run test:data`: 36/36 pytest data tests passed.
+  - Next.js webpack dev server running cleanly at `http://localhost:3000`.
+- **Remaining caveat or next step:**
+  - No remaining caveats. Maps adapt instantly and smoothly when toggling the theme switch in the navbar.
+
 ## 2026-11-01 — Daily hybrid data refresh with official-record checks and human review
 
 - **Summary:**
