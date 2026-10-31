@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { Share2, Award, MapPin, Calendar, Info, Copy, GraduationCap, Clock } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { formatDate } from '@/lib/formatters';
-import { MPAvatar } from '@/components/ui/MPAvatar';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 
 interface MPHeaderProps {
   mp: MPRecord;

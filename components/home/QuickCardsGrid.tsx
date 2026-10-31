@@ -4,10 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Award, ArrowUpRight, Scale } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { MPAvatar } from '@/components/ui/MPAvatar';
 import { NOT_AVAILABLE_TEXT, formatPct } from '@/lib/formatters';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { homeMessages } from '@/lib/messages/home';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 
 interface QuickCardsGridProps {
   mps: MPRecord[];

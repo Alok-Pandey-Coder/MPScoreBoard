@@ -69,7 +69,7 @@
       "recommended_amount_cr": 6.4665,
       "expenditure_cr": 2.6488,
       "unspent_cr": 12.0982,
-      "expenditure_pct": 18.0,
+      "expenditure_pct": 18,
       "recommended_pct": 43.8,
       "works_count": {
         "recommended": 69,
@@ -89,7 +89,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0548,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -103,7 +103,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0275,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -117,7 +117,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.161,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -131,7 +131,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2988,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -145,7 +145,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2603,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -159,7 +159,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2551,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -173,7 +173,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1044,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -187,7 +187,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2969,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -201,7 +201,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0418,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -215,7 +215,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2918,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -566,7 +566,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.5472,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1044,7 +1044,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0382,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1058,7 +1058,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1335,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1072,7 +1072,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0651,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1086,7 +1086,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0779,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1522,7 +1522,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.6351,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1536,7 +1536,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2282,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1550,7 +1550,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2218,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1562,9 +1562,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1576,9 +1576,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1590,9 +1590,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1604,9 +1604,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1620,7 +1620,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.54,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1634,7 +1634,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1365,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1662,7 +1662,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.039,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1676,7 +1676,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.121,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1690,7 +1690,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2324,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1999,7 +1999,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1512,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2013,7 +2013,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0551,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2027,7 +2027,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.05,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2041,7 +2041,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0208,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2055,7 +2055,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1803,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2069,7 +2069,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0824,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2083,7 +2083,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0824,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2097,7 +2097,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2111,7 +2111,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0461,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2125,7 +2125,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2139,7 +2139,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2153,7 +2153,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0197,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2477,7 +2477,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2491,7 +2491,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0856,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2505,7 +2505,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0646,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2519,7 +2519,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0982,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2533,7 +2533,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2476,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2547,7 +2547,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2174,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2561,7 +2561,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1799,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2575,7 +2575,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1799,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2589,7 +2589,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2603,7 +2603,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2617,7 +2617,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1237,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2955,7 +2955,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1709,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2969,7 +2969,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1991,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2983,7 +2983,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1945,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2997,7 +2997,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -3011,7 +3011,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.18,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {

@@ -10,6 +10,7 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
+  ExternalLink,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -19,6 +20,9 @@ import {
   Tooltip,
 } from 'recharts';
 import { MPRecord } from '@/types/mp';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { cardMessages } from '@/lib/messages/card';
+import { formatDate } from '@/lib/formatters';
 
 interface ComparisonSectionProps {
   mp: MPRecord;
@@ -36,7 +40,7 @@ const COLORS = {
     base: '#38BDF8',      // Sky 400
     hover: '#0284C7',     // Sky 600
     track: 'rgba(56, 189, 248, 0.12)',
-    label: 'Delhi State Avg',
+    label: 'State Avg',
   },
   national: {
     base: '#94A3B8',      // Slate 400
@@ -59,6 +63,8 @@ interface MetricItem {
 }
 
 export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
+  const t = useMessages(cardMessages);
+  const { lang } = useLang();
   const [viewMode, setViewMode] = useState<'pie' | 'rings' | 'bar'>('pie');
   const [isMounted, setIsMounted] = useState(false);
   const [activePieIndex, setActivePieIndex] = useState<{ [metricId: string]: number | null }>({});
@@ -75,53 +81,62 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
   const nat = perf.prs_averages?.national;
   const state = perf.prs_averages?.state;
 
-  if (!nat || !state) return null;
+  if (!nat && !state) {
+    return (
+      <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
+        <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
+          {t.comparisonHeading}
+        </h2>
+        <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-2">{t.averagesNotAvailable}</p>
+      </div>
+    );
+  }
 
   const firstName = mp.name.split(' ')[0] || mp.name;
 
   const metrics: MetricItem[] = [
     {
       id: 'attendance',
-      title: 'Attendance Rate',
+      title: t.metricAttendance || 'Attendance Rate',
       subtitle: 'Official floor sittings attended',
       mpVal: perf.attendance_pct,
-      stateVal: state.attendance_pct,
-      natVal: nat.attendance_pct,
+      stateVal: state?.attendance_pct,
+      natVal: nat?.attendance_pct,
       type: 'percentage',
       maxVal: 100,
       unit: '%',
     },
     {
       id: 'debates',
-      title: 'Debates Participated',
+      title: t.metricDebates || 'Debates Participated',
       subtitle: 'Floor & legislative deliberations',
       mpVal: perf.debates,
-      stateVal: state.debates,
-      natVal: nat.debates,
+      stateVal: state?.debates,
+      natVal: nat?.debates,
       type: 'count',
-      maxVal: Math.max(perf.debates || 0, state.debates || 0, nat.debates || 0, 35) * 1.15,
+      maxVal: Math.max(perf.debates || 0, state?.debates || 0, nat?.debates || 0, 35) * 1.15,
       unit: '',
     },
     {
       id: 'questions',
-      title: 'Questions Asked',
+      title: t.metricQuestions || 'Questions Asked',
       subtitle: 'Starred & unstarred parliamentary inquiries',
       mpVal: perf.questions,
-      stateVal: state.questions,
-      natVal: nat.questions,
+      stateVal: state?.questions,
+      natVal: nat?.questions,
       type: 'count',
-      maxVal: Math.max(perf.questions || 0, state.questions || 0, nat.questions || 0, 200) * 1.15,
+      maxVal: Math.max(perf.questions || 0, state?.questions || 0, nat?.questions || 0, 200) * 1.15,
       unit: '',
     },
     {
       id: 'bills',
-      title: 'Private Member Bills',
+      title: t.metricBills || 'Private Member Bills',
       subtitle: 'Individual legislative sponsorship',
       mpVal: perf.private_member_bills,
-      stateVal: state.private_member_bills,
-      natVal: nat.private_member_bills,
+      stateVal: state?.private_member_bills,
+      natVal: nat?.private_member_bills,
       type: 'count',
-      maxVal: Math.max(perf.private_member_bills || 0, state.private_member_bills || 0, nat.private_member_bills || 0, 4) * 1.25,
+      maxVal: Math.max(perf.private_member_bills || 0, state?.private_member_bills || 0, nat?.private_member_bills || 0, 4) * 1.25,
       unit: '',
     },
   ];
@@ -166,14 +181,15 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               BENCHMARK LEDGER
             </span>
             <span className="text-stone-400 dark:text-stone-600">·</span>
-            <span className="text-xs font-mono text-stone-500 dark:text-stone-400">18TH LOK SABHA</span>
+            <span className="text-xs font-mono text-stone-500 dark:text-stone-400">{t.term18}</span>
           </div>
           <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2 mt-0.5">
             <BarChart3 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span>Comparative Averages Benchmark</span>
+            <span>{t.comparisonHeading}</span>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-            Benchmarked against state (Delhi, 7 seats) and national 18th Lok Sabha baselines
+            {t.comparisonSubtitle(mp.state)}
+            {perf.as_of ? t.comparisonAsOfSuffix(formatDate(perf.as_of, lang)) : ''}
           </p>
         </div>
 
@@ -223,7 +239,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
       {/* Mandatory Non-ranking Disclaimer */}
       <div className="bg-stone-50 dark:bg-[#121A26] border border-stone-200 dark:border-[#1E293B] rounded-lg p-3 mb-6 flex items-center gap-2.5 text-xs font-mono text-stone-600 dark:text-stone-400">
         <Info className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-        <span>These indicators describe activity volume, not qualitative performance or rankings.</span>
+        <span>{t.activityNotQuality}</span>
       </div>
 
       {/* VIEW 1: RECHARTS PIE / DONUT BENCHMARK CHARTS (Default) */}
@@ -239,11 +255,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               const isHigherThanState = diffVsState > 0;
               const isEqual = Math.abs(diffVsState) < 0.1;
 
-              // Data for Recharts Donut Pie
-              // Safe fallback for 0 values to ensure slices are visually represented
               const total = mpNum + stateNum + natNum;
-              const safeTotal = total === 0 ? 1 : total;
-
               const pieData = [
                 {
                   name: `${firstName} (MP)`,
@@ -253,11 +265,11 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   role: `${mp.name} (${mp.party})`,
                 },
                 {
-                  name: 'Delhi State Avg',
+                  name: `${mp.state} Avg`,
                   value: total === 0 ? 1 : Math.max(0.1, stateNum),
                   actualVal: m.stateVal,
                   fill: COLORS.state.base,
-                  role: 'Delhi 7 Lok Sabha Seats',
+                  role: `${mp.state} Parliamentary Baseline`,
                 },
                 {
                   name: 'National Avg',
@@ -273,7 +285,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   key={m.id}
                   className="bg-stone-50/80 dark:bg-[#121A26] rounded-xl p-4 sm:p-5 border border-stone-200/90 dark:border-[#1E293B] hover:border-amber-500/50 transition-all flex flex-col justify-between"
                 >
-                  {/* Card Title */}
                   <div className="mb-2">
                     <h3 className="font-bold text-stone-900 dark:text-stone-100 text-sm font-sans">
                       {m.title}
@@ -283,7 +294,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     </p>
                   </div>
 
-                  {/* Recharts Donut Pie Chart */}
                   <div className="relative w-full h-[170px] flex items-center justify-center my-1">
                     {!isMounted ? (
                       <div className="w-24 h-24 rounded-full border-4 border-dashed border-stone-200 dark:border-stone-800 animate-pulse" />
@@ -332,7 +342,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                           </PieChart>
                         </ResponsiveContainer>
 
-                        {/* Center Metric Display */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
                           <span className="text-xl sm:text-2xl font-extrabold font-mono text-stone-900 dark:text-white tabular-nums tracking-tight">
                             {m.mpVal ?? '0'}{m.unit}
@@ -345,7 +354,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     )}
                   </div>
 
-                  {/* Relative Benchmark Delta Badge */}
                   <div className="my-2 flex items-center justify-center">
                     <span
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -359,27 +367,26 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                       {isEqual ? (
                         <>
                           <Minus className="w-3 h-3" />
-                          <span>Equal to Delhi avg</span>
+                          <span>Equal to {mp.state} avg</span>
                         </>
                       ) : isHigherThanState ? (
                         <>
                           <TrendingUp className="w-3 h-3 text-emerald-500" />
                           <span>
-                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs Delhi
+                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
                           </span>
                         </>
                       ) : (
                         <>
                           <TrendingDown className="w-3 h-3 text-stone-400" />
                           <span>
-                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs Delhi
+                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
                           </span>
                         </>
                       )}
                     </span>
                   </div>
 
-                  {/* Mini-Ledger Breakdown */}
                   <div className="pt-2.5 border-t border-stone-200/70 dark:border-[#1A2536] space-y-1.5 text-[11px] font-mono">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
@@ -396,7 +403,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">Delhi Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
                       </div>
                       <span className="font-mono text-stone-700 dark:text-stone-300 tabular-nums">
                         {m.stateVal ?? 'N/A'}{m.unit}
@@ -418,11 +425,10 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
             })}
           </div>
 
-          {/* Master Pie Chart Legend */}
           <div className="p-3.5 bg-stone-50 dark:bg-[#121A26] rounded-lg border border-stone-200/80 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
             <div className="flex flex-wrap items-center gap-4">
               <span className="font-bold text-stone-800 dark:text-stone-200 uppercase text-[10px] tracking-wider">
-                Pie Slices Guide:
+                Guide:
               </span>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-amber-500" />
@@ -433,13 +439,13 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-sky-400" />
                 <span>
-                  <strong>Delhi Baseline</strong> (7 Seats)
+                  <strong>{mp.state} Baseline</strong>
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-slate-400" />
                 <span>
-                  <strong>National Baseline</strong> (543 Seats)
+                  <strong>National Baseline</strong>
                 </span>
               </div>
             </div>
@@ -464,13 +470,12 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               const isHigherThanState = diffVsState > 0;
               const isEqual = Math.abs(diffVsState) < 0.1;
 
-              // Data for concentric pies in Recharts
               const mpData = [
                 { name: `${firstName} (MP)`, value: mpNum, actualVal: m.mpVal, fill: COLORS.mp.base },
                 { name: 'Remaining', value: Math.max(0, m.maxVal - mpNum), fill: COLORS.mp.track },
               ];
               const stateData = [
-                { name: 'Delhi Avg', value: stateNum, actualVal: m.stateVal, fill: COLORS.state.base },
+                { name: `${mp.state} Avg`, value: stateNum, actualVal: m.stateVal, fill: COLORS.state.base },
                 { name: 'Remaining', value: Math.max(0, m.maxVal - stateNum), fill: COLORS.state.track },
               ];
               const natData = [
@@ -492,7 +497,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     </p>
                   </div>
 
-                  {/* Concentric Multi-Pie in Recharts */}
                   <div className="relative w-full h-[170px] flex items-center justify-center my-1">
                     {!isMounted ? (
                       <div className="w-24 h-24 rounded-full border-4 border-dashed border-stone-200 dark:border-stone-800 animate-pulse" />
@@ -501,7 +505,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                         <ResponsiveContainer width="100%" height={170}>
                           <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                             <Tooltip content={<CustomPieTooltip unit={m.unit} />} />
-                            {/* Inner Ring: National */}
                             <Pie
                               data={natData}
                               dataKey="value"
@@ -516,7 +519,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                               <Cell fill={COLORS.national.base} />
                               <Cell fill={COLORS.national.track} />
                             </Pie>
-                            {/* Middle Ring: Delhi State */}
                             <Pie
                               data={stateData}
                               dataKey="value"
@@ -531,7 +533,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                               <Cell fill={COLORS.state.base} />
                               <Cell fill={COLORS.state.track} />
                             </Pie>
-                            {/* Outer Ring: MP */}
                             <Pie
                               data={mpData}
                               dataKey="value"
@@ -549,7 +550,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                           </PieChart>
                         </ResponsiveContainer>
 
-                        {/* Center Metric Display */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
                           <span className="text-xl sm:text-2xl font-extrabold font-mono text-stone-900 dark:text-white tabular-nums tracking-tight">
                             {m.mpVal ?? '0'}{m.unit}
@@ -562,7 +562,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     )}
                   </div>
 
-                  {/* Relative Delta Badge */}
                   <div className="my-2 flex items-center justify-center">
                     <span
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -576,27 +575,26 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                       {isEqual ? (
                         <>
                           <Minus className="w-3 h-3" />
-                          <span>Equal to Delhi avg</span>
+                          <span>Equal to {mp.state} avg</span>
                         </>
                       ) : isHigherThanState ? (
                         <>
                           <TrendingUp className="w-3 h-3 text-emerald-500" />
                           <span>
-                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs Delhi
+                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
                           </span>
                         </>
                       ) : (
                         <>
                           <TrendingDown className="w-3 h-3 text-stone-400" />
                           <span>
-                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs Delhi
+                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
                           </span>
                         </>
                       )}
                     </span>
                   </div>
 
-                  {/* Mini-Ledger Breakdown */}
                   <div className="pt-2.5 border-t border-stone-200/70 dark:border-[#1A2536] space-y-1.5 text-[11px] font-mono">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
@@ -613,7 +611,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">Delhi Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
                       </div>
                       <span className="font-mono text-stone-700 dark:text-stone-300 tabular-nums">
                         {m.stateVal ?? 'N/A'}{m.unit}
@@ -633,31 +631,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                 </div>
               );
             })}
-          </div>
-
-          {/* Master Rings Legend */}
-          <div className="p-3.5 bg-stone-50 dark:bg-[#121A26] rounded-lg border border-stone-200/80 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="font-bold text-stone-800 dark:text-stone-200 uppercase text-[10px] tracking-wider">
-                Gauge Rings Guide:
-              </span>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full border-2 border-amber-500 bg-amber-500/20" />
-                <span>Outer: <strong>{mp.name}</strong></span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full border-2 border-sky-400 bg-sky-400/20" />
-                <span>Middle: <strong>Delhi Avg (7 Seats)</strong></span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full border-2 border-slate-400 bg-slate-400/20" />
-                <span>Inner: <strong>National Avg (543 Seats)</strong></span>
-              </div>
-            </div>
-
-            <div className="text-[11px] text-stone-500">
-              Source: PRS Legislative Research
-            </div>
           </div>
         </div>
       )}
@@ -682,9 +655,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   </span>
                 </div>
 
-                {/* Multi-Bar Comparison */}
                 <div className="space-y-2 text-[11px] font-mono">
-                  {/* MP Bar */}
                   <div className="flex items-center gap-3">
                     <span className="w-24 text-stone-600 dark:text-stone-400 truncate">{firstName}</span>
                     <div className="flex-1 bg-stone-200 dark:bg-[#1A2536] rounded-full h-3 overflow-hidden">
@@ -698,9 +669,8 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     </span>
                   </div>
 
-                  {/* State Avg Bar */}
                   <div className="flex items-center gap-3">
-                    <span className="w-24 text-stone-500 dark:text-stone-400">Delhi Avg</span>
+                    <span className="w-24 text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
                     <div className="flex-1 bg-stone-200 dark:bg-[#1A2536] rounded-full h-2.5 overflow-hidden">
                       <div
                         className="bg-sky-500 dark:bg-sky-400 h-full rounded-full transition-all duration-500"
@@ -712,7 +682,6 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     </span>
                   </div>
 
-                  {/* National Avg Bar */}
                   <div className="flex items-center gap-3">
                     <span className="w-24 text-stone-500 dark:text-stone-400">National Avg</span>
                     <div className="flex-1 bg-stone-200 dark:bg-[#1A2536] rounded-full h-2.5 overflow-hidden">
