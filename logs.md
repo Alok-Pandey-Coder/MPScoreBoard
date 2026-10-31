@@ -1,5 +1,25 @@
 # Project Change Log
 
+## 2026-10-31 — Recharts Pie & Donut Benchmark Visualizer (feat/circular-benchmark-visualizer)
+
+- **Summary**: Implemented Recharts-powered interactive Pie & Donut visualization for the Parliamentary Activity Comparative Benchmark section:
+  1. **Recharts Integration**: Installed recharts (^3.10.1) as an official charting dependency for interactive vector visualizations.
+  2. **Comparative Recharts Donut / Pie Charts**: In ComparisonSection.tsx, transformed benchmark metric cards (Attendance Rate, Debates, Questions Asked, and Private Member Bills) into interactive Recharts Donut/Pie charts comparing the MP (Amber #F59E0B), Delhi State Average (Civic Sky #38BDF8), and National 18th Lok Sabha Average (Slate #94A3B8).
+  3. **Interactive Editorial Tooltips & Center Display**: Integrated custom dark/light editorial Recharts tooltips with entity breakdown, exact figures, and comparative context, paired with high-contrast centered metric typography (tabular-nums) and dynamic sector hover effects.
+  4. **Tri-Modal View Switcher**: Enabled seamless interactive switching between:
+     - **Pie Chart (Default)**: Recharts comparative Donut/Pie visualization.
+     - **Rings**: Recharts multi-tier concentric radial gauges with remainder tracks.
+     - **Bars**: Traditional horizontal ledger comparison bars.
+  5. **SSR & Next.js Hydration Safety**: Applied client-side mounted state guard (isMounted) with an animated layout-stable skeleton to prevent SSR dimension mismatches.
+  6. **Non-Partisan Compliance**: Preserved all mandatory non-partisan disclaimers ('activity volume, not qualitative performance or rankings') and official PRS Legislative Research source attribution.
+- **Files/Areas Changed**:
+  - package.json & package-lock.json: Added recharts.
+  - components/mp/ComparisonSection.tsx: Overhauled benchmark visualization with Recharts Pie, concentric rings, and interactive tooltips.
+- **Validation Performed**:
+  - npm run typecheck: Passed with 0 errors.
+  - npm test: All 58 unit tests passed 100%.
+  - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
+
 ## 2026-10-31 — Professional Editorial UI/UX Redesign (UI-UX Pro Max)
 
 - **Summary**: Transformed the entire application visual design on branch `feat/pro-editorial-redesign` following the UI/UX Pro Max intelligence framework (Accessible & Ethical + Swiss/Editorial Data Journalism). Eliminated all generic AI-generated aesthetic clichés (neon cyan glows, pulsing indicator dots, marketing buzzwords, and template cards) in favor of an authoritative, dignified public intelligence monitor:
