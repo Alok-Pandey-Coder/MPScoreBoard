@@ -4,6 +4,32 @@ This file records key data changes, pipeline updates, schema modifications, and 
 
 ---
 
+## 2026-10-31 — GeoJSON Boundaries, Regional Hierarchy, ECI Raw Capture, New Pipeline Scripts
+
+- **Summary:** Completed Delhi MVP data layer. Downloaded DataMeet 543-PC GeoJSON and extracted 7 Delhi boundaries with pc_slug fields. Populated 70-MLA regional hierarchy. Captured ECI 2024 GE results as immutable raw file. Added All-India Sansad fetch script (running), MPLADS manual intake helper, and ECI results script. Updated data.md registry and status table.
+- **Files or areas changed:**
+  - data/processed/delhi_pc_boundaries.geojson - NEW: 7 Delhi Lok Sabha PC boundaries with pc_slug and source (DataMeet CC-BY-4.0, retrieved 2026-10-31).
+  - data/processed/delhi_regional_hierarchy.json - NEW: 7 PCs x 10 MLAs = 70 MLA entries with affidavit, party, and MyNeta data.
+  - data/raw/india_pc_2019_simplified.geojson - NEW: Immutable raw cache of DataMeet 543-PC boundary file (1.9 MB).
+  - data/raw/eci_ge2024_results_raw.json - NEW: ECI 2024 GE results raw capture (7 Delhi PCs, manual backup from ECI 2024-06-04).
+  - data/raw/delhi_7mp_custom_enrichment.json - Updated: election results populated for all 7 Delhi MPs.
+  - data/reference_packs/delhi_jurisdiction_collection_01/assembly_to_parliamentary_mapping.csv - Updated: all 70 AC to PC rows filled.
+  - scripts/download_delhi_geojson.py - NEW: GeoJSON download, filter, and slug-mapping script.
+  - scripts/01_fetch_sansad_india.py - NEW: All-India 543-seat Sansad API fetch script.
+  - scripts/09_intake_mplads.py - NEW: MPLADS manual intake helper with validation.
+  - scripts/10_fetch_eci_results.py - NEW: ECI results fetch script with live API + manual backup.
+  - data.md - Updated: directory tree, status table, block 6 now 100% complete.
+- **Validation performed:**
+  - python scripts/build_data.py: 0 hard errors, 0 warnings.
+  - PRS averages match published values. GeoJSON: 7/7 Delhi features with correct pc_slug values.
+  - Block status: election: reported 7/7, affidavit: reported 7/7, mplads: pending 7/7.
+- **Remaining caveat or next step:**
+  - MPLADS data pending: fill scripts/09_intake_mplads.py manually from empoweredindian.in/mplads.
+  - All-India Sansad fetch running in background.
+  - All-India scaling (PRS bulk, ECI all-India, MyNeta bulk) scripts not yet written.
+
+---
+
 ## 2026-10-31 — Affidavit Block Merged & Validation Rules Extended
 
 - **Summary:** Integrated ADR/MyNeta election affidavit data from `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment.csv` into `data/processed/mps.json` via updated `scripts/06_merge.py`; updated `scripts/07_validate.py` with affidavit validation rules; updated `data.md` registry.
