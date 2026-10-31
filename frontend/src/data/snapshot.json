@@ -1,8 +1,8 @@
 {
   "snapshot_version": "delhi-18ls-v2",
-  "generated_at": "2026-10-30T17:44:42.220563+00:00",
+  "generated_at": "2026-10-31T11:46:18.131996+00:00",
   "record_count": 7,
-  "sha256": "318e4ee1c85a17c31dd84521ef068441144763eb490b6721495fbea548ef4623",
+  "sha256": "155052da9f6fbbbe79c2694ab5036851399fe85b29df8ec583438d87e56f21d3",
   "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/06_merge.py -> scripts/07_validate.py",
   "coverage": "Delhi, seven Lok Sabha constituencies",
   "source_status": {
