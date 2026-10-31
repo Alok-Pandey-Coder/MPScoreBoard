@@ -202,7 +202,10 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   const viewBoxForState = (stateId: string | null | undefined) => {
     const st = stateId ? REAL_INDIA_STATES.find((s) => s.id === stateId) : undefined;
     if (!st) return null;
-    if (st.id === 'delhi') return { x: 340, y: 290, w: 20, h: 20 };
+    if (st.id === 'delhi') {
+      // Balanced National Capital Region (NCR) framing (centered at Delhi [347.8, 299.9])
+      return { x: 308, y: 262, w: 78, h: 76 };
+    }
     const [cx, cy] = st.centroid;
     const span = st.seats > 30 ? 220 : st.seats > 10 ? 150 : 100;
     return { x: Math.max(50, cx - span / 2), y: Math.max(30, cy - span / 2), w: span, h: span };
@@ -280,7 +283,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
 
   return (
     <div
-      className={`relative w-full rounded-3xl bg-[#070b10] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
+      className={`relative isolate w-full rounded-3xl bg-[#070b10] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
       style={{ minHeight: '660px' }}
       onMouseMove={handleMouseMove}
     >

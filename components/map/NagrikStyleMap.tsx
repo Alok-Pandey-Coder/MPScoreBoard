@@ -373,7 +373,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   const activeMP = mps.find((m) => m.slug === selectedSlug);
 
   return (
-    <div className="bg-[#0C1017] border border-[#1E2636] rounded-2xl overflow-hidden shadow-xl transition-all">
+    <div className="relative isolate bg-[#0C1017] border border-[#1E2636] rounded-2xl overflow-hidden shadow-xl transition-all">
       {/* Editorial Header Bar */}
       <div className="border-b border-[#1E2636] px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4 bg-[#0E1420]">
         <div>

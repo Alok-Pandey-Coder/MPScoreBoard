@@ -72,6 +72,7 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 .leaflet-container {
   background-color: #080808 !important;
   font-family: inherit;
+  z-index: 1 !important;
 }
 
 .dark-gis-tile-layer {

@@ -6,7 +6,8 @@ export interface StateGeoData {
   seats: number;
   coveredRecords: number;
   capital: string;
-  centroid: [number, number]; // [lng, lat]
+  centroid: [number, number];
+  svgCentroid?: [number, number]; // [lng, lat]
   bounds: [[number, number], [number, number]];
   avgAttendance?: number;
   avgDebates?: number;
@@ -24,6 +25,7 @@ export interface ConstituencyGeoData {
   party?: string;
   isMinister?: boolean;
   centroid: [number, number];
+  svgCentroid?: [number, number];
   path?: string;
   attendancePct?: number | null;
   questions?: number | null;
@@ -518,10 +520,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.2167, 28.6506],
+    svgCentroid: [348.4, 298.8],
     attendancePct: 99,
     questions: 40,
     debates: 4,
-    path: 'M 280 230 L 350 210 L 380 270 L 320 290 Z',
+    path: 'M 347.8 297.1 L 349.5 299.1 L 350.2 298.2 L 350.4 300.4 L 346.3 299.5 L 347.8 297.1 Z',
   },
   {
     slug: 'east-delhi-delhi',
@@ -533,10 +536,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: true,
     centroid: [77.2950, 28.6280],
+    svgCentroid: [351.6, 301.1],
     attendancePct: null,
     questions: null,
     debates: null,
-    path: 'M 380 260 L 460 250 L 470 340 L 390 330 Z',
+    path: 'M 352.6 298.9 L 351.8 302.0 L 352.9 303.2 L 351.9 303.3 L 350.3 299.8 L 352.6 298.9 Z',
   },
   {
     slug: 'new-delhi-delhi',
@@ -548,10 +552,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.2090, 28.6139],
+    svgCentroid: [348.4, 301.2],
     attendancePct: 95,
     questions: 41,
     debates: 17,
-    path: 'M 290 290 L 380 280 L 370 370 L 280 360 Z',
+    path: 'M 347.6 298.9 L 350.4 300.4 L 350.7 303.5 L 346.0 302.4 L 347.6 298.9 Z',
   },
   {
     slug: 'north-east-delhi-delhi',
@@ -563,10 +568,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.2674, 28.6942],
+    svgCentroid: [350.0, 297.3],
     attendancePct: 90,
     questions: 276,
     debates: 21,
-    path: 'M 350 160 L 450 150 L 460 240 L 370 230 Z',
+    path: 'M 348.5 295.5 L 352.8 298.6 L 349.3 299.0 L 347.2 296.1 L 348.5 295.5 Z',
   },
   {
     slug: 'north-west-delhi-delhi',
@@ -578,10 +584,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.0688, 28.7761],
+    svgCentroid: [346.1, 296.6],
     attendancePct: 97,
     questions: 271,
     debates: 28,
-    path: 'M 190 120 L 340 130 L 320 240 L 180 230 Z',
+    path: 'M 346.8 293.2 L 349.6 293.6 L 349.6 295.7 L 347.2 296.0 L 348.6 296.5 L 345.6 300.0 L 342.7 298.9 L 342.5 294.8 L 346.8 293.2 Z',
   },
   {
     slug: 'south-delhi-delhi',
@@ -593,10 +600,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.1855, 28.4817],
+    svgCentroid: [350.1, 304.1],
     attendancePct: 100,
     questions: 169,
     debates: 30,
-    path: 'M 260 380 L 390 360 L 430 460 L 300 480 Z',
+    path: 'M 351.1 302.2 L 353.1 303.6 L 350.3 304.6 L 350.5 306.1 L 347.1 305.6 L 347.5 302.4 L 350.5 303.5 L 351.1 302.2 Z',
   },
   {
     slug: 'west-delhi-delhi',
@@ -608,10 +616,11 @@ export const DELHI_CONSTITUENCIES: ConstituencyGeoData[] = [
     party: 'BJP',
     isMinister: false,
     centroid: [77.0888, 28.6328],
+    svgCentroid: [343.6, 301.5],
     attendancePct: 96,
     questions: 235,
     debates: 21,
-    path: 'M 160 250 L 280 240 L 260 370 L 150 360 Z',
+    path: 'M 343.1 299.1 L 347.6 299.1 L 345.9 302.2 L 347.4 302.9 L 340.7 303.8 L 339.6 301.5 L 343.1 299.1 Z',
   },
 ];
 

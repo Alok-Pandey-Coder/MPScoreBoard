@@ -132,7 +132,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
 
       {/* Minister Explanation Modal */}
       {showMinisterModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="bg-white dark:bg-[#0E1420] rounded-xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-[#1E2636] animate-in zoom-in-95 duration-100">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
