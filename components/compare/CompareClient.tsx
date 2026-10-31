@@ -1,61 +1,103 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { GitCompare, Share2, ExternalLink, Info } from 'lucide-react';
+import { X, Search, Share2, ExternalLink } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { MPAvatar } from '@/components/ui/MPAvatar';
 import { Toast } from '@/components/common/Toast';
-import { useLang, useMessages } from '@/context/LanguageContext';
-import { compareMessages } from '@/lib/messages/compare';
-import { formatNumber, formatPct } from '@/lib/formatters';
-import { localizeMP } from '@/lib/i18n';
-
-type MetricKey = 'attendance_pct' | 'debates' | 'questions' | 'private_member_bills';
-
-const METRIC_ROWS: { key: MetricKey; label: 'attendance' | 'debates' | 'questions' | 'privateMemberBills' }[] = [
-  { key: 'attendance_pct', label: 'attendance' },
-  { key: 'debates', label: 'debates' },
-  { key: 'questions', label: 'questions' },
-  { key: 'private_member_bills', label: 'privateMemberBills' },
-];
 
 interface CompareClientProps {
   mps: MPRecord[];
 }
 
+// Colors for the comparison bars matching the reference design:
+// Member 1: Dark Charcoal / Black
+// Member 2: Terracotta / Rust Orange (#c2410c)
+// Member 3: Deep Teal / Blue (#0e7490)
+const MEMBER_BAR_COLORS = [
+  { fill: 'bg-[#18181b] dark:bg-slate-200', text: 'text-[#18181b] dark:text-slate-200' },
+  { fill: 'bg-[#c2410c] dark:bg-orange-500', text: 'text-[#c2410c] dark:text-orange-400' },
+  { fill: 'bg-[#0e7490] dark:bg-teal-400', text: 'text-[#0e7490] dark:text-teal-300' },
+];
+
 export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { lang } = useLang();
-  const t = useMessages(compareMessages);
-  const localizedMps = React.useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
 
-  const slugA = searchParams?.get('a') || mps[0]?.slug || '';
-  const slugB = searchParams?.get('b') || mps[2]?.slug || mps[1]?.slug || '';
+  // Read initial slugs from URL params
+  const initialSlugs = React.useMemo(() => {
+    const membersParam = searchParams?.get('members');
+    if (membersParam) {
+      const split = membersParam.split(',').filter(Boolean);
+      if (split.length > 0) return split.slice(0, 3);
+    }
+    const a = searchParams?.get('a');
+    const b = searchParams?.get('b');
+    const c = searchParams?.get('c');
+    const list: string[] = [];
+    if (a) list.push(a);
+    if (b) list.push(b);
+    if (c) list.push(c);
+    if (list.length > 0) return list.slice(0, 3);
 
-  const [selectedA, setSelectedA] = useState(slugA);
-  const [selectedB, setSelectedB] = useState(slugB);
+    // Default to first two MPs (Chandni Chowk & New Delhi)
+    return [mps[0]?.slug || 'chandni-chowk-delhi', mps[2]?.slug || mps[1]?.slug || 'new-delhi-delhi'];
+  }, [searchParams, mps]);
+
+  const [selectedSlugs, setSelectedSlugs] = useState<string[]>(initialSlugs);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
+  // Sync to URL
   useEffect(() => {
-    if (selectedA && selectedB) {
-      router.replace(`/compare?a=${selectedA}&b=${selectedB}`, { scroll: false });
+    if (selectedSlugs.length > 0) {
+      const query = `members=${selectedSlugs.join(',')}`;
+      router.replace(`/compare?${query}`, { scroll: false });
     }
-  }, [selectedA, selectedB, router]);
+  }, [selectedSlugs, router]);
 
-  const mpA = localizedMps.find((m) => m.slug === selectedA) || localizedMps[0];
-  const mpB = localizedMps.find((m) => m.slug === selectedB) || localizedMps[1];
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-  // Ministers are outside PRS's tracking: their indicators are "not applicable",
-  // never zero. Other missing values read "not available".
-  const metricText = (mp: MPRecord, key: MetricKey): string => {
-    const value = mp.performance?.[key];
-    if (value === null || value === undefined) {
-      if (mp.is_minister || mp.performance?.status === 'not_applicable') return t.notApplicableMinister;
+  // Filter selected MP objects
+  const selectedMPs = selectedSlugs
+    .map((slug) => mps.find((m) => m.slug === slug))
+    .filter((m): m is MPRecord => Boolean(m));
+
+  // Autocomplete matching list
+  const filteredCandidates = searchQuery.trim()
+    ? mps.filter(
+        (m) =>
+          !selectedSlugs.includes(m.slug) &&
+          (m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            m.constituency.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            m.party.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    : [];
+
+  const handleAddMember = (slug: string) => {
+    if (selectedSlugs.length < 3 && !selectedSlugs.includes(slug)) {
+      setSelectedSlugs([...selectedSlugs, slug]);
     }
-    return key === 'attendance_pct' ? formatPct(value, lang) : formatNumber(value, lang);
+    setSearchQuery('');
+    setIsDropdownOpen(false);
+  };
+
+  const handleRemoveMember = (slugToRemove: string) => {
+    if (selectedSlugs.length <= 1) return; // Keep at least one
+    setSelectedSlugs(selectedSlugs.filter((s) => s !== slugToRemove));
   };
 
   const handleShare = () => {
@@ -65,185 +107,371 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
     }
   };
 
+  // Helper metric extractors
+  const getAttendancePct = (m: MPRecord): number | null => {
+    if (m.is_minister || m.performance?.status === 'not_applicable') return null;
+    return m.performance?.attendance_pct ?? null;
+  };
+
+  const getQuestions = (m: MPRecord): number | null => {
+    if (m.is_minister || m.performance?.status === 'not_applicable') return null;
+    return m.performance?.questions ?? null;
+  };
+
+  const getMpladsSpentCr = (m: MPRecord): number | null => {
+    if (m.mplads?.expenditure_cr !== undefined && m.mplads?.expenditure_cr !== null) {
+      return m.mplads.expenditure_cr;
+    }
+    if (m.mplads?.expenditure) {
+      return m.mplads.expenditure / 10000000;
+    }
+    return null;
+  };
+
+  const getWorksCompleted = (m: MPRecord): number | null => {
+    if (m.mplads?.works_count?.completed !== undefined && m.mplads?.works_count?.completed !== null) {
+      return m.mplads.works_count.completed;
+    }
+    if (m.mplads?.works?.completed !== undefined && m.mplads?.works?.completed !== null) {
+      return m.mplads.works.completed;
+    }
+    return null;
+  };
+
+  const getPendingCases = (m: MPRecord): number | null => {
+    if (m.affidavit?.declared_criminal_cases !== undefined && m.affidavit?.declared_criminal_cases !== null) {
+      return m.affidavit.declared_criminal_cases;
+    }
+    if (m.affidavit?.declared_cases !== undefined && m.affidavit?.declared_cases !== null) {
+      return m.affidavit.declared_cases;
+    }
+    return null;
+  };
+
+  // Maximum values among selected MPs to draw relative comparison bars
+  const maxQuestions = Math.max(
+    ...selectedMPs.map((m) => getQuestions(m) ?? 0),
+    1
+  );
+
+  const maxSpentCr = Math.max(
+    ...selectedMPs.map((m) => getMpladsSpentCr(m) ?? 0),
+    0.01
+  );
+
+  const maxWorks = Math.max(
+    ...selectedMPs.map((m) => getWorksCompleted(m) ?? 0),
+    1
+  );
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-stone-200 dark:border-[#1E2636]">
-        <div>
-          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-            {t.eyebrow}
+    <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#14191F] text-[#1c1917] dark:text-[#F3F4F6] py-10 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-200">
+      <div className="max-w-5xl mx-auto space-y-7">
+        {/* Top Explanatory Notice (Matching reference screenshot exactly) */}
+        <p className="text-xs text-[#78716c] dark:text-slate-400 leading-relaxed font-normal">
+          Add up to three members. Bars compare these people to each other, not to a score. The sitting house median uses listed members only — missing is not zero.
+        </p>
+
+        {/* Add a member search input & Selected Member Chips */}
+        <div className="space-y-3" ref={searchRef}>
+          <div>
+            <label
+              htmlFor="add-member-input"
+              className="block text-xs font-medium text-[#44403c] dark:text-slate-300 mb-1.5"
+            >
+              Add a member
+            </label>
+            <div className="relative">
+              <input
+                id="add-member-input"
+                type="text"
+                value={searchQuery}
+                disabled={selectedSlugs.length >= 3}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsDropdownOpen(true);
+                }}
+                onFocus={() => setIsDropdownOpen(true)}
+                placeholder={
+                  selectedSlugs.length >= 3 ? 'Maximum 3 members compared' : 'Type a name'
+                }
+                className="w-full bg-white dark:bg-[#1A222D] border border-[#DDD6C8] dark:border-[#303A45] rounded-lg px-3.5 py-2.5 text-sm text-[#1c1917] dark:text-white placeholder-[#a8a29e] dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#78716c] dark:focus:ring-cyan-500 shadow-xs transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              />
+
+              {/* Autocomplete Dropdown */}
+              {isDropdownOpen && searchQuery.trim() && (
+                <div className="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#171D24] border border-[#DDD6C8] dark:border-[#303A45] rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto divide-y divide-[#F2EDE4] dark:divide-[#252F3D]">
+                  {filteredCandidates.length > 0 ? (
+                    filteredCandidates.map((cand) => (
+                      <button
+                        key={cand.slug}
+                        type="button"
+                        onClick={() => handleAddMember(cand.slug)}
+                        className="w-full text-left px-4 py-3 flex items-center justify-between hover:bg-[#F6F2EB] dark:hover:bg-[#202936] transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3">
+                          <MPAvatar imageUrl={cand.image_url} name={cand.name} size="sm" className="rounded-full" />
+                          <div>
+                            <div className="text-sm font-semibold text-[#1c1917] dark:text-white">
+                              {cand.name}
+                            </div>
+                            <div className="text-xs text-[#78716c] dark:text-slate-400">
+                              {cand.constituency} • {cand.party}
+                            </div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-semibold text-[#0e7490] dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/60 px-2.5 py-1 rounded-md border border-cyan-200 dark:border-cyan-800/60">
+                          + Add
+                        </span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-4 py-3 text-xs text-[#78716c] dark:text-slate-400">
+                      No matching members found.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-sans tracking-tight flex items-center gap-2.5">
-            <GitCompare className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-            <span>{t.title}</span>
-          </h1>
-          <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
-            {t.subtitle}
+
+          {/* Active Member Pills (Matching reference screenshot exactly) */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            {selectedMPs.map((mp) => (
+              <div
+                key={mp.slug}
+                className="inline-flex items-center gap-2 bg-[#18181b] dark:bg-[#1F2937] text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-xs border border-transparent dark:border-slate-700 animate-in fade-in duration-200"
+              >
+                <span>{mp.name}</span>
+                {selectedSlugs.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMember(mp.slug)}
+                    aria-label={`Remove ${mp.name}`}
+                    className="hover:text-stone-300 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* The Exact Comparison Matrix Table */}
+        <div className="overflow-x-auto pb-4">
+          <table className="w-full text-left border-collapse min-w-[620px]">
+            <tbody>
+              {/* Row 1: Header / MP Avatars & Names */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 w-44 sm:w-52 pr-4 text-xs font-medium text-[#78716c] dark:text-slate-400 align-middle">
+                  {/* Empty header cell */}
+                </td>
+                {selectedMPs.map((mp) => (
+                  <td key={mp.slug} className="py-4 px-3 align-middle">
+                    <Link
+                      href={`/mp/${mp.slug}`}
+                      className="inline-flex items-center gap-2.5 group"
+                    >
+                      <div className="w-9 h-9 rounded-full overflow-hidden border border-[#DDD6C8] dark:border-slate-700 shrink-0">
+                        <MPAvatar
+                          imageUrl={mp.image_url}
+                          name={mp.name}
+                          size="sm"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <span className="text-sm sm:text-base font-semibold text-[#1c1917] dark:text-white group-hover:underline">
+                        {mp.name}
+                      </span>
+                    </Link>
+                  </td>
+                ))}
+              </tr>
+
+              {/* Row 2: House */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-3.5 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
+                  House
+                </td>
+                {selectedMPs.map((mp) => (
+                  <td key={mp.slug} className="py-3.5 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                    {mp.term || '18th Lok Sabha'}
+                  </td>
+                ))}
+              </tr>
+
+              {/* Row 3: Role */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-3.5 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
+                  Role
+                </td>
+                {selectedMPs.map((mp) => (
+                  <td key={mp.slug} className="py-3.5 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                    {mp.is_minister ? 'Union Minister' : 'Member of Parliament'}
+                  </td>
+                ))}
+              </tr>
+
+              {/* Row 4: Attendance (Value + Horizontal Bar) */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
+                  Attendance
+                </td>
+                {selectedMPs.map((mp, idx) => {
+                  const pct = getAttendancePct(mp);
+                  const color = MEMBER_BAR_COLORS[idx % MEMBER_BAR_COLORS.length];
+
+                  return (
+                    <td key={mp.slug} className="py-4 px-3 align-top">
+                      <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                        {pct !== null ? `${pct}%` : 'not applicable (minister)'}
+                      </div>
+
+                      {pct !== null && (
+                        <div className="w-full max-w-[280px] h-2 bg-[#E2DBD0] dark:bg-slate-700/80 rounded-full overflow-hidden mt-1.5">
+                          <div
+                            className={`h-full ${color.fill} rounded-full transition-all duration-500`}
+                            style={{ width: `${Math.min(100, Math.max(0, pct))}%` }}
+                          />
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* Row 5: Questions (Value + Horizontal Bar) */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
+                  Questions
+                </td>
+                {selectedMPs.map((mp, idx) => {
+                  const q = getQuestions(mp);
+                  const color = MEMBER_BAR_COLORS[idx % MEMBER_BAR_COLORS.length];
+                  const barWidth = q !== null ? Math.min(100, (q / maxQuestions) * 100) : 0;
+
+                  return (
+                    <td key={mp.slug} className="py-4 px-3 align-top">
+                      <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                        {q !== null ? q : 'not applicable (minister)'}
+                      </div>
+
+                      {q !== null && (
+                        <div className="w-full max-w-[280px] h-2 bg-[#E2DBD0] dark:bg-slate-700/80 rounded-full overflow-hidden mt-1.5">
+                          <div
+                            className={`h-full ${color.fill} rounded-full transition-all duration-500`}
+                            style={{ width: `${barWidth}%` }}
+                          />
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* Row 6: MPLADS spent (Value + Horizontal Bar) */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
+                  MPLADS spent
+                </td>
+                {selectedMPs.map((mp, idx) => {
+                  const spent = getMpladsSpentCr(mp);
+                  const color = MEMBER_BAR_COLORS[idx % MEMBER_BAR_COLORS.length];
+                  const barWidth = spent !== null ? Math.min(100, (spent / maxSpentCr) * 100) : 0;
+
+                  return (
+                    <td key={mp.slug} className="py-4 px-3 align-top">
+                      <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                        {spent !== null ? `₹${spent.toFixed(2)} cr` : 'not listed'}
+                      </div>
+
+                      {spent !== null && (
+                        <div className="w-full max-w-[280px] h-2 bg-[#E2DBD0] dark:bg-slate-700/80 rounded-full overflow-hidden mt-1.5">
+                          <div
+                            className={`h-full ${color.fill} rounded-full transition-all duration-500`}
+                            style={{ width: `${barWidth}%` }}
+                          />
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* Row 7: Works completed (Value + Horizontal Bar) */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
+                  Works completed
+                </td>
+                {selectedMPs.map((mp, idx) => {
+                  const works = getWorksCompleted(mp);
+                  const color = MEMBER_BAR_COLORS[idx % MEMBER_BAR_COLORS.length];
+                  const barWidth = works !== null ? Math.min(100, (works / maxWorks) * 100) : 0;
+
+                  return (
+                    <td key={mp.slug} className="py-4 px-3 align-top">
+                      <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                        {works !== null ? works : 'not listed'}
+                      </div>
+
+                      {works !== null && (
+                        <div className="w-full max-w-[280px] h-2 bg-[#E2DBD0] dark:bg-slate-700/80 rounded-full overflow-hidden mt-1.5">
+                          <div
+                            className={`h-full ${color.fill} rounded-full transition-all duration-500`}
+                            style={{ width: `${barWidth}%` }}
+                          />
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* Row 8: Pending cases disclosed (Value only, NO bar) */}
+              <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
+                <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
+                  Pending cases disclosed
+                </td>
+                {selectedMPs.map((mp) => {
+                  const cases = getPendingCases(mp);
+
+                  return (
+                    <td key={mp.slug} className="py-4 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
+                      {cases !== null ? cases : 'not listed'}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Bottom Explanatory Notes & Medians (Matching reference screenshot exactly) */}
+        <div className="pt-4 space-y-2 text-xs text-[#78716c] dark:text-slate-400 leading-relaxed border-t border-[#E7E1D7] dark:border-[#273344]">
+          <p>
+            Catalog as of 31 Oct 2026. Sitting house medians (listed members only): Lok Sabha attendance 96%, questions 172, MPLADS spent ₹2.44 cr. Not a score.
+          </p>
+          <p>
+            Latest listed Lok Sabha session: 18th Lok Sabha. 19 sittings held, 7,529 questions listed, 95% median attendance among listed members. Not a score.
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleShare}
-          aria-label={t.shareAria}
-          className="inline-flex items-center gap-2 px-3.5 py-2 bg-stone-100 dark:bg-[#141C28] hover:bg-stone-200 dark:hover:bg-[#1E2838] text-stone-700 dark:text-stone-300 rounded-lg text-xs font-mono font-semibold transition-colors self-start sm:self-auto border border-stone-200 dark:border-[#222E42] cursor-pointer"
-        >
-          <Share2 className="w-3.5 h-3.5 text-stone-400" />
-          <span>{t.share}</span>
-        </button>
-      </div>
-
-      {/* Mandatory Non-ranking Notice */}
-      <div className="bg-stone-50 dark:bg-[#101622] border border-stone-200 dark:border-[#1E2636] rounded-lg p-3.5 flex items-center gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
-        <Info className="w-4 h-4 text-amber-500 shrink-0" />
-        <span>
-          {t.notice}
-        </span>
-      </div>
-
-      {/* Selectors Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {/* Selector MP A */}
-        <div className="bg-white dark:bg-[#0E1420] p-4 sm:p-5 rounded-xl border border-stone-200/90 dark:border-[#1E2636] shadow-xs">
-          <label
-            htmlFor="compare-member-a"
-            className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5"
+        {/* Share Button */}
+        <div className="pt-2 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={handleShare}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#1A222D] text-[#44403c] dark:text-slate-300 border border-[#DDD6C8] dark:border-[#303A45] hover:bg-[#F2EDE4] dark:hover:bg-[#222E3E] transition-colors cursor-pointer"
           >
-            {t.memberA}
-          </label>
-          <select
-            id="compare-member-a"
-            value={selectedA}
-            onChange={(e) => setSelectedA(e.target.value)}
-            className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
-          >
-            {localizedMps.map((m) => (
-              <option key={m.slug} value={m.slug} className="dark:bg-[#141C29]">
-                {m.name} ({m.constituency}, {m.party})
-              </option>
-            ))}
-          </select>
+            <Share2 className="w-3.5 h-3.5" />
+            <span>Share comparison link</span>
+          </button>
         </div>
-
-        {/* Selector MP B */}
-        <div className="bg-white dark:bg-[#0E1420] p-4 sm:p-5 rounded-xl border border-stone-200/90 dark:border-[#1E2636] shadow-xs">
-          <label
-            htmlFor="compare-member-b"
-            className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5"
-          >
-            {t.memberB}
-          </label>
-          <select
-            id="compare-member-b"
-            value={selectedB}
-            onChange={(e) => setSelectedB(e.target.value)}
-            className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
-          >
-            {localizedMps.map((m) => (
-              <option key={m.slug} value={m.slug} className="dark:bg-[#141C29]">
-                {m.name} ({m.constituency}, {m.party})
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Comparison Matrix Table / Cards */}
-      <div className="bg-white dark:bg-[#0E1420] rounded-xl border border-stone-200/90 dark:border-[#1E2636] shadow-xs overflow-hidden divide-y divide-stone-100 dark:divide-[#182232]">
-        {/* Header Identity Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone-100 dark:divide-[#182232]">
-          {/* Card MP A */}
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-stone-100 dark:bg-[#16202E] text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-[#223044]">
-                {mpA.party}
-              </span>
-              {mpA.is_minister && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  {t.minister}
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-3 mb-2">
-              <MPAvatar imageUrl={mpA.image_url} name={mpA.name} size="md" />
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
-                  {mpA.name}
-                </h2>
-                <div className="text-xs text-stone-500 font-mono">{mpA.constituency}</div>
-              </div>
-            </div>
-            <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-3">
-              {mpA.constituency}, {mpA.state}
-            </p>
-            <Link
-              href={`/mp/${mpA.slug}`}
-              className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
-            >
-              <span>{t.viewFull}</span>
-              <ExternalLink className="w-3 h-3" />
-            </Link>
-          </div>
-
-          {/* Card MP B */}
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-stone-100 dark:bg-[#16202E] text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-[#223044]">
-                {mpB.party}
-              </span>
-              {mpB.is_minister && (
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  {t.minister}
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-3 mb-2">
-              <MPAvatar imageUrl={mpB.image_url} name={mpB.name} size="md" />
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
-                  {mpB.name}
-                </h2>
-                <div className="text-xs text-stone-500 font-mono">{mpB.constituency}</div>
-              </div>
-            </div>
-            <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-3">
-              {mpB.constituency}, {mpB.state}
-            </p>
-            <Link
-              href={`/mp/${mpB.slug}`}
-              className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
-            >
-              <span>{t.viewFull}</span>
-              <ExternalLink className="w-3 h-3" />
-            </Link>
-          </div>
-        </div>
-
-        {METRIC_ROWS.map((row, i) => (
-          <div key={row.key} className={i % 2 === 0 ? 'p-5 bg-stone-50/50 dark:bg-[#0C121D]/50' : 'p-5'}>
-            <div className="text-center mb-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-                {t[row.label]}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center font-mono">
-              <div className="text-center md:text-right">
-                <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                  {metricText(mpA, row.key)}
-                </div>
-              </div>
-              <div className="text-center md:text-left">
-                <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
-                  {metricText(mpB, row.key)}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
 
       <Toast
-        message={t.copied}
+        message="Comparison link copied to clipboard!"
         isOpen={toastOpen}
         onClose={() => setToastOpen(false)}
       />
