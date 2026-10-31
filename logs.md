@@ -75,6 +75,36 @@ This file records key data changes, pipeline updates, schema modifications, and 
 
 ---
 
+## 2026-10-31 — All-India PRS Manifest Crawled (553 Members)
+
+- **Summary:** Crawled all 62 directory pages (pages 0..61) of the PRS Legislative Research 18th Lok Sabha portal. Captured 553 MP records including constituency, state, party, age, questions, debates, private member bills, and profile URLs.
+- **Files or areas changed:**
+  - data/raw/prs.india.manifest.2026-10-31.json — NEW: All-India PRS directory manifest capture (553 records).
+  - scripts/02_crawl_prs_manifest_india.py — NEW: Crawl script covering pages 0..61 with rate-limiting.
+  - data.md — Updated: added PRS manifest to raw captures inventory.
+- **Validation performed:**
+  - Verified 553 records parsed. Checked sample records from multiple states across early and late pages.
+  - Rate limiting kept at 0.8s per page.
+- **Remaining caveat or next step:**
+  - Match Sansad 544 members with PRS 553 records on (state, constituency, name) to generate national performance dataset.
+
+---
+
+## 2026-10-31 — All-India Sansad Master List Fetched (544 MPs)
+
+- **Summary:** Completed All-India 18th Lok Sabha member list fetch via Digital Sansad API. 544 members across 36 states/UTs captured with identity fields and minister status.
+- **Files or areas changed:**
+  - data/raw/sansad.members.india.2026-10-31.json - NEW: 544 MP records, 36 states/UTs, retrieved 2026-10-31.
+  - data.md - Updated: raw directory tree with actual filename replacing placeholder.
+- **Validation performed:**
+  - Verified 544 records loaded from JSON. State count matches Lok Sabha composition (UP: 80, Maharashtra: 49, Bihar: 40, WB: 42, Delhi: 7, etc.).
+  - Script: scripts/01_fetch_sansad_india.py at 1 req/sec rate limit (polite crawl).
+- **Remaining caveat or next step:**
+  - Use this master list as the seed for all-India PRS/affidavit/election enrichment pipeline.
+  - Build 01_normalise_india.py to normalize all 544 records against PRS and ECI data.
+
+---
+
 ## 2026-10-31 — GeoJSON Boundaries, Regional Hierarchy, ECI Raw Capture, New Pipeline Scripts
 
 - **Summary:** Completed Delhi MVP data layer. Downloaded DataMeet 543-PC GeoJSON and extracted 7 Delhi boundaries with pc_slug fields. Populated 70-MLA regional hierarchy. Captured ECI 2024 GE results as immutable raw file. Added All-India Sansad fetch script (running), MPLADS manual intake helper, and ECI results script. Updated data.md registry and status table.
