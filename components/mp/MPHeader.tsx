@@ -62,7 +62,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                   title="Click to view minister explanation"
                 >
                   <Award className="w-3.5 h-3.5" />
-                  <span>Union Minister</span>
+                  <span>Minister</span>
                   <Info className="w-3 h-3 text-amber-500 ml-0.5" />
                 </button>
               )}
@@ -142,7 +142,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                 <h3 className="text-base font-bold text-stone-900 dark:text-white font-sans">
                   Why are parliamentary metrics not applicable?
                 </h3>
-                <p className="text-xs font-mono text-stone-500 dark:text-stone-400">Official Parliamentary Procedure Explanation</p>
+                <p className="text-xs font-mono text-stone-500 dark:text-stone-400">PRS Legislative Research excludes ministers from these indicators</p>
               </div>
             </div>
 

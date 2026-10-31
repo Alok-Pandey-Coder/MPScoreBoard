@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ExternalLink, ShieldCheck, Scale, FileText } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { GitHubIcon } from '@/components/common/GitHubIcon';
 import snapshotData from '@/data/processed/snapshot.json';
 
@@ -20,22 +20,21 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 max-w-lg leading-relaxed">
-              An open, source-verified citizen public ledger providing traceable records of parliamentary attendance, floor questions, local development fund allocations (MPLADS), and sworn affidavit disclosures for Members of Parliament.
+              A neutral report card of public records on parliamentary attendance, questions, debates, local development funds (MPLADS) and election affidavit declarations for Members of Parliament. Each fact links to its source.
             </p>
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500 pt-1">
               <span className="flex items-center gap-1.5 bg-stone-200/70 dark:bg-[#121A26] px-2.5 py-1 rounded border border-stone-300/80 dark:border-[#1E293B]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 Snapshot: {snapshotData.snapshot_version}
               </span>
               <span>·</span>
-              <span>7 Delhi Seats (100% Sourced)</span>
+              <span>Generated {String(snapshotData.generated_at).slice(0, 10)}</span>
             </div>
           </div>
 
           {/* Col 3: Primary Government & Official Provenance */}
           <div>
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-900 dark:text-stone-200 mb-3">
-              Primary Data Provenance
+              Data Sources &amp; Attribution
             </h4>
             <ul className="space-y-2 text-xs font-mono">
               <li>
@@ -62,6 +61,17 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
+                  href="https://www.myneta.info"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
+                >
+                  <span>ADR / MyNeta</span>
+                  <ExternalLink className="w-3 h-3 text-stone-400" />
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://affidavit.eci.gov.in"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -73,12 +83,12 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://mplads.gov.in"
+                  href="https://www.mplads.mospi.gov.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
-                  <span>Ministry of Statistics (MPLADS Portal)</span>
+                  <span>MoSPI eSAKSHI (MPLADS) via Empowered Indian</span>
                   <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
               </li>
@@ -108,7 +118,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link href="/about#minister-policy" className="hover:text-stone-900 dark:hover:text-white transition-colors">
-                  Minister Quota &amp; Governance Policy
+                  How ministers are handled
                 </Link>
               </li>
             </ul>
@@ -117,14 +127,27 @@ export const Footer: React.FC = () => {
 
         {/* Legal Disclaimer & Neutrality Guardrail */}
         <div className="pt-6 border-t border-stone-200 dark:border-[#1A2230] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-stone-500 dark:text-stone-400">
-          <p className="text-center sm:text-left leading-relaxed max-w-3xl">
-            Non-partisan civic transparency project. Declared criminal cases represent sworn affidavit filings, not judicial convictions. Performance indicators are descriptive official records and do not constitute rank or performance scorecards.
-          </p>
+          <div className="text-center sm:text-left leading-relaxed max-w-3xl space-y-1.5">
+            <p>
+              Unofficial student project. Not affiliated with Parliament of India, ECI, PRS, ADR or any political party. Data is from public sources and may contain errors. Please verify with the linked sources.
+            </p>
+            <p>
+              Attribution: PRS Legislative Research; ADR/MyNeta; MoSPI eSAKSHI via Empowered Indian; Digital Sansad; Election Commission of India. Declared cases in affidavits are allegations, not convictions. Indicators show activity, not the quality of an MP&apos;s work.
+            </p>
+          </div>
           <div className="flex items-center gap-3 shrink-0">
-            <span>Open Civic Data</span>
+            <a
+              href="https://github.com/Alok-Pandey-Coder/MPScoreBoard/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline inline-flex items-center gap-1"
+            >
+              <GitHubIcon className="w-3.5 h-3.5" />
+              Report a data issue
+            </a>
             <span>·</span>
             <Link href="/about" className="hover:underline">
-              Review Sources
+              About &amp; methodology
             </Link>
           </div>
         </div>

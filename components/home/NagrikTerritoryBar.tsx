@@ -1,7 +1,29 @@
 import React from 'react';
-import { Calendar, ShieldCheck, FileText, CheckCircle2 } from 'lucide-react';
+import { Database, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import { MPRecord } from '@/types/mp';
+import { formatDate, formatNumber } from '@/lib/formatters';
 
-export const NagrikTerritoryBar: React.FC = () => {
+interface NagrikTerritoryBarProps {
+  mps: MPRecord[];
+}
+
+export const NagrikTerritoryBar: React.FC<NagrikTerritoryBarProps> = ({ mps }) => {
+  const seatCount = mps.length;
+  const reportingQuestions = mps.filter(
+    (mp) => !mp.is_minister && mp.performance.questions !== null && mp.performance.questions !== undefined
+  );
+  const questionsTotal = reportingQuestions.length
+    ? reportingQuestions.reduce((sum, mp) => sum + (mp.performance.questions as number), 0)
+    : null;
+  const perfAsOf = reportingQuestions
+    .map((mp) => mp.performance.as_of)
+    .filter((d): d is string => !!d)
+    .sort()
+    .pop();
+  const affidavitCount = mps.filter((mp) => mp.affidavit?.status === 'reported').length;
+  const ministerCount = mps.filter((mp) => mp.is_minister).length;
+
   return (
     <div className="space-y-6 pt-2">
       {/* Top Editorial Metadata Strip */}
@@ -13,7 +35,7 @@ export const NagrikTerritoryBar: React.FC = () => {
             <span>18th Lok Sabha (2024–2029)</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight font-sans">
-            Delhi Parliamentary Audit
+            Delhi MP Report Cards
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 max-w-2xl font-normal leading-relaxed">
             Source-backed public monitoring of legislative engagement, attendance records, questions asked, and local constituency expenditure for all 7 parliamentary seats.
@@ -23,14 +45,17 @@ export const NagrikTerritoryBar: React.FC = () => {
         {/* Right Status Badges */}
         <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
           <span className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-300/80 dark:border-[#222E42] text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>7/7 Seats Verified</span>
+            <Database className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" aria-hidden="true" />
+            <span>{seatCount} seats · sources linked on each card</span>
           </span>
 
-          <span className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-300/80 dark:border-[#222E42] text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px]">
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-            <span>Digital Sansad &amp; ECI Verified</span>
-          </span>
+          <Link
+            href="/about"
+            className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-300/80 dark:border-[#222E42] text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px] hover:underline"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" aria-hidden="true" />
+            <span>Sources &amp; review status</span>
+          </Link>
         </div>
       </div>
 
@@ -41,10 +66,10 @@ export const NagrikTerritoryBar: React.FC = () => {
             Seats Mapped
           </span>
           <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-mono mt-0.5 tabular-nums">
-            7 / 7
+            {seatCount}
           </div>
           <span className="text-[11px] text-stone-500 dark:text-stone-400">
-            290 Ward Boundaries
+            Lok Sabha constituencies
           </span>
         </div>
 
@@ -53,22 +78,23 @@ export const NagrikTerritoryBar: React.FC = () => {
             Sitting MPs Tracked
           </span>
           <div className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 font-mono mt-0.5 tabular-nums">
-            7
+            {seatCount}
           </div>
           <span className="text-[11px] text-stone-500 dark:text-stone-400">
-            100% Affidavits &amp; Terms
+            Affidavit data for {affidavitCount} of {seatCount}
           </span>
         </div>
 
         <div className="p-2 sm:p-3 border-l-0 sm:border-l border-t sm:border-t-0 border-stone-200 dark:border-[#1E2636] pt-3 sm:pt-2">
           <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
-            Questions Submitted
+            Questions Asked (total)
           </span>
           <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-mono mt-0.5 tabular-nums">
-            1,031
+            {formatNumber(questionsTotal)}
           </div>
           <span className="text-[11px] text-stone-500 dark:text-stone-400">
-            Across Union Ministries
+            {reportingQuestions.length} MPs, PRS{perfAsOf ? `, as of ${formatDate(perfAsOf)}` : ''}
+            {ministerCount ? ` · ${ministerCount} minister not applicable` : ''}
           </span>
         </div>
 
@@ -76,11 +102,11 @@ export const NagrikTerritoryBar: React.FC = () => {
           <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
             MPLADS Entitlement
           </span>
-          <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 tabular-nums">
-            ₹ 35.0 Cr
+          <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-mono mt-0.5 tabular-nums">
+            ₹5 Cr
           </div>
           <span className="text-[11px] text-stone-500 dark:text-stone-400">
-            ₹5 Cr Annual / MP
+            Per MP per year (MPLADS guidelines)
           </span>
         </div>
       </div>

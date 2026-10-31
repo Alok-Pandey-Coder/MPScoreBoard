@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChevronRight, Award, ShieldAlert, GraduationCap, ArrowUpRight, Scale } from 'lucide-react';
+import { Award, ArrowUpRight, Scale } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 
 interface QuickCardsGridProps {
@@ -15,7 +15,9 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
         const attendance = mp.performance.attendance_pct;
         const questions = mp.performance.questions;
         const criminalCases = mp.affidavit?.declared_criminal_cases ?? null;
-        const education = mp.profile?.education || 'Graduate';
+        const education = mp.profile?.education ?? null;
+        const stateAtt = mp.performance.prs_averages?.state?.attendance_pct ?? null;
+        const stateQ = mp.performance.prs_averages?.state?.questions ?? null;
 
         return (
           <Link
@@ -56,8 +58,12 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
                   </h3>
                   <div className="text-[11px] text-stone-500 dark:text-stone-400 flex items-center gap-2 mt-0.5">
                     <span>{mp.term || '18th Lok Sabha'}</span>
-                    <span>·</span>
-                    <span className="truncate max-w-[120px]">{education}</span>
+                    {education && (
+                      <>
+                        <span>·</span>
+                        <span className="truncate max-w-[120px]">{education}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -66,12 +72,12 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
               <div className="bg-stone-50 dark:bg-[#121A26] rounded-lg p-3 border border-stone-200/80 dark:border-[#1E293B] mb-3">
                 {isMinister ? (
                   <div className="text-xs space-y-1.5">
-                    <div className="font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1.5 font-mono text-[11px]">
-                      <Award className="w-3.5 h-3.5 shrink-0" />
-                      <span>Union Minister of State</span>
+                    <div className="font-semibold text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px]">
+                      <Award className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      <span>Minister: indicators not applicable</span>
                     </div>
                     <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-snug">
-                      Ministers answer on behalf of Government; questions &amp; private debates not applicable per parliamentary rules.
+                      Ministers don&apos;t sign the attendance register, ask questions or introduce private member bills, so these indicators don&apos;t apply.
                     </p>
                   </div>
                 ) : (
@@ -81,10 +87,10 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
                         Attendance
                       </div>
                       <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white mt-0.5 tabular-nums">
-                        {attendance !== null ? `${attendance}%` : 'N/A'}
+                        {attendance !== null && attendance !== undefined ? `${attendance}%` : 'Not available'}
                       </div>
                       <div className="text-[9px] text-stone-400 font-mono mt-0.5">
-                        State Avg: 96%
+                        {stateAtt !== null ? `PRS ${mp.state} avg: ${stateAtt}%` : 'State avg not available'}
                       </div>
                     </div>
 
@@ -93,10 +99,10 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
                         Questions
                       </div>
                       <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white mt-0.5 tabular-nums">
-                        {questions !== null ? questions : 'N/A'}
+                        {questions !== null && questions !== undefined ? questions : 'Not available'}
                       </div>
                       <div className="text-[9px] text-stone-400 font-mono mt-0.5">
-                        State Avg: 172
+                        {stateQ !== null ? `PRS ${mp.state} avg: ${stateQ}` : 'State avg not available'}
                       </div>
                     </div>
                   </div>
@@ -107,10 +113,10 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
               <div className="flex items-center justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400 px-1 py-1">
                 <span className="flex items-center gap-1">
                   <Scale className="w-3 h-3 text-stone-400" />
-                  <span>Criminal Cases:</span>
+                  <span>Pending cases (as declared in affidavit):</span>
                 </span>
-                <span className={`font-semibold ${criminalCases && criminalCases > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-stone-700 dark:text-stone-300'}`}>
-                  {criminalCases !== null ? criminalCases : '0'} declared
+                <span className="font-semibold text-stone-700 dark:text-stone-300">
+                  {criminalCases !== null ? criminalCases : 'Not available'}
                 </span>
               </div>
             </div>

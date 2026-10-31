@@ -8,6 +8,7 @@ import { MPHeader } from '@/components/mp/MPHeader';
 import { PerformanceGrid } from '@/components/mp/PerformanceGrid';
 import { ComparisonSection } from '@/components/mp/ComparisonSection';
 import { MpladsSection } from '@/components/mp/MpladsSection';
+import { MpladsWorksSection } from '@/components/mp/MpladsWorksSection';
 import { AffidavitSection } from '@/components/mp/AffidavitSection';
 import { ExplainSimplyPanel } from '@/components/mp/ExplainSimplyPanel';
 import { TakeActionPanel } from '@/components/mp/TakeActionPanel';
@@ -88,6 +89,12 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
           MPLADS Funds
         </a>
         <a
+          href="#works"
+          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
+        >
+          Works
+        </a>
+        <a
           href="#affidavit"
           className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
         >
@@ -125,6 +132,11 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
       {/* 4. Local Area Development (MPLADS) */}
       <div id="mplads" className="scroll-mt-24">
         <MpladsSection mp={mp} />
+      </div>
+
+      {/* 4b. MPLADS Works list */}
+      <div id="works" className="scroll-mt-24">
+        <MpladsWorksSection mp={mp} />
       </div>
 
       {/* 5. Background / Affidavit Disclosures */}

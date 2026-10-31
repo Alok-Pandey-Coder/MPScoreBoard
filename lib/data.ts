@@ -1,6 +1,8 @@
 import realRecords from "@/data/processed/mps.json";
 import testSnapshot from "@/data/processed/mps.test.json";
 import delhiPcGeoJSON from "@/data/processed/delhi_pc.json";
+import snapshotMeta from "@/data/processed/snapshot.json";
+import type { MpladsData } from "@/types/mp";
 import {
   ConstituencySummary,
   LocationResolveRequest,
@@ -51,13 +53,15 @@ export interface ReportMP {
   attendanceBySession: Array<{ session: string; pct: number | null }>;
   history: Array<{ lokSabha: string; constituency: string; state: string; party: string; fromYear: number; toYear: number | null }>;
   mplads: {
-    entitlementCr: number | null;
-    releasedCr: number | null;
+    allocatedCr: number | null;
+    recommendedCr: number | null;
     spentCr: number | null;
-    utilisationPct: number | null;
     unspentCr: number | null;
+    expenditurePct: number | null;
+    recommendedPct: number | null;
+    worksCount: { recommended: number | null; sanctioned: number | null; completed: number | null; pending: number | null } | null;
     asOf: string | null;
-    byYear: Array<{ fy: string; releasedCr: number | null; spentCr: number | null }>;
+    reviewStatus: string | null;
   } | null;
   works: Array<{ id: string; title: string; category: string; locality: string | null; spentCr: number | null; status: string }>;
   bills: Array<{ id: string; title: string; introducedOn: string; status: string }>;
@@ -102,16 +106,7 @@ interface LegacyRecord {
       state?: LegacyMetricAverages;
     };
   };
-  mplads?: {
-    status?: string;
-    entitlement?: number | null;
-    funds_released?: number | null;
-    expenditure?: number | null;
-    utilisation_pct?: number | null;
-    unspent_balance?: number | null;
-    as_of?: string | null;
-    byYear?: Array<{ fy: string; releasedCr: number | null; spentCr: number | null }>;
-  };
+  mplads?: MpladsData;
   affidavit?: {
     status?: string;
     totalAssetsRs?: number | null;
@@ -242,15 +237,17 @@ function toReportMP(record: LegacyRecord): ReportMP {
     isTest: record.isTest ?? false,
     attendanceBySession: performance?.attendanceBySession ?? [],
     history: record.history ?? [],
-    mplads: record.mplads && record.mplads.status !== "pending"
+    mplads: record.mplads && record.mplads.status === "reported"
       ? {
-          entitlementCr: record.mplads.entitlement ?? null,
-          releasedCr: record.mplads.funds_released ?? null,
-          spentCr: record.mplads.expenditure ?? null,
-          utilisationPct: record.mplads.utilisation_pct ?? null,
-          unspentCr: record.mplads.unspent_balance ?? null,
+          allocatedCr: record.mplads.allocated_cr ?? null,
+          recommendedCr: record.mplads.recommended_amount_cr ?? null,
+          spentCr: record.mplads.expenditure_cr ?? null,
+          unspentCr: record.mplads.unspent_cr ?? null,
+          expenditurePct: record.mplads.expenditure_pct ?? null,
+          recommendedPct: record.mplads.recommended_pct ?? null,
+          worksCount: record.mplads.works_count ?? null,
           asOf: record.mplads.as_of ?? null,
-          byYear: record.mplads.byYear ?? [],
+          reviewStatus: record.mplads.review_status ?? null,
         }
       : null,
     works: (record.works ?? []).map((work) => ({
@@ -275,7 +272,7 @@ function toReportMP(record: LegacyRecord): ReportMP {
     profile: record.profile,
     performance: record.performance,
     background: record.background || (record.affidavit ? {
-      declared_criminal_cases: record.affidavit.declaredCases ?? record.affidavit.declared_criminal_cases ?? 0,
+      declared_criminal_cases: record.affidavit.declaredCases ?? record.affidavit.declared_criminal_cases ?? null,
       declared_assets_inr: record.affidavit.totalAssetsRs ?? record.affidavit.assets ?? null,
     } : undefined),
     center_coords: record.center_coords,
@@ -332,7 +329,9 @@ function editDistance(left: string, right: string): number {
 }
 
 export function getSnapshotDate(): string {
-  return isTestMode ? "2026-10-31 (synthetic test data)" : "2026-10-30";
+  if (isTestMode) return "2026-10-31 (synthetic test data)";
+  const generatedAt = (snapshotMeta as { generated_at?: string }).generated_at;
+  return typeof generatedAt === "string" && generatedAt.length >= 10 ? generatedAt.slice(0, 10) : "unknown";
 }
 
 // ── Spatial & Location Services ─────────────────────────────────────────────

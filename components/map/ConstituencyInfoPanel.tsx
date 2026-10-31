@@ -62,7 +62,7 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
           <div>
             <div className="text-[9px] text-[#9BAABD] uppercase">Attendance</div>
             <div className="text-xs font-bold text-white font-mono mt-0.5">
-              {constituency.attendancePct ? `${constituency.attendancePct}%` : 'N/A'}
+              {constituency.attendancePct !== null && constituency.attendancePct !== undefined ? `${constituency.attendancePct}%` : 'Not available'}
             </div>
           </div>
           <div>

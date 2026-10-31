@@ -105,7 +105,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
       {/* 2. Interactive Constituency Map Section */}
       <section id="find-constituency" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
         {/* Territory Status & Live Metrics Strip */}
-        <NagrikTerritoryBar />
+        <NagrikTerritoryBar mps={mps} />
 
         {/* The Master Leaflet Dark GIS Map with 290 Wards */}
         <NagrikStyleMap
@@ -120,17 +120,17 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
             <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-              LEADERSHIP AUDIT · 18TH LOK SABHA
+              18TH LOK SABHA
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
               Delhi Sitting Members of Parliament
             </h2>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
-              All 7 seats verified with official Lok Sabha Secretariat &amp; ECI affidavit records.
+              Each card lists its sources, retrieval dates and review status.
             </p>
           </div>
           <span className="text-xs font-mono font-medium px-3 py-1 bg-stone-100 dark:bg-[#131B27] text-stone-700 dark:text-stone-300 rounded-md border border-stone-200 dark:border-[#222E42] self-start sm:self-auto">
-            100% Traceable Records
+            Sources linked on every card
           </span>
         </div>
 

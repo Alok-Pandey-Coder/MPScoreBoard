@@ -11,7 +11,7 @@ export const NagrikStateCardsGrid: React.FC = () => {
       type: 'National Capital Territory',
       seats: 7,
       mps: 7,
-      status: 'Active Audit',
+      status: 'Data available',
       icon: Landmark,
       fundsAllocated: '₹ 35.0 Cr',
     },
@@ -118,7 +118,7 @@ export const NagrikStateCardsGrid: React.FC = () => {
                     ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 font-bold'
                     : 'bg-stone-100 dark:bg-[#151D2A] text-stone-600 dark:text-stone-400 border-stone-200 dark:border-[#222E40]'
                 }`}>
-                  {isDelhi ? '100% Sourced Active Audit' : `${st.seats} Seats in Pipeline`}
+                  {isDelhi ? 'Delhi data available' : `${st.seats} Seats in Pipeline`}
                 </span>
                 <span className="text-stone-500 dark:text-stone-400">
                   {st.fundsAllocated}

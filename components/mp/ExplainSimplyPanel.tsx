@@ -105,8 +105,8 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
         {/* Bottom meta bar */}
         <div className="pt-4 mt-5 border-t border-stone-100 dark:border-[#1A2333] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-stone-500 dark:text-stone-400">
           <div className="flex items-center gap-1.5 text-[11px]">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span>Mathematical guardrails prevent hallucination or unsourced claims</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400 shrink-0" aria-hidden="true" />
+            <span>Auto-generated summary from the data above. Check the linked sources.</span>
           </div>
 
           <button

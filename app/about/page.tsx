@@ -23,7 +23,7 @@ export default function AboutPage() {
           Methodology, Sources &amp; Transparency
         </h1>
         <p className="text-slate-600 dark:text-slate-300 mt-2 text-base leading-relaxed">
-          How &quot;Mera MP, Mera Report Card&quot; collects, normalises, and verifies parliamentary activity indicators for the 18th Lok Sabha.
+          How &quot;Mera MP, Mera Report Card&quot; collects, normalises, and reviews parliamentary activity indicators for the 18th Lok Sabha.
         </p>
       </div>
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
         </h2>
         <div className="text-sm text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed bg-white dark:bg-[#171D24] p-6 rounded-3xl border border-slate-200 dark:border-[#303A45] shadow-sm">
           <p>
-            <strong>Indicators, Not Verdicts:</strong> We provide structured, verified indicators of parliamentary participation. We do not rate, grade, rank, or label MPs as &quot;good&quot; or &quot;bad&quot;. Quantitative indicators show recorded participation on the floor of the House; they do not encompass the qualitative depth of legislation, committee leadership, or constituency service.
+            <strong>Indicators, Not Verdicts:</strong> We provide structured, sourced indicators of parliamentary participation. We do not rate, grade, rank, or label MPs as &quot;good&quot; or &quot;bad&quot;. Quantitative indicators show recorded participation on the floor of the House; they do not encompass the qualitative depth of legislation, committee leadership, or constituency service.
           </p>
           <p>
             <strong>Zero False Data:</strong> We never convert missing data or pending records to zero. Unavailable fields show &quot;Not available&quot;.
@@ -135,7 +135,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 3: Minister Handling */}
-      <section className="space-y-4">
+      <section id="minister-policy" className="space-y-4 scroll-mt-24">
         <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
           <Award className="w-5 h-5 text-cyan-500" />
           <span>3. Treatment of Ministers &amp; Special Roles</span>
@@ -192,7 +192,7 @@ export default function AboutPage() {
         <div className="pt-4 border-t border-[#303A45] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-400">
           <span>Active snapshot version: {snapshotData.snapshot_version}</span>
           <a
-            href="https://github.com"
+            href="https://github.com/Alok-Pandey-Coder/MPScoreBoard/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors"

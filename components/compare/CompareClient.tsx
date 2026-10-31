@@ -123,7 +123,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               </span>
               {mpA.is_minister && (
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  Union Minister
+                  Minister
                 </span>
               )}
             </div>
@@ -150,7 +150,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               </span>
               {mpB.is_minister && (
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-bold border border-amber-500/30">
-                  Union Minister
+                  Minister
                 </span>
               )}
             </div>
@@ -182,14 +182,18 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpA.performance?.attendance_pct !== null && mpA.performance?.attendance_pct !== undefined
                   ? `${mpA.performance.attendance_pct}%`
-                  : 'N/A (Minister)'}
+                  : mpA.is_minister
+                    ? 'Not applicable (minister)'
+                    : 'Not available'}
               </div>
             </div>
             <div className="text-center md:text-left">
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpB.performance?.attendance_pct !== null && mpB.performance?.attendance_pct !== undefined
                   ? `${mpB.performance.attendance_pct}%`
-                  : 'N/A (Minister)'}
+                  : mpB.is_minister
+                    ? 'Not applicable (minister)'
+                    : 'Not available'}
               </div>
             </div>
           </div>
@@ -207,14 +211,14 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpA.performance?.debates !== null && mpA.performance?.debates !== undefined
                   ? mpA.performance.debates
-                  : 'N/A'}
+                  : 'Not available'}
               </div>
             </div>
             <div className="text-center md:text-left">
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpB.performance?.debates !== null && mpB.performance?.debates !== undefined
                   ? mpB.performance.debates
-                  : 'N/A'}
+                  : 'Not available'}
               </div>
             </div>
           </div>
@@ -232,14 +236,14 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpA.performance?.questions !== null && mpA.performance?.questions !== undefined
                   ? mpA.performance.questions
-                  : 'N/A'}
+                  : 'Not available'}
               </div>
             </div>
             <div className="text-center md:text-left">
               <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tabular-nums">
                 {mpB.performance?.questions !== null && mpB.performance?.questions !== undefined
                   ? mpB.performance.questions
-                  : 'N/A'}
+                  : 'Not available'}
               </div>
             </div>
           </div>

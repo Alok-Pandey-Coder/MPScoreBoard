@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ExternalLink, Database, BookOpen } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { formatDate } from '@/lib/formatters';
+import { formatDate, formatReviewStatus } from '@/lib/formatters';
 
 interface SourcesFooterProps {
   mp: MPRecord;
@@ -15,10 +15,10 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
         <div>
           <h3 className="text-base font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2">
             <Database className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <span>Card Provenance &amp; Verified Sources</span>
+            <span>Sources</span>
           </h3>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-            Every entry on this dossier links directly to an official public source record
+            Each source used on this card, with its retrieval date
           </p>
         </div>
 
@@ -30,6 +30,19 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
           <span>Full Methodology &amp; Rules</span>
         </Link>
       </div>
+
+      <dl className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4 text-[11px] font-mono">
+        {[
+          { label: 'Parliament activity', status: mp.is_minister ? 'Not applicable (minister)' : formatReviewStatus(mp.performance.review_status) },
+          { label: 'MPLADS', status: formatReviewStatus(mp.mplads?.review_status) },
+          { label: 'Affidavit', status: formatReviewStatus(mp.affidavit?.review_status) },
+        ].map((row) => (
+          <div key={row.label} className="bg-stone-50/80 dark:bg-[#121A26] p-2.5 rounded-lg border border-stone-200/80 dark:border-[#1E293B]">
+            <dt className="text-stone-500 dark:text-stone-400">{row.label} review status</dt>
+            <dd className="text-stone-800 dark:text-stone-200 mt-0.5">{row.status ?? 'Not recorded'}</dd>
+          </div>
+        ))}
+      </dl>
 
       <div className="space-y-2.5">
         {mp.sources.map((src, index) => (
@@ -47,7 +60,7 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
                 )}
               </div>
               <div className="text-stone-500 dark:text-stone-400 text-[11px] mt-0.5">
-                {src.retrieved_at ? `Verified: ${formatDate(src.retrieved_at)}` : 'Captured in snapshot'}
+                {src.retrieved_at ?? src.retrievedAt ? `Retrieved ${formatDate(src.retrieved_at ?? src.retrievedAt)}` : 'Retrieval date not recorded'}
               </div>
             </div>
 

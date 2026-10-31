@@ -45,3 +45,8 @@ next-env.d.ts
 
 # temporary intake
 /temp
+
+# python caches
+__pycache__/
+*.pyc
+.pytest_cache/

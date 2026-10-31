@@ -509,7 +509,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                 </div>
                 {activeMP?.is_minister && (
                   <div className="text-[10px] text-amber-400 font-mono">
-                    Union Minister · Questions not applicable
+                    Minister · indicators not applicable
                   </div>
                 )}
                 {!activeMP?.is_minister && activeMP?.performance?.attendance_pct !== null && (

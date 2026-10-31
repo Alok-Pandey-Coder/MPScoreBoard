@@ -1,4 +1,8 @@
-"""Merge normalized Delhi records, affidavits, and custom enrichments into the application export."""
+"""Merge normalized Delhi records, affidavits, MPLADS blocks and election enrichments into the application export.
+
+MPLADS comes from data/processed/mplads.delhi.json (built by 09_intake_mplads.py from the
+latest raw captures). The `mplads` key in delhi_7mp_custom_enrichment.json is legacy and ignored.
+"""
 
 import csv
 import json
@@ -9,6 +13,7 @@ SOURCE = ROOT / "data" / "processed" / "normalised.delhi.json"
 OUTPUT = ROOT / "data" / "processed" / "mps.json"
 AFFIDAVIT_FILE = ROOT / "data" / "reference_packs" / "officials_enriched_pack" / "data" / "mp_affidavit_enrichment.csv"
 CUSTOM_ENRICHMENT_FILE = ROOT / "data" / "raw" / "delhi_7mp_custom_enrichment.json"
+MPLADS_FILE = ROOT / "data" / "processed" / "mplads.delhi.json"
 
 TERM = "18th Lok Sabha"
 METRICS = ("attendance_pct", "debates", "questions", "private_member_bills")
@@ -67,8 +72,9 @@ def affidavit_block(aff: dict | None) -> dict:
         return pending_block(("election_year", "assets", "liabilities", "declared_criminal_cases", "education"))
 
     total_assets = int(round(float(aff["declared_total_assets_inr"]))) if aff.get("declared_total_assets_inr") else None
-    liabilities = int(round(float(aff["declared_liabilities_inr"]))) if aff.get("declared_liabilities_inr") else 0
-    cases = int(aff["declared_criminal_case_count"]) if aff.get("declared_criminal_case_count") not in (None, "") else 0
+    # Missing affidavit values stay null; a declared "0" is kept as 0.
+    liabilities = int(round(float(aff["declared_liabilities_inr"]))) if aff.get("declared_liabilities_inr") not in (None, "") else None
+    cases = int(aff["declared_criminal_case_count"]) if aff.get("declared_criminal_case_count") not in (None, "") else None
     edu = aff.get("education_detail_as_declared") or aff.get("education_category_as_declared")
 
     return {
@@ -91,33 +97,23 @@ def affidavit_block(aff: dict | None) -> dict:
     }
 
 
-def mplads_block(custom: dict | None) -> dict:
-    if not custom or not custom.get("mplads"):
-        return pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works"))
-    m = custom["mplads"]
-    has_data = any(m.get(k) is not None for k in ("funds_released_cr", "expenditure_cr", "utilisation_pct"))
-    if not has_data:
-        return pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works"))
-    return {
-        "status": "reported",
-        "entitlement": m.get("entitlement_cr") or m.get("annual_entitlement_cr") or 5.0,
-        "funds_released": m.get("funds_released_cr"),
-        "expenditure": m.get("expenditure_cr"),
-        "utilisation_pct": m.get("utilisation_pct"),
-        "unspent_balance": m.get("unspent_balance_cr"),
-        "works": {
-            "recommended": m.get("works_recommended"),
-            "sanctioned": m.get("works_sanctioned"),
-            "completed": m.get("works_completed"),
-        },
-        "as_of": m.get("as_of") or m.get("as_of_date") or "2026-10-31",
-        "source": {
-            "name": m.get("source_name") or "Empowered Indian / MoSPI",
-            "url": m.get("source_url") or "https://empoweredindian.in/mplads",
-            "retrieved_at": m.get("as_of") or m.get("as_of_date") or "2026-10-31",
-        },
-        "review_status": "user_verified",
-    }
+MPLADS_PENDING_FIELDS = (
+    "annual_entitlement_cr", "allocated_cr", "recommended_amount_cr", "expenditure_cr",
+    "unspent_cr", "expenditure_pct", "recommended_pct", "works_count",
+)
+
+
+def load_mplads() -> dict[str, dict]:
+    """Per-seat MPLADS blocks produced by 09_intake_mplads.py from the latest raw captures."""
+    if not MPLADS_FILE.exists():
+        return {}
+    return json.loads(MPLADS_FILE.read_text(encoding="utf-8"))["seats"]
+
+
+def mplads_block(seat: dict | None) -> dict:
+    if not seat or not seat.get("block"):
+        return {**pending_block(MPLADS_PENDING_FIELDS), "works": [], "works_is_partial": False, "cross_check": []}
+    return seat["block"]
 
 
 def election_block(custom: dict | None) -> dict:
@@ -151,6 +147,7 @@ def main() -> None:
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
     affidavits = load_affidavits()
     custom_enrichments = load_custom_enrichment()
+    mplads_seats = load_mplads()
 
     records = []
     for row in source["records"]:
@@ -167,7 +164,8 @@ def main() -> None:
         custom = custom_enrichments.get(row["slug"])
 
         aff_block = affidavit_block(aff)
-        mpl_block = mplads_block(custom)
+        mpl_seat = mplads_seats.get(row["slug"])
+        mpl_block = mplads_block(mpl_seat)
         elec_block = election_block(custom)
 
         sources = [
@@ -232,7 +230,7 @@ def main() -> None:
                 "affidavit": aff_block,
                 "election": elec_block,
                 "sources": sources,
-                "normalisation_notes": row["normalisation_notes"],
+                "normalisation_notes": row["normalisation_notes"] + (mpl_seat["notes"] if mpl_seat else []),
             }
         )
 

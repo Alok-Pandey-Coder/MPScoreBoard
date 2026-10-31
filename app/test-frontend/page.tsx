@@ -726,7 +726,7 @@ export default function TestFrontend() {
               </h3>
               <div style={{ background: "#05070d", padding: "14px", borderRadius: "8px", border: "1px solid #141c2e", marginTop: "12px", fontSize: "0.88rem" }}>
                 <div><strong>Education:</strong> {mp.profile.education || "N/A"}</div>
-                <div style={{ marginTop: "6px" }}><strong>Declared Criminal Cases:</strong> {mp.background?.declared_criminal_cases ?? "0"} (as declared in election affidavit)</div>
+                <div style={{ marginTop: "6px" }}><strong>Declared Criminal Cases:</strong> {mp.background?.declared_criminal_cases ?? "Not available"} (as declared in election affidavit)</div>
                 <div style={{ marginTop: "6px" }}><strong>Age:</strong> {mp.profile.age || "N/A"} years • <strong>Term:</strong> {mp.profile.term_number || "1st Term"}</div>
               </div>
 

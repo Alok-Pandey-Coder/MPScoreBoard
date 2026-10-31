@@ -1,6 +1,6 @@
 # Data Architecture & Master Registry — "Mera MP, Mera Report Card"
 
-> **Version:** 1.2 · **Date:** 2026-10-31  
+> **Version:** 1.3 · **Date:** 2026-10-31  
 > **Repository:** `d:\MPScoreBoard`  
 > **Companion Documents:** `AGENTS.md`, `PRD.md`, `PlanV2.md`, `docs/dataSources.md`
 
@@ -23,8 +23,9 @@ d:\MPScoreBoard\data\
 │   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data
 │   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids
 │   ├── normalised.delhi.json            # Intermediate normalised records before merge
-│   ├── mps.india.json                   # All-India 544-seat dataset (Sansad + PRS 100% matched)
-│   └── validation_report_india.md       # All-India dataset validation & state breakdown report
+│   ├── mplads.delhi.json                # Intermediate MPLADS blocks per seat (09_intake_mplads.py) + raw source values
+│   ├── mps.india.json                   # UNVALIDATED, NOT FOR PUBLICATION (see 2.4); unused by the app
+│   └── validation_report_india.md       # UNVALIDATED, NOT FOR PUBLICATION (see 2.4)
 │
 ├── raw/                                 # ACTIVE IMMUTABLE SOURCE CAPTURES
 │   ├── masterlist.delhi.json            # Delhi Government official MP directory capture
@@ -33,8 +34,9 @@ d:\MPScoreBoard\data\
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
 │   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
 │   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
-│   ├── mplads.delhi.empoweredindian.2026-10-31.json # Empowered Indian MPLADS API raw capture (7 Delhi MPs)
-│   └── delhi_7mp_custom_enrichment.json # User intake: election results + MPLADS (7 Delhi MPs)
+│   ├── mplads.delhi.empoweredindian.2026-10-31.json # Empowered Indian MPLADS API raw capture (7 Delhi MPs, rupees, 20 works each)
+│   ├── mplads.delhi.janwatchdog.2026-10-06.csv     # JanWatchdog MPLADS summary (7 seats, crore) - cross-check only
+│   └── delhi_7mp_custom_enrichment.json # User intake: election results (its legacy `mplads` key is ignored by the pipeline)
 │
 └── reference_packs/                     # EXTERNAL & CIVIC PACKS (MCD, MLAs & Affidavits)
     ├── officials_enriched_pack/         # ⭐ Contains 7 Lok Sabha MP affidavit records & ADR MHT documents
@@ -59,7 +61,7 @@ d:\MPScoreBoard\data\
 | **2. Profile** | PRS Legislative Research | Per MP: Age, gender, education, term number, source provenance | **100% Complete** |
 | **3. Performance** | PRS Legislative Research | Per MP: Attendance %, debates, questions, private member bills, state/national averages | **100% Complete** (6 reported, 1 minister `not_applicable`) |
 | **4. Affidavit** | ADR / MyNeta / ECI | Per MP: Declared criminal cases, total assets, liabilities, education, original citation | **100% Complete** (7/7 reported & cross-checked) |
-| **5. MPLADS** | Empowered Indian / MoSPI | Per MP: Entitlement, released, expenditure, utilisation %, works counts, as-of date | **100% Complete** (7/7 reported via Empowered Indian / e-SAKSHI) |
+| **5. MPLADS** | Empowered Indian (aggregating MoSPI eSAKSHI); JanWatchdog cross-check | Per MP: allocated, recommended, spent, unspent (crore), expenditure % and recommended % (computed), works counts, partial works list, cross-check | **7/7 reported, review_status `secondary_only`** (official eSAKSHI cross-check pending; works lists partial: 20 per seat) |
 | **6. Election** | Election Commission of India | Per MP: 2024 winning votes, runner-up name/party/votes, margin | **100% Complete** (7/7 reported via ECI 2024 results) |
 
 ### 2.2 Field-by-Field Technical Specifications
@@ -116,20 +118,28 @@ interface MPRecord {
     source: SourceProvenance | null;
   };
 
-  mplads: {
-    status: "reported" | "pending";
-    entitlement: number | null;            // In ₹ Crore
-    funds_released: number | null;         // In ₹ Crore
-    expenditure: number | null;            // In ₹ Crore
-    utilisation_pct: number | null;        // Recomputed spent / released
-    unspent_balance: number | null;        // In ₹ Crore
-    works: {
-      recommended: number | null;
-      sanctioned: number | null;
-      completed: number | null;
-    } | null;
+  mplads: {                              // Contract: MpladsData in types/mp.ts (snake_case)
+    status: "reported" | "pending" | "not_applicable";
+    annual_entitlement_cr: number | null;  // null: scheme guideline figure not yet cited from an official source
+    allocated_cr: number | null;           // Source allocatedAmount / 1e7 (4 dp). No separate "released" figure exists.
+    recommended_amount_cr: number | null;  // Source totalRecommendedAmount / 1e7
+    expenditure_cr: number | null;         // Source totalExpenditure / 1e7
+    unspent_cr: number | null;             // Source unspentAmount / 1e7 (checked = allocated - expenditure)
+    expenditure_pct: number | null;        // expenditure / allocated x 100, from rupees, 1 dp
+    recommended_pct: number | null;        // recommended / allocated x 100, from rupees, 1 dp
+                                           // (source "utilizationPercentage" is this ratio; never shown as spending)
+    works_count: { recommended: number | null; sanctioned: null /* not published by source */;
+                   completed: number | null; pending: number | null } | null;
+    works: MpladsWork[];                   // work_id (string), description, category, implementing_agency,
+                                           // status (recommended|sanctioned|in_progress|completed|other), status_raw,
+                                           // recommended_on, completed_on (ISO), recommended_amount_cr,
+                                           // final_amount_cr, paid_cr (null when absent), has_image.
+                                           // Sorted recommended_on desc (undated last), then work_id. Never by amount.
+    works_is_partial: boolean;             // works.length < works_count.recommended
     as_of: string | null;
-    source: SourceProvenance | null;
+    source: SourceProvenance | null;       // includes raw_file + licence note
+    cross_check: MpladsCrossCheck[];       // JanWatchdog figures + human-readable differences; not published as fact
+    review_status: "secondary_only" | null;
   };
 
   election: {
@@ -151,13 +161,23 @@ interface MPRecord {
 
 | Constituency Slug | MP Name | Party | Minister | Performance Attendance | Debates | Questions | Bills | Affidavit (Cases / Assets) | MPLADS | Election |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | **Reported** (₹2.65 Cr exp / ₹12.10 Cr unspent) | **Reported** (516,496 votes, margin 89,325) |
-| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | **Reported** (₹2.44 Cr exp / ₹12.27 Cr unspent) | **Reported** (664,819 votes, margin 93,663) |
-| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | **Reported** (₹2.18 Cr exp / ₹13.25 Cr unspent) | **Reported** (453,185 votes, margin 78,370) |
-| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | **Reported** (₹2.97 Cr exp / ₹19.61 Cr unspent) | **Reported** (824,451 votes, margin 138,778) |
-| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | **Reported** (₹1.25 Cr exp / ₹13.54 Cr unspent) | **Reported** (866,483 votes, margin 290,849) |
-| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | **Reported** (₹2.88 Cr exp / ₹11.87 Cr unspent) | **Reported** (692,773 votes, margin 124,333) |
-| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | **Reported** (₹1.31 Cr exp / ₹13.39 Cr unspent) | **Reported** (842,658 votes, margin 199,013) |
+| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | **Secondary** (₹2.65 Cr spent of ₹14.75 Cr allocated, 18.0%; recommended 43.8%) | **Reported** (516,496 votes, margin 89,325) |
+| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | **Secondary** (₹2.44 / ₹14.71 Cr, 16.6%; recommended 52.8%) | **Reported** (664,819 votes, margin 93,663) |
+| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | **Secondary** (₹2.18 / ₹15.43 Cr, 14.1%; recommended 42.4%) | **Reported** (453,185 votes, margin 78,370) |
+| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | **Secondary** (₹2.97 / ₹22.58 Cr, 13.2%; recommended 44.5%) | **Reported** (824,451 votes, margin 138,778) |
+| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | **Secondary** (₹1.25 / ₹14.79 Cr, 8.5%; recommended 31.2%) | **Reported** (866,483 votes, margin 290,849) |
+| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | **Secondary** (₹2.88 / ₹14.76 Cr, 19.6%; recommended 87.6%) | **Reported** (692,773 votes, margin 124,333) |
+| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | **Secondary** (₹1.31 / ₹14.70 Cr, 8.9%; recommended 60.2%) | **Reported** (842,658 votes, margin 199,013) |
+
+MPLADS figures are Empowered Indian as of 2026-10-31 (`secondary_only`). Declared affidavit cases are allegations, not convictions. Activity and MPLADS figures are descriptive, not a ranking.
+
+### 2.4 Intermediate and non-publishable processed files
+
+| File | Producer | Status | Notes |
+|:---|:---|:---|:---|
+| `data/processed/mplads.delhi.json` | `scripts/09_intake_mplads.py` | Pipeline intermediate | `{primary_capture, cross_check_capture, unmatched_primary, unmatched_cross_check, seats: {slug: {block, source_values, notes}}}`. `block` is the exact `MpladsData` merged into `mps.json`; `source_values` keeps the raw rupee amounts and the source's own percentages (`utilization_pct`, `utilization_definition`, `expenditure_pct`) and works endpoint counts, used by `07_validate.py` only. |
+| `data/processed/mps.india.json` | `scripts/05_normalise_india.py` | **Unvalidated - not for publication** | Known broken: 544 rows for 543 seats, every row has performance `not_applicable`. Not imported by the app. |
+| `data/processed/validation_report_india.md` | `scripts/05_normalise_india.py` | **Unvalidated - not for publication** | Claims "Ministers: 544"; inherits the defects above. |
 
 ---
 
@@ -257,19 +277,6 @@ To allow direct entry of verified 7 MP figures without editing complex code, pla
     "slug": "new-delhi-delhi",
     "name": "Bansuri Swaraj",
     "constituency": "New Delhi",
-    "mplads": {
-      "entitlement_cr": 5.0,
-      "funds_released_cr": 2.5,
-      "expenditure_cr": 1.2,
-      "utilisation_pct": 48.0,
-      "unspent_balance_cr": 1.3,
-      "works_recommended": 12,
-      "works_sanctioned": 8,
-      "works_completed": 4,
-      "as_of": "2026-10-31",
-      "source_name": "Empowered Indian / MoSPI",
-      "source_url": "https://empoweredindian.in/mplads"
-    },
     "election": {
       "election_year": 2024,
       "winning_votes": 453185,
@@ -284,6 +291,14 @@ To allow direct entry of verified 7 MP figures without editing complex code, pla
 ]
 ```
 
+> **MPLADS is no longer read from this file.** As of 2026-10-31 the `mplads` key here
+> (written by `scripts/fetch_empowered_delhi.py`) is legacy and ignored: it stored the
+> recommended share as `utilisation_pct`, `allocatedAmount` as `funds_released_cr`,
+> assumed `works_sanctioned = works_recommended` and defaulted entitlement to 5.0.
+> MPLADS now comes from the latest dated raw capture
+> `data/raw/mplads.delhi.empoweredindian.<date>.json` via `scripts/09_intake_mplads.py`.
+> To refresh MPLADS, add a new dated capture; do not hand-edit numbers.
+
 ---
 
 ## 6. Pipeline Execution & Invariants
@@ -297,13 +312,17 @@ python scripts/03_parse_prs.py
 # 2. Normalise values and names
 python scripts/05_normalise.py
 
-# 3. Merge onto masterlist with aliases
+# 3. Normalise MPLADS from the latest Empowered Indian capture (+ JanWatchdog cross-check)
+#    -> data/processed/mplads.delhi.json
+python scripts/09_intake_mplads.py
+
+# 4. Merge onto masterlist with aliases
 python scripts/06_merge.py
 
-# 4. Run automated validation checks
+# 5. Run automated validation checks
 python scripts/07_validate.py
 
-# 5. Export production snapshot with SHA-256 hash
+# 6. Export production snapshot with SHA-256 hash
 python scripts/08_snapshot.py
 
 # Or run the entire pipeline in one step:
@@ -315,4 +334,11 @@ python scripts/build_data.py
 2. **Ministers Excluded from Activity:** Ministers do not ask questions or sign attendance registers. Their performance must be status `not_applicable` with `null` metrics, never `0`.
 3. **Affidavit Wording Guardrails:** Criminal case counts represent self-declared pending cases from election affidavits. They must **never** be phrased as convictions or labeled "criminal MPs".
 4. **Traceable Provenance:** Every single metric must carry its original source URL, license, and retrieval date.
+5. **MPLADS (07_validate.py):** hard errors for a percentage outside 0-100, negative money, unspent > allocated,
+   more works listed than recommended, duplicate `work_id` within an MP, keys outside the `MpladsData` contract,
+   a wrong `works_is_partial` flag, or a reported block / cross-check without source URL and as-of date.
+   Warnings for computed vs source percentage > 1 point, cross-check allocated/expenditure > 5% apart, and partial works lists.
+   `validation_report.md` has an MPLADS table per seat.
+6. **Snapshot truthfulness:** `snapshot.json` `source_status` is derived by `08_snapshot.py` from the block and
+   review statuses in `mps.json`; `sha256` is the hash of the exported `mps.json` bytes.
 

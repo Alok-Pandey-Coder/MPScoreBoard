@@ -1,5 +1,23 @@
 # Project Change Log
 
+## 2026-10-31 — MPLADS block corrected to the `MpladsData` contract; JanWatchdog cross-check added
+
+- **Summary:** The previous MPLADS export showed Empowered Indian's `utilizationPercentage` (recommended ÷ allocated, e.g. 43.8% for Chandni Chowk) as spending utilisation, stored `allocatedAmount` as "funds released", assumed works sanctioned = works recommended, and defaulted entitlement to ₹5 cr without a citation. MPLADS is now normalised from the latest dated raw capture by `scripts/09_intake_mplads.py`: `expenditure_pct` and `recommended_pct` are computed from rupee amounts, `works_count.sanctioned` and `annual_entitlement_cr` are `null`, 20 works per MP are mapped to `MpladsWork` (`works_is_partial: true`), `review_status` is `secondary_only`, and JanWatchdog (snapshot 2026-10-06) is attached as `cross_check` with readable differences. Old keys (`entitlement`, `funds_released`, `expenditure`, `utilisation_pct`, `unspent_balance`, `works{}`) are gone from `mps.json`. Corrected expenditure %: Chandni Chowk 18.0, East Delhi 16.6, New Delhi 14.1, North East Delhi 13.2, North West Delhi 8.5, South Delhi 19.6, West Delhi 8.9.
+- **Files or areas changed:**
+  - `scripts/09_intake_mplads.py` — rewritten from a manual intake helper into the MPLADS normaliser; writes `data/processed/mplads.delhi.json` (NEW intermediate).
+  - `scripts/06_merge.py` — reads MPLADS from `mplads.delhi.json`, ignores the legacy `mplads` key in `delhi_7mp_custom_enrichment.json`, appends MPLADS notes to `normalisation_notes`; affidavit liabilities/cases no longer default to 0 when missing (no output change, all 7 values present).
+  - `scripts/07_validate.py` — MPLADS contract checks, hard errors and warnings; MPLADS table in `validation_report.md`.
+  - `scripts/08_snapshot.py` — `source_status` derived from block and review statuses; pipeline string includes 09 and 08.
+  - `scripts/build_data.py` — runs `09_intake_mplads.py` before the merge.
+  - `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` — NEW capture, byte copy of the local temp intake file; documented in `data/raw/README.md`.
+  - `data/processed/mps.json`, `snapshot.json`, `validation_report.md` — regenerated.
+  - `tests/test_mplads.py` — NEW (11 tests: pct computation, rupee→crore, no sanctioned/entitlement assumption, partial flag, null preservation, sort order, latest capture, cross-check, validator errors, export contract, snapshot hash).
+  - `data.md`, `docs/dataSources.md` — MPLADS contract, sources and decisions; `mps.india.json` / `validation_report_india.md` marked unvalidated and not for publication.
+- **Validation performed:** `python scripts/build_data.py` — 0 hard errors, 12 warnings (7 partial works lists; 5 seats where JanWatchdog expenditure is 5.3–22.6% higher than Empowered Indian). Computed percentages match the source's own percentages within 0.1 point for all 7 seats. `python -m pytest tests -q` — 18 passed. `npx tsc --noEmit` — passed. `snapshot.json` sha256 matches `mps.json`.
+- **Remaining caveat or next step:** MPLADS is secondary-only until an official eSAKSHI cross-check is possible (`mplads.gov.in` refused connections). Works lists are 20 per MP; a fuller capture added as a new dated `mplads.delhi.empoweredindian.*.json` is picked up automatically. JanWatchdog's earlier snapshot shows higher expenditure and completed counts than Empowered Indian's later one (and 82 vs 59 recommended works for North West Delhi), which suggests the two sites define figures differently; unresolved. `scripts/fetch_empowered_delhi.py` still writes the legacy `mplads` key to the enrichment file (owned by another agent; now ignored). Annual entitlement needs an official guidelines citation before it can be shown. Note: `logs.md` itself contains a duplicated block of earlier entries (second `# Project Change Log` heading); left as-is per the no-rewrite rule.
+
+---
+
 ## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
 
 - **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:

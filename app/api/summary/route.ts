@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSummary, type SummaryLanguage } from "@/lib/actions";
-import { getMPBySlug } from "@/lib/data";
+import { getMPBySlug, getSnapshotDate } from "@/lib/data";
 
 function errorResponse(code: string, message: string, status: number) {
   return NextResponse.json({ error: { code, message } }, { status });
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
         const inputNumbers = new Set(JSON.stringify(mp).match(/\b\d+(?:\.\d+)?\b/g) ?? []);
         const outputNumbers = text?.match(/\b\d+(?:\.\d+)?\b/g) ?? [];
         if (text && outputNumbers.every((number) => inputNumbers.has(number))) {
-          return NextResponse.json({ text, source: "llm", lang, dataAsOf: "2026-10-30", generatedAt: new Date().toISOString() });
+          return NextResponse.json({ text, source: "llm", lang, dataAsOf: getSnapshotDate(), generatedAt: new Date().toISOString() });
         }
       }
     } catch {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     text: createSummary(mp, lang),
     source: "template",
     lang,
-    dataAsOf: "2026-10-30",
+    dataAsOf: getSnapshotDate(),
     generatedAt: new Date().toISOString(),
   });
 }

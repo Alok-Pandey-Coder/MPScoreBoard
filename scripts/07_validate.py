@@ -12,6 +12,24 @@ ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "data" / "processed" / "mps.json"
 MASTER = ROOT / "data" / "raw" / "masterlist.delhi.json"
 REPORT = ROOT / "data" / "processed" / "validation_report.md"
+MPLADS_NORMALISED = ROOT / "data" / "processed" / "mplads.delhi.json"
+MPLADS_STATUSES = {"reported", "pending", "not_applicable"}
+WORK_STATUSES = {"recommended", "sanctioned", "in_progress", "completed", "other"}
+MPLADS_KEYS = {
+    "status", "annual_entitlement_cr", "allocated_cr", "recommended_amount_cr", "expenditure_cr", "unspent_cr",
+    "expenditure_pct", "recommended_pct", "works_count", "works", "works_is_partial", "as_of", "source",
+    "cross_check", "review_status",
+}
+WORK_KEYS = {
+    "work_id", "description", "category", "implementing_agency", "status", "status_raw", "recommended_on",
+    "completed_on", "recommended_amount_cr", "final_amount_cr", "paid_cr", "has_image",
+}
+CROSS_KEYS = {"source", "as_of", "allocated_cr", "expenditure_cr", "works_recommended", "works_sanctioned", "works_completed", "differences"}
+MONEY_FIELDS = ("annual_entitlement_cr", "allocated_cr", "recommended_amount_cr", "expenditure_cr", "unspent_cr")
+WORK_MONEY_FIELDS = ("recommended_amount_cr", "final_amount_cr", "paid_cr")
+# Computed percentages vs the source's own percentages (same definition), in points.
+PCT_TOLERANCE = 1.0
+CROSS_CHECK_MONEY_TOLERANCE = 0.05
 TERM = "18th Lok Sabha"
 METRICS = ("attendance_pct", "debates", "questions", "private_member_bills")
 PERFORMANCE_STATUSES = {"reported", "not_applicable", "not_available"}
@@ -31,12 +49,112 @@ def mean(values: list) -> float | None:
     return sum(values) / len(values) if values else None
 
 
+def validate_mplads(who: str, m: dict, source_values: dict | None) -> tuple[list[str], list[str]]:
+    """Return (errors, warnings) for one MPLADS block against the types/mp.ts contract."""
+    errors: list[str] = []
+    warnings: list[str] = []
+    if m.get("status") not in MPLADS_STATUSES:
+        return [f"{who}: unknown MPLADS status '{m.get('status')}'."], warnings
+    extra = set(m) - MPLADS_KEYS
+    if extra:
+        errors.append(f"{who}: MPLADS block has keys outside the contract: {sorted(extra)}.")
+    if m["status"] != "reported":
+        return errors, warnings
+    if not m.get("source") or not m["source"].get("url") or not m.get("as_of"):
+        errors.append(f"{who}: reported MPLADS lacks a source URL or as-of date.")
+    for field in MONEY_FIELDS:
+        value = m.get(field)
+        if value is not None and value < 0:
+            errors.append(f"{who}: MPLADS {field} is negative ({value}).")
+    for field in ("expenditure_pct", "recommended_pct"):
+        value = m.get(field)
+        if value is not None and not 0 <= value <= 100:
+            errors.append(f"{who}: MPLADS {field} {value} outside 0-100.")
+    allocated, unspent = m.get("allocated_cr"), m.get("unspent_cr")
+    if allocated is not None and unspent is not None and unspent > allocated:
+        errors.append(f"{who}: MPLADS unspent {unspent} exceeds allocated {allocated}.")
+    counts = m.get("works_count") or {}
+    for field, value in counts.items():
+        if value is not None and value < 0:
+            errors.append(f"{who}: MPLADS works_count.{field} is negative.")
+    works = m.get("works") or []
+    recommended = counts.get("recommended")
+    if recommended is not None and len(works) > recommended:
+        errors.append(f"{who}: {len(works)} MPLADS works listed but only {recommended} recommended.")
+    ids = [w.get("work_id") for w in works]
+    dupes = sorted({i for i in ids if ids.count(i) > 1})
+    if dupes:
+        errors.append(f"{who}: duplicate MPLADS work_id(s) {dupes}.")
+    for w in works:
+        if set(w) != WORK_KEYS:
+            errors.append(f"{who}: MPLADS work {w.get('work_id')} keys differ from the contract.")
+        if not isinstance(w.get("work_id"), str):
+            errors.append(f"{who}: MPLADS work_id {w.get('work_id')!r} is not a string.")
+        if w.get("status") not in WORK_STATUSES:
+            errors.append(f"{who}: MPLADS work {w.get('work_id')} has unknown status '{w.get('status')}'.")
+        for field in WORK_MONEY_FIELDS:
+            if w.get(field) is not None and w[field] < 0:
+                errors.append(f"{who}: MPLADS work {w.get('work_id')} {field} is negative.")
+    expected_partial = recommended is not None and len(works) < recommended
+    if bool(m.get("works_is_partial")) != expected_partial:
+        errors.append(f"{who}: MPLADS works_is_partial is {m.get('works_is_partial')} but {len(works)} of {recommended} works are listed.")
+    if m.get("works_is_partial"):
+        warnings.append(f"{who}: MPLADS works list is partial ({len(works)} of {recommended} recommended works).")
+    for check in m.get("cross_check") or []:
+        if set(check) != CROSS_KEYS:
+            errors.append(f"{who}: MPLADS cross_check keys differ from the contract.")
+        if not check.get("source") or not check["source"].get("url") or not check.get("as_of"):
+            errors.append(f"{who}: MPLADS cross_check lacks a source URL or as-of date.")
+        for field, ours in (("allocated_cr", allocated), ("expenditure_cr", m.get("expenditure_cr"))):
+            theirs = check.get(field)
+            if theirs is not None and ours:
+                rel = abs(theirs - ours) / ours
+                if rel > CROSS_CHECK_MONEY_TOLERANCE:
+                    name = check["source"]["name"].split(" (")[0]
+                    warnings.append(f"{who}: MPLADS {field} {ours} vs {name} {theirs} ({rel * 100:.1f}% apart).")
+    if source_values:
+        def compare(label, computed, published):
+            if computed is not None and published is not None and abs(computed - published) > PCT_TOLERANCE:
+                warnings.append(f"{who}: MPLADS computed {label} {computed} vs source {round(published, 2)}.")
+
+        compare("expenditure_pct", m.get("expenditure_pct"), source_values.get("expenditure_pct"))
+        if source_values.get("utilization_definition") == "recommended_amount":
+            compare("recommended_pct", m.get("recommended_pct"), source_values.get("utilization_pct"))
+        else:
+            warnings.append(
+                f"{who}: source utilisation definition is '{source_values.get('utilization_definition')}'; recommended_pct not reconciled."
+            )
+    return errors, warnings
+
+
+def mplads_table(records: list, seats: dict) -> list[str]:
+    lines = [
+        "| Seat | Allocated (Rs cr) | Spent (Rs cr) | Expenditure % | Recommended % | Works listed / recommended | Source % (exp / rec) | Cross-check differences |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for r in records:
+        m = r["mplads"]
+        if m["status"] != "reported":
+            lines.append(f"| {r['constituency']} | {m['status']} | | | | | | |")
+            continue
+        sv = (seats.get(r["slug"]) or {}).get("source_values") or {}
+        src = " / ".join("n/a" if sv.get(k) is None else f"{sv[k]:.1f}" for k in ("expenditure_pct", "utilization_pct"))
+        diffs = "; ".join(d for c in m.get("cross_check") or [] for d in c["differences"]) or "none"
+        recommended = (m.get("works_count") or {}).get("recommended")
+        lines.append(
+            f"| {r['constituency']} | {m['allocated_cr']} | {m['expenditure_cr']} | {m['expenditure_pct']} | {m['recommended_pct']} | "
+            f"{len(m.get('works') or [])} / {recommended} | {src} | {diffs} |"
+        )
+    return lines
+
+
 def main() -> None:
     records = json.loads(INPUT.read_text(encoding="utf-8"))
     master = json.loads(MASTER.read_text(encoding="utf-8"))["records"]
     expected_states = {row["state"] for row in master}
     errors: list[str] = []
     warnings: list[str] = []
+    mplads_seats = json.loads(MPLADS_NORMALISED.read_text(encoding="utf-8"))["seats"] if MPLADS_NORMALISED.exists() else {}
 
     slugs = [row["slug"] for row in records]
     seats = [(row["state"], row["constituency"]) for row in records]
@@ -93,6 +211,11 @@ def main() -> None:
                     errors.append(f"{who}: {field} is {perf[field]} but the raw capture parses to {reparsed['metrics'][field]['mp']}.")
         if perf["status"] == "not_available":
             warnings.append(f"{who}: no PRS performance record.")
+
+        seat_values = (mplads_seats.get(row["slug"]) or {}).get("source_values")
+        m_errors, m_warnings = validate_mplads(who, row.get("mplads") or {"status": None}, seat_values)
+        errors.extend(m_errors)
+        warnings.extend(m_warnings)
 
         aff = row.get("affidavit", {})
         if aff.get("status") == "reported":
@@ -154,6 +277,15 @@ def main() -> None:
         "| State | Metric | N | Computed | PRS | Check |",
         "|---|---|---|---|---|---|",
         *reconciliation,
+        "",
+        "## MPLADS",
+        "",
+        "Primary: Empowered Indian (aggregating MoSPI eSAKSHI), review status `secondary_only`. "
+        "Expenditure % = spent / allocated; recommended % = recommended amount / allocated; both computed from the "
+        "rupee amounts. Source % columns are Empowered Indian's `expenditurePercentage` and `utilizationPercentage` "
+        "(the latter defined as recommended / allocated). Descriptive only, not a ranking.",
+        "",
+        *mplads_table(records, mplads_seats),
         "",
         "## Hard errors",
         "",

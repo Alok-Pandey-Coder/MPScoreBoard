@@ -1,0 +1,8 @@
+house_term,mp_name,constituency,allocated_crore_inr,spent_crore_inr,utilisation_percent,works_recommended_count,works_sanctioned_count,works_completed_count,source_snapshot_date,source_status
+18th Lok Sabha,Praveen Khandelwal,Chandni Chowk,14.75,2.79,18.9,68,64,38,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Harsh Malhotra,East Delhi,14.71,2.95,20.1,115,109,65,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Bansuri Swaraj,New Delhi,15.43,2.67,17.3,111,79,47,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Manoj Tiwari,North East Delhi,22.58,2.97,13.2,24,16,7,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Yogendra Chandoliya,North West Delhi (SC),14.79,1.25,8.5,82,62,11,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Ramvir Singh Bidhuri,South Delhi,14.76,3.4,23.0,137,121,43,2026-10-06,secondary_aggregator_MPLADS_public_dashboard
+18th Lok Sabha,Kamaljeet Sehrawat,West Delhi,14.7,1.55,10.5,68,60,32,2026-10-06,secondary_aggregator_MPLADS_public_dashboard

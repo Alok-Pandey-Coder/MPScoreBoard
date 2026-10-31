@@ -117,7 +117,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
         <div className="text-xs font-semibold text-[#9BAABD] px-1 flex items-center justify-between">
           <span>Constituencies ({constituencies.length > 0 ? constituencies.length : state.seats})</span>
           {isDelhi && (
-            <span className="text-[10px] text-emerald-400 font-medium">Verified Geometry</span>
+            <span className="text-[10px] text-emerald-400 font-medium">Boundary data</span>
           )}
         </div>
 
