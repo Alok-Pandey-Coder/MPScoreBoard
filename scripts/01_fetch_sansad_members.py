@@ -7,16 +7,15 @@ fields in the responses are dropped before writing the raw capture.
 
 import json
 import sys
-import time
 from datetime import date
 from pathlib import Path
 from urllib.parse import quote
-from urllib.request import Request, urlopen
+
+from polite_fetch import fetch_json
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 BASE = "https://sansad.in/api_ls/member"
-USER_AGENT = "MeraMPDataCollector/0.1"
 LOK_SABHA = 18
 STATE = "NCT of Delhi"
 STATE_KEY = "delhi"
@@ -27,22 +26,16 @@ LIST_FIELDS = (
 DETAIL_FIELDS = ("mpsno", "fullName", "constituency", "stateName", "partySname", "councilMinSts")
 
 
-def get_json(url: str) -> dict:
-    with urlopen(Request(url, headers={"User-Agent": USER_AGENT}), timeout=30) as response:
-        return json.loads(response.read())
-
-
 def main() -> None:
     target = RAW / f"sansad.members.{STATE_KEY}.{date.today().isoformat()}.json"
     if target.exists():
         sys.exit(f"{target.name} already exists; raw captures are immutable")
     list_url = f"{BASE}?loksabha={LOK_SABHA}&page=1&size=100&state={quote(STATE)}"
-    listing = get_json(list_url)
+    listing = fetch_json(list_url)
     members = []
     for row in listing["membersDtoList"]:
-        time.sleep(1)
         detail_url = f"{BASE}/{row['mpsno']}"
-        detail = get_json(detail_url)
+        detail = fetch_json(detail_url)  # polite_fetch spaces requests to the host
         members.append(
             {
                 **{field: row.get(field) for field in LIST_FIELDS},

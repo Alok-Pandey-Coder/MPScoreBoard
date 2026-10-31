@@ -1,18 +1,25 @@
-"""Cache the official Delhi members page as a raw source capture."""
+"""Cache the official Delhi government MP list page as a dated raw capture.
+
+The pipeline reads the reviewed transcription data/raw/masterlist.delhi.json,
+not this HTML. The refresh compares each new capture with the previous one and
+flags a change for human review instead of re-parsing it automatically.
+"""
 
 from datetime import date
 from pathlib import Path
-from urllib.request import Request, urlopen
+
+from polite_fetch import fetch_bytes
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://delhi.gov.in/members-of-parliament"
 
 
 def main() -> None:
-    request = Request(URL, headers={"User-Agent": "MeraMPDataCollector/0.1"})
-    with urlopen(request, timeout=30) as response:
-        body = response.read()
     output = ROOT / "data" / "raw" / f"delhi_members.{date.today().isoformat()}.html"
+    if output.exists():
+        print(f"{output.name} already exists; raw captures are immutable. Nothing fetched.")
+        return
+    body = fetch_bytes(URL)
     output.write_bytes(body)
     print(f"saved {len(body)} bytes -> {output}")
 
