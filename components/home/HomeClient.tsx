@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { MPRecord } from '@/types/mp';
@@ -10,30 +10,55 @@ import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { QuickCardsGrid } from '@/components/home/QuickCardsGrid';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
-import { ArrowRight, Users, Compass, Landmark } from 'lucide-react';
+import { ArrowRight, Users, Compass, Landmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import { localizeMP } from '@/lib/i18n';
 import { coverageNote, getCoverage, TOTAL_LOK_SABHA_SEATS } from '@/lib/coverage';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { homeMessages } from '@/lib/messages/home';
 
 type SansadViewKey = 'facade' | 'chamber' | 'panoramic';
 
-const SANSAD_VIEWS: Record<SansadViewKey, { src: string; label: string; tag: string }> = {
+interface SansadViewItem {
+  src: string;
+  labelEn: string;
+  labelHi: string;
+  tagEn: string;
+  tagHi: string;
+  shortEn: string;
+  shortHi: string;
+}
+
+const SANSAD_VIEWS: Record<SansadViewKey, SansadViewItem> = {
   facade: {
     src: '/images/sansad/sansad-facade.jpg',
-    label: 'Samvidhan Sadan Colonnade',
-    tag: 'Historic Parliament House, New Delhi',
+    labelEn: 'Samvidhan Sadan Colonnade',
+    labelHi: 'संविधान सदन (ऐतिहासिक संसद भवन)',
+    tagEn: 'Historic Parliament House, New Delhi',
+    tagHi: 'ऐतिहासिक संसद भवन, नई दिल्ली',
+    shortEn: 'Colonnade',
+    shortHi: 'संविधान सदन',
   },
   chamber: {
     src: '/images/sansad/sansad-chamber.jpg',
-    label: 'Lok Sabha Chamber',
-    tag: 'New Parliament Building (18th Lok Sabha)',
+    labelEn: 'Lok Sabha Chamber',
+    labelHi: '18वीं लोकसभा कक्ष',
+    tagEn: 'New Parliament Building (18th Lok Sabha)',
+    tagHi: 'नवीन संसद भवन (18वीं लोकसभा)',
+    shortEn: 'Lok Sabha',
+    shortHi: 'लोकसभा',
   },
   panoramic: {
     src: '/images/sansad/sansad-panoramic.jpg',
-    label: 'Central Vista Vista',
-    tag: 'Sovereign Parliamentary Complex',
+    labelEn: 'Central Vista Panorama',
+    labelHi: 'संसदीय सेंट्रल विस्टा',
+    tagEn: 'Sovereign Parliamentary Complex',
+    tagHi: 'संसदीय परिसर, नई दिल्ली',
+    shortEn: 'Panorama',
+    shortHi: 'विस्टा',
   },
 };
+
+const SLIDE_KEYS: SansadViewKey[] = ['facade', 'chamber', 'panoramic'];
 
 const MapLoading: React.FC = () => {
   const t = useMessages(homeMessages);
@@ -61,10 +86,39 @@ interface HomeClientProps {
 
 export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
   const [selectedMapSlug, setSelectedMapSlug] = useState<string>('new-delhi-delhi');
-  const [activeSansadView, setActiveSansadView] = useState<SansadViewKey>('facade');
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const coverage = getCoverage(mps);
   const t = useMessages(homeMessages);
   const { lang } = useLang();
+  const localizedMps = useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
+
+  // Auto-advance sliding images every 2.8 seconds (2-3s interval)
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setSlideIndex((prev) => prev + 1);
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  // Infinite forward loop: when reaching the clone slide at index 3, seamlessly reset to index 0
+  useEffect(() => {
+    if (slideIndex === SLIDE_KEYS.length) {
+      const resetTimeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setSlideIndex(0);
+      }, 700); // Wait for the 700ms slide transition to finish
+      return () => clearTimeout(resetTimeout);
+    }
+  }, [slideIndex]);
+
+  const activeIndex = slideIndex % SLIDE_KEYS.length;
+  const currentKey = SLIDE_KEYS[activeIndex];
+  const currentView = SANSAD_VIEWS[currentKey];
 
   const handleSelectGeographicalFeature = (stateId: string, constituencySlug?: string) => {
     if (constituencySlug) {
@@ -78,43 +132,98 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
 
   return (
     <div className="space-y-16 py-6 sm:py-10">
-      {/* 1. Authoritative Editorial Hero Masthead with Sansad Architectural Backdrop */}
-      <section className="relative overflow-hidden rounded-3xl border border-stone-200 dark:border-[#1E2636] bg-stone-100 dark:bg-[#0A0E17] shadow-xl dark:shadow-2xl transition-all duration-700 max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-16 lg:py-20">
-        {/* Layer 0: High-Resolution Sansad Architectural Photography (Full Color, Vivid, Completely Visible) */}
+      {/* 1. Authoritative Editorial Hero Masthead with Sansad Architectural Sliding Backdrop */}
+      <section
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        className="relative overflow-hidden rounded-3xl border border-stone-200 dark:border-[#1E2636] bg-stone-100 dark:bg-[#0A0E17] shadow-xl dark:shadow-2xl transition-all duration-700 max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-16 lg:py-20"
+      >
+        {/* Layer 0: High-Resolution Sansad Photography with Smooth Sliding Effect */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
-          <img
-            key={activeSansadView}
-            src={SANSAD_VIEWS[activeSansadView].src}
-            alt={SANSAD_VIEWS[activeSansadView].label}
-            className="w-full h-full object-cover object-center transition-all duration-700 ease-out opacity-80 sm:opacity-85 dark:opacity-75 contrast-105 brightness-[0.98] dark:brightness-[0.88]"
-          />
+          <div
+            className="flex w-full h-full"
+            style={{
+              transform: `translateX(-${slideIndex * 100}%)`,
+              transition: isTransitioning ? 'transform 700ms cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
+            }}
+          >
+            {[...SLIDE_KEYS, SLIDE_KEYS[0]].map((key, idx) => {
+              const view = SANSAD_VIEWS[key];
+              return (
+                <div key={`${key}-${idx}`} className="w-full h-full shrink-0 relative">
+                  <img
+                    src={view.src}
+                    alt={lang === 'hi' ? view.labelHi : view.labelEn}
+                    className="w-full h-full object-cover object-center opacity-85 sm:opacity-90 dark:opacity-80 contrast-105 brightness-[0.98] dark:brightness-[0.90]"
+                  />
+                </div>
+              );
+            })}
+          </div>
 
           {/* Smooth Ambient Scrim to ensure crisp contrast across light & dark themes without any blur blocks */}
           <div className="absolute inset-0 bg-stone-100/50 dark:bg-[#0A0E17]/65 transition-colors" />
           <div className="absolute inset-0 bg-gradient-to-t from-stone-100 via-transparent to-stone-100/60 dark:from-[#0A0E17] dark:via-transparent dark:to-[#0A0E17]/80" />
         </div>
 
-        {/* Perspective Switcher Controls */}
-        <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 p-1 rounded-full bg-stone-900/85 dark:bg-[#0E1420]/90 backdrop-blur-md border border-stone-700/60 dark:border-[#222E42] text-[10px] font-mono text-stone-200 shadow-lg">
-          <div className="flex items-center gap-1 pl-2.5 pr-1 text-amber-400 font-semibold">
+        {/* Perspective Switcher & Sliding Carousel Controls */}
+        <div
+          className="absolute top-4 right-4 z-20 flex items-center gap-1.5 p-1 rounded-full bg-stone-900/85 dark:bg-[#0E1420]/90 backdrop-blur-md border border-stone-700/60 dark:border-[#222E42] text-[10px] font-mono text-stone-200 shadow-lg"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <button
+            type="button"
+            onClick={() => {
+              setIsTransitioning(true);
+              setSlideIndex((prev) => (prev > 0 ? prev - 1 : SLIDE_KEYS.length - 1));
+            }}
+            className="p-1 rounded-full text-stone-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+
+          <div className="flex items-center gap-1 pl-1 pr-1 text-amber-400 font-semibold">
             <Landmark className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
-            <span className="hidden sm:inline">Sansad:</span>
+            <span className="hidden sm:inline">{lang === 'hi' ? 'संसद:' : 'Sansad:'}</span>
           </div>
-          {(Object.keys(SANSAD_VIEWS) as SansadViewKey[]).map((k) => (
+
+          {SLIDE_KEYS.map((k, i) => (
             <button
               key={k}
               type="button"
-              onClick={() => setActiveSansadView(k)}
-              className={`px-2.5 py-1 rounded-full transition-all cursor-pointer font-medium ${
-                activeSansadView === k
+              onClick={() => {
+                setIsTransitioning(true);
+                setSlideIndex(i);
+              }}
+              className={`px-2.5 py-1 rounded-full transition-all cursor-pointer font-medium flex items-center gap-1.5 ${
+                currentKey === k
                   ? 'bg-amber-500 text-stone-950 font-bold shadow-sm'
                   : 'text-stone-300 hover:text-white hover:bg-white/10'
               }`}
-              title={SANSAD_VIEWS[k].label}
+              title={lang === 'hi' ? SANSAD_VIEWS[k].labelHi : SANSAD_VIEWS[k].labelEn}
             >
-              {k === 'facade' ? 'Colonnade' : k === 'chamber' ? 'Lok Sabha' : 'Panorama'}
+              <span
+                className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                  currentKey === k ? 'bg-stone-950 animate-pulse' : 'bg-stone-500'
+                }`}
+              />
+              <span>{lang === 'hi' ? SANSAD_VIEWS[k].shortHi : SANSAD_VIEWS[k].shortEn}</span>
             </button>
           ))}
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsTransitioning(true);
+              setSlideIndex((prev) => prev + 1);
+            }}
+            className="p-1 rounded-full text-stone-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Next image"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
         {/* Layer 1: Fully Transparent Central Editorial Content (Zero Blur, Zero Blockers) */}
@@ -142,7 +251,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           {/* Smart Search Bar with Fast Select Chips */}
           <div className="mb-8 max-w-2xl mx-auto">
             <UnifiedSearchBar
-              mps={mps}
+              mps={localizedMps}
               onSelectGeographicalFeature={handleSelectGeographicalFeature}
             />
           </div>
@@ -172,11 +281,18 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
             </a>
           </div>
 
-          {/* Architectural Attribution Sub-footer */}
-          <div className="pt-2 text-[10px] font-mono text-stone-500 dark:text-stone-400 flex items-center justify-center gap-1.5 opacity-90">
+          {/* Architectural Attribution Sub-footer updating with active slide */}
+          <div className="pt-2 text-[10px] font-mono text-stone-500 dark:text-stone-400 flex items-center justify-center gap-1.5 opacity-90 transition-opacity duration-300">
             <Landmark className="w-3 h-3 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-            <span className="font-semibold text-stone-700 dark:text-stone-300">{SANSAD_VIEWS[activeSansadView].label}</span>
-            <span className="text-stone-500 dark:text-stone-400 hidden sm:inline">· {SANSAD_VIEWS[activeSansadView].tag}</span>
+            <span className="font-semibold text-stone-700 dark:text-stone-300">
+              {lang === 'hi' ? currentView.labelHi : currentView.labelEn}
+            </span>
+            <span className="text-stone-500 dark:text-stone-400 hidden sm:inline">
+              · {lang === 'hi' ? currentView.tagHi : currentView.tagEn}
+            </span>
+            <span className="text-stone-400 dark:text-stone-600 ml-1">
+              ({activeIndex + 1}/{SLIDE_KEYS.length})
+            </span>
           </div>
         </div>
       </section>
@@ -184,11 +300,11 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
       {/* 2. Interactive Constituency Map Section */}
       <section id="find-constituency" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-20">
         {/* Territory Status & Live Metrics Strip */}
-        <NagrikTerritoryBar mps={mps} />
+        <NagrikTerritoryBar mps={localizedMps} />
 
         {/* The Master Leaflet Dark GIS Map with 290 Wards */}
         <NagrikStyleMap
-          mps={mps}
+          mps={localizedMps}
           selectedSlug={selectedMapSlug}
           onSelectConstituency={(slug) => setSelectedMapSlug(slug)}
         />
@@ -213,7 +329,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           </span>
         </div>
 
-        <QuickCardsGrid mps={mps} />
+        <QuickCardsGrid mps={localizedMps} />
       </section>
 
       {/* 4. State Overview Cards Grid */}
@@ -236,7 +352,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           </Link>
         </div>
 
-        <NagrikStateCardsGrid mps={mps} />
+        <NagrikStateCardsGrid mps={localizedMps} />
       </section>
 
       {/* 5. Map of India */}
@@ -252,7 +368,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           </div>
         </div>
 
-        <IndiaAtlasMap mps={mps} className="w-full" />
+        <IndiaAtlasMap mps={localizedMps} className="w-full" />
       </section>
 
       {/* 6. Step-by-Step Dropdown Selector */}
@@ -262,7 +378,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
             {t.pickerLead}
           </span>
         </div>
-        <StateConstituencyPicker mps={mps} />
+        <StateConstituencyPicker mps={localizedMps} />
       </section>
     </div>
   );

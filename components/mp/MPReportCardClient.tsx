@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Home, Printer, Send, FileText } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
@@ -14,8 +14,9 @@ import { ExplainSimplyPanel } from '@/components/mp/ExplainSimplyPanel';
 import { TakeActionPanel } from '@/components/mp/TakeActionPanel';
 import { SourcesFooter } from '@/components/mp/SourcesFooter';
 import { Toast } from '@/components/common/Toast';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
+import { localizeMP } from '@/lib/i18n';
 
 interface MPReportCardClientProps {
   mp: MPRecord;
@@ -24,8 +25,10 @@ interface MPReportCardClientProps {
 const pillClass =
   'px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium';
 
-export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) => {
+export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp: rawMp }) => {
   const t = useMessages(cardMessages);
+  const { lang } = useLang();
+  const mp = useMemo(() => localizeMP(rawMp, lang), [rawMp, lang]);
   const [toastMessage, setToastMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
 

@@ -5,8 +5,9 @@ import { X, MapPin, ChevronRight, BarChart2 } from 'lucide-react';
 import { StateGeoData, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
 import { mapMessages } from '@/lib/messages/map';
+import { localizeConstituency, localizeName, localizeParty, localizeState } from '@/lib/i18n';
 
 export interface StateInfoPanelProps {
   state: StateGeoData;
@@ -24,10 +25,12 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
   onClose,
 }) => {
   const t = useMessages(mapMessages);
+  const { lang } = useLang();
 
   // Available mapped constituencies for this state
   const isDelhi = state.id === 'delhi';
   const constituencies = isDelhi ? DELHI_CONSTITUENCIES : [];
+  const localizedStateName = localizeState(state.name, lang);
 
   return (
     <div className="h-full max-h-[520px] flex flex-col rounded-xl bg-[#171D24]/95 border border-[#303A45] shadow-2xl backdrop-blur-md overflow-hidden text-[#F3F4F6]">
@@ -43,7 +46,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
             </span>
           </div>
           <h3 className="text-lg font-bold text-white mt-1 font-['Outfit',sans-serif]">
-            {state.name}
+            {localizedStateName}
           </h3>
           <p className="text-xs text-[#9BAABD] flex items-center gap-1 mt-0.5">
             <MapPin className="w-3 h-3 text-[#55BCE8]" />
@@ -133,14 +136,14 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-xs text-white">
-                    {c.name}
+                    {localizeConstituency(c.name, lang)}
                   </span>
                   <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-950 text-amber-300 font-medium">
-                    {c.party || 'BJP'}
+                    {localizeParty(c.party || 'BJP', lang)}
                   </span>
                 </div>
                 <div className="text-[11px] text-[#9BAABD] mt-0.5 flex items-center justify-between">
-                  <span>{t.mpLabel(c.sittingMP ?? '')}</span>
+                  <span>{t.mpLabel(localizeName(c.sittingMP ?? '', lang))}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-[#9BAABD]" />
                 </div>
               </div>
@@ -150,12 +153,12 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
           <div className="p-4 text-center text-xs text-[#9BAABD] bg-[#14191F]/40 rounded-lg border border-[#303A45]/60 mt-2">
             <p className="font-medium text-slate-300">{t.phase2Title}</p>
             <p className="text-[11px] mt-1 text-slate-400">
-              {t.phase2Body(state.name)}
+              {t.phase2Body(localizedStateName)}
             </p>
             <Link href={`/state/${state.id}`}
               className="mt-3 inline-flex items-center gap-1 text-xs text-[#55BCE8] hover:underline"
             >
-              {t.exploreStatePortal(state.name)}
+              {t.exploreStatePortal(localizedStateName)}
             </Link>
           </div>
         )}
@@ -166,11 +169,10 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
         <Link href={`/state/${state.id}`}
           className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500 shadow-md transition-all"
         >
-          <span>{t.exploreAllSeats(state.seats, state.name)}</span>
+          <span>{t.exploreAllSeats(state.seats, localizedStateName)}</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>
     </div>
   );
 };
-

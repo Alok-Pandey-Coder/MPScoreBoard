@@ -1,5 +1,6 @@
 import { MPRecord } from '../types/mp';
 import aliasesData from '@/data/processed/aliases.json';
+import { HINDI_MP_NAMES, HINDI_CONSTITUENCIES, HINDI_STATES, HINDI_PARTIES } from './i18n/localizeData';
 
 // Simple Levenshtein distance implementation
 export function levenshteinDistance(a: string, b: string): number {
@@ -47,7 +48,15 @@ export function searchMPs(query: string, mps: MPRecord[]): MPRecord[] {
       (mp.party_full && mp.party_full.toLowerCase().includes(resolvedQuery));
     const slugMatch = mp.slug.toLowerCase().includes(resolvedQuery);
 
-    return nameMatch || constMatch || stateMatch || partyMatch || slugMatch;
+    const q = query.trim();
+    const hiName = HINDI_MP_NAMES[mp.name] || '';
+    const hiConst = HINDI_CONSTITUENCIES[mp.constituency] || '';
+    const hiState = HINDI_STATES[mp.state] || '';
+    const hiParty = HINDI_PARTIES[mp.party]?.short || '';
+    const hiPartyFull = HINDI_PARTIES[mp.party]?.full || '';
+    const hiMatch = hiName.includes(q) || hiConst.includes(q) || hiState.includes(q) || hiParty.includes(q) || hiPartyFull.includes(q);
+
+    return nameMatch || constMatch || stateMatch || partyMatch || slugMatch || hiMatch;
   });
 
   if (directMatches.length > 0) {

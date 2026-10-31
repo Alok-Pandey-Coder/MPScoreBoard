@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { ExternalLink, Database, BookOpen, Clock, MessageSquareWarning } from 'lucide-react';
 import { MPRecord, Source } from '@/types/mp';
 import { formatDate, formatReviewStatus } from '@/lib/formatters';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { cardMessages, CardMessages } from '@/lib/messages/card';
 import snapshotJson from '@/data/processed/snapshot.json';
 
 interface SourcesFooterProps {
@@ -20,19 +24,24 @@ interface SourceEntry {
   usedFor: string[];
 }
 
-const ROLE_LABEL: Record<Role, string> = {
-  primary: 'Source',
-  secondary: 'Secondary source · official check pending',
-  'cross-check': 'Cross-check only · not shown as the main figure',
-};
-
 const ISSUES_URL = 'https://github.com/Alok-Pandey-Coder/MPScoreBoard/issues/new';
+
+function roleLabel(role: Role, t: CardMessages): string {
+  switch (role) {
+    case 'primary':
+      return t.roleSource;
+    case 'secondary':
+      return t.roleSecondary;
+    case 'cross-check':
+      return t.roleCrossCheck;
+  }
+}
 
 /**
  * One entry per distinct source URL, labelled with every part of this card it
  * feeds. Section sources come first so their labels win over the general list.
  */
-function collectSources(mp: MPRecord): SourceEntry[] {
+function collectSources(mp: MPRecord, t: CardMessages): SourceEntry[] {
   const entries = new Map<string, SourceEntry>();
   const add = (src: Source | null | undefined, usedFor: string, role: Role = 'primary') => {
     if (!src?.url) return;
@@ -51,40 +60,46 @@ function collectSources(mp: MPRecord): SourceEntry[] {
     });
   };
 
-  if (!mp.is_minister) add(mp.performance.source, 'Parliament activity indicators and PRS averages');
-  add(mp.profile?.source, 'Profile (age, education level, term)');
+  if (!mp.is_minister) add(mp.performance.source, t.usedForParliament);
+  add(mp.profile?.source, t.usedForProfile);
   const mpladsRole: Role = mp.mplads?.review_status === 'secondary_only' ? 'secondary' : 'primary';
-  add(mp.mplads?.source, 'MPLADS funds and the works list', mpladsRole);
-  mp.mplads?.cross_check?.forEach((check) => add(check.source, 'MPLADS cross-check', 'cross-check'));
-  add(mp.affidavit?.source, 'Declared assets, cases and education (election affidavit)');
-  add(mp.election?.source, '2024 election result');
+  add(mp.mplads?.source, t.usedForMplads, mpladsRole);
+  mp.mplads?.cross_check?.forEach((check) => add(check.source, t.usedForMpladsCrossCheck, 'cross-check'));
+  add(mp.affidavit?.source, t.usedForAffidavit);
+  add(mp.election?.source, t.usedForElection);
   // The record-level list only contributes sources not already labelled above.
   for (const src of mp.sources) {
     if (src.url && !entries.has(src.url)) {
-      add(src, /sansad|government|nct/i.test(src.name) ? 'MP identity and constituency' : 'Card data');
+      add(src, /sansad|government|nct/i.test(src.name) ? t.usedForIdentity : t.usedForCard);
     }
   }
   return Array.from(entries.values());
 }
 
 export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
-  const sources = collectSources(mp);
+  const t = useMessages(cardMessages);
+  const { lang } = useLang();
+  const sources = collectSources(mp, t);
   const perf = mp.performance;
   const freshness = [
     {
-      label: 'Parliament activity',
+      label: t.freshnessParliament,
       asOf: mp.is_minister
-        ? 'Not applicable (minister)'
+        ? t.notApplicableMinister
         : perf.period
-          ? `${formatDate(perf.period.from)} – ${formatDate(perf.period.to)}`
-          : formatDate(perf.as_of),
-      status: mp.is_minister ? null : formatReviewStatus(perf.review_status),
+          ? `${formatDate(perf.period.from, lang)} – ${formatDate(perf.period.to, lang)}`
+          : formatDate(perf.as_of, lang),
+      status: mp.is_minister ? null : formatReviewStatus(perf.review_status, lang),
     },
-    { label: 'MPLADS funds and works', asOf: formatDate(mp.mplads?.as_of), status: formatReviewStatus(mp.mplads?.review_status) },
     {
-      label: 'Election affidavit',
-      asOf: mp.affidavit?.election_year ? `${mp.affidavit.election_year} election` : formatDate(mp.affidavit?.as_of),
-      status: formatReviewStatus(mp.affidavit?.review_status),
+      label: t.freshnessMplads,
+      asOf: formatDate(mp.mplads?.as_of, lang),
+      status: formatReviewStatus(mp.mplads?.review_status, lang),
+    },
+    {
+      label: t.freshnessAffidavit,
+      asOf: mp.affidavit?.election_year ? t.electionYear(mp.affidavit.election_year) : formatDate(mp.affidavit?.as_of, lang),
+      status: formatReviewStatus(mp.affidavit?.review_status, lang),
     },
   ];
   const issueUrl = `${ISSUES_URL}?${new URLSearchParams({
@@ -101,10 +116,10 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
         <div>
           <h2 className="text-lg font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2">
             <Database className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-            <span>Sources &amp; evidence</span>
+            <span>{t.sourcesHeading}</span>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-            Where every figure on this card comes from. Records here are copies; verify anything you rely on with the source.
+            {t.sourcesSubtitle}
           </p>
         </div>
         <Link
@@ -112,14 +127,14 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
           className="text-xs font-mono font-semibold text-amber-700 dark:text-amber-400 hover:underline flex items-center gap-1.5 self-start sm:self-auto"
         >
           <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Full methodology</span>
+          <span>{t.fullMethodology}</span>
         </Link>
       </div>
 
       {/* 1. What we take, and from where */}
       <section aria-labelledby="sources-table">
         <h3 id="sources-table" className={subheading}>
-          What we take, and from where
+          {t.sourcesTableHeading}
         </h3>
         <ol className="space-y-2.5">
           {sources.map((src, index) => (
@@ -135,9 +150,9 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
                       </span>
                     )}
                   </p>
-                  <p className="text-stone-600 dark:text-stone-300 mt-1">Used for: {src.usedFor.join('; ')}</p>
+                  <p className="text-stone-600 dark:text-stone-300 mt-1">{src.usedFor.join('; ')}</p>
                   <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-                    {ROLE_LABEL[src.role]} · {src.retrieved ? `retrieved ${formatDate(src.retrieved)}` : 'retrieval date not recorded'}
+                    {roleLabel(src.role, t)} · {src.retrieved ? t.retrievedOn(formatDate(src.retrieved, lang)) : t.asOfMissing}
                   </p>
                 </div>
                 <a
@@ -160,19 +175,19 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
       <section aria-labelledby="freshness">
         <h3 id="freshness" className={subheading}>
           <Clock className="w-4 h-4 text-stone-500" aria-hidden="true" />
-          How current it is
+          {t.freshnessHeading}
         </h3>
         <dl className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] font-mono">
           {freshness.map((row) => (
             <div key={row.label} className={box}>
               <dt className="text-stone-500 dark:text-stone-400">{row.label}</dt>
-              <dd className="text-stone-900 dark:text-stone-100 mt-0.5">As of: {row.asOf}</dd>
-              {row.status && <dd className="text-stone-600 dark:text-stone-300 mt-0.5">Review: {row.status}</dd>}
+              <dd className="text-stone-900 dark:text-stone-100 mt-0.5">{row.asOf}</dd>
+              {row.status && <dd className="text-stone-600 dark:text-stone-300 mt-0.5">{row.status}</dd>}
             </div>
           ))}
         </dl>
         <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mt-2">
-          This card is built from a snapshot generated on {formatDate(snapshotJson.generated_at)}. Figures are not live.
+          {t.snapshotNote(formatDate(snapshotJson.generated_at, lang))}
         </p>
       </section>
 
@@ -180,14 +195,14 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
       <section aria-labelledby="corrections">
         <h3 id="corrections" className={subheading}>
           <MessageSquareWarning className="w-4 h-4 text-stone-500" aria-hidden="true" />
-          Get something corrected
+          {t.correctionsHeading}
         </h3>
         <p className="text-xs text-stone-600 dark:text-stone-300">
-          Spotted a figure that doesn&apos;t match its source?{' '}
+          {t.correctionsBefore}{' '}
           <a href={issueUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 dark:text-blue-300 hover:underline">
-            Report it on GitHub
+            {t.correctionsLink}
           </a>{' '}
-          with a link to the source page. We fix the data at the source capture, not by hand-editing numbers.
+          {t.correctionsAfter}
         </p>
       </section>
     </div>

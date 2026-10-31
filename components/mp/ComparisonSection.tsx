@@ -98,7 +98,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     {
       id: 'attendance',
       title: t.metricAttendance || 'Attendance Rate',
-      subtitle: 'Official floor sittings attended',
+      subtitle: lang === 'hi' ? 'सदन की आधिकारिक बैठकों में उपस्थिति' : 'Official floor sittings attended',
       mpVal: perf.attendance_pct,
       stateVal: state?.attendance_pct,
       natVal: nat?.attendance_pct,
@@ -109,7 +109,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     {
       id: 'debates',
       title: t.metricDebates || 'Debates Participated',
-      subtitle: 'Floor & legislative deliberations',
+      subtitle: lang === 'hi' ? 'संसदीय एवं विधायी बहसों में भागीदारी' : 'Floor & legislative deliberations',
       mpVal: perf.debates,
       stateVal: state?.debates,
       natVal: nat?.debates,
@@ -120,7 +120,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     {
       id: 'questions',
       title: t.metricQuestions || 'Questions Asked',
-      subtitle: 'Starred & unstarred parliamentary inquiries',
+      subtitle: lang === 'hi' ? 'तारांकित एवं अतारांकित संसदीय प्रश्न' : 'Starred & unstarred parliamentary inquiries',
       mpVal: perf.questions,
       stateVal: state?.questions,
       natVal: nat?.questions,
@@ -131,7 +131,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
     {
       id: 'bills',
       title: t.metricBills || 'Private Member Bills',
-      subtitle: 'Individual legislative sponsorship',
+      subtitle: lang === 'hi' ? 'सांसद द्वारा व्यक्तिगत रूप से पेश विधेयक' : 'Individual legislative sponsorship',
       mpVal: perf.private_member_bills,
       stateVal: state?.private_member_bills,
       natVal: nat?.private_member_bills,
@@ -155,7 +155,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
             <span className="font-bold text-stone-200">{data.name}</span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-stone-400">Value:</span>
+            <span className="text-stone-400">{lang === 'hi' ? 'मान:' : 'Value:'}</span>
             <span className="font-bold text-amber-400">
               {data.actualVal ?? 0}{unit}
             </span>
@@ -178,7 +178,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              BENCHMARK LEDGER
+              {lang === 'hi' ? 'तुलनात्मक रिकॉर्ड' : 'BENCHMARK LEDGER'}
             </span>
             <span className="text-stone-400 dark:text-stone-600">·</span>
             <span className="text-xs font-mono text-stone-500 dark:text-stone-400">{t.term18}</span>
@@ -206,7 +206,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               title="View Recharts Pie / Donut Charts"
             >
               <PieChartIcon className="w-3.5 h-3.5" />
-              <span>Pie Chart</span>
+              <span>{lang === 'hi' ? 'पाई चार्ट' : 'Pie Chart'}</span>
             </button>
             <button
               onClick={() => setViewMode('rings')}
@@ -218,7 +218,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               title="View Recharts Radial Concentric Gauges"
             >
               <CircleDot className="w-3.5 h-3.5" />
-              <span>Rings</span>
+              <span>{lang === 'hi' ? 'वलय (Rings)' : 'Rings'}</span>
             </button>
             <button
               onClick={() => setViewMode('bar')}
@@ -230,7 +230,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               title="View comparative horizontal ledger bars"
             >
               <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Bars</span>
+              <span>{lang === 'hi' ? 'बार्स (Bars)' : 'Bars'}</span>
             </button>
           </div>
         </div>
@@ -269,14 +269,14 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   value: total === 0 ? 1 : Math.max(0.1, stateNum),
                   actualVal: m.stateVal,
                   fill: COLORS.state.base,
-                  role: `${mp.state} Parliamentary Baseline`,
+                  role: lang === 'hi' ? `${mp.state} राज्य औसत आधार` : `${mp.state} Parliamentary Baseline`,
                 },
                 {
                   name: 'National Avg',
                   value: total === 0 ? 1 : Math.max(0.1, natNum),
                   actualVal: m.natVal,
                   fill: COLORS.national.base,
-                  role: 'All 543 Parliamentary Seats',
+                  role: lang === 'hi' ? 'सभी 543 संसदीय सीटें' : 'All 543 Parliamentary Seats',
                 },
               ];
 
@@ -367,20 +367,20 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                       {isEqual ? (
                         <>
                           <Minus className="w-3 h-3" />
-                          <span>Equal to {mp.state} avg</span>
+                          <span>{lang === 'hi' ? `${mp.state} के औसत के बराबर` : `Equal to ${mp.state} avg`}</span>
                         </>
                       ) : isHigherThanState ? (
                         <>
                           <TrendingUp className="w-3 h-3 text-emerald-500" />
                           <span>
-                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
+                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} {lang === 'hi' ? `(${mp.state} से)` : `vs ${mp.state}`}
                           </span>
                         </>
                       ) : (
                         <>
                           <TrendingDown className="w-3 h-3 text-stone-400" />
                           <span>
-                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
+                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} {lang === 'hi' ? `(${mp.state} से)` : `vs ${mp.state}`}
                           </span>
                         </>
                       )}
@@ -403,7 +403,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{mp.state} {lang === 'hi' ? 'औसत' : 'Avg'}</span>
                       </div>
                       <span className="font-mono text-stone-700 dark:text-stone-300 tabular-nums">
                         {m.stateVal ?? 'N/A'}{m.unit}
@@ -413,7 +413,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">National Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{lang === 'hi' ? 'राष्ट्रीय औसत' : 'National Avg'}</span>
                       </div>
                       <span className="font-mono text-stone-500 dark:text-stone-400 tabular-nums">
                         {m.natVal ?? 'N/A'}{m.unit}
@@ -428,7 +428,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
           <div className="p-3.5 bg-stone-50 dark:bg-[#121A26] rounded-lg border border-stone-200/80 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
             <div className="flex flex-wrap items-center gap-4">
               <span className="font-bold text-stone-800 dark:text-stone-200 uppercase text-[10px] tracking-wider">
-                Guide:
+                {lang === 'hi' ? 'मार्गदर्शिका:' : 'Guide:'}
               </span>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-amber-500" />
@@ -439,19 +439,19 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-sky-400" />
                 <span>
-                  <strong>{mp.state} Baseline</strong>
+                  <strong>{mp.state} {lang === 'hi' ? 'औसत' : 'Baseline'}</strong>
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-slate-400" />
                 <span>
-                  <strong>National Baseline</strong>
+                  <strong>{lang === 'hi' ? 'राष्ट्रीय औसत' : 'National Baseline'}</strong>
                 </span>
               </div>
             </div>
 
             <div className="text-[11px] text-stone-500">
-              Powered by Recharts · Source: PRS Legislative Research
+              {lang === 'hi' ? 'स्रोत: पीआरएस लेजिस्लेटिव रिसर्च' : 'Powered by Recharts · Source: PRS Legislative Research'}
             </div>
           </div>
         </div>
@@ -575,20 +575,20 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                       {isEqual ? (
                         <>
                           <Minus className="w-3 h-3" />
-                          <span>Equal to {mp.state} avg</span>
+                          <span>{lang === 'hi' ? `${mp.state} के औसत के बराबर` : `Equal to ${mp.state} avg`}</span>
                         </>
                       ) : isHigherThanState ? (
                         <>
                           <TrendingUp className="w-3 h-3 text-emerald-500" />
                           <span>
-                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
+                            +{diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} {lang === 'hi' ? `(${mp.state} से)` : `vs ${mp.state}`}
                           </span>
                         </>
                       ) : (
                         <>
                           <TrendingDown className="w-3 h-3 text-stone-400" />
                           <span>
-                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} vs {mp.state}
+                            {diffVsState.toFixed(m.type === 'percentage' ? 0 : 1)}{m.unit} {lang === 'hi' ? `(${mp.state} से)` : `vs ${mp.state}`}
                           </span>
                         </>
                       )}
@@ -611,7 +611,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{mp.state} {lang === 'hi' ? 'औसत' : 'Avg'}</span>
                       </div>
                       <span className="font-mono text-stone-700 dark:text-stone-300 tabular-nums">
                         {m.stateVal ?? 'N/A'}{m.unit}
@@ -621,7 +621,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0" />
-                        <span className="text-stone-500 dark:text-stone-400">National Avg</span>
+                        <span className="text-stone-500 dark:text-stone-400">{lang === 'hi' ? 'राष्ट्रीय औसत' : 'National Avg'}</span>
                       </div>
                       <span className="font-mono text-stone-500 dark:text-stone-400 tabular-nums">
                         {m.natVal ?? 'N/A'}{m.unit}
@@ -670,7 +670,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <span className="w-24 text-stone-500 dark:text-stone-400">{mp.state} Avg</span>
+                    <span className="w-24 text-stone-500 dark:text-stone-400">{mp.state} {lang === 'hi' ? 'औसत' : 'Avg'}</span>
                     <div className="flex-1 bg-stone-200 dark:bg-[#1A2536] rounded-full h-2.5 overflow-hidden">
                       <div
                         className="bg-sky-500 dark:bg-sky-400 h-full rounded-full transition-all duration-500"
@@ -683,7 +683,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <span className="w-24 text-stone-500 dark:text-stone-400">National Avg</span>
+                    <span className="w-24 text-stone-500 dark:text-stone-400">{lang === 'hi' ? 'राष्ट्रीय औसत' : 'National Avg'}</span>
                     <div className="flex-1 bg-stone-200 dark:bg-[#1A2536] rounded-full h-2.5 overflow-hidden">
                       <div
                         className="bg-stone-400 dark:bg-stone-600 h-full rounded-full transition-all duration-500"

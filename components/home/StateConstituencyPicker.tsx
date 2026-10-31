@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Building, ArrowRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { localizeState } from '@/lib/i18n';
 import { homeMessages } from '@/lib/messages/home';
 
 interface StateConstituencyPickerProps {
@@ -14,6 +15,7 @@ interface StateConstituencyPickerProps {
 export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = ({ mps }) => {
   const router = useRouter();
   const t = useMessages(homeMessages);
+  const { lang } = useLang();
 
   // Extract unique states
   const states = Array.from(new Set(mps.map((m) => m.state)));
@@ -65,7 +67,7 @@ export const StateConstituencyPicker: React.FC<StateConstituencyPickerProps> = (
             >
               {states.map((st) => (
                 <option key={st} value={st} className="dark:bg-[#141C29]">
-                  {st} ({t.seatsOption(mps.filter((m) => m.state === st).length)})
+                  {localizeState(st, lang)} ({t.seatsOption(mps.filter((m) => m.state === st).length)})
                 </option>
               ))}
             </select>

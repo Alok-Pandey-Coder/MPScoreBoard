@@ -10,6 +10,7 @@ import { Toast } from '@/components/common/Toast';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { compareMessages } from '@/lib/messages/compare';
 import { formatNumber, formatPct } from '@/lib/formatters';
+import { localizeMP } from '@/lib/i18n';
 
 type MetricKey = 'attendance_pct' | 'debates' | 'questions' | 'private_member_bills';
 
@@ -29,6 +30,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
   const router = useRouter();
   const { lang } = useLang();
   const t = useMessages(compareMessages);
+  const localizedMps = React.useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
 
   const slugA = searchParams?.get('a') || mps[0]?.slug || '';
   const slugB = searchParams?.get('b') || mps[2]?.slug || mps[1]?.slug || '';
@@ -43,8 +45,8 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
     }
   }, [selectedA, selectedB, router]);
 
-  const mpA = mps.find((m) => m.slug === selectedA) || mps[0];
-  const mpB = mps.find((m) => m.slug === selectedB) || mps[1];
+  const mpA = localizedMps.find((m) => m.slug === selectedA) || localizedMps[0];
+  const mpB = localizedMps.find((m) => m.slug === selectedB) || localizedMps[1];
 
   // Ministers are outside PRS's tracking: their indicators are "not applicable",
   // never zero. Other missing values read "not available".
@@ -115,7 +117,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
             onChange={(e) => setSelectedA(e.target.value)}
             className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
           >
-            {mps.map((m) => (
+            {localizedMps.map((m) => (
               <option key={m.slug} value={m.slug} className="dark:bg-[#141C29]">
                 {m.name} ({m.constituency}, {m.party})
               </option>
@@ -137,7 +139,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
             onChange={(e) => setSelectedB(e.target.value)}
             className="w-full px-3 py-2.5 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-stone-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
           >
-            {mps.map((m) => (
+            {localizedMps.map((m) => (
               <option key={m.slug} value={m.slug} className="dark:bg-[#141C29]">
                 {m.name} ({m.constituency}, {m.party})
               </option>

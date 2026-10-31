@@ -33,3 +33,6 @@ export function defineMessages<T extends Record<string, unknown>>(messages: { en
 export function isLang(value: unknown): value is Lang {
   return value === 'en' || value === 'hi';
 }
+
+export * from './i18n/localizeData';
+

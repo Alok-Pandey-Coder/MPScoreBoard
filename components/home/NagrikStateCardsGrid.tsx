@@ -4,7 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Landmark, Building2, ArrowUpRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { localizeState } from '@/lib/i18n';
 import { homeMessages } from '@/lib/messages/home';
 
 interface NagrikStateCardsGridProps {
@@ -26,6 +27,7 @@ const toStateId = (state: string) => state.trim().toLowerCase().replace(/\s+/g, 
 
 export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps }) => {
   const t = useMessages(homeMessages);
+  const { lang } = useLang();
   const cardsByState = new Map<string, number>();
   for (const mp of mps) {
     const id = toStateId(mp.state);
@@ -52,7 +54,7 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
                   </div>
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                      {st.name}
+                      {localizeState(st.name, lang)}
                     </h3>
                     <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400">
                       {st.regionalName} · {st.type === 'State' ? t.typeState : t.typeUnionTerritory}

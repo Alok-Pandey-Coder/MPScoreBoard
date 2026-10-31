@@ -1,5 +1,36 @@
 # Project Change Log
 
+## 2026-11-01 — Automatic 2-3s Sliding Carousel for Hero Sansad Backdrop & Comprehensive Hindi Localization
+
+- **Summary:**
+  - **Dynamic Sliding Hero Backdrop (components/home/HomeClient.tsx)**:
+    - Re-engineered the hero backdrop into an automatic horizontal sliding carousel advancing every 2.8s (meeting the 2-3s requirement) across high-resolution architectural views of Indian Parliament (sansad-facade, sansad-chamber, sansad-panoramic).
+    - Implemented a seamless infinite forward sliding loop via cloned slide wrap (cubic-bezier(0.25, 1, 0.5, 1) 700ms slide transition), avoiding any awkward backward rewind.
+    - Added interactive carousel controls in the top-right pill bar with previous/next arrows, live active pulsing indicator dots, and direct jump buttons with full English and Hindi bilingual labels.
+    - Added pause-on-hover interaction so users can comfortably use the search bar or examine details without sudden background shifts.
+    - Dynamic architectural attribution sub-footer updating synchronously with the active slide in both English and Devanagari Hindi.
+  - **Comprehensive Hindi Page Localization**:
+    - Built master localization engine (lib/i18n/localizeData.ts and lib/i18n.ts) providing full Devanagari Hindi mappings for MP names (HINDI_MP_NAMES, HINDI_RUNNER_UPS), constituencies (HINDI_CONSTITUENCIES), all 36 States/UTs (HINDI_STATES), political parties (HINDI_PARTIES), educational qualifications, reservation categories, and MPLADS work descriptions/agencies.
+    - Deep component localization across MP report cards, briefing panel, action draft letter generator, affidavit section, comparison benchmarks, sources methodology, state exploration, and bilingual search.
+- **Files or areas changed:**
+  - components/home/HomeClient.tsx
+  - components/home/NagrikStateCardsGrid.tsx
+  - components/state/StateExplorationClient.tsx
+  - components/map/ConstituencyInfoPanel.tsx
+  - components/map/StateInfoPanel.tsx
+  - components/explore/ExploreAtlasClient.tsx
+  - components/mp/ExplainSimplyPanel.tsx
+  - components/mp/TakeActionPanel.tsx
+  - components/mp/SourcesFooter.tsx
+  - lib/i18n/localizeData.ts
+  - lib/i18n.ts
+  - lib/search.ts
+- **Validation performed:**
+  - npm run typecheck: Passed with 0 errors across all TypeScript files.
+  - npm test: All 4 test suites passed (304/304 unit tests green).
+  - Dev server running smoothly on port 3000.
+- **Remaining caveat or next step:** Local changes verified and ready for user inspection. (Per git rules, push will await explicit user permission).
+
 ## 2026-11-01 — Sansad Architectural Background & Interactive Hero Enhancement
 
 - **Summary:**
@@ -434,8 +465,6 @@
 - **Remaining Caveats / Next Steps**:
   - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
   - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
-# Project Change Log
-
 ## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
 
 - **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:

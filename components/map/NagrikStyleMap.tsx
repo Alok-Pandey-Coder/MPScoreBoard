@@ -6,7 +6,8 @@ import type { Feature, Geometry } from 'geojson';
 import { Search, Navigation, MapPin, ChevronRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { localizeConstituency } from '@/lib/i18n';
 import { mapMessages } from '@/lib/messages/map';
 
 /** Properties of ward features (delhi_wards_enriched.geojson) or PC features (delhi_pc.json). */
@@ -73,6 +74,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
   const t = useMessages(mapMessages);
   // Leaflet tooltips are bound once, so they read the current language's text via a ref.
+  const { lang } = useLang();
   const messagesRef = useRef(t);
   useEffect(() => {
     messagesRef.current = t;
@@ -202,7 +204,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             // Tooltip on hover
             layer.bindTooltip(
               () =>
-                `<div style="font-family:sans-serif;"><div style="font-weight:700; font-size:12px; color:#f8fafc;">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:#94a3b8;">${props.pc_name || ''} · ${messagesRef.current.wardTooltip(wardNum)}</div></div>`,
+                `<div style="font-family:sans-serif;"><div style="font-weight:700; font-size:12px; color:#f8fafc;">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:#94a3b8;">${localizeConstituency(props.pc_name || '', lang)} · ${messagesRef.current.wardTooltip(wardNum)}</div></div>`,
               { direction: 'center', className: 'dark-map-tooltip' }
             );
 
@@ -496,7 +498,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                         />
                         <div>
                           <div className="font-semibold text-xs text-white">
-                            {s.name}
+                            {localizeConstituency(s.name, lang)}
                           </div>
                           <div className="text-[10px] font-mono text-stone-400">
                             {mp ? `${mp.name} (${mp.party})` : t.mpRecordFallback}
@@ -524,7 +526,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                     {t.selectedSeat}
                   </div>
                   <h4 className="text-base font-bold text-white font-sans">
-                    {activeSeat.name}
+                    {localizeConstituency(activeSeat.name, lang)}
                   </h4>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1A2536] text-amber-300 border border-amber-500/30 font-bold">

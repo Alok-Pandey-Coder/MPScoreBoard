@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { mapMessages } from '@/lib/messages/map';
 import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
+import { localizeConstituency, localizeName, localizeParty } from '@/lib/i18n';
 
 export interface ConstituencyInfoPanelProps {
   constituency: ConstituencyGeoData;
@@ -27,7 +28,7 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
             {t.seatType(constituency.reservation || 'GEN')}
           </span>
           <h4 className="text-sm font-bold text-white mt-1 font-['Outfit',sans-serif]">
-            {constituency.name}
+            {localizeConstituency(constituency.name, lang)}
           </h4>
         </div>
         <button
@@ -47,11 +48,11 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs font-bold text-white truncate">
-              {constituency.sittingMP}
+              {localizeName(constituency.sittingMP, lang)}
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#1D242D] text-slate-300 font-medium border border-[#303A45]">
-                {constituency.party || 'BJP'}
+                {localizeParty(constituency.party || 'BJP', lang)}
               </span>
               {constituency.isMinister && (
                 <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 flex items-center gap-0.5">
@@ -95,4 +96,3 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
     </div>
   );
 };
-

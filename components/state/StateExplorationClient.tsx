@@ -1,13 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Building, ChevronRight, Award } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { INDIA_STATES, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
 import { stateMessages } from '@/lib/messages/state';
+import { localizeConstituency, localizeMP, localizeName, localizeParty, localizeState } from '@/lib/i18n';
 
 interface StateExplorationClientProps {
   mps: MPRecord[];
@@ -19,6 +20,8 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
   stateParam,
 }) => {
   const t = useMessages(stateMessages);
+  const { lang } = useLang();
+  const localizedMps = useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
   const stateId = stateParam?.toLowerCase() || 'delhi';
 
   const state =
@@ -27,6 +30,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
     ) || INDIA_STATES[0];
 
   const isDelhi = state.id === 'delhi';
+  const localizedStateName = localizeState(state.name, lang);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -42,7 +46,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
           </Link>
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-              {state.name}
+              {localizedStateName}
             </h1>
             <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-[#161d26] border border-slate-200 dark:border-[#273342] text-cyan-600 dark:text-cyan-400 font-bold">
               {t.seats(state.seats)}
@@ -58,7 +62,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
         {/* Left: Map Focusing on State */}
         <div className="lg:col-span-7">
           <IndiaAtlasMap
-            mps={mps}
+            mps={localizedMps}
             initialStateId={state.id}
             className="w-full h-[560px]"
           />
@@ -68,7 +72,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
         <div className="lg:col-span-5 bg-white dark:bg-[#161c24] border border-slate-200 dark:border-[#27323f] rounded-3xl p-6 shadow-sm">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white font-['Outfit'] mb-4 flex items-center gap-2">
             <Building className="w-4 h-4 text-cyan-500" />
-            <span>{t.constituenciesIn(state.name)}</span>
+            <span>{t.constituenciesIn(localizedStateName)}</span>
           </h2>
 
           {isDelhi ? (
@@ -83,18 +87,18 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-slate-900 dark:text-white font-['Outfit'] group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                          {c.name}
+                          {localizeConstituency(c.name, lang)}
                         </span>
                         {c.reservation && c.reservation !== 'GEN' && (
                           <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                            {c.reservation}
+                            {lang === 'hi' ? 'अनुसूचित जाति (SC)' : c.reservation}
                           </span>
                         )}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                        <span className="text-slate-800 dark:text-slate-200 font-medium">{c.sittingMP}</span>
+                        <span className="text-slate-800 dark:text-slate-200 font-medium">{localizeName(c.sittingMP, lang)}</span>
                         <span>•</span>
-                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{c.party}</span>
+                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{localizeParty(c.party, lang)}</span>
                         {c.isMinister && (
                           <span className="text-[10px] text-amber-500 font-semibold flex items-center gap-0.5">
                             <Award className="w-3 h-3" />
@@ -111,13 +115,13 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
           ) : (
             <div className="bg-slate-50 dark:bg-[#1a222d] border border-slate-200 dark:border-[#27323f] rounded-2xl p-5 text-xs text-slate-600 dark:text-slate-400 space-y-3 leading-relaxed">
               <p>
-                <strong>{state.name}</strong>
+                <strong>{localizedStateName}</strong>
                 {t.representedBy}
                 <strong>{t.electedMembers(state.seats)}</strong>
                 {t.inLowerHouse}
               </p>
               <p>
-                {t.notAvailableYet(state.name)}
+                {t.notAvailableYet(localizedStateName)}
               </p>
               <div className="pt-2">
                 <Link
