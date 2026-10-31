@@ -1,5 +1,25 @@
 # Project Change Log
 
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
+
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
+- **Files or areas changed:**
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
+- **Validation performed:**
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
+
+---
+
 ## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
 
 - **Summary**: Resolved persistent stale page issue on http://localhost:3000 where regular F5 refresh served outdated pre-migration HTML ('Boundary data is not available for the reviewed real snapshot yet'):
@@ -170,6 +190,26 @@
   - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
   - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
 # Project Change Log
+
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
+
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
+- **Files or areas changed:**
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
+- **Validation performed:**
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
+
+---
 
 ## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
 

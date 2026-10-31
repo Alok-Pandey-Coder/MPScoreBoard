@@ -206,8 +206,10 @@ This directory houses auxiliary packs for civic cross-referencing and historical
 
 | File Name | Records | Grain / Entity | Key Columns | Relevance |
 |:---|:---|:---|:---|:---|
-| `assembly_to_parliamentary_mapping.csv` | Schema | AC to PC Mapping | AC number, AC name, PC number, PC name | Boundary mapping crosswalk |
-| `ward_to_assembly_mapping.csv` | Schema | Ward to AC Mapping | Ward number, AC number | Ward-level mapping crosswalk |
+| `assembly_to_parliamentary_mapping.csv` | 70 rows | 70 ACs to 7 PCs | AC No, AC Name, PC No, PC Name | Official 2008 ECI Delimitation Mapping |
+| `mcd_ward_to_lok_sabha_mapping.csv` | 250 rows | 250 MCD Wards to 7 PCs | Ward No, Ward Name, MCD Zone, Lok Sabha PC, MP ID | Direct Ward-to-MP lookup crosswalk |
+| `ward_to_assembly_mapping.csv` | 250 rows | 250 MCD Wards to 70 ACs | Ward No, Ward Name, MCD Zone, AC ID, AC Name | Municipal Ward to Assembly segment crosswalk |
+| `delhi_lok_sabha_constituencies.csv` | 7 rows | 7 Parliamentary Constituencies | PC ID, PC Name, Total ACs (10), Ward count | Official constituency composition & boundary metadata |
 
 ---
 
