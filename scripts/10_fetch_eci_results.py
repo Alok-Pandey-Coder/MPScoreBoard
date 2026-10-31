@@ -38,7 +38,8 @@ ECI_STATE_LIST_URL = "https://results.eci.gov.in/AcResultGenJune2024/partywisere
 # The detailed PC-level API:
 ECI_PC_RESULTS_API = "https://results.eci.gov.in/ResultAcGenJune2024/statewiseresultGeneral2024.jsp"
 
-HEADERS = {"User-Agent": USER_AGENT, "Referer": "https://results.eci.gov.in/"}
+# Honest identification only; no borrowed Referer.
+HEADERS = {"User-Agent": USER_AGENT}
 
 # Delhi state code in ECI system
 DELHI_STATE_CODE = "S05"

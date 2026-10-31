@@ -10,11 +10,11 @@ from __future__ import annotations
 import json
 import re
 import sys
-import time
 from datetime import date
 from pathlib import Path
-from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+
+from polite_fetch import fetch_bytes
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
@@ -22,13 +22,11 @@ OUT = RAW / f"prs.india.manifest.{date.today().isoformat()}.json"
 
 BASE_URL = "https://prsindia.org/mptrack/18-lok-sabha?page="
 TOTAL_PAGES = 62  # 0 to 61 inclusive
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
 
 
 def get_html(url: str) -> str:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=20) as resp:
-        return resp.read().decode("utf-8", errors="ignore")
+    # Honest user agent and PRS's robots.txt Crawl-delay (10 s) via polite_fetch.
+    return fetch_bytes(url).decode("utf-8", errors="ignore")
 
 
 def parse_page(html: str) -> list[dict]:
@@ -114,7 +112,6 @@ def main() -> None:
             print(f"  Page {page:02d}/{TOTAL_PAGES - 1}: {len(page_records)} MPs (Total: {len(all_mps)})")
         except Exception as e:
             print(f"  ERROR on page {page}: {e}")
-        time.sleep(0.8)
 
     capture = {
         "source": {
