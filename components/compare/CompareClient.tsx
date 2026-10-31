@@ -122,9 +122,6 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
     if (m.mplads?.expenditure_cr !== undefined && m.mplads?.expenditure_cr !== null) {
       return m.mplads.expenditure_cr;
     }
-    if (m.mplads?.expenditure) {
-      return m.mplads.expenditure / 10000000;
-    }
     return null;
   };
 
@@ -132,18 +129,12 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
     if (m.mplads?.works_count?.completed !== undefined && m.mplads?.works_count?.completed !== null) {
       return m.mplads.works_count.completed;
     }
-    if (m.mplads?.works?.completed !== undefined && m.mplads?.works?.completed !== null) {
-      return m.mplads.works.completed;
-    }
     return null;
   };
 
   const getPendingCases = (m: MPRecord): number | null => {
     if (m.affidavit?.declared_criminal_cases !== undefined && m.affidavit?.declared_criminal_cases !== null) {
       return m.affidavit.declared_criminal_cases;
-    }
-    if (m.affidavit?.declared_cases !== undefined && m.affidavit?.declared_cases !== null) {
-      return m.affidavit.declared_cases;
     }
     return null;
   };
