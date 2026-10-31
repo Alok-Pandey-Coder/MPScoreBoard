@@ -10,8 +10,8 @@
   - Re-engineered the hero in `components/home/HomeClient.tsx` into an authoritative architectural pavilion container:
     - Layer 0: High-clarity, full-color authentic Parliament architectural photography (85% opacity in light mode / 80% in dark mode, authentic sandstone & chamber colors, removed desaturation/luminosity blends) so Sansad Bhavan is immediately and unambiguously identifiable.
     - Layer 1: Frame-edge vignettes (`bg-gradient-to-t`) and edge scrims ensuring seamless integration with surrounding page without dulling the center architecture.
-    - Layer 2: Interactive Perspective Switcher pill in the top-right corner (`Colonnade` | `Lok Sabha` | `Panorama`) allowing instant architectural perspective changes with responsive mobile support, plus a dedicated "Full Photo View" (`Eye` / `EyeOff`) toggle to inspect the full panoramic photography unobstructed.
-    - Layer 3: Central Editorial Glass Plinth (`backdrop-blur-xl bg-stone-50/92 dark:bg-[#0A0E17]/92`) housing the masthead, eyebrow badge, coverage note, `UnifiedSearchBar` with fast select chips, quick nav buttons, and architectural colophon footer, guaranteeing 100% WCAG AAA text legibility while letting the grand architecture frame the card proudly on all sides.
+    - Layer 2: Interactive Perspective Switcher pill in the top-right corner (Colonnade | Lok Sabha | Panorama) allowing instant architectural perspective changes with responsive mobile support.
+    - Layer 3: Fully transparent central editorial content stack (removed frosted blur box and borders) paired with seamless ambient scrims, allowing the Sansad architecture to be visible continuously across the center without obstructions while preserving 100% text legibility.
 - **Files or areas changed:**
   - `components/home/HomeClient.tsx`
   - `public/images/sansad/sansad-facade.jpg`, `sansad-chamber.jpg`, `sansad-panoramic.jpg`
