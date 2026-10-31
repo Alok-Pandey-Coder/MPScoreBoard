@@ -1,5 +1,21 @@
 # Project Change Log
 
+## 2026-11-01 — Remove Quick Jump Chips from Unified Search Bar
+
+- **Summary:**
+  - Removed the quick filter tags ("Jump to: New Delhi, Chandni Chowk, East Delhi, etc.") located immediately below the search input in UnifiedSearchBar.
+  - Added an optional showQuickChips?: boolean prop (defaulting to false) to keep search clean across the home page and other views, eliminating clutter and preserving layout scalability as new regions and constituencies are integrated.
+  - Retained full search bar omnibar autocomplete, keyboard navigation, clear button, and result navigation.
+- **Files or areas changed:**
+  - components/home/UnifiedSearchBar.tsx
+  - logs.md
+- **Validation performed:**
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 312 passed.
+  - Dev server verified at http://localhost:3000.
+- **Remaining caveat or next step:**
+  - None.
+
 ## 2026-11-01 — YugabyteDB data store (branch feat/yugabytedb)
 
 - **Summary:**

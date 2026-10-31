@@ -15,6 +15,7 @@ interface UnifiedSearchBarProps {
   autoFocus?: boolean;
   onSelect?: () => void;
   onSelectGeographicalFeature?: (stateId: string, constituencySlug?: string) => void;
+  showQuickChips?: boolean;
 }
 
 /** Shortcut chips under the search box; capped so they stay one or two rows. */
@@ -26,6 +27,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   autoFocus = false,
   onSelect,
   onSelectGeographicalFeature,
+  showQuickChips = false,
 }) => {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +38,14 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   const { lang } = useLang();
   const quickSeats = useMemo(
     () =>
-      mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
-        slug: mp.slug,
-        stateId: toStateId(mp.state),
-        name: mp.constituency.replace(/\s*\((SC|ST)\)$/, ''),
-      })),
-    [mps],
+      showQuickChips
+        ? mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
+            slug: mp.slug,
+            stateId: toStateId(mp.state),
+            name: mp.constituency.replace(/\s*\((SC|ST)\)$/, ''),
+          }))
+        : [],
+    [mps, showQuickChips],
   );
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,7 +100,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-2xl mx-auto space-y-3">
+    <div ref={containerRef} className={`relative w-full max-w-2xl mx-auto ${showQuickChips ? 'space-y-3' : ''}`}>
       {/* Search Input Box */}
       <div className="relative flex items-center group">
         <Search className="absolute left-4 w-4 h-4 text-stone-400 dark:text-stone-500 pointer-events-none group-focus-within:text-amber-500 transition-colors" />
@@ -127,29 +131,31 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
         )}
       </div>
 
-      {/* Fast Seat Quick Filter Chips */}
-      <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
-        <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
-          {t.jumpTo}
-        </span>
-        {quickSeats.map((seat) => (
-          <button
-            key={seat.slug}
-            type="button"
-            onClick={() => {
-              // On the home page, focus the seat on the map; elsewhere open its card.
-              if (onSelectGeographicalFeature) {
-                onSelectGeographicalFeature(seat.stateId, seat.slug);
-              } else {
-                router.push(`/mp/${seat.slug}`);
-              }
-            }}
-            className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#121824] hover:bg-stone-200 dark:hover:bg-[#1A2333] text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white border border-stone-200/90 dark:border-[#222E42] text-[11px] font-medium transition-colors cursor-pointer"
-          >
-            {seat.name}
-          </button>
-        ))}
-      </div>
+      {/* Fast Seat Quick Filter Chips (Optional) */}
+      {showQuickChips && quickSeats.length > 0 && (
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
+          <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
+            {t.jumpTo}
+          </span>
+          {quickSeats.map((seat) => (
+            <button
+              key={seat.slug}
+              type="button"
+              onClick={() => {
+                // On the home page, focus the seat on the map; elsewhere open its card.
+                if (onSelectGeographicalFeature) {
+                  onSelectGeographicalFeature(seat.stateId, seat.slug);
+                } else {
+                  router.push(`/mp/${seat.slug}`);
+                }
+              }}
+              className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#121824] hover:bg-stone-200 dark:hover:bg-[#1A2333] text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white border border-stone-200/90 dark:border-[#222E42] text-[11px] font-medium transition-colors cursor-pointer"
+            >
+              {seat.name}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Dropdown Results */}
       {isOpen && (
