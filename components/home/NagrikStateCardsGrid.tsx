@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Landmark, Building2, MapPin, ArrowUpRight, Users, BookOpen } from 'lucide-react';
-import { INDIA_STATES } from '@/lib/indiaGeoData';
+import { Landmark, Building2, ArrowUpRight } from 'lucide-react';
 
 export const NagrikStateCardsGrid: React.FC = () => {
   const featuredStates = [
@@ -12,7 +11,7 @@ export const NagrikStateCardsGrid: React.FC = () => {
       type: 'National Capital Territory',
       seats: 7,
       mps: 7,
-      status: 'Active Snapshot',
+      status: 'Active Audit',
       icon: Landmark,
       fundsAllocated: '₹ 35.0 Cr',
     },
@@ -74,7 +73,7 @@ export const NagrikStateCardsGrid: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
       {featuredStates.map((st) => {
         const Icon = st.icon;
         const isDelhi = st.id === 'delhi';
@@ -82,69 +81,72 @@ export const NagrikStateCardsGrid: React.FC = () => {
         return (
           <div
             key={st.id}
-            className="group bg-[#161c24] hover:bg-[#1a222d] border border-[#27323f] hover:border-cyan-500/50 rounded-3xl p-6 transition-all duration-300 flex flex-col justify-between shadow-xl"
+            className="group bg-white dark:bg-[#0E1420] border border-stone-200/90 dark:border-[#1E2636] hover:border-amber-500/60 rounded-xl p-5 transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
           >
             <div>
-              {/* Top Row: Icon + State Name + Seats/Fund + Arrow */}
-              <div className="flex items-start justify-between gap-4 mb-5">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-2xl bg-[#1e2733] border border-[#2e3b4b] flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-                    <Icon className="w-6 h-6 stroke-[1.75]" />
+              {/* Top Row: Icon + State Name + Seats */}
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-stone-100 dark:bg-[#16202E] border border-stone-200 dark:border-[#26344A] flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:border-amber-500/60 transition-colors">
+                    <Icon className="w-5 h-5 stroke-[1.75]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-extrabold text-white font-['Outfit'] tracking-tight group-hover:text-cyan-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                       {st.name}
                     </h3>
-                    <p className="text-xs text-slate-400 font-sans">
-                      {st.regionalName}
+                    <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400">
+                      {st.regionalName} · {st.type}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                    LOK SABHA SEATS
+                  <div className="text-[10px] font-mono uppercase font-bold tracking-wider text-stone-400">
+                    SEATS
                   </div>
-                  <div className="text-lg font-extrabold text-white font-['Outfit'] flex items-center justify-end gap-1">
+                  <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white flex items-center justify-end gap-1 tabular-nums">
                     <span>{st.seats}</span>
-                    <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition-colors" />
+                    <ArrowUpRight className="w-3.5 h-3.5 text-stone-400 group-hover:text-amber-500 transition-colors" />
                   </div>
                 </div>
               </div>
 
               {/* Status Badge */}
-              <div className="flex items-center gap-2 mb-6">
-                <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+              <div className="flex items-center gap-2 mb-4 font-mono text-[11px]">
+                <span className={`px-2 py-0.5 rounded border ${
                   isDelhi
-                    ? 'bg-cyan-950/70 text-cyan-300 border-cyan-800'
-                    : 'bg-[#1b232e] text-slate-400 border-[#2a3746]'
+                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 font-bold'
+                    : 'bg-stone-100 dark:bg-[#151D2A] text-stone-600 dark:text-stone-400 border-stone-200 dark:border-[#222E40]'
                 }`}>
-                  {isDelhi ? 'Verified Active Coverage' : `${st.seats} Seats Demarcated`}
+                  {isDelhi ? '100% Sourced Active Audit' : `${st.seats} Seats in Pipeline`}
                 </span>
-                <span className="text-xs text-slate-400">
-                  Fund: {st.fundsAllocated}
+                <span className="text-stone-500 dark:text-stone-400">
+                  {st.fundsAllocated}
                 </span>
               </div>
             </div>
 
-            {/* Bottom Row Links (like Nagrik screenshot 5) */}
-            <div className="pt-4 border-t border-[#232c37] flex items-center justify-between text-xs text-slate-400">
-              <Link href={isDelhi ? `/mp/chandni-chowk-delhi` : `/state/${st.id}`}
-                className="hover:text-white transition-colors flex items-center gap-1"
+            {/* Bottom Row Links */}
+            <div className="pt-3 border-t border-stone-100 dark:border-[#1A2333] flex items-center justify-between text-xs font-mono text-stone-500 dark:text-stone-400">
+              <Link
+                href={isDelhi ? `#find-constituency` : `/state/${st.id}`}
+                className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
-                <span>Constituencies</span>
+                Constituencies
               </Link>
-              <span>•</span>
-              <Link href={isDelhi ? `/mp/new-delhi-delhi` : `/state/${st.id}`}
-                className="hover:text-white transition-colors flex items-center gap-1"
+              <span>·</span>
+              <Link
+                href={isDelhi ? `#delhi-mps` : `/state/${st.id}`}
+                className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
-                <span>MPs</span>
+                Members
               </Link>
-              <span>•</span>
-              <Link href="/about"
-                className="hover:text-white transition-colors flex items-center gap-1"
+              <span>·</span>
+              <Link
+                href="/about"
+                className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
-                <span>Sources</span>
+                Provenance
               </Link>
             </div>
           </div>
@@ -153,4 +155,3 @@ export const NagrikStateCardsGrid: React.FC = () => {
     </div>
   );
 };
-

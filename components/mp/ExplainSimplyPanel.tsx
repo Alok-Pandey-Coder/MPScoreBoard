@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Copy, Check, Languages, ShieldCheck, RefreshCw } from 'lucide-react';
+import { Copy, Check, Languages, ShieldCheck, RefreshCw, FileText } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { getMPSummary, SummaryResult } from '@/lib/ai/summary';
 
@@ -41,50 +41,47 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 dark:from-[#0a0f1d] dark:via-[#0c162d] dark:to-[#0a0f1d] text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-blue-500/20 dark:border-blue-500/30 relative overflow-hidden transition-colors">
-      {/* Background glow */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="bg-white dark:bg-[#0E1420] text-stone-900 dark:text-stone-100 rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm relative overflow-hidden transition-colors">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-300 flex items-center justify-center border border-blue-400/30">
-            <Sparkles className="w-5 h-5 text-blue-300" />
+          <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center border border-amber-500/20">
+            <FileText className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold tracking-tight font-['Outfit']">
-                Explain Simply
-              </h2>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-400/30">
-                Plain Language AI
+              <h3 className="text-base sm:text-lg font-bold font-sans tracking-tight">
+                Plain-Language Briefing
+              </h3>
+              <span className="text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded bg-stone-100 dark:bg-[#141C28] text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-[#202B3C]">
+                Strict Data Synthesis
               </span>
             </div>
-            <p className="text-xs text-blue-200/70 mt-0.5">
-              3-to-4 sentence factual brief grounded strictly in public data
+            <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
+              3-to-4 sentence summary grounded strictly in official records
             </p>
           </div>
         </div>
 
         {/* Language selector toggle */}
-        <div className="flex items-center gap-1 bg-white/10 dark:bg-white/5 p-1 rounded-xl border border-white/10 self-start sm:self-auto">
-          <Languages className="w-4 h-4 text-blue-200 ml-2 mr-1" />
+        <div className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C29] p-1 rounded-lg border border-stone-200 dark:border-[#222F42] self-start sm:self-auto text-xs font-mono">
+          <Languages className="w-3.5 h-3.5 text-stone-400 ml-1.5 mr-0.5" />
           <button
             onClick={() => setLang('en')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
               lang === 'en'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-blue-100 hover:text-white'
+                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
             }`}
           >
             English
           </button>
           <button
             onClick={() => setLang('hinglish')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
               lang === 'hinglish'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-blue-100 hover:text-white'
+                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
             }`}
           >
             Hinglish
@@ -93,38 +90,38 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
       </div>
 
       {/* Content Area */}
-      <div className="relative min-h-[100px] flex flex-col justify-between">
+      <div className="relative min-h-[90px] flex flex-col justify-between">
         {isLoading ? (
-          <div className="flex items-center gap-3 py-6 text-blue-200">
-            <RefreshCw className="w-5 h-5 animate-spin" />
-            <span className="text-sm font-medium">Generating plain-language explanation...</span>
+          <div className="flex items-center gap-2.5 py-6 text-stone-500 font-mono text-xs">
+            <RefreshCw className="w-4 h-4 animate-spin text-amber-500" />
+            <span>Synthesizing factual records...</span>
           </div>
         ) : (
-          <p className="text-base sm:text-lg text-slate-100 leading-relaxed font-normal">
+          <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
             {summary?.text}
           </p>
         )}
 
         {/* Bottom meta bar */}
-        <div className="pt-6 mt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-blue-200/70">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Auto-generated summary verified by strict mathematical guardrails</span>
+        <div className="pt-4 mt-5 border-t border-stone-100 dark:border-[#1A2333] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-stone-500 dark:text-stone-400">
+          <div className="flex items-center gap-1.5 text-[11px]">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span>Mathematical guardrails prevent hallucination or unsourced claims</span>
           </div>
 
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-blue-200 hover:text-white self-start sm:self-auto bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-xl transition-colors border border-white/10 font-medium"
+            className="flex items-center gap-1.5 text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white self-start sm:self-auto bg-stone-100 dark:bg-[#141C29] px-2.5 py-1 rounded border border-stone-200 dark:border-[#222F42] transition-colors cursor-pointer text-xs"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-emerald-300">Copied</span>
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5" />
-                <span>Copy summary</span>
+                <Copy className="w-3.5 h-3.5 text-stone-400" />
+                <span>Copy briefing</span>
               </>
             )}
           </button>

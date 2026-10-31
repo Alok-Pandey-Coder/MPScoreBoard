@@ -43,36 +43,36 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
   const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(editedBody)}`;
 
   return (
-    <div id="action" className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm scroll-mt-24 transition-colors">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+    <div id="action" className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm scroll-mt-24 transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
-            <Send className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span>Take Action: Draft a Letter to your MP</span>
+          <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2">
+            <Send className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <span>Citizen Action: Draft Official Communication</span>
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Turn public data into constructive citizen engagement
+          <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
+            Structured representation letter grounded in verified public data
           </p>
         </div>
 
         {/* Language selector */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl self-start sm:self-auto border border-slate-200 dark:border-slate-700">
+        <div className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C29] p-1 rounded-lg self-start sm:self-auto border border-stone-200 dark:border-[#222F42] text-xs font-mono">
           <button
             onClick={() => setLang('en')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
               lang === 'en'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300'
+                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
+                : 'text-stone-600 dark:text-stone-400'
             }`}
           >
             English
           </button>
           <button
             onClick={() => setLang('hinglish')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
               lang === 'hinglish'
-                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300'
+                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
+                : 'text-stone-600 dark:text-stone-400'
             }`}
           >
             Hinglish
@@ -80,50 +80,50 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left Col: Controls & Inputs */}
         <div className="lg:col-span-5 space-y-4">
           {/* Intent Selector */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-              1. Choose Citizen Intent
+            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
+              1. Select Representation Purpose
             </label>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {[
                 {
                   id: 'mplads_works' as CitizenIntent,
                   title: 'Inquire on MPLADS Works',
-                  desc: 'Ask about local development spending & proposed works',
+                  desc: 'Ask about local constituency spending & proposed infrastructure',
                 },
                 {
                   id: 'parliament_question' as CitizenIntent,
-                  title: 'Request a Question in Lok Sabha',
-                  desc: 'Ask the MP to table a question on a local priority',
+                  title: 'Request a Lok Sabha Question',
+                  desc: 'Ask the MP to table a parliamentary question on a priority topic',
                 },
                 {
                   id: 'attendance_clarification' as CitizenIntent,
-                  title: 'Parliamentary Representation Inquiry',
-                  desc: 'Inquire on parliamentary focus and outreach channels',
+                  title: 'Constituency Engagement',
+                  desc: 'Inquire on local outreach, office hours, and redressal forums',
                 },
                 {
                   id: 'general_feedback' as CitizenIntent,
-                  title: 'Constituency Feedback',
-                  desc: 'Share general community concerns and feedback',
+                  title: 'Community Priority Feedback',
+                  desc: 'Submit civic observations and constituency concerns',
                 },
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setIntent(item.id)}
-                  className={`w-full text-left p-3.5 rounded-2xl border transition-all ${
+                  className={`w-full text-left p-3 rounded-lg border transition-all cursor-pointer ${
                     intent === item.id
-                      ? 'bg-blue-50/80 dark:bg-blue-950/70 border-blue-400 dark:border-blue-500 ring-2 ring-blue-600/20'
-                      : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-800'
+                      ? 'bg-amber-500/10 dark:bg-[#1A2536] border-amber-500 dark:border-amber-400'
+                      : 'bg-stone-50 dark:bg-[#121A26] border-stone-200 dark:border-[#1E293B] hover:bg-stone-100 dark:hover:bg-[#172130]'
                   }`}
                 >
-                  <div className="font-semibold text-sm text-slate-900 dark:text-white font-['Outfit']">
+                  <div className="font-semibold text-xs text-stone-900 dark:text-white font-sans">
                     {item.title}
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5 font-mono">
                     {item.desc}
                   </div>
                 </button>
@@ -133,10 +133,10 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
 
           {/* Citizen Inputs */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
-              2. Customise (Optional)
+            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
+              2. Custom Details (Optional)
             </label>
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div>
                 <input
                   type="text"
@@ -144,26 +144,26 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
                   value={citizenName}
                   maxLength={60}
                   onChange={(e) => setCitizenName(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-3 py-2 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-xs sm:text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
                 />
               </div>
               <div>
                 <input
                   type="text"
-                  placeholder="Locality / Ward (e.g. Karol Bagh, Ward 85)"
+                  placeholder="Ward / Locality (e.g. Karol Bagh, Ward 85)"
                   value={locality}
                   maxLength={60}
                   onChange={(e) => setLocality(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full px-3 py-2 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-xs sm:text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
                 />
               </div>
               <div>
                 <textarea
-                  placeholder="Describe your specific local issue (e.g. Water logging near main market, hospital emergency wing need...)"
+                  placeholder="Briefly describe the specific issue (e.g. Primary health center staffing, storm water drain repair)..."
                   rows={2}
                   value={specificIssue}
                   onChange={(e) => setSpecificIssue(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
+                  className="w-full px-3 py-2 bg-stone-50 dark:bg-[#141C29] border border-stone-200 dark:border-[#222F42] rounded-lg text-xs sm:text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-1 focus:ring-amber-500 resize-none font-mono"
                 />
               </div>
             </div>
@@ -171,74 +171,73 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
         </div>
 
         {/* Right Col: Editable Draft Letter Preview */}
-        <div className="lg:col-span-7 flex flex-col justify-between bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/80">
+        <div className="lg:col-span-7 flex flex-col justify-between bg-stone-50/80 dark:bg-[#121A26] rounded-lg p-4 sm:p-5 border border-stone-200/90 dark:border-[#1E293B]">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                Generated Editable Draft
+            <div className="flex items-center justify-between mb-3 text-xs font-mono">
+              <span className="font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
+                Official Letter Draft
               </span>
-              <span className="text-xs text-slate-400 dark:text-slate-400">You can edit the text directly</span>
+              <span className="text-stone-400">Directly editable below</span>
             </div>
 
-            <div className="mb-3">
-              <label className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase block mb-1">
+            <div className="mb-2.5">
+              <label className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
                 Subject
               </label>
               <input
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3 py-2 bg-white dark:bg-[#0E1420] border border-stone-200 dark:border-[#1E2636] rounded-lg text-xs font-mono font-semibold text-stone-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
               />
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase block mb-1">
-                Letter Body
+              <label className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
+                Body
               </label>
               <textarea
                 rows={11}
                 value={editedBody}
                 onChange={(e) => setEditedBody(e.target.value)}
-                className="w-full p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full p-3.5 bg-white dark:bg-[#0E1420] border border-stone-200 dark:border-[#1E2636] rounded-lg text-xs font-mono text-stone-800 dark:text-stone-200 leading-relaxed focus:outline-none focus:ring-1 focus:ring-amber-500"
               />
             </div>
           </div>
 
           {/* Action Buttons & Notice */}
-          <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700/80">
-            <div className="flex flex-wrap items-center gap-3 mb-3">
+          <div className="mt-4 pt-3.5 border-t border-stone-200 dark:border-[#1E293B]">
+            <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
               <button
                 onClick={handleCopy}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 active:scale-98 text-white rounded-xl text-sm font-semibold shadow-md shadow-blue-600/20 transition-all"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-mono font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm transition-all cursor-pointer"
               >
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4 text-emerald-300" />
+                    <Check className="w-3.5 h-3.5 text-stone-950" />
                     <span>Copied to Clipboard!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4" />
-                    <span>Copy Draft Letter</span>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy Letter</span>
                   </>
                 )}
               </button>
 
               <a
                 href={mailtoUrl}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 active:scale-98 text-white rounded-xl text-sm font-semibold shadow-md transition-all border border-transparent dark:border-slate-700"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 font-mono font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm transition-all cursor-pointer"
               >
-                <Mail className="w-4 h-4 text-blue-300" />
-                <span>Open in Email App</span>
+                <Mail className="w-3.5 h-3.5" />
+                <span>Open in Email</span>
               </a>
             </div>
 
-            {/* Crucial Ethical / Legal Notice (PRD FR-13) */}
-            <div className="flex items-start gap-2 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-700/80">
-              <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 text-[10px] font-mono text-stone-500 dark:text-stone-400 leading-relaxed bg-white dark:bg-[#0E1420] p-2.5 rounded border border-stone-200 dark:border-[#1E2636]">
+              <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
               <span>
-                <strong>Review before sending:</strong> This is an editable citizen draft generated from public indicators. Mera MP does not send emails or messages on your behalf.
+                <strong>Review before sending:</strong> This draft is prepared for your personal review. Mera MP does not transmit emails or communications on your behalf.
               </span>
             </div>
           </div>
