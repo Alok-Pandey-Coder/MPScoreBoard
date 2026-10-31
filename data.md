@@ -80,6 +80,8 @@ interface MPRecord {
   sansad_mpsno: number;                  // Official Digital Sansad member ID
   sansad_status: "Sitting" | "Former";   // Current seat status
   identity_review_status: string;        // "cross_checked"
+  image_url: string;                     // Static public path to official portrait (e.g. "/images/mps/{slug}.jpg")
+  image_source: SourceProvenance;        // Digital Sansad official portrait provenance
   
   profile: {
     age: number | null;

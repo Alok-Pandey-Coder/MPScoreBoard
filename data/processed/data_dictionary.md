@@ -9,6 +9,7 @@
 | `party_full` | Party name as shown by PRS |
 | `reservation` | `GEN`, `SC` or `ST`, from the Sansad category code (constituency suffix as fallback) |
 | `sansad_mpsno`, `sansad_status` | Official Lok Sabha member number and status (`Sitting`) |
+| `image_url`, `image_source` | Local public path (`/images/mps/{slug}.jpg`) and Digital Sansad official portrait provenance |
 | `term` | `18th Lok Sabha` |
 | `since_date` | ISO start of term from PRS |
 | `is_minister` | From the PRS "This MP is a minister" banner, not from code |

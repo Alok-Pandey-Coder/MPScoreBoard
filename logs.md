@@ -1,5 +1,30 @@
 # Project Change Log
 
+## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
+
+- **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:
+  1. **Official Asset Capture**: Downloaded official high-resolution 18th Lok Sabha portrait photographs for all 7 Delhi MPs from Digital Sansad (`https://sansad.in/getFile/lsapps/mpimage/photo/{mpsno}.jpg`) and stored locally in `public/images/mps/{slug}.jpg` to ensure fast, offline-resilient loading without third-party CDN latency or CORS issues.
+  2. **Reusable MPAvatar Component**: Created `components/ui/MPAvatar.tsx` featuring responsive sizing, high-contrast border treatment, graceful fallback to monospaced initials upon error, and optional party affiliation badge.
+  3. **Universal Profile Integration**:
+     - **Dossier Header (`MPHeader.tsx`)**: Replaced placeholder initials with the MP's authentic official portrait, party badge, and provenance link.
+     - **Home Leadership Grid (`QuickCardsGrid.tsx`)**: Added real portrait thumbnails to all 7 Delhi MP dossier cards.
+     - **Search Omnibar (`UnifiedSearchBar.tsx`)**: Integrated portrait icons into auto-complete search results.
+     - **Comparative Matrix (`CompareClient.tsx`)**: Displayed side-by-side MP portraits in comparison headers.
+     - **Dark GIS Ward Map (`NagrikStyleMap.tsx`)**: Added representative portrait thumbnail to the selected constituency inspector panel.
+  4. **Data & Schema Provenance**: Updated `types/mp.ts`, `data/processed/mps.json`, `data.md`, and `data/processed/data_dictionary.md` documenting `image_url` and `image_source` provenance.
+- **Files/Areas Changed**:
+  - `public/images/mps/*`: Added 7 official MP portrait image files.
+  - `components/ui/MPAvatar.tsx`: Created reusable portrait avatar component with fallback.
+  - `components/home/QuickCardsGrid.tsx`, `UnifiedSearchBar.tsx`: Added MP portrait display.
+  - `components/mp/MPHeader.tsx`: Integrated real MP portrait in header.
+  - `components/compare/CompareClient.tsx`: Added MP portraits in comparison view.
+  - `components/map/NagrikStyleMap.tsx`: Added representative portrait in map inspector.
+  - `types/mp.ts`, `lib/data.ts`: Added `image_url` and `image_source` typings.
+  - `data/processed/mps.json`, `data.md`, `data/processed/data_dictionary.md`: Updated data records and schema documentation.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: All 58 unit tests passed 100%.
+
 ## 2026-10-31 — Recharts Pie & Donut Benchmark Visualizer (feat/circular-benchmark-visualizer)
 
 - **Summary**: Implemented Recharts-powered interactive Pie & Donut visualization for the Parliamentary Activity Comparative Benchmark section:

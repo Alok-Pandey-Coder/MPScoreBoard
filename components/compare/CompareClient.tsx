@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { GitCompare, Share2, ExternalLink, Info } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 import { Toast } from '@/components/common/Toast';
 
 interface CompareClientProps {
@@ -127,9 +128,15 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                 </span>
               )}
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
-              {mpA.name}
-            </h2>
+            <div className="flex items-center gap-3 mb-2">
+              <MPAvatar imageUrl={mpA.image_url} name={mpA.name} size="md" />
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
+                  {mpA.name}
+                </h2>
+                <div className="text-xs text-stone-500 font-mono">{mpA.constituency}</div>
+              </div>
+            </div>
             <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-3">
               {mpA.constituency}, {mpA.state}
             </p>
@@ -154,9 +161,15 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                 </span>
               )}
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
-              {mpB.name}
-            </h2>
+            <div className="flex items-center gap-3 mb-2">
+              <MPAvatar imageUrl={mpB.image_url} name={mpB.name} size="md" />
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-sans">
+                  {mpB.name}
+                </h2>
+                <div className="text-xs text-stone-500 font-mono">{mpB.constituency}</div>
+              </div>
+            </div>
             <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mb-3">
               {mpB.constituency}, {mpB.state}
             </p>

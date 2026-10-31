@@ -42,6 +42,8 @@ export interface ReportMP {
   isMinister: boolean;
   is_minister?: boolean;
   education: string | null;
+  image_url?: string | null;
+  image_source?: any;
   metrics: ReportMetric[];
   performanceAsOf: string | null;
   mpladsPending: boolean;
@@ -86,6 +88,8 @@ interface LegacyRecord {
   reservation?: string;
   is_minister: boolean;
   isTest?: boolean;
+  image_url?: string;
+  image_source?: any;
   history?: Array<{ lokSabha: string; constituency: string; state: string; party: string; fromYear: number; toYear: number | null }>;
   profile?: { education?: string | null; age?: number | null; gender?: string | null; term_number?: string | null; source?: any };
   performance?: {
@@ -222,6 +226,8 @@ function toReportMP(record: LegacyRecord): ReportMP {
     isMinister: record.is_minister,
     is_minister: record.is_minister,
     education: record.profile?.education ?? null,
+    image_url: record.image_url ?? null,
+    image_source: record.image_source ?? null,
     metrics: [
       metric("Attendance", performance?.attendance_pct ?? null, state?.attendance_pct ?? null, national?.attendance_pct ?? null, "%"),
       metric("Debates", performance?.debates ?? null, state?.debates ?? null, national?.debates ?? null),

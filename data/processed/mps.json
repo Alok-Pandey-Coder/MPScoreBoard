@@ -64,7 +64,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 14.75,
       "expenditure": 2.65,
       "utilisation_pct": 43.8,
@@ -149,9 +149,20 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
-    "normalisation_notes": []
+    "normalisation_notes": [],
+    "image_url": "/images/mps/chandni-chowk-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "east-delhi-delhi",
@@ -218,7 +229,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 14.71,
       "expenditure": 2.44,
       "utilisation_pct": 52.8,
@@ -303,9 +314,20 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
-    "normalisation_notes": []
+    "normalisation_notes": [],
+    "image_url": "/images/mps/east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "new-delhi-delhi",
@@ -372,7 +394,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 15.43,
       "expenditure": 2.18,
       "utilisation_pct": 42.4,
@@ -457,9 +479,20 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
-    "normalisation_notes": []
+    "normalisation_notes": [],
+    "image_url": "/images/mps/new-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-east-delhi-delhi",
@@ -526,7 +559,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 22.58,
       "expenditure": 2.97,
       "utilisation_pct": 44.5,
@@ -611,11 +644,22 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
       "PRS name 'Manoj Tiwari' matched 'Manoj Kumar Tiwari' via aliases.json."
-    ]
+    ],
+    "image_url": "/images/mps/north-east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-west-delhi-delhi",
@@ -682,7 +726,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 14.79,
       "expenditure": 1.25,
       "utilisation_pct": 31.2,
@@ -767,11 +811,22 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
       "PRS constituency 'North West Delhi' matched 'North West Delhi (SC)' after removing the reservation suffix."
-    ]
+    ],
+    "image_url": "/images/mps/north-west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "south-delhi-delhi",
@@ -838,7 +893,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 14.76,
       "expenditure": 2.88,
       "utilisation_pct": 87.6,
@@ -923,9 +978,20 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
-    "normalisation_notes": []
+    "normalisation_notes": [],
+    "image_url": "/images/mps/south-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "west-delhi-delhi",
@@ -992,7 +1058,7 @@
     },
     "mplads": {
       "status": "reported",
-      "entitlement": 5.0,
+      "entitlement": 5,
       "funds_released": 14.7,
       "expenditure": 1.31,
       "utilisation_pct": 60.2,
@@ -1077,8 +1143,19 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
-    "normalisation_notes": []
+    "normalisation_notes": [],
+    "image_url": "/images/mps/west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   }
 ]

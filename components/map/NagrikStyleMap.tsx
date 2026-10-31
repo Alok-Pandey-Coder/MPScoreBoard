@@ -502,11 +502,24 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                 </span>
               </div>
 
-              <div className="text-xs text-stone-300 mb-3 space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-stone-400">Representative:</span>
-                  <strong className="text-white">{activeMP?.name || 'Sitting MP'}</strong>
+              <div className="flex items-center gap-3 mb-3 p-2 bg-[#0E1520] rounded-lg border border-[#1A2536]">
+                <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-[#2B3B52] bg-stone-800 flex items-center justify-center text-xs font-mono font-bold text-stone-300">
+                  {activeMP?.image_url ? (
+                    <img
+                      src={activeMP.image_url}
+                      alt={activeMP.name}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : (
+                    activeMP?.name ? activeMP.name.split(' ').map(n => n[0]).slice(0, 2).join('') : 'MP'
+                  )}
                 </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] text-stone-400 font-mono">Representative</div>
+                  <div className="text-xs font-bold text-white font-sans truncate">{activeMP?.name || 'Sitting MP'}</div>
+                </div>
+              </div>
+              <div className="text-xs text-stone-300 mb-3 space-y-1">
                 {activeMP?.is_minister && (
                   <div className="text-[10px] text-amber-400 font-mono">
                     Union Minister · Questions not applicable
