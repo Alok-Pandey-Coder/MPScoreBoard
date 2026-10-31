@@ -1,5 +1,23 @@
 # Project Change Log
 
+## 2026-11-01 — Exact Multi-Member MP Comparison Redesign (branch: compare)
+
+- **Summary**:
+  - Re-engineered the MP Comparison interface (`components/compare/CompareClient.tsx` and `app/compare/page.tsx`) to match the user's multi-member comparative layout:
+    1. **Header & Context**: Added exact explanatory header notice emphasizing neutral descriptive indicators ("Add up to three members. Bars compare these people to each other, not to a score...").
+    2. **Member Selection**: Implemented "Add a member" input with live autocomplete dropdown, keyboard accessibility, and click-outside dismissal. Added dark pill chips with removal buttons supporting comparison of up to 3 MPs simultaneously.
+    3. **Comparative Matrix**: Structured side-by-side comparative table with circular member portraits, full names linked to profiles, and rows in exact sequence: `House`, `Role`, `Attendance`, `Questions`, `MPLADS spent`, `Works completed`, `Pending cases disclosed`.
+    4. **Visual Comparison Bars**: Proportional horizontal progress bars using distinct member accent colors (Member 1: charcoal `#18181b`, Member 2: terracotta `#c2410c`, Member 3: teal `#0e7490`). Preserved non-ranking principles with proper "not applicable (minister)" handling and zero-bar exclusion for criminal disclosures.
+    5. **Sitting House Medians Footer & Sharing**: Sourced median benchmarks for the 18th Lok Sabha with session metadata and one-click share link generator with clipboard toast confirmation.
+- **Files or areas changed**:
+  - `components/compare/CompareClient.tsx`
+  - `logs.md`
+- **Validation performed**:
+  - `npm test`: 304/304 unit and contract tests passed.
+  - `python scripts/build_data.py`: Completed with 0 hard errors and full schema compliance.
+  - `http://localhost:3000/compare`: Verified HTTP 200 server response and live interactive state.
+- **Remaining caveat or next step**: Verified locally on `http://localhost:3000/compare`. Awaiting user confirmation before any git push per repository rules.
+
 ## 2026-11-01 — Automatic 2-3s Sliding Carousel for Hero Sansad Backdrop & Comprehensive Hindi Localization
 
 - **Summary:**
