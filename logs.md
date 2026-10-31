@@ -16,6 +16,28 @@
   - `npm test`: All 304 unit tests passed.
   - `npm run build`: Successfully built 57/57 static and dynamic routes.
 
+## 2026-11-01 — Sansad Architectural Background & Interactive Hero Enhancement
+
+- **Summary:**
+  - Added high-craft architectural photography of Indian Parliament into the hero section backdrop (`public/images/sansad/`):
+    - `sansad-facade.jpg`: Samvidhan Sadan (historic Parliament House colonnade), optimized via Lanczos compression to 341 KB.
+    - `sansad-chamber.jpg`: 18th Lok Sabha Chamber in the New Parliament building, optimized to 224 KB.
+    - `sansad-panoramic.jpg`: Panoramic Central Vista complex vista, compressed to 296 KB.
+  - Re-engineered the hero in `components/home/HomeClient.tsx` into an authoritative architectural pavilion container:
+    - Layer 0: High-clarity, full-color authentic Parliament architectural photography (85% opacity in light mode / 80% in dark mode, authentic sandstone & chamber colors, removed desaturation/luminosity blends) so Sansad Bhavan is immediately and unambiguously identifiable.
+    - Layer 1: Frame-edge vignettes (`bg-gradient-to-t`) and edge scrims ensuring seamless integration with surrounding page without dulling the center architecture.
+    - Layer 2: Interactive Perspective Switcher pill in the top-right corner (Colonnade | Lok Sabha | Panorama) allowing instant architectural perspective changes with responsive mobile support.
+    - Layer 3: Fully transparent central editorial content stack (removed frosted blur box and borders) paired with seamless ambient scrims, allowing the Sansad architecture to be visible continuously across the center without obstructions while preserving 100% text legibility.
+- **Files or areas changed:**
+  - `components/home/HomeClient.tsx`
+  - `public/images/sansad/sansad-facade.jpg`, `sansad-chamber.jpg`, `sansad-panoramic.jpg`
+- **Validation performed:**
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: 4 test suites passed, 304/304 unit tests passed.
+  - `python scripts/build_data.py`: Passed with 0 hard errors; all 7 Delhi seats and 544 All-India records verified.
+  - Live server verification: `GET /` responding with 200 OK in ~370ms.
+- **Remaining caveat or next step:** Ready for user visual review on local dev server.
+
 ## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
 
 - **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:
@@ -60,6 +82,7 @@
   - npm run typecheck: Passed with 0 errors.
   - npm test: All 58 unit tests passed 100%.
   - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
+
 ## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
 
 - **Summary:**
