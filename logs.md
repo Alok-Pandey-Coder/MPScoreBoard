@@ -44,7 +44,6 @@
   - npm run typecheck: Passed with 0 errors.
   - npm test: All 58 unit tests passed 100%.
   - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
-
 ## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
 
 - **Summary:**

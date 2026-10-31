@@ -62,10 +62,6 @@ interface MetricItem {
   unit: string;
 }
 
-function isPresent(v: number | null | undefined): v is number {
-  return v !== null && v !== undefined && Number.isFinite(v);
-}
-
 export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
   const t = useMessages(cardMessages);
   const { lang } = useLang();
