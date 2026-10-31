@@ -28,6 +28,7 @@ d:\MPScoreBoard\data\
 │   ├── sansad.members.delhi.2026-10-30.json # Official Digital Sansad JSON API capture
 │   ├── prs.delhi.2026-10-30/            # Raw HTML captures of all 7 PRS profile pages
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
+│   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
 │   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
 │   └── delhi_7mp_custom_enrichment.json # User intake: election results + MPLADS (7 Delhi MPs)
 │
