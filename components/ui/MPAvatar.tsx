@@ -61,3 +61,4 @@ export const MPAvatar: React.FC<MPAvatarProps> = ({
     </div>
   );
 };
+
