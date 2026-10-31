@@ -1,5 +1,21 @@
 # Project Change Log
 
+## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
+
+- **Summary**: Resolved persistent stale page issue on http://localhost:3000 where regular F5 refresh served outdated pre-migration HTML ('Boundary data is not available for the reviewed real snapshot yet'):
+  1. Identified that public/sw.js previously implemented a cache-first service worker under the cache key mera-mp-v2, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
+  2. Replaced public/sw.js with an automated self-unregistering script that deletes all active caches using caches.keys() and calls self.registration.unregister().
+  3. Added an inline cleanup script in app/layout.tsx <head> that scans navigator.serviceWorker.getRegistrations(), unregisters any active service worker on localhost:3000, and clears all CacheStorage entries immediately on page load.
+  4. Neutralized app/pwa-register.tsx to prevent any future service worker registrations.
+- **Files/Areas Changed**:
+  - public/sw.js: Replaced cache-first offline service worker with cache purging and self-unregistration script.
+  - app/layout.tsx: Added auto-purge service worker and cache clearing inline script in <head>.
+  - app/pwa-register.tsx: Converted into a complete no-op (return null;).
+- **Validation Performed**:
+  - npm run typecheck: Passed with 0 errors.
+  - Verified clean compilation with Next.js App Router.
+
+
 ## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
 
 - **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
