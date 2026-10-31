@@ -11,6 +11,9 @@ interface MpladsWorksSectionProps {
 
 type StatusFilter = 'all' | 'completed' | 'not_completed';
 
+/** Official public dashboard; it has no linkable work-level pages (docs/mplads_works_source_review.md). */
+const ESAKSHI_DASHBOARD = 'https://mplads.mospi.gov.in/digigov/dashboard.html';
+
 const STATUS_LABELS: Record<MpladsWorkStatus, string> = {
   recommended: 'Recommended',
   sanctioned: 'Sanctioned',
@@ -78,6 +81,18 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
             Works listed by the source, in the order published{asOf ? ` · as of ${asOf}` : ''}
+          </p>
+          <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mt-1">
+            Verify a work on the{' '}
+            <a
+              href={ESAKSHI_DASHBOARD}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 dark:text-blue-300 hover:underline"
+            >
+              official MoSPI eSAKSHI dashboard
+            </a>{' '}
+            using its eSAKSHI work ID (the portal has no per-work links).
           </p>
         </div>
         {isReported && source?.name && (
@@ -206,6 +221,22 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
                           <dd className="break-all">{w.work_id || NOT_AVAILABLE}</dd>
                         </div>
                       </dl>
+                      {source?.url && (
+                        <p className="mt-2 pt-2 border-t border-stone-200/70 dark:border-[#1E293B] font-mono text-[10px] text-stone-500 dark:text-stone-400">
+                          Source:{' '}
+                          <a
+                            href={source.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-blue-700 dark:text-blue-300 hover:underline"
+                          >
+                            {source.name}
+                            <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                            <span className="sr-only">(opens in a new tab)</span>
+                          </a>
+                          {source.retrieved_at ? ` · retrieved ${formatDate(source.retrieved_at)}` : ''}
+                        </p>
+                      )}
                     </li>
                   ))}
                 </ul>

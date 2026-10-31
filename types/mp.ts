@@ -115,6 +115,18 @@ export interface AffidavitData {
   review_status?: string | null;
 }
 
+/** 2024 general election result for the seat (ECI). */
+export interface ElectionData {
+  status: 'reported' | 'pending' | 'not_applicable';
+  election_year?: number | null;
+  votes?: number | null;
+  runner_up?: { name: string | null; party: string | null; votes: number | null } | null;
+  margin?: number | null;
+  as_of?: string | null;
+  source?: Source | null;
+  review_status?: string | null;
+}
+
 export interface ProfileData {
   age?: number;
   gender?: string;
@@ -142,6 +154,7 @@ export interface MPRecord {
   performance: PerformanceData;
   mplads?: MpladsData;
   affidavit?: AffidavitData;
+  election?: ElectionData;
   sources: Source[];
   normalisation_notes?: string[];
 }

@@ -1,5 +1,24 @@
 # Project Change Log
 
+## 2026-11-01 — Source links on every work; card Sources section restructured
+
+- **Summary:**
+  - Every MPLADS work now carries a source line: the MP's Empowered Indian page, with its retrieval date.
+  - The Works section links to the official MoSPI eSAKSHI dashboard for checking a work by its eSAKSHI ID. The portal has no per-work URLs.
+  - The card's Sources section is now "Sources & evidence", in three parts. The structure is modelled on nagrik.in.net/delhi/sources; no content was copied.
+    - **What we take, and from where:** one entry per distinct source URL, listing what it feeds on this card and its role (source, secondary source with official check pending, or cross-check only), with licence and retrieval date.
+    - **How current it is:** the as-of date and review status for each section, plus the snapshot build date.
+    - **Get something corrected:** a GitHub issue link pre-filled for the seat.
+  - A "Sources" jump link was added to the card.
+- **Files or areas changed:** `components/mp/SourcesFooter.tsx` (rewritten), `components/mp/MpladsWorksSection.tsx`, `components/mp/MPReportCardClient.tsx`, `types/mp.ts` (new `ElectionData`, `MPRecord.election`; the field already existed in `mps.json`).
+- **Validation performed:**
+  - `tsc` and `eslint` pass on `components/mp` and `types`.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Rendered HTML for North West Delhi lists 7 sources with correct roles, has 20 per-work source lines and the eSAKSHI link.
+  - The minister card (East Delhi) lists PRS only for profile, since activity is not applicable.
+- **Remaining caveat or next step:** The JanWatchdog cross-check has no recorded retrieval date, and the card says so. Per-work official verification still needs manual eSAKSHI lookups.
+
 ## 2026-10-31 — Architecture consolidation: one type, one data layer, dead code removed
 
 - **Summary:** The app had three overlapping MP type systems, two data-access layers and two parallel AI-text implementations:

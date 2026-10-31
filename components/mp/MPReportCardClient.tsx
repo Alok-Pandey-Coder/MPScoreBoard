@@ -101,6 +101,12 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
           Affidavit
         </a>
         <a
+          href="#sources"
+          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
+        >
+          Sources
+        </a>
+        <a
           href="#explain"
           className="px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 hover:bg-amber-500/20 transition-colors border border-amber-500/30 shrink-0 font-medium flex items-center gap-1.5"
         >
