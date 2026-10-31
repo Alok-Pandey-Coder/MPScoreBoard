@@ -1,6 +1,78 @@
-:root { --background: #f8faf9; --foreground: #17212b; --muted: #53606d; --border: #dbe3e9; --card: #ffffff; }
-:root[data-theme="dark"] { --background: #101716; --foreground: #e8f0ee; --muted: #a6b8b4; --border: #30433f; --card: #182321; color-scheme: dark; }
-* { box-sizing: border-box; padding: 0; margin: 0; }
-html, body { max-width: 100vw; overflow-x: hidden; }
-body { min-height: 100vh; color: var(--foreground); background: var(--background); font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; transition: background .2s, color .2s; }
-a { color: inherit; text-decoration: none; }
+@import "maplibre-gl/dist/maplibre-gl.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html:not(.dark) {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased transition-colors duration-200;
+  }
+
+  html.dark body {
+    background-color: #14191F;
+    color: #F3F4F6;
+  }
+}
+
+/* MapLibre dark styling */
+.maplibregl-map {
+  font-family: inherit;
+}
+
+.maplibregl-popup-content {
+  background: #171D24 !important;
+  color: #F3F4F6 !important;
+  border: 1px solid #303A45 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  padding: 10px 14px !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: #171D24 !important;
+  border-bottom-color: #171D24 !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #303A45;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #55BCE8;
+}
+
+/* Utility to hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

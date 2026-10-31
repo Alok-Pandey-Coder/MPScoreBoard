@@ -1,5 +1,56 @@
 # Project Change Log
 
+## 2026-10-31 — Complete Next.js App Router Migration & Unified Runtime
+
+- **Summary**: Fully migrated the entire "Mera MP, Mera Report Card" interactive platform (Nagrik Dark Civic Atlas, MapLibre GL geospatial map, MP report cards, comparisons, and search) into a single, unified Next.js (App Router, Next.js 16 + React 19) full-stack application. Both the frontend UI and backend API routes now run simultaneously on port 3000 in Next.js without needing separate Vite or Node servers. Fixed dark/light theme switching with synchronization between `<html class="dark">`, CSS colorScheme, and localStorage.
+- **Files/Areas Changed**:
+  - `package.json`: Configured Next.js 16, React 19, tailwindcss, lucide-react, maplibre-gl, and webpack builder (`next dev --webpack -p 3000`).
+  - `app/layout.tsx`: Configured RootLayout with ThemeProvider, Google Fonts (`Inter`, `Outfit`), Header, Footer, and FloatingThemePill. Added head pre-render script to eliminate theme flash.
+  - `app/globals.css`: Added `@import "maplibre-gl/dist/maplibre-gl.css"`, Tailwind base/components/utilities, dark/light theme background tokens, and MapLibre dark popup styles.
+  - `context/ThemeContext.tsx` & `components/common/FloatingThemePill.tsx`: Fixed theme switching across classes and data-theme attributes with smooth transition.
+  - `app/page.tsx` & `components/home/HomeClient.tsx`: Full Nagrik Dark Civic Atlas homepage with SSR-safe dynamic MapLibre import (`NagrikStyleMap`), territory counter bar, state landmark cards, all-India vector atlas, Delhi sitting MPs grid, and smart search.
+  - `app/mp/[slug]/page.tsx` & `components/mp/MPReportCardClient.tsx`: Full analytical intelligence report card for MPs with KPIs, benchmarks, MPLADS fund utilization, and sworn affidavits.
+  - `app/compare/page.tsx` & `components/compare/CompareClient.tsx`: Side-by-side indicator comparison matrix.
+  - `app/explore/page.tsx` & `components/explore/ExploreAtlasClient.tsx`: All-India Geospatial Atlas page.
+  - `app/about/page.tsx`: Methodology and Data Provenance documentation.
+  - `app/state/[state]/page.tsx` & `components/state/StateExplorationClient.tsx`: State exploration page.
+  - `app/api/*`: Next.js Route handlers (`/api/health`, `/api/search`, `/api/constituencies`, `/api/geojson`, `/api/summary`, `/api/draft`, `/api/pincode`, etc.).
+- **Validation Performed**:
+  - `npm run build`: Succeeded with code 0 (64 static/SSG/dynamic routes generated cleanly).
+  - `npm test`: Passed all 58 unit and integration tests.
+  - Verified live HTTP 200 responses on `http://127.0.0.1:3000/`, `/mp/new-delhi-delhi`, `/compare`, `/explore`, `/about`, `/state/delhi`, `/api/health`, `/api/constituencies`, and `/api/search?q=Bansuri`.
+- **Remaining Caveats / Next Steps**:
+  - Dev server running actively in background on `http://localhost:3000`.
+
+## 2026-10-31 — Resolved Duplicate React Instance & Single-Instance Deduping
+
+- **Summary**: Fixed "Cannot read properties of null (reading 'useRef')" error caused by dual React versions between root (React 19) and frontend (React 18). Cleaned root node_modules and locked Vite configuration with `dedupe: ['react', 'react-dom']` and explicit path aliases to `frontend/node_modules/react`.
+- **Files/Areas Changed**:
+  - `frontend/vite.config.ts`: Added `resolve.dedupe` and explicit aliases to prevent module resolution leaks up to root.
+  - `node_modules/`: Removed conflicting root packages.
+  - Vite cache: Cleaned `frontend/node_modules/.vite`.
+- **Validation Performed**:
+  - `npm --prefix frontend run build`: Succeeded with code 0 in 8.28s.
+  - Verified `http://localhost:3000/` returns HTTP 200.
+  - Verified `http://localhost:5000/api/health` returns HTTP 200.
+- **Remaining Caveats / Next Steps**:
+  - Both processes running continuously in daemon mode.
+
+## 2026-10-31 — Simultaneous Frontend & Backend Runtime Architecture
+
+- **Summary**: Implemented unified dual-stack execution supporting both Frontend (interactive MapLibre UI on port 3000) and Backend (Parliamentary Intelligence REST API on port 5000) simultaneously with seamless /api proxying.
+- **Files/Areas Changed**:
+  - `server/server.js`: Lightweight, zero-dependency REST API server implementing PRD Section 6.2 endpoints (`/api/health`, `/api/search`, `/api/search-index`, `/api/constituencies`, `/api/data`, `/api/pincode`, `/api/geojson`, `/api/summary`, `/api/draft`).
+  - `frontend/vite.config.ts`: Added reverse proxy configuration redirecting `/api/*` requests directly to `http://localhost:5000`.
+  - `scripts/run-all.js` & `package.json`: Configured single-command simultaneous runner (`npm run dev:all`).
+- **Validation Performed**:
+  - Tested `http://localhost:5000/api/health` directly: returns HTTP 200 with JSON payload (`status: "ok"`, `mpsCount: 7`).
+  - Tested `http://localhost:3000/api/health` through Vite reverse proxy: confirmed HTTP 200 pass-through.
+  - Tested `http://localhost:3000/api/search?q=bansuri`: successfully returns matching MP record and metadata.
+- **Remaining Caveats / Next Steps**:
+  - Both processes running continuously in daemon mode.
+
+
 ## 2026-10-31 — Interactive Nagrik-Inspired Civic Atlas & Robust Theme Toggle
 
 - **Summary**: Transformed "Mera MP, Mera Report Card" into an interactive Indian Parliamentary Intelligence Platform modeled directly on the Nagrik civic platform designs. Fixed the light/dark theme toggle across all pages, integrated interactive MapLibre GL geospatial maps with colored constituency polygons, added territorial status banners and 4-metric strip counters, incorporated landmark state cards with regional language scripts, and implemented smart geographical search synchronization.
