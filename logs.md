@@ -1,5 +1,15 @@
 # Project Change Log
 
+## 2026-10-31 — Fixed MapLibre Web Worker Bundler Resolution
+
+- **Summary**: Resolved MapLibre GL JS console error "Worker failed to load. Check that the worker URL is correct." under Next.js Webpack. Placed standalone worker bundles into public/maplibre-gl-worker.mjs and public/maplibre-gl-worker.js and explicitly configured maplibregl.setWorkerUrl in NagrikStyleMap.tsx.
+- **Files/Areas Changed**:
+  - `public/maplibre-gl-worker.mjs` & `public/maplibre-gl-worker.js`: Static worker bundles served directly by Next.js server with HTTP 200.
+  - `components/map/NagrikStyleMap.tsx`: Configured maplibregl.setWorkerUrl at module initialization and component mount.
+- **Validation Performed**:
+  - Tested http://localhost:3000/maplibre-gl-worker.mjs: returned HTTP 200 (519 KB, application/javascript).
+  - Verified homepage and map load without worker URL errors.
+
 ## 2026-10-31 — Complete Next.js App Router Migration & Unified Runtime
 
 - **Summary**: Fully migrated the entire "Mera MP, Mera Report Card" interactive platform (Nagrik Dark Civic Atlas, MapLibre GL geospatial map, MP report cards, comparisons, and search) into a single, unified Next.js (App Router, Next.js 16 + React 19) full-stack application. Both the frontend UI and backend API routes now run simultaneously on port 3000 in Next.js without needing separate Vite or Node servers. Fixed dark/light theme switching with synchronization between `<html class="dark">`, CSS colorScheme, and localStorage.

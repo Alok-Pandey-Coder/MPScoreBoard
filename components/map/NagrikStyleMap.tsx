@@ -3,6 +3,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+
+// Explicitly point to public worker script for Next.js Webpack bundler
+if (typeof window !== 'undefined' && typeof maplibregl.setWorkerUrl === 'function') {
+  try {
+    maplibregl.setWorkerUrl('/maplibre-gl-worker.mjs');
+  } catch (err) {
+    console.warn('MapLibre worker setup error:', err);
+  }
+}
 import { Search, Navigation, Layers, Info, MapPin, ChevronRight, User, Award, CheckCircle2 } from 'lucide-react';
 import delhiGeoJSON from '@/data/processed/delhiConstituenciesGeo.json';
 import { MPRecord } from '@/types/mp';
@@ -63,6 +72,14 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
+
+    if (typeof maplibregl.setWorkerUrl === 'function') {
+      try {
+        maplibregl.setWorkerUrl('/maplibre-gl-worker.mjs');
+      } catch (e) {
+        // ignore
+      }
+    }
 
     // Initialize MapLibre with dark CartoDB tile layer
     map.current = new maplibregl.Map({
