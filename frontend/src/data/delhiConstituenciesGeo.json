@@ -1,0 +1,216 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "chandni-chowk-delhi",
+      "properties": {
+        "slug": "chandni-chowk-delhi",
+        "name": "Chandni Chowk",
+        "number": 1,
+        "color": "#3B82F6",
+        "state": "Delhi",
+        "mp": "Praveen Khandelwal",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 99,
+        "questions": 40,
+        "debates": 4
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.185, 28.685],
+            [77.235, 28.682],
+            [77.240, 28.645],
+            [77.205, 28.635],
+            [77.175, 28.650],
+            [77.185, 28.685]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "east-delhi-delhi",
+      "properties": {
+        "slug": "east-delhi-delhi",
+        "name": "East Delhi",
+        "number": 2,
+        "color": "#06B6D4",
+        "state": "Delhi",
+        "mp": "Harsh Malhotra",
+        "party": "BJP",
+        "is_minister": true,
+        "attendance": null,
+        "questions": null,
+        "debates": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.260, 28.665],
+            [77.340, 28.655],
+            [77.335, 28.580],
+            [77.280, 28.590],
+            [77.255, 28.630],
+            [77.260, 28.665]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "new-delhi-delhi",
+      "properties": {
+        "slug": "new-delhi-delhi",
+        "name": "New Delhi",
+        "number": 3,
+        "color": "#10B981",
+        "state": "Delhi",
+        "mp": "Bansuri Swaraj",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 95,
+        "questions": 41,
+        "debates": 17
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.175, 28.635],
+            [77.235, 28.635],
+            [77.245, 28.570],
+            [77.185, 28.560],
+            [77.165, 28.595],
+            [77.175, 28.635]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "north-east-delhi-delhi",
+      "properties": {
+        "slug": "north-east-delhi-delhi",
+        "name": "North East Delhi",
+        "number": 4,
+        "color": "#8B5CF6",
+        "state": "Delhi",
+        "mp": "Manoj Kumar Tiwari",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 90,
+        "questions": 276,
+        "debates": 21
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.235, 28.750],
+            [77.310, 28.740],
+            [77.315, 28.670],
+            [77.250, 28.675],
+            [77.230, 28.710],
+            [77.235, 28.750]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "north-west-delhi-delhi",
+      "properties": {
+        "slug": "north-west-delhi-delhi",
+        "name": "North West Delhi (SC)",
+        "number": 5,
+        "color": "#EC4899",
+        "state": "Delhi",
+        "mp": "Yogender Chandolia",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 97,
+        "questions": 271,
+        "debates": 28
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.010, 28.850],
+            [77.170, 28.840],
+            [77.210, 28.760],
+            [77.170, 28.690],
+            [77.060, 28.710],
+            [77.010, 28.850]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "south-delhi-delhi",
+      "properties": {
+        "slug": "south-delhi-delhi",
+        "name": "South Delhi",
+        "number": 6,
+        "color": "#F59E0B",
+        "state": "Delhi",
+        "mp": "Ramvir Singh Bidhuri",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 100,
+        "questions": 169,
+        "debates": 30
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.150, 28.555],
+            [77.280, 28.565],
+            [77.320, 28.480],
+            [77.240, 28.420],
+            [77.130, 28.450],
+            [77.150, 28.555]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "west-delhi-delhi",
+      "properties": {
+        "slug": "west-delhi-delhi",
+        "name": "West Delhi",
+        "number": 7,
+        "color": "#14B8A6",
+        "state": "Delhi",
+        "mp": "Kamaljeet Sehrawat",
+        "party": "BJP",
+        "is_minister": false,
+        "attendance": 96,
+        "questions": 235,
+        "debates": 21
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [76.920, 28.700],
+            [77.080, 28.690],
+            [77.140, 28.630],
+            [77.070, 28.550],
+            [76.910, 28.590],
+            [76.920, 28.700]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
