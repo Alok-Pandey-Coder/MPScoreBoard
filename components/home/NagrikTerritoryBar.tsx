@@ -129,18 +129,10 @@ export const NagrikTerritoryBar: React.FC<NagrikTerritoryBarProps> = ({ mps }) =
         </a>
 
         <a
-          href="#mp-cards"
-          className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
-        >
-          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">02</span>
-          <span>{t.tabCards}</span>
-        </a>
-
-        <a
           href="#by-state"
           className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">03</span>
+          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">02</span>
           <span>{t.tabStates}</span>
         </a>
 
@@ -148,7 +140,7 @@ export const NagrikTerritoryBar: React.FC<NagrikTerritoryBarProps> = ({ mps }) =
           href="/about"
           className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">04</span>
+          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">03</span>
           <span>{t.tabAbout}</span>
         </a>
       </div>
