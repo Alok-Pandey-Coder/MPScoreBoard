@@ -15,6 +15,26 @@ import {
   resolveLocationByCoords,
 } from '@/lib/data';
 import { createRateLimiter, MAX_BODY_BYTES, readJsonBody } from '@/lib/api';
+import { coverageNote, getCoverage, TOTAL_LOK_SABHA_SEATS } from '@/lib/coverage';
+
+describe('coverage copy', () => {
+  it('is computed from the data and names no state', () => {
+    const coverage = getCoverage(getAllMPs());
+    expect(coverage.seatCount).toBe(getAllMPs().length);
+    const note = coverageNote(coverage);
+    expect(note).toBe(`Report cards for ${coverage.seatCount} of ${TOTAL_LOK_SABHA_SEATS} constituencies so far. More are being added.`);
+    expect(note).not.toMatch(/delhi/i);
+  });
+
+  it('sums MPLADS only over reported seats and keeps null when none are reported', () => {
+    const mps = getAllMPs();
+    const expected = mps.reduce((total, mp) => total + (mp.mplads?.allocated_cr ?? 0), 0);
+    expect(getCoverage(mps).mpladsAllocatedCr).toBeCloseTo(expected, 4);
+    const none = mps.map((mp) => ({ ...mp, mplads: { status: 'pending' as const } }));
+    expect(getCoverage(none).mpladsAllocatedCr).toBeNull();
+    expect(getCoverage(none).mpladsSpentCr).toBeNull();
+  });
+});
 
 describe('MP records', () => {
   it('serves the seven Delhi seats with unique slugs', () => {

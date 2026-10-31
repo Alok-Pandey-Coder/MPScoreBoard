@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Search, X, ChevronRight, MapPin } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { searchMPs } from '@/lib/search';
+import { coverageNote, getCoverage } from '@/lib/coverage';
 
 interface UnifiedSearchBarProps {
   mps: MPRecord[];
@@ -13,15 +14,9 @@ interface UnifiedSearchBarProps {
   onSelectGeographicalFeature?: (stateId: string, constituencySlug?: string) => void;
 }
 
-const QUICK_DELHI_SEATS = [
-  { name: 'New Delhi', slug: 'new-delhi-delhi' },
-  { name: 'Chandni Chowk', slug: 'chandni-chowk-delhi' },
-  { name: 'East Delhi', slug: 'east-delhi-delhi' },
-  { name: 'North East', slug: 'north-east-delhi-delhi' },
-  { name: 'North West', slug: 'north-west-delhi-delhi' },
-  { name: 'South Delhi', slug: 'south-delhi-delhi' },
-  { name: 'West Delhi', slug: 'west-delhi-delhi' },
-];
+/** Shortcut chips under the search box; capped so they stay one or two rows. */
+const MAX_QUICK_SEATS = 8;
+const toStateId = (state: string) => state.trim().toLowerCase().replace(/\s+/g, '-');
 
 export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   mps,
@@ -34,6 +29,15 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const router = useRouter();
+  const quickSeats = useMemo(
+    () =>
+      mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
+        slug: mp.slug,
+        stateId: toStateId(mp.state),
+        name: mp.constituency.replace(/\s*\((SC|ST)\)$/, ''),
+      })),
+    [mps],
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -101,7 +105,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             if (query.trim() && results.length > 0) setIsOpen(true);
           }}
           autoFocus={autoFocus}
-          placeholder="Search by MP name or seat (e.g. Bansuri, Manoj Tiwari, Chandni Chowk)..."
+          placeholder="Search by MP name, constituency or state"
           className="w-full pl-11 pr-11 py-3.5 bg-white dark:bg-[#121824] border border-stone-300 dark:border-[#222E42] rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 shadow-sm focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm"
         />
         {query && (
@@ -121,15 +125,18 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
       {/* Fast Seat Quick Filter Chips */}
       <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
         <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
-          Fast select:
+          Jump to:
         </span>
-        {QUICK_DELHI_SEATS.map((seat) => (
+        {quickSeats.map((seat) => (
           <button
             key={seat.slug}
             type="button"
             onClick={() => {
+              // On the home page, focus the seat on the map; elsewhere open its card.
               if (onSelectGeographicalFeature) {
-                onSelectGeographicalFeature('delhi', seat.slug);
+                onSelectGeographicalFeature(seat.stateId, seat.slug);
+              } else {
+                router.push(`/mp/${seat.slug}`);
               }
             }}
             className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#121824] hover:bg-stone-200 dark:hover:bg-[#1A2333] text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white border border-stone-200/90 dark:border-[#222E42] text-[11px] font-medium transition-colors cursor-pointer"
@@ -210,7 +217,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             </div>
           ) : (
             <div className="p-6 text-center text-xs text-stone-500 dark:text-stone-400">
-              No matching Member of Parliament or Delhi constituency found for &quot;{query}&quot;.
+              No MP or constituency matches &quot;{query}&quot;. {coverageNote(getCoverage(mps))}
             </div>
           )}
         </div>

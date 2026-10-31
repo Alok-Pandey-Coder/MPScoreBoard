@@ -112,8 +112,8 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
                 <strong>{state.seats} elected Members of Parliament</strong> in the lower house.
               </p>
               <p>
-                The data pipeline for {state.name} is scheduled following the Delhi baseline snapshot.
-                All verified historical data and official parliamentary questions will appear here once ingested.
+                Report cards for {state.name} are not available yet. States are being added one at a time; this page
+                will list each MP&apos;s report card once its data has been collected and checked.
               </p>
               <div className="pt-2">
                 <Link

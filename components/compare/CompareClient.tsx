@@ -68,7 +68,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
       <div className="bg-stone-50 dark:bg-[#101622] border border-stone-200 dark:border-[#1E2636] rounded-lg p-3.5 flex items-center gap-3 text-xs font-mono text-stone-600 dark:text-stone-400">
         <Info className="w-4 h-4 text-amber-500 shrink-0" />
         <span>
-          Comparisons reflect quantitative activity indicators from official parliamentary logs. They do not constitute a rank, score, or performance evaluation.
+          These are activity indicators from PRS Legislative Research, shown side by side. They are not a rank, score or judgement of an MP&apos;s work.
         </span>
       </div>
 

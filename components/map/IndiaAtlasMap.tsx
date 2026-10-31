@@ -28,7 +28,7 @@ export interface RegionConfig {
 export const REGIONS: Record<string, RegionConfig> = {
   delhi: {
     id: 'delhi',
-    name: 'Delhi NCT (Active Pilot)',
+    name: 'Delhi',
     shortName: 'Delhi',
     totalSeats: 7,
     color: '#06B6D4', // Vibrant Electric Cyan

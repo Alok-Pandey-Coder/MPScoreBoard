@@ -27,8 +27,8 @@ export default function NotFound() {
             </Link>
           </li>
           <li>
-            <Link href="/#delhi-mps" className="underline text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white">
-              Delhi MPs
+            <Link href="/#mp-cards" className="underline text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white">
+              All MP report cards
             </Link>
           </li>
           <li>

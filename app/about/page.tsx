@@ -141,7 +141,7 @@ export default function AboutPage() {
         </h2>
         <div className="bg-white dark:bg-[#171D24] p-6 rounded-3xl border border-slate-200 dark:border-[#303A45] text-sm text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed shadow-sm">
           <p>
-            Members of the Lok Sabha who hold ministerial offices in the Union Council of Ministers (for example, Shri Harsh Malhotra, MP for East Delhi and Union Minister of State) are represented with <strong>Not Applicable (Minister)</strong> for standard floor indicators.
+            Lok Sabha members who are ministers in the Union Council of Ministers are shown as <strong>Not applicable (minister)</strong> for attendance, questions, debates and private member bills, never as zero.
           </p>
           <p>
             By parliamentary convention:

@@ -1,5 +1,33 @@
 # Project Change Log
 
+## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
+
+- **Summary:**
+  - Headlines and UI copy now describe a country-wide product instead of naming Delhi. The hero uses the PRD §7.1 line, "Know your MP's record in 60 seconds".
+  - Coverage is computed from the data by the new `lib/coverage.ts`, e.g. "Report cards for 7 of 543 constituencies so far. More are being added." No state is hard-coded, and the text updates as states are added. This keeps the PRD's "honest about gaps" principle.
+  - Removed copy the data does not support:
+    - "scrutiny" (a judgement word)
+    - "₹35 Cr in local development funds" (actual allocated total: ₹111.7 Cr)
+    - "Sourced directly from official Parliament and election records" (PRS and Empowered Indian are non-official)
+    - "from official parliamentary logs" on Compare (the data is from PRS)
+    - Invented state-card money figures (₹35 / ₹400 / ₹240 Cr…, which were seats × ₹5 Cr, unsourced)
+    - The unsourced "₹5 Cr entitlement" stat. It is replaced by the computed allocated and spent totals, labelled as a secondary source.
+  - State cards read availability from the data ("7 of 7 report cards available" vs "Report cards coming soon"), replacing the hard-coded `isDelhi` check.
+  - The search shortcut chips are built from the data (max 8), not a hard-coded Delhi list. Off the home page they open the report card; before, they did nothing there.
+  - Section anchors renamed: `#delhi-mps` → `#mp-cards`, `#national-states` → `#by-state`.
+  - Labels inside the Delhi ward map are kept, because they describe what the map shows.
+  - The About page sources table still names the Delhi government directory, because provenance must stay accurate.
+- **Files or areas changed:**
+  - Components: `components/home/HomeClient.tsx`, `NagrikTerritoryBar.tsx`, `NagrikStateCardsGrid.tsx` (rewritten), `UnifiedSearchBar.tsx`, `components/layout/Header.tsx`, `components/compare/CompareClient.tsx`, `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx` (region name).
+  - Pages: `app/not-found.tsx`, `app/explore/page.tsx`, `app/about/page.tsx` (generic minister example).
+  - New: `lib/coverage.ts`. Tests added to `__tests__/data-layer.test.ts`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 40 passed (2 new coverage tests).
+  - `next build` succeeds.
+  - Built home HTML shows the new hero and coverage line and "₹111.7 Cr allocated / ₹15.7 Cr spent". No ₹35/₹400/₹5 Cr figures remain. The only remaining "Delhi" text is data-generated (constituency names, "PRS {state} avg", state card, state picker).
+- **Remaining caveat or next step:** The MP report card itself was already state-agnostic (it uses `mp.state`). The ward map component is Delhi-specific by design and needs a per-state map when more states arrive.
+
 ## 2026-11-01 — Top navigation: plain-language labels, one shared link list
 
 - **Summary:**

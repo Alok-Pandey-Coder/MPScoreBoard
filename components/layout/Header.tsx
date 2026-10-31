@@ -18,7 +18,7 @@ interface NavItem {
 const NAV: NavItem[] = [
   { href: '/', label: 'Find your MP', icon: Search, hint: 'Search by your area, constituency or MP name' },
   { href: '/compare', label: 'Compare MPs', icon: GitCompare, hint: 'See two MPs side by side' },
-  { href: '/explore', label: 'Map', icon: Map, hint: 'Constituency map. Full report cards are available for Delhi only for now' },
+  { href: '/explore', label: 'Map', icon: Map, hint: 'Map of Lok Sabha constituencies; report cards are being added state by state' },
   { href: '/about', label: 'About the data', icon: Info, hint: 'Where the data comes from, what it means and its limits' },
 ];
 
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-stone-500 dark:text-stone-400 hidden sm:block truncate">
-                Report cards for Delhi&apos;s MPs, with sources
+                Lok Sabha MP report cards, with sources
               </p>
             </div>
           </Link>
