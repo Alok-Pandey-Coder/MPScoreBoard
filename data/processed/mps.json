@@ -468,7 +468,13 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 69 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/chandni-chowk-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "east-delhi-delhi",
@@ -940,7 +946,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 113 recommended works captured).",
       "MPLADS: the works endpoint returned 100 rows but the profile reports 113 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "new-delhi-delhi",
@@ -1412,7 +1424,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 110 recommended works captured).",
       "MPLADS: the works endpoint returned 91 rows but the profile reports 110 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/new-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-east-delhi-delhi",
@@ -1883,7 +1901,13 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 23 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/north-east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-west-delhi-delhi",
@@ -2355,7 +2379,13 @@
       "MPLADS: works list is partial (20 of 59 recommended works captured).",
       "MPLADS: Empowered Indian name spelling 'Yogendra Chandoliya' differs from 'Yogender Chandolia'; joined on constituency.",
       "MPLADS: JanWatchdog name spelling 'Yogendra Chandoliya' differs from 'Yogender Chandolia'; joined on constituency."
-    ]
+    ],
+    "image_url": "/images/mps/north-west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "south-delhi-delhi",
@@ -2827,7 +2857,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 134 recommended works captured).",
       "MPLADS: the works endpoint returned 91 rows but the profile reports 134 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/south-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "west-delhi-delhi",
@@ -3298,6 +3334,12 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 65 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   }
 ]

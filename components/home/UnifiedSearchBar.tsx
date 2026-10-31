@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, ChevronRight, MapPin } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 import { searchMPs } from '@/lib/search';
 import { coverageNote, getCoverage } from '@/lib/coverage';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -174,13 +175,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-stone-100 dark:bg-[#192231] text-stone-700 dark:text-stone-300 flex items-center justify-center font-bold text-xs shrink-0 border border-stone-200 dark:border-[#26344A]">
-                        {mp.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .slice(0, 2)
-                          .join('')}
-                      </div>
+                      <MPAvatar imageUrl={mp.image_url} name={mp.name} size="sm" />
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-semibold text-stone-900 dark:text-white text-xs">

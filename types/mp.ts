@@ -150,6 +150,8 @@ export interface MPRecord {
   special_role?: 'Speaker' | 'Deputy Speaker' | null;
   sansad_mpsno?: number;
   sansad_status?: string;
+  image_url?: string;
+  image_source?: Source;
   profile?: ProfileData;
   performance: PerformanceData;
   mplads?: MpladsData;

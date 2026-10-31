@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Share2, Award, MapPin, Calendar, Info, Copy, GraduationCap, Clock } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { formatDate } from '@/lib/formatters';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
 
@@ -40,19 +41,14 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         {/* Left: Avatar & Identity Details */}
         <div className="flex items-start sm:items-center gap-4 sm:gap-5">
-          {/* Avatar Seal with Initials */}
-          <div className="relative shrink-0">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-stone-100 dark:bg-[#151E2B] border border-stone-300 dark:border-[#26344A] flex items-center justify-center font-bold font-mono text-stone-800 dark:text-stone-100 text-xl sm:text-2xl shadow-inner">
-              {mp.name
-                .split(' ')
-                .map((n) => n[0])
-                .slice(0, 2)
-                .join('')}
-            </div>
-            <div className="absolute -bottom-1 -right-1 px-2 py-0.2 rounded bg-stone-900 dark:bg-amber-600 text-white font-bold font-mono text-[10px] tracking-wider uppercase shadow-xs">
-              {mp.party}
-            </div>
-          </div>
+          {/* Avatar Seal with Real Photo or Initials Fallback */}
+          <MPAvatar
+            imageUrl={mp.image_url}
+            name={mp.name}
+            party={mp.party}
+            size="xl"
+            showPartyBadge={true}
+          />
 
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1">

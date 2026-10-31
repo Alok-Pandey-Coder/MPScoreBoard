@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Award, ArrowUpRight, Scale } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
+import { MPAvatar } from '@/components/ui/MPAvatar';
 import { NOT_AVAILABLE_TEXT, formatPct } from '@/lib/formatters';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { homeMessages } from '@/lib/messages/home';
@@ -53,13 +54,11 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
 
               {/* Member Profile Seal & Name */}
               <div className="flex items-start gap-3.5 mb-4">
-                <div className="w-11 h-11 rounded-lg bg-stone-100 dark:bg-[#16202E] border border-stone-200 dark:border-[#26344A] flex items-center justify-center font-bold font-mono text-stone-800 dark:text-stone-200 text-sm shrink-0 group-hover:border-amber-500/60 transition-colors">
-                  {mp.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join('')}
-                </div>
+                <MPAvatar
+                  imageUrl={mp.image_url}
+                  name={mp.name}
+                  size="md"
+                />
                 <div>
                   <h3 className="font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors text-base font-sans line-clamp-1">
                     {mp.name}
