@@ -48,6 +48,18 @@ export default function RootLayout({
               } catch (e) {
                 document.documentElement.classList.add('dark');
               }
+
+              // Auto-unregister stale PWA Service Worker & clear old caches
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                  for (var r of regs) { r.unregister(); }
+                });
+                if ('caches' in window) {
+                  caches.keys().then(function(names) {
+                    for (var n of names) { caches.delete(n); }
+                  });
+                }
+              }
             `,
           }}
         />

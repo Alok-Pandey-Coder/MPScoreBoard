@@ -1,12 +1,19 @@
-const CACHE = "mera-mp-v2";
-self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(["/", "/about", "/compare", "/manifest.webmanifest"])));
+// Self-unregister and clear all stale caches
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
 });
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
-    const copy = response.clone();
-    caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-    return response;
-  })));
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(keys.map((k) => caches.delete(k)));
+    }).then(() => self.clients.claim()).then(() => {
+      return self.registration.unregister();
+    })
+  );
+});
+
+// Always bypass cache: direct network
+self.addEventListener('fetch', (event) => {
+  event.respondWith(fetch(event.request));
 });
