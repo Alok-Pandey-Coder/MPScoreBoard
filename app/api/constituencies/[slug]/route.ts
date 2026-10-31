@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMPBySlug } from "@/lib/data";
 
-interface RouteParams {
-  params: {
-    slug: string;
-  };
-}
-
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
     const mp = getMPBySlug(slug);
 
     if (!mp) {
@@ -33,4 +30,3 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     );
   }
 }
-

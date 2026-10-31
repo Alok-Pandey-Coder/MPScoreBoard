@@ -1,15 +1,19 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import ThemeToggle from "./theme-toggle";
-import PWARegister from "./pwa-register";
+import type { Metadata } from 'next';
+import './globals.css';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { FloatingThemePill } from '@/components/common/FloatingThemePill';
 
 export const metadata: Metadata = {
-  title: "Mera MP — Delhi report cards",
-  description: "Neutral, source-backed report cards for Delhi Lok Sabha MPs.",
+  title: 'Mera MP, Mera Report Card — 18th Lok Sabha Civic Atlas',
+  description:
+    'Neutral, source-backed interactive parliamentary intelligence platform for India. Track attendance, debates, questions, MPLADS funds, and verified affidavits.',
   openGraph: {
-    title: "Mera MP — Delhi report cards",
-    description: "Neutral, source-backed report cards for Delhi Lok Sabha MPs.",
-    type: "website",
+    title: 'Mera MP, Mera Report Card — Interactive India Civic Atlas',
+    description:
+      'Neutral, source-backed interactive parliamentary intelligence platform for India. Track attendance, debates, questions, MPLADS funds, and verified affidavits.',
+    type: 'website',
   },
 };
 
@@ -18,72 +22,43 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isTestData = process.env.MP_DATA_MODE === "test";
   return (
-    <html lang="en">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap"
           rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin=""
         />
         <script
-          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossOrigin=""
-          async
-        ></script>
-        <style>{`
-          .leaflet-container {
-            background-color: #080808 !important;
-          }
-          .dark-gis-tile-layer {
-            filter: brightness(0.65) contrast(1.3) grayscale(0.2);
-          }
-          .leaflet-control-scale-line {
-            background: rgba(9, 13, 22, 0.9) !important;
-            border: 1px solid #334155 !important;
-            border-top: none !important;
-            color: #cbd5e1 !important;
-            font-size: 10px !important;
-            font-weight: 700 !important;
-            padding: 2px 5px !important;
-          }
-          .dark-map-tooltip {
-            background: rgba(9, 13, 22, 0.95) !important;
-            border: 1px solid #334155 !important;
-            color: #f8fafc !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6) !important;
-            border-radius: 6px !important;
-            padding: 4px 8px !important;
-          }
-          .dark-map-tooltip::before {
-            border-top-color: #334155 !important;
-          }
-        `}</style>
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var saved = localStorage.getItem('mera-mp-theme');
+                if (saved === 'light') {
+                  document.documentElement.classList.remove('dark');
+                  document.documentElement.dataset.theme = 'light';
+                  document.documentElement.style.colorScheme = 'light';
+                } else {
+                  document.documentElement.classList.add('dark');
+                  document.documentElement.dataset.theme = 'dark';
+                  document.documentElement.style.colorScheme = 'dark';
+                }
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
+            `,
+          }}
+        />
       </head>
-      <body>
-        <PWARegister />
-        {isTestData && (
-          <div
-            role="status"
-            style={{
-              background: "#fff3d4",
-              color: "#805b00",
-              fontSize: ".8rem",
-              fontWeight: 700,
-              padding: "8px 16px",
-              textAlign: "center",
-            }}
-          >
-            TEST DATA — fictional records for development only
-          </div>
-        )}
-        <div style={{ position: "fixed", right: 16, bottom: 16, zIndex: 10 }}>
-          <ThemeToggle />
-        </div>
-        {children}
+      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#14191F] text-slate-900 dark:text-[#F3F4F6] transition-colors duration-200">
+        <ThemeProvider>
+          <Header />
+          <div className="flex-1 w-full">{children}</div>
+          <Footer />
+          <FloatingThemePill />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -21,6 +21,7 @@ d:\MPScoreBoard\data\
 │   ├── data_dictionary.md               # Technical field types & nullability specifications
 │   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0)
 │   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data
+│   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids
 │   └── normalised.delhi.json            # Intermediate normalised records before merge
 │
 ├── raw/                                 # ACTIVE IMMUTABLE SOURCE CAPTURES
