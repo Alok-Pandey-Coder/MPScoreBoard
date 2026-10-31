@@ -1,5 +1,21 @@
 # Project Change Log
 
+## 2026-11-01 — Fix Atlas Map ViewBox Scaling & Delhi Constituency SVG Coordinates
+
+- **Summary**: Resolved issues with the All-India Atlas map (`IndiaAtlasMap`) where selecting Delhi or loading `/explore` initially produced an extreme 45x over-zoom and rendered oversized, distorted polygon boundaries across neighboring states:
+  1. **Balanced NCR ViewBox Framing**: Replaced the overly restrictive 20x20 viewBox (`{ x: 340, y: 290, w: 20, h: 20 }`) with a well-proportioned National Capital Region frame (`{ x: 308, y: 262, w: 78, h: 76 }`) centered on Delhi (`[347.8, 299.9]`). Delhi and its 7 constituencies now render in natural, comfortable proportion surrounded cleanly by neighboring NCR borders.
+  2. **Authentic Delhi Constituency SVG Coordinates**: Replaced 300px-wide mock coordinates in `DELHI_CONSTITUENCIES` (`lib/indiaGeoData.ts`) with the exact 7 geographic subpaths from `REAL_INDIA_STATES` in the SVG map's coordinate space (`x: 339.6 - 353.1`, `y: 293.2 - 306.1`), matching Chandni Chowk, East Delhi, New Delhi, North East Delhi, North West Delhi, South Delhi, and West Delhi.
+  3. **Beacon Visibility Tuning**: Tuned the pulsing beacon in Layer 3 so it only renders on the National overview (`!isDelhiZoomed`) and hides cleanly when zoomed into Delhi, preventing the beacon circle from obstructing interactive constituency blocks.
+  4. **Explorer Initial Viewport**: Updated `ExploreAtlasClient.tsx` to initialize with `selectedStateId = null` so the explorer opens to the complete All-India 543-seat atlas overview with live beacons, smoothly zooming into Delhi or any chosen state upon user selection.
+- **Files/Areas Changed**:
+  - `lib/indiaGeoData.ts`: Corrected SVG paths and added `svgCentroid` for all 7 Delhi constituencies.
+  - `components/map/IndiaAtlasMap.tsx`: Adjusted Delhi viewBox framing to 78x76, refined constituency strokes, and guarded beacon rendering during zoom.
+  - `components/explore/ExploreAtlasClient.tsx`: Defaulted initial state to national overview.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: All 304 unit tests passed.
+  - `npm run build`: Successfully built 57/57 static and dynamic routes.
+
 ## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
 
 - **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:

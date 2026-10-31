@@ -15,7 +15,7 @@ interface ExploreAtlasClientProps {
 }
 
 export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) => {
-  const [selectedStateId, setSelectedStateId] = useState<string>('delhi');
+  const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
   const t = useMessages(exploreMessages);
   const [selectedSlug, setSelectedSlug] = useState<string | undefined>(undefined);
 
@@ -86,7 +86,7 @@ export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) =
       {/* The Master Atlas Map Component */}
       <IndiaAtlasMap
         mps={mps}
-        initialStateId={selectedStateId}
+        initialStateId={selectedStateId || undefined}
         initialConstituencySlug={selectedSlug}
         className="w-full h-[680px]"
       />
