@@ -390,7 +390,11 @@ never coerced to `false`.
 **Parity.** `__tests__/db-parity.test.ts` checks that records read back from the database
 equal `mps.json` field for field. It runs whenever `DATABASE_URL` is set.
 
-**Run locally:**
+**Optional by design.** Without `DATABASE_URL` (the default), or when the database is unreachable,
+the site serves the JSON snapshot `data/processed/mps.json` exactly as before. No Docker or
+database is needed to develop, build or demo.
+
+**Run locally with YugabyteDB:**
 ```powershell
 docker compose up -d yugabyte
 $env:DATABASE_URL = "postgresql://yugabyte:yugabyte@localhost:5433/yugabyte"
