@@ -98,22 +98,27 @@ export const Footer: React.FC = () => {
           {/* Col 4: Methodology & Neutrality Commitment */}
           <div>
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-900 dark:text-stone-200 mb-3">
-              Methodology &amp; Standards
+              Explore
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/about" className="hover:text-stone-900 dark:hover:text-white transition-colors">
-                  Methodology &amp; Data Pipeline
+                <Link href="/" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  Find your MP
                 </Link>
               </li>
               <li>
                 <Link href="/compare" className="hover:text-stone-900 dark:hover:text-white transition-colors">
-                  Side-by-Side MP Comparison
+                  Compare MPs
                 </Link>
               </li>
               <li>
                 <Link href="/explore" className="hover:text-stone-900 dark:hover:text-white transition-colors">
-                  All-India Geospatial Atlas
+                  Map
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  About the data
                 </Link>
               </li>
               <li>

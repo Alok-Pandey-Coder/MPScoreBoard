@@ -1,5 +1,25 @@
 # Project Change Log
 
+## 2026-11-01 — Top navigation: plain-language labels, one shared link list
+
+- **Summary:**
+  - The header now uses one link list for both desktop and mobile. Previously each link was copied twice, and the two labels disagreed ("Delhi Seats" vs "Delhi Seats & Map", "Sources & Method" vs "Methodology & Sources").
+  - New labels: "Find your MP", "Compare MPs", "Map" and "About the data". Each has a hint, shown as a tooltip on desktop and as a subtitle on mobile.
+  - "Map" no longer suggests all-India data; its hint says full report cards are Delhi-only for now.
+  - The tagline changed from "Delhi Parliamentary Scrutiny & Expenditure Monitor" to "Report cards for Delhi's MPs, with sources", and the badge from "18th Lok Sabha" to "Lok Sabha 2024–29".
+  - Report cards highlight "Find your MP".
+  - Removed the dead `onOpenSearch` search button, which never rendered.
+  - Removed the floating theme pill, which duplicated the header toggle and covered card content.
+  - Footer links and the Map and About page titles now use the same words as the header.
+  - Accessibility: `aria-current="page"`; `aria-expanded` and `aria-controls` on the mobile menu button; 14px nav text (was 12px); 44px tap targets for the menu and theme buttons.
+- **Files or areas changed:** `components/layout/Header.tsx` (rewritten), `components/common/ThemeToggle.tsx`, `components/layout/Footer.tsx`, `app/layout.tsx`, `app/explore/page.tsx`, `app/about/page.tsx`; deleted `components/common/FloatingThemePill.tsx`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Built HTML for `/`, `/mp/west-delhi-delhi`, `/compare` and `/about` shows the four new labels with the correct active item, and no floating theme pill.
+- **Remaining caveat or next step:** Not yet checked visually in a browser at 360px width.
+
 ## 2026-11-01 — Source links on every work; card Sources section restructured
 
 - **Summary:**

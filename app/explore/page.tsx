@@ -4,8 +4,8 @@ import { getAllMPs } from '@/lib/data';
 import { ExploreAtlasClient } from '@/components/explore/ExploreAtlasClient';
 
 export const metadata: Metadata = {
-  title: 'All-India Geospatial Atlas — 543 Lok Sabha Constituencies',
-  description: 'Interactive map of all Indian states, Union Territories, and Lok Sabha parliamentary constituencies with source data.',
+  title: 'Map — Mera MP',
+  description: 'Map of Indian states and Lok Sabha constituencies. Full MP report cards are available for Delhi for now.',
 };
 
 export default function ExplorePage() {

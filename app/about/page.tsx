@@ -5,8 +5,8 @@ import { GitHubIcon } from '@/components/common/GitHubIcon';
 import snapshotData from '@/data/processed/snapshot.json';
 
 export const metadata: Metadata = {
-  title: 'Methodology & Data Provenance — Mera MP, Mera Report Card',
-  description: 'Detailed documentation of sources, indicators calculation, neutrality principles, and minister handling rules.',
+  title: 'About the data — Mera MP',
+  description: 'Where the data comes from, what each indicator means and does not mean, how ministers are handled, and known limits.',
 };
 
 export default function AboutPage() {

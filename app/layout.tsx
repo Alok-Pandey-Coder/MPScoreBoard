@@ -3,7 +3,6 @@ import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { FloatingThemePill } from '@/components/common/FloatingThemePill';
 
 const SITE_DESCRIPTION =
   'A neutral, source-backed report card for your Lok Sabha MP: attendance, debates, questions, MPLADS funds and declared affidavit details, each with its source and date.';
@@ -72,7 +71,6 @@ export default function RootLayout({
           <Header />
           <div className="flex-1 w-full">{children}</div>
           <Footer />
-          <FloatingThemePill />
         </ThemeProvider>
       </body>
     </html>

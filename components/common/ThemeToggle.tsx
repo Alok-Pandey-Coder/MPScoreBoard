@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '' }) => {
         toggleTheme();
       }}
       type="button"
-      className={`relative p-2 rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer ${
+      className={`relative w-11 h-11 flex items-center justify-center rounded-xl border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer ${
         isDark
           ? 'bg-slate-800/80 border-slate-700 text-amber-400 hover:bg-slate-800 hover:text-amber-300 shadow-sm'
           : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80 hover:text-slate-900 shadow-sm'
