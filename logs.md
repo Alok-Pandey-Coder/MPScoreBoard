@@ -1,5 +1,23 @@
 # Project Change Log
 
+## 2026-11-01 — Streamline Homepage UI: Remove Hero Controls Pill & MP Cards Grid
+
+- **Summary:**
+  - Removed the hero perspective switcher controls pill (< 🏛️ Sansad: Colonnade / Lok Sabha / Panorama >) from the UI while keeping the automatic infinite background image sliding effect active every 2.8s.
+  - Removed the hardcoded 7-card Delhi 'MP report cards' grid section (#mp-cards and QuickCardsGrid) from the homepage UI so the layout remains scalable as additional states and regions are added in the future.
+  - Retained all underlying MP data, individual dossier pages (/mp/[slug]), smart search (UnifiedSearchBar), map inspectors, and state exploration routes without any loss of functionality.
+  - Updated homepage navigation anchors and tab numbering in NagrikTerritoryBar and NagrikStateCardsGrid to seamlessly point to available constituency maps and state dossiers.
+- **Files or areas changed:**
+  - components/home/HomeClient.tsx
+  - components/home/NagrikTerritoryBar.tsx
+  - components/home/NagrikStateCardsGrid.tsx
+- **Validation performed:**
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 312 passed.
+  - Verified dev server running at http://localhost:3000.
+- **Remaining caveat or next step:**
+  - No remaining caveats.
+
 ## 2026-11-01 — Exact Multi-Member MP Comparison Redesign (branch: compare)
 
 - **Summary**:
@@ -18,6 +36,31 @@
   - `http://localhost:3000/compare`: Verified HTTP 200 server response and live interactive state.
 - **Remaining caveat or next step**: Verified locally on `http://localhost:3000/compare`. Awaiting user confirmation before any git push per repository rules.
 
+## 2026-11-01 — Normalize Empowered Indian MPLADS Profile URLs to Public Slugs
+
+- **Summary:**
+  - Fixed dead Empowered Indian source links displayed on MP profile pages (e.g., Bansuri Swaraj was linking to 404 URL https://empoweredindian.in/mps/6a98d96eddf878e1e6c89a6b instead of the public web route https://empoweredindian.in/mplads/mps/bansuri-swaraj-new-delhi-delhi-18th-lok-sabha).
+  - Added URL normalization in scripts/09_intake_mplads.py (empowered_indian_url) that derives the canonical public URL format (https://empoweredindian.in/mplads/mps/<name>-<constituency>-<state>-<term>th-lok-sabha) from the profile metadata returned in raw captures.
+  - Updated scripts/fetch_empowered_delhi.py so any future raw capture generates the public slug-based URL directly instead of internal MongoDB IDs.
+  - Updated documentation in docs/dataSources.md.
+  - Re-ran the full build pipeline (scripts/build_data.py), which regenerated data/processed/mplads.delhi.json, data/processed/mps.json, data/processed/snapshot.json, and data/processed/validation_report.md.
+  - Added regression unit tests in tests/test_mplads.py covering slug normalization and URL export validation.
+- **Files or areas changed:**
+  - scripts/09_intake_mplads.py
+  - scripts/fetch_empowered_delhi.py
+  - docs/dataSources.md
+  - tests/test_mplads.py
+  - data/processed/mplads.delhi.json
+  - data/processed/mps.json
+  - data/processed/snapshot.json
+  - data/processed/validation_report.md
+- **Validation performed:**
+  - Verified all 7 generated Delhi MP URLs against live empoweredindian.in endpoints (HTTP 200 OK for all 7).
+  - Ran scripts/build_data.py: completed with 0 hard errors.
+  - Ran pytest ..\\tests: 37/37 tests passed.
+  - Ran npm test: 312/312 tests passed across 5 test suites.
+- **Remaining caveat or next step:**
+  - None. All 7 Delhi MPs now link to live public Empowered Indian pages.
 
 ## 2026-11-01 — Geospatial Map Light & Dark Adaptive Theming (Leaflet Delhi Ward Map & Vector India Atlas Map)
 

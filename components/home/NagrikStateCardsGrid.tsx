@@ -78,7 +78,7 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
                   className={`px-2 py-0.5 rounded border ${
                     available
                       ? 'bg-blue-500/10 text-blue-800 dark:text-blue-300 border-blue-500/30 font-bold'
-                      : 'bg-stone-100 dark:bg-[#151D2A] text-stone-600 dark:text-stone-400 border-stone-200 dark:border-[#222E40]'
+                      : 'bg-stone-100 dark:bg-[#151D2A] text-stone-600 dark:text-stone-400 border-stone-200 dark:border-[#222E42]'
                   }`}
                 >
                   {available ? t.cardsAvailable(cardCount, st.seats) : t.cardsComingSoon}
@@ -95,7 +95,7 @@ export const NagrikStateCardsGrid: React.FC<NagrikStateCardsGridProps> = ({ mps 
               </Link>
               <span aria-hidden="true">·</span>
               <Link
-                href={available ? '#mp-cards' : `/state/${st.id}`}
+                href={`/state/${st.id}`}
                 className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors"
               >
                 {t.linkMPs}

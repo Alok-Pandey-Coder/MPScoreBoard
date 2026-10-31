@@ -7,10 +7,9 @@ import { MPRecord } from '@/types/mp';
 import { NagrikTerritoryBar } from '@/components/home/NagrikTerritoryBar';
 import { NagrikStateCardsGrid } from '@/components/home/NagrikStateCardsGrid';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
-import { QuickCardsGrid } from '@/components/home/QuickCardsGrid';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
-import { ArrowRight, Users, Compass, Landmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Compass, Landmark } from 'lucide-react';
 import { localizeMP } from '@/lib/i18n';
 import { coverageNote, getCoverage, TOTAL_LOK_SABHA_SEATS } from '@/lib/coverage';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -49,34 +48,28 @@ const SANSAD_VIEWS: Record<SansadViewKey, SansadViewItem> = {
   },
   panoramic: {
     src: '/images/sansad/sansad-panoramic.jpg',
-    labelEn: 'Central Vista Panorama',
-    labelHi: 'संसदीय सेंट्रल विस्टा',
-    tagEn: 'Sovereign Parliamentary Complex',
-    tagHi: 'संसदीय परिसर, नई दिल्ली',
+    labelEn: 'Central Vista Sansad Complex',
+    labelHi: 'सेंट्रल विस्टा संसद परिसर',
+    tagEn: 'Architectural Panorama, Central Vista, New Delhi',
+    tagHi: 'वास्तुशिल्प परिदृश्य, सेंट्रल विस्टा, नई दिल्ली',
     shortEn: 'Panorama',
-    shortHi: 'विस्टा',
+    shortHi: 'संसद परिसर',
   },
 };
 
 const SLIDE_KEYS: SansadViewKey[] = ['facade', 'chamber', 'panoramic'];
 
-const MapLoading: React.FC = () => {
-  const t = useMessages(homeMessages);
-  return (
-    <div className="w-full h-[600px] rounded-2xl bg-[#0C1017] border border-[#1E2636] flex items-center justify-center text-stone-400">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-6 h-6 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
-        <span className="text-xs font-mono font-medium text-stone-400">{t.loadingMap}</span>
-      </div>
-    </div>
-  );
-};
-
 const NagrikStyleMap = dynamic(
   () => import('@/components/map/NagrikStyleMap').then((mod) => mod.NagrikStyleMap),
   {
     ssr: false,
-    loading: () => <MapLoading />,
+    loading: () => (
+      <div className="w-full h-[620px] rounded-2xl bg-stone-100 dark:bg-[#0C1017] border border-stone-200 dark:border-[#1E2636] flex items-center justify-center animate-pulse">
+        <div className="text-stone-500 font-mono text-sm tracking-wide">
+          Loading Geospatial Map Layers...
+        </div>
+      </div>
+    ),
   }
 );
 
@@ -138,8 +131,8 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         onMouseLeave={() => setIsPaused(false)}
         className="relative overflow-hidden rounded-3xl border border-stone-200 dark:border-[#1E2636] bg-stone-100 dark:bg-[#0A0E17] shadow-xl dark:shadow-2xl transition-all duration-700 max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-16 lg:py-20"
       >
-        {/* Layer 0: High-Resolution Sansad Photography with Smooth Sliding Effect */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        {/* Automatic Sliding Carousel Backdrop */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <div
             className="flex w-full h-full"
             style={{
@@ -166,67 +159,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-stone-100 via-transparent to-stone-100/60 dark:from-[#0A0E17] dark:via-transparent dark:to-[#0A0E17]/80" />
         </div>
 
-        {/* Perspective Switcher & Sliding Carousel Controls */}
-        <div
-          className="absolute top-4 right-4 z-20 flex items-center gap-1.5 p-1 rounded-full bg-stone-900/85 dark:bg-[#0E1420]/90 backdrop-blur-md border border-stone-700/60 dark:border-[#222E42] text-[10px] font-mono text-stone-200 shadow-lg"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <button
-            type="button"
-            onClick={() => {
-              setIsTransitioning(true);
-              setSlideIndex((prev) => (prev > 0 ? prev - 1 : SLIDE_KEYS.length - 1));
-            }}
-            className="p-1 rounded-full text-stone-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-          </button>
-
-          <div className="flex items-center gap-1 pl-1 pr-1 text-amber-400 font-semibold">
-            <Landmark className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
-            <span className="hidden sm:inline">{lang === 'hi' ? 'संसद:' : 'Sansad:'}</span>
-          </div>
-
-          {SLIDE_KEYS.map((k, i) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => {
-                setIsTransitioning(true);
-                setSlideIndex(i);
-              }}
-              className={`px-2.5 py-1 rounded-full transition-all cursor-pointer font-medium flex items-center gap-1.5 ${
-                currentKey === k
-                  ? 'bg-amber-500 text-stone-950 font-bold shadow-sm'
-                  : 'text-stone-300 hover:text-white hover:bg-white/10'
-              }`}
-              title={lang === 'hi' ? SANSAD_VIEWS[k].labelHi : SANSAD_VIEWS[k].labelEn}
-            >
-              <span
-                className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                  currentKey === k ? 'bg-stone-950 animate-pulse' : 'bg-stone-500'
-                }`}
-              />
-              <span>{lang === 'hi' ? SANSAD_VIEWS[k].shortHi : SANSAD_VIEWS[k].shortEn}</span>
-            </button>
-          ))}
-
-          <button
-            type="button"
-            onClick={() => {
-              setIsTransitioning(true);
-              setSlideIndex((prev) => prev + 1);
-            }}
-            className="p-1 rounded-full text-stone-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        {/* Layer 1: Fully Transparent Central Editorial Content (Zero Blur, Zero Blockers) */}
+        {/* Central Editorial Content */}
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           {/* Editorial Eyebrow Tag */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100/90 dark:bg-[#131B27]/90 backdrop-blur-xs border border-stone-300 dark:border-[#222E42] text-xs font-mono text-stone-800 dark:text-stone-200 mb-6 shadow-xs">
@@ -266,13 +199,6 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
             <a
-              href="#mp-cards"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-[#131B27]/90 hover:bg-white dark:hover:bg-[#1A2433] text-stone-800 dark:text-stone-200 font-semibold rounded-lg border border-stone-200 dark:border-[#222E42] transition-all cursor-pointer shadow-xs"
-            >
-              <Users className="w-3.5 h-3.5 text-amber-500" aria-hidden="true" />
-              <span>{t.ctaCards}</span>
-            </a>
-            <a
               href="#by-state"
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-[#131B27]/90 hover:bg-white dark:hover:bg-[#1A2433] text-stone-800 dark:text-stone-200 font-semibold rounded-lg border border-stone-200 dark:border-[#222E42] transition-all cursor-pointer shadow-xs"
             >
@@ -310,29 +236,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         />
       </section>
 
-      {/* 3. MP report cards */}
-      <section id="mp-cards" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 scroll-mt-20">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
-          <div>
-            <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-              {t.termEyebrow}
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-              {t.cardsTitle}
-            </h2>
-            <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
-              {t.cardsIntro}
-            </p>
-          </div>
-          <span className="text-xs font-mono font-medium px-3 py-1 bg-stone-100 dark:bg-[#131B27] text-stone-700 dark:text-stone-300 rounded-md border border-stone-200 dark:border-[#222E42] self-start sm:self-auto">
-            {t.cardsBadge}
-          </span>
-        </div>
-
-        <QuickCardsGrid mps={localizedMps} />
-      </section>
-
-      {/* 4. State Overview Cards Grid */}
+      {/* 3. State Overview Cards Grid */}
       <section id="by-state" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 scroll-mt-20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
@@ -355,7 +259,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <NagrikStateCardsGrid mps={localizedMps} />
       </section>
 
-      {/* 5. Map of India */}
+      {/* 4. Map of India */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex items-center justify-between gap-4 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
           <div>
@@ -371,7 +275,7 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         <IndiaAtlasMap mps={localizedMps} className="w-full" />
       </section>
 
-      {/* 6. Step-by-Step Dropdown Selector */}
+      {/* 5. Step-by-Step Dropdown Selector */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-3">
           <span className="text-[11px] font-mono uppercase tracking-widest font-semibold text-stone-500 dark:text-stone-400">
