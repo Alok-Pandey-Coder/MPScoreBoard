@@ -42,25 +42,14 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-[68px] gap-4">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-3 group min-w-0" aria-label={t.homeAria}>
-            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-stone-900 dark:bg-[#151D2A] border border-stone-700/40 dark:border-[#2C384D] flex items-center justify-center shadow-sm transition-transform group-hover:scale-[1.02]">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-5 h-5 text-amber-500"
-                aria-hidden="true"
-              >
-                <path d="M3 21h18" />
-                <path d="M4 18h16" />
-                <path d="M6 18v-7" />
-                <path d="M10 18v-7" />
-                <path d="M14 18v-7" />
-                <path d="M18 18v-7" />
-                <path d="M12 2l8 5H4l8-5z" />
-              </svg>
+            <div className="w-14 h-9 sm:w-16 sm:h-10 shrink-0 rounded-xl bg-[#F5E6D3] border border-amber-500/25 dark:border-amber-500/30 flex items-center justify-center shadow-sm transition-transform group-hover:scale-[1.02] overflow-hidden p-1">
+              <img
+                src="/icon.png"
+                alt={t.brandName}
+                width={64}
+                height={40}
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
