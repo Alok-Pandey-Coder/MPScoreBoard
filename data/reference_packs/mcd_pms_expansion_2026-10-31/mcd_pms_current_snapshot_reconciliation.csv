@@ -1,0 +1,3 @@
+record_type,dashboard_headline_total,captured_zone_total,status,difference
+projects,16585,16585,zone totals captured for all 13 groupings; compare sum separately,0
+work_orders,15175,7786,partial zone listing only; do not treat captured subtotal as full total,-7389

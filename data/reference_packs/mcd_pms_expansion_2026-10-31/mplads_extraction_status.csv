@@ -1,0 +1,3 @@
+﻿dataset,status,reason,source_url
+MPLADS work register / recommended works / completed works,not_extracted,Official legacy citizen report viewer page surfaces filter controls but returned a Report Viewer Web Control configuration error; eSAKSHI work-level export not publicly retrievable in this pass.,https://www.mplads.gov.in/MPLADS/AuthenticatedPages/Reports/Citizen/rptCitizenAssmblyAgencyDetails.aspx
+MCD PMS MP-LAD scheme counts,aggregate_counts_extracted,13 zone-level project and work-order counts extracted from official MCD PMS page; individual work details absent from visible public text.,https://pm.mcd.gov.in/

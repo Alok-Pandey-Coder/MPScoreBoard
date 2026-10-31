@@ -1,0 +1,14 @@
+﻿zone_dashboard_label,mcd_pms_mp_lad_projects,mcd_pms_mp_lad_work_orders,snapshot_date,source_url,record_level,individual_work_rows_extracted,notes
+Central (Karol Bagh),25,23,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+Central North (Keshavpuram),38,32,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+East (Shahdara South),7,5,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+MCD-HQ,1,1,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+North (Civil Lines),4,4,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+North East (Shahdara North),12,7,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+North West (Rohini),22,22,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+Old Delhi (City SP),0,0,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+Outer North (Narela),19,19,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+South,34,30,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+South East (Central),89,88,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+South West (Najafgarh),21,21,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
+West,8,6,2026-10-31,https://pm.mcd.gov.in/,aggregate_count_only,0,Official MCD PMS dashboard category count; not MP attribution or per-project detail.
