@@ -1,0 +1,27 @@
+﻿record_type,zone_dashboard_label,total_count,mla_lad_count,mp_lad_count,snapshot_date,source_url,verification_status,notes
+projects,Central (Karol Bagh),629,82,25,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,Central (Karol Bagh),585,79,23,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,Central North (Keshavpuram),1547,179,38,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,Central North (Keshavpuram),1471,177,32,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,East (Shahdara South),2453,344,7,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,East (Shahdara South),2225,326,5,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,MCD-HQ,82,4,1,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,MCD-HQ,78,4,1,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,North (Civil Lines),911,78,4,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,North (Civil Lines),844,68,4,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,North East (Shahdara North),1729,343,12,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,North East (Shahdara North),1590,323,7,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,North West (Rohini),1122,207,22,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,North West (Rohini),1027,171,22,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,Old Delhi (City SP),683,121,0,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,Old Delhi (City SP),615,114,0,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,Outer North (Narela),1096,68,19,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,Outer North (Narela),1006,64,19,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,South,1568,117,34,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,South,1389,103,30,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,South East (Central),1658,136,89,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,South East (Central),1596,131,88,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,South West (Najafgarh),1310,63,21,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,South West (Najafgarh),1163,61,21,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+projects,West,1847,212,8,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.
+work_orders,West,1644,184,6,2026-10-31,https://pm.mcd.gov.in/,official_dashboard_visible_text,Counts are dashboard category counts; not project-level rows.

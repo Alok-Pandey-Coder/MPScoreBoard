@@ -1,0 +1,2956 @@
+{
+  "meta": {
+    "dataMode": "test",
+    "generatedAt": "2026-10-31T00:00:00.000Z",
+    "seed": 42,
+    "mpCount": 16,
+    "boundaryVintage": "synthetic-test-grid-v1"
+  },
+  "mps": [
+    {
+      "slug": "test-region-01-test-state-a",
+      "name": "Test MP 01",
+      "party": "Test Party B",
+      "state": "Test State A",
+      "constituency": "Test Region 01",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Social Worker",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 01",
+          "state": "Test State A",
+          "party": "Test Party B",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        },
+        {
+          "lokSabha": "17th Lok Sabha",
+          "constituency": "Test Region 01",
+          "state": "Test State A",
+          "party": "Test Party C",
+          "fromYear": 2019,
+          "toYear": 2024,
+          "attendancePct": 83.5,
+          "debates": 14,
+          "questions": 158,
+          "privateBills": 1
+        },
+        {
+          "lokSabha": "16th Lok Sabha",
+          "constituency": "Test Region 01",
+          "state": "Test State A",
+          "party": "Test Party B",
+          "fromYear": 2014,
+          "toYear": 2019,
+          "attendancePct": 93.3,
+          "debates": 38,
+          "questions": 75,
+          "privateBills": 5
+        }
+      ],
+      "performance": {
+        "attendancePct": 86.5,
+        "debates": 24,
+        "questions": 59,
+        "privateBills": 3,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 81.2
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 76.6
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 40.2
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 68.2
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 90.2
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 10.77,
+        "spentCr": 6.38,
+        "utilisationPct": 59.2,
+        "unspentCr": 4.39,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 5.22,
+            "spentCr": 1.39
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 5.55,
+            "spentCr": 4.99
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-01-test-state-a-work-001",
+          "title": "Work 1 — Road widening",
+          "category": "water",
+          "locality": "Locality 43",
+          "sanctionedCr": 3.94,
+          "spentCr": 1.97,
+          "status": "recommended",
+          "recommendedOn": "2024-10-09",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-01-test-state-a-bill-001",
+          "title": "The Consumer Protection (Amendment) Bill, 2024",
+          "introducedOn": "2025-08-07",
+          "type": "private_member",
+          "status": "lapsed"
+        },
+        {
+          "id": "test-region-01-test-state-a-bill-002",
+          "title": "The Environment (Amendment) Bill, 2024",
+          "introducedOn": "2026-11-15",
+          "type": "private_member",
+          "status": "discussed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 28778595,
+        "declaredCases": 1,
+        "education": "Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-02-test-state-a",
+      "name": "Test MP 02",
+      "party": "Test Party C",
+      "state": "Test State A",
+      "constituency": "Test Region 02",
+      "reservation": "ST",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": null,
+        "profession": "Social Worker",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 02",
+          "state": "Test State A",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 96.2,
+        "debates": 34,
+        "questions": 283,
+        "privateBills": 0,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 46.7
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 41
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 61.6
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 68.9
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 76.7
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 23.49,
+        "spentCr": 1.82,
+        "utilisationPct": 7.7,
+        "unspentCr": 21.67,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 10.04,
+            "spentCr": 9.39
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 13.45,
+            "spentCr": -7.57
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-02-test-state-a-work-001",
+          "title": "Work 1 — Drainage",
+          "category": "community",
+          "locality": "Locality 7",
+          "sanctionedCr": 3.56,
+          "spentCr": 0.61,
+          "status": "sanctioned",
+          "recommendedOn": "2025-07-26",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-002",
+          "title": "Work 2 — Drainage",
+          "category": "education",
+          "locality": "Locality 37",
+          "sanctionedCr": 2.93,
+          "spentCr": 0.94,
+          "status": "sanctioned",
+          "recommendedOn": "2024-06-24",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-003",
+          "title": "Work 3 — Community hall",
+          "category": "health",
+          "locality": "Locality 15",
+          "sanctionedCr": 4.97,
+          "spentCr": 4.22,
+          "status": "in_progress",
+          "recommendedOn": "2024-09-09",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-004",
+          "title": "Work 4 — Road widening",
+          "category": "health",
+          "locality": "Locality 42",
+          "sanctionedCr": 4.53,
+          "spentCr": 4.53,
+          "status": "completed",
+          "recommendedOn": "2024-12-05",
+          "completedOn": "2026-09-07"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-005",
+          "title": "Work 5 — Health centre",
+          "category": "water",
+          "locality": "Locality 32",
+          "sanctionedCr": 0.9,
+          "spentCr": 0.56,
+          "status": "sanctioned",
+          "recommendedOn": "2025-04-23",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-006",
+          "title": "Work 6 — Health centre",
+          "category": "roads",
+          "locality": "Locality 37",
+          "sanctionedCr": 0.74,
+          "spentCr": 0.61,
+          "status": "sanctioned",
+          "recommendedOn": "2025-11-26",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-007",
+          "title": "Work 7 — Water supply",
+          "category": "roads",
+          "locality": "Locality 36",
+          "sanctionedCr": 3.06,
+          "spentCr": 1.41,
+          "status": "recommended",
+          "recommendedOn": "2025-04-08",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-008",
+          "title": "Work 8 — Footpath",
+          "category": "sanitation",
+          "locality": "Locality 50",
+          "sanctionedCr": 0.24,
+          "spentCr": 0.05,
+          "status": "sanctioned",
+          "recommendedOn": "2024-03-16",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-009",
+          "title": "Work 9 — Community hall",
+          "category": "sanitation",
+          "locality": "Locality 20",
+          "sanctionedCr": 2.03,
+          "spentCr": 0.83,
+          "status": "sanctioned",
+          "recommendedOn": "2024-11-10",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-010",
+          "title": "Work 10 — Drainage",
+          "category": "water",
+          "locality": "Locality 17",
+          "sanctionedCr": 3.09,
+          "spentCr": 1.61,
+          "status": "sanctioned",
+          "recommendedOn": "2024-04-19",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-011",
+          "title": "Work 11 — Health centre",
+          "category": "roads",
+          "locality": "Locality 16",
+          "sanctionedCr": 0.93,
+          "spentCr": 0.61,
+          "status": "recommended",
+          "recommendedOn": "2024-07-06",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-012",
+          "title": "Work 12 — Footpath",
+          "category": "community",
+          "locality": "Locality 22",
+          "sanctionedCr": 1.96,
+          "spentCr": 1.33,
+          "status": "sanctioned",
+          "recommendedOn": "2024-11-15",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-013",
+          "title": "Work 13 — Community hall",
+          "category": "water",
+          "locality": "Locality 31",
+          "sanctionedCr": 4.48,
+          "spentCr": 4.48,
+          "status": "completed",
+          "recommendedOn": "2025-03-11",
+          "completedOn": "2026-12-14"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-014",
+          "title": "Work 14 — Park development",
+          "category": "roads",
+          "locality": "Locality 4",
+          "sanctionedCr": 4.23,
+          "spentCr": 4.23,
+          "status": "completed",
+          "recommendedOn": "2024-07-19",
+          "completedOn": "2026-12-23"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-015",
+          "title": "Work 15 — Drainage",
+          "category": "education",
+          "locality": "Locality 23",
+          "sanctionedCr": 4.2,
+          "spentCr": 3.4,
+          "status": "in_progress",
+          "recommendedOn": "2025-09-10",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-016",
+          "title": "Work 16 — Health centre",
+          "category": "community",
+          "locality": "Locality 8",
+          "sanctionedCr": 3.17,
+          "spentCr": 3.17,
+          "status": "completed",
+          "recommendedOn": "2024-01-03",
+          "completedOn": "2026-09-27"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-017",
+          "title": "Work 17 — Park development",
+          "category": "water",
+          "locality": "Locality 14",
+          "sanctionedCr": 2.38,
+          "spentCr": 2.38,
+          "status": "completed",
+          "recommendedOn": "2024-01-09",
+          "completedOn": "2025-07-21"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-018",
+          "title": "Work 18 — Water supply",
+          "category": "sanitation",
+          "locality": "Locality 26",
+          "sanctionedCr": 3.95,
+          "spentCr": 3.95,
+          "status": "completed",
+          "recommendedOn": "2024-06-13",
+          "completedOn": "2025-04-09"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-019",
+          "title": "Work 19 — Drainage",
+          "category": "health",
+          "locality": "Locality 33",
+          "sanctionedCr": 2.57,
+          "spentCr": 0.64,
+          "status": "recommended",
+          "recommendedOn": "2024-02-01",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-020",
+          "title": "Work 20 — Bridge repair",
+          "category": "health",
+          "locality": "Locality 26",
+          "sanctionedCr": 4.72,
+          "spentCr": 0.33,
+          "status": "recommended",
+          "recommendedOn": "2024-10-02",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-021",
+          "title": "Work 21 — Drainage",
+          "category": "roads",
+          "locality": "Locality 49",
+          "sanctionedCr": 1.23,
+          "spentCr": 0.82,
+          "status": "sanctioned",
+          "recommendedOn": "2025-08-23",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-022",
+          "title": "Work 22 — Water supply",
+          "category": "roads",
+          "locality": "Locality 5",
+          "sanctionedCr": 4.04,
+          "spentCr": 2.02,
+          "status": "in_progress",
+          "recommendedOn": "2024-04-19",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-023",
+          "title": "Work 23 — Road widening",
+          "category": "education",
+          "locality": "Locality 17",
+          "sanctionedCr": 2.85,
+          "spentCr": 2.65,
+          "status": "in_progress",
+          "recommendedOn": "2024-10-16",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-024",
+          "title": "Work 24 — School renovation",
+          "category": "health",
+          "locality": "Locality 44",
+          "sanctionedCr": 4.73,
+          "spentCr": 4.26,
+          "status": "recommended",
+          "recommendedOn": "2025-09-16",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-025",
+          "title": "Work 25 — Community hall",
+          "category": "community",
+          "locality": "Locality 28",
+          "sanctionedCr": 1.63,
+          "spentCr": 1.63,
+          "status": "completed",
+          "recommendedOn": "2025-07-16",
+          "completedOn": "2026-12-22"
+        },
+        {
+          "id": "test-region-02-test-state-a-work-026",
+          "title": "Work 26 — Bridge repair",
+          "category": "education",
+          "locality": "Locality 44",
+          "sanctionedCr": 3.19,
+          "spentCr": 2.01,
+          "status": "sanctioned",
+          "recommendedOn": "2024-11-12",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-027",
+          "title": "Work 27 — Street lights",
+          "category": "other",
+          "locality": "Locality 35",
+          "sanctionedCr": 2.71,
+          "spentCr": 2.14,
+          "status": "sanctioned",
+          "recommendedOn": "2024-04-27",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-02-test-state-a-work-028",
+          "title": "Work 28 — Park development",
+          "category": "community",
+          "locality": "Locality 36",
+          "sanctionedCr": 1.45,
+          "spentCr": 0.87,
+          "status": "sanctioned",
+          "recommendedOn": "2024-11-26",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-02-test-state-a-bill-001",
+          "title": "The Digital Rights (Amendment) Bill, 2024",
+          "introducedOn": "2025-11-19",
+          "type": "private_member",
+          "status": "withdrawn"
+        },
+        {
+          "id": "test-region-02-test-state-a-bill-002",
+          "title": "The Digital Rights (Amendment) Bill, 2025",
+          "introducedOn": "2026-07-02",
+          "type": "private_member",
+          "status": "introduced"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 10207343,
+        "declaredCases": 0,
+        "education": "Post Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-03-test-state-a",
+      "name": "Test MP 03",
+      "party": "Test Party A",
+      "state": "Test State A",
+      "constituency": "Test Region 03",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": true,
+      "isTest": true,
+      "profile": {
+        "education": "Graduate",
+        "profession": "Social Worker",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 03",
+          "state": "Test State A",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 14.05,
+        "spentCr": 9.84,
+        "utilisationPct": 70,
+        "unspentCr": 4.21,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 6.89,
+            "spentCr": 5.9
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 7.16,
+            "spentCr": 3.94
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-03-test-state-a-work-001",
+          "title": "Work 1 — Health centre",
+          "category": "roads",
+          "locality": "Locality 32",
+          "sanctionedCr": 4.45,
+          "spentCr": 4.45,
+          "status": "completed",
+          "recommendedOn": "2024-06-08",
+          "completedOn": "2025-09-15"
+        },
+        {
+          "id": "test-region-03-test-state-a-work-002",
+          "title": "Work 2 — Park development",
+          "category": "sanitation",
+          "locality": "Locality 46",
+          "sanctionedCr": 3,
+          "spentCr": 0.3,
+          "status": "sanctioned",
+          "recommendedOn": "2024-01-01",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-03-test-state-a-work-003",
+          "title": "Work 3 — Footpath",
+          "category": "sanitation",
+          "locality": "Locality 43",
+          "sanctionedCr": 1.28,
+          "spentCr": 0.28,
+          "status": "sanctioned",
+          "recommendedOn": "2024-08-01",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-03-test-state-a-work-004",
+          "title": "Work 4 — School renovation",
+          "category": "community",
+          "locality": "Locality 26",
+          "sanctionedCr": 4.01,
+          "spentCr": 1.44,
+          "status": "in_progress",
+          "recommendedOn": "2024-01-22",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-03-test-state-a-work-005",
+          "title": "Work 5 — Community hall",
+          "category": "other",
+          "locality": "Locality 9",
+          "sanctionedCr": 4.36,
+          "spentCr": 3.27,
+          "status": "sanctioned",
+          "recommendedOn": "2024-07-19",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-03-test-state-a-work-006",
+          "title": "Work 6 — Water supply",
+          "category": "sanitation",
+          "locality": "Locality 31",
+          "sanctionedCr": 3.87,
+          "spentCr": 0.89,
+          "status": "recommended",
+          "recommendedOn": "2025-03-26",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-03-test-state-a-work-007",
+          "title": "Work 7 — Footpath",
+          "category": "sanitation",
+          "locality": "Locality 15",
+          "sanctionedCr": 3.75,
+          "spentCr": 0.19,
+          "status": "in_progress",
+          "recommendedOn": "2024-04-20",
+          "completedOn": null
+        }
+      ],
+      "bills": [],
+      "affidavit": {
+        "totalAssetsRs": 76219653,
+        "declaredCases": 1,
+        "education": null,
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-04-test-state-a",
+      "name": "Test MP 04",
+      "party": "Test Party B",
+      "state": "Test State A",
+      "constituency": "Test Region 04",
+      "reservation": "GEN",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Businessman",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 04",
+          "state": "Test State A",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 91.8,
+        "debates": 7,
+        "questions": 41,
+        "privateBills": 5,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 52.7
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 68.3
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 70.5
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 77.2
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 69.1
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 20.11,
+        "spentCr": 3.18,
+        "utilisationPct": 15.8,
+        "unspentCr": 16.93,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 11.85,
+            "spentCr": 9.83
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 8.26,
+            "spentCr": -6.65
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-04-test-state-a-work-001",
+          "title": "Work 1 — Community hall",
+          "category": "health",
+          "locality": "Locality 13",
+          "sanctionedCr": 2.64,
+          "spentCr": 1.9,
+          "status": "recommended",
+          "recommendedOn": "2024-01-25",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-04-test-state-a-work-002",
+          "title": "Work 2 — Drainage",
+          "category": "roads",
+          "locality": "Locality 34",
+          "sanctionedCr": 2.19,
+          "spentCr": 0.53,
+          "status": "sanctioned",
+          "recommendedOn": "2024-11-22",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-04-test-state-a-work-003",
+          "title": "Work 3 — Drainage",
+          "category": "health",
+          "locality": "Locality 25",
+          "sanctionedCr": 4.07,
+          "spentCr": 0.2,
+          "status": "in_progress",
+          "recommendedOn": "2025-06-13",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-04-test-state-a-work-004",
+          "title": "Work 4 — Road widening",
+          "category": "sanitation",
+          "locality": "Locality 10",
+          "sanctionedCr": 0.18,
+          "spentCr": 0.12,
+          "status": "in_progress",
+          "recommendedOn": "2024-09-27",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-04-test-state-a-bill-001",
+          "title": "The Agricultural Support (Amendment) Bill, 2026",
+          "introducedOn": "2025-01-16",
+          "type": "private_member",
+          "status": "withdrawn"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 44480769,
+        "declaredCases": 1,
+        "education": "12th Pass",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-05-test-state-a",
+      "name": "Test MP 05",
+      "party": "Test Party C",
+      "state": "Test State A",
+      "constituency": "Test Region 05",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "sinceDate": "2025-03-15",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Post Graduate",
+        "profession": "Lawyer",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 05",
+          "state": "Test State A",
+          "party": "Test Party C",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 73.5,
+        "debates": 0,
+        "questions": 274,
+        "privateBills": 0,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 71
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 69.2
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 80.9
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 73.3
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 76.6
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 22.78,
+        "spentCr": 15.13,
+        "utilisationPct": 66.4,
+        "unspentCr": 7.65,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 11.89,
+            "spentCr": 11.65
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 10.89,
+            "spentCr": 3.48
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-05-test-state-a-work-001",
+          "title": "Work 1 — Bridge repair",
+          "category": "water",
+          "locality": "Locality 5",
+          "sanctionedCr": 4.79,
+          "spentCr": 4.79,
+          "status": "completed",
+          "recommendedOn": "2025-01-14",
+          "completedOn": "2026-09-22"
+        },
+        {
+          "id": "test-region-05-test-state-a-work-002",
+          "title": "Work 2 — Footpath",
+          "category": "sanitation",
+          "locality": "Locality 13",
+          "sanctionedCr": 4.22,
+          "spentCr": 1.81,
+          "status": "sanctioned",
+          "recommendedOn": "2024-05-21",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-003",
+          "title": "Work 3 — Street lights",
+          "category": "education",
+          "locality": "Locality 32",
+          "sanctionedCr": 0.78,
+          "spentCr": 0.18,
+          "status": "recommended",
+          "recommendedOn": "2025-05-23",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-004",
+          "title": "Work 4 — Bridge repair",
+          "category": "water",
+          "locality": "Locality 30",
+          "sanctionedCr": 0.18,
+          "spentCr": 0.12,
+          "status": "in_progress",
+          "recommendedOn": "2025-06-11",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-005",
+          "title": "Work 5 — Health centre",
+          "category": "health",
+          "locality": "Locality 27",
+          "sanctionedCr": 3.19,
+          "spentCr": 3.19,
+          "status": "completed",
+          "recommendedOn": "2025-03-17",
+          "completedOn": "2025-08-23"
+        },
+        {
+          "id": "test-region-05-test-state-a-work-006",
+          "title": "Work 6 — Health centre",
+          "category": "sanitation",
+          "locality": "Locality 9",
+          "sanctionedCr": 3.02,
+          "spentCr": 2.39,
+          "status": "sanctioned",
+          "recommendedOn": "2025-03-20",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-007",
+          "title": "Work 7 — Street lights",
+          "category": "other",
+          "locality": "Locality 39",
+          "sanctionedCr": 2.88,
+          "spentCr": 1.5,
+          "status": "in_progress",
+          "recommendedOn": "2024-01-03",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-008",
+          "title": "Work 8 — Road widening",
+          "category": "health",
+          "locality": "Locality 3",
+          "sanctionedCr": 0.1,
+          "spentCr": 0.1,
+          "status": "completed",
+          "recommendedOn": "2025-08-01",
+          "completedOn": "2025-10-10"
+        },
+        {
+          "id": "test-region-05-test-state-a-work-009",
+          "title": "Work 9 — Road widening",
+          "category": "sanitation",
+          "locality": "Locality 30",
+          "sanctionedCr": 3.74,
+          "spentCr": 2.32,
+          "status": "recommended",
+          "recommendedOn": "2025-07-12",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-05-test-state-a-work-010",
+          "title": "Work 10 — Water supply",
+          "category": "roads",
+          "locality": "Locality 36",
+          "sanctionedCr": 2.11,
+          "spentCr": 1.18,
+          "status": "in_progress",
+          "recommendedOn": "2025-04-26",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-05-test-state-a-bill-001",
+          "title": "The Digital Rights (Amendment) Bill, 2025",
+          "introducedOn": "2025-08-28",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-05-test-state-a-bill-002",
+          "title": "The Agricultural Support (Amendment) Bill, 2025",
+          "introducedOn": "2026-07-26",
+          "type": "private_member",
+          "status": "discussed"
+        },
+        {
+          "id": "test-region-05-test-state-a-bill-003",
+          "title": "The Environment (Amendment) Bill, 2024",
+          "introducedOn": "2026-07-28",
+          "type": "private_member",
+          "status": "introduced"
+        },
+        {
+          "id": "test-region-05-test-state-a-bill-004",
+          "title": "The Agricultural Support (Amendment) Bill, 2025",
+          "introducedOn": "2026-04-27",
+          "type": "private_member",
+          "status": "discussed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 94599470,
+        "declaredCases": 1,
+        "education": "Doctorate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-06-test-state-a",
+      "name": "Test MP 06",
+      "party": "Test Party C",
+      "state": "Test State A",
+      "constituency": "Test Region 06",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Graduate",
+        "profession": "Farmer",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 06",
+          "state": "Test State A",
+          "party": "Test Party B",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 65.5,
+        "debates": 41,
+        "questions": 109,
+        "privateBills": 2,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 50.6
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 74.2
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 94
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 79.5
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 72.4
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 23.33,
+        "spentCr": 13.7,
+        "utilisationPct": 58.7,
+        "unspentCr": 9.63,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 10.98,
+            "spentCr": 4.87
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 12.35,
+            "spentCr": 8.83
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-06-test-state-a-work-001",
+          "title": "Work 1 — Street lights",
+          "category": "education",
+          "locality": "Locality 9",
+          "sanctionedCr": 2.98,
+          "spentCr": 1.88,
+          "status": "sanctioned",
+          "recommendedOn": "2024-09-11",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-002",
+          "title": "Work 2 — Street lights",
+          "category": "water",
+          "locality": "Locality 3",
+          "sanctionedCr": 0.19,
+          "spentCr": 0.02,
+          "status": "sanctioned",
+          "recommendedOn": "2024-09-04",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-003",
+          "title": "Work 3 — Street lights",
+          "category": "education",
+          "locality": "Locality 18",
+          "sanctionedCr": 1.15,
+          "spentCr": 0.3,
+          "status": "in_progress",
+          "recommendedOn": "2025-06-23",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-004",
+          "title": "Work 4 — Bridge repair",
+          "category": "other",
+          "locality": "Locality 48",
+          "sanctionedCr": 1.08,
+          "spentCr": 0.36,
+          "status": "recommended",
+          "recommendedOn": "2024-03-19",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-005",
+          "title": "Work 5 — Community hall",
+          "category": "education",
+          "locality": "Locality 9",
+          "sanctionedCr": 3.79,
+          "spentCr": 3.37,
+          "status": "in_progress",
+          "recommendedOn": "2025-07-05",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-006",
+          "title": "Work 6 — Drainage",
+          "category": "health",
+          "locality": "Locality 30",
+          "sanctionedCr": 4.3,
+          "spentCr": 0.39,
+          "status": "recommended",
+          "recommendedOn": "2025-07-19",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-06-test-state-a-work-007",
+          "title": "Work 7 — Road widening",
+          "category": "water",
+          "locality": "Locality 47",
+          "sanctionedCr": 4.51,
+          "spentCr": 3.79,
+          "status": "in_progress",
+          "recommendedOn": "2024-09-16",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-06-test-state-a-bill-001",
+          "title": "The Education Access (Amendment) Bill, 2025",
+          "introducedOn": "2025-08-25",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-06-test-state-a-bill-002",
+          "title": "The Environment (Amendment) Bill, 2025",
+          "introducedOn": "2025-07-21",
+          "type": "private_member",
+          "status": "withdrawn"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 41162376,
+        "declaredCases": 3,
+        "education": "Post Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-07-test-state-a",
+      "name": "Test MP 07",
+      "party": "Test Party A",
+      "state": "Test State A",
+      "constituency": "Test Region 07",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Businessman",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 07",
+          "state": "Test State A",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 66.6,
+        "debates": 62,
+        "questions": 158,
+        "privateBills": 2,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 62.7
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 99.8
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 83.6
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 66.3
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 60.9
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-07-test-state-a-work-001",
+          "title": "Work 1 — Water supply",
+          "category": "community",
+          "locality": "Locality 19",
+          "sanctionedCr": 2.96,
+          "spentCr": 0.74,
+          "status": "sanctioned",
+          "recommendedOn": "2024-12-02",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-002",
+          "title": "Work 2 — Road widening",
+          "category": "sanitation",
+          "locality": "Locality 44",
+          "sanctionedCr": 2.92,
+          "spentCr": 2.92,
+          "status": "completed",
+          "recommendedOn": "2024-11-07",
+          "completedOn": "2026-06-12"
+        },
+        {
+          "id": "test-region-07-test-state-a-work-003",
+          "title": "Work 3 — Health centre",
+          "category": "health",
+          "locality": "Locality 21",
+          "sanctionedCr": 2.03,
+          "spentCr": 0.1,
+          "status": "recommended",
+          "recommendedOn": "2024-12-22",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-004",
+          "title": "Work 4 — Street lights",
+          "category": "community",
+          "locality": "Locality 49",
+          "sanctionedCr": 0.71,
+          "spentCr": 0.13,
+          "status": "recommended",
+          "recommendedOn": "2025-11-07",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-005",
+          "title": "Work 5 — School renovation",
+          "category": "roads",
+          "locality": "Locality 43",
+          "sanctionedCr": 2.59,
+          "spentCr": 2.02,
+          "status": "in_progress",
+          "recommendedOn": "2025-12-07",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-006",
+          "title": "Work 6 — Street lights",
+          "category": "sanitation",
+          "locality": "Locality 5",
+          "sanctionedCr": 0.15,
+          "spentCr": 0.14,
+          "status": "recommended",
+          "recommendedOn": "2025-09-23",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-007",
+          "title": "Work 7 — Drainage",
+          "category": "education",
+          "locality": "Locality 4",
+          "sanctionedCr": 4.25,
+          "spentCr": 0.94,
+          "status": "recommended",
+          "recommendedOn": "2024-11-28",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-07-test-state-a-work-008",
+          "title": "Work 8 — Bridge repair",
+          "category": "roads",
+          "locality": "Locality 47",
+          "sanctionedCr": 1.11,
+          "spentCr": 0.03,
+          "status": "in_progress",
+          "recommendedOn": "2024-12-27",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-07-test-state-a-bill-001",
+          "title": "The Environment (Amendment) Bill, 2025",
+          "introducedOn": "2024-01-18",
+          "type": "private_member",
+          "status": "withdrawn"
+        },
+        {
+          "id": "test-region-07-test-state-a-bill-002",
+          "title": "The Agricultural Support (Amendment) Bill, 2025",
+          "introducedOn": "2025-01-25",
+          "type": "private_member",
+          "status": "lapsed"
+        },
+        {
+          "id": "test-region-07-test-state-a-bill-003",
+          "title": "The Agricultural Support (Amendment) Bill, 2025",
+          "introducedOn": "2026-03-12",
+          "type": "private_member",
+          "status": "introduced"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 93901773,
+        "declaredCases": 0,
+        "education": "Post Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-08-test-state-b",
+      "name": "Test MP 08",
+      "party": "Test Party B",
+      "state": "Test State B",
+      "constituency": "Test Region 08",
+      "reservation": "GEN",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Post Graduate",
+        "profession": "Teacher",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 08",
+          "state": "Test State B",
+          "party": "Test Party B",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 67.3,
+        "debates": 34,
+        "questions": 218,
+        "privateBills": 0,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 77.3
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 79
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 78.9
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 92.7
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 91.3
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 17.28,
+        "spentCr": 13.45,
+        "utilisationPct": 77.8,
+        "unspentCr": 3.83,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 6.03,
+            "spentCr": 2.77
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 11.25,
+            "spentCr": 10.68
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-08-test-state-b-work-001",
+          "title": "Work 1 — Footpath",
+          "category": "health",
+          "locality": "Locality 47",
+          "sanctionedCr": 1.05,
+          "spentCr": 0.98,
+          "status": "sanctioned",
+          "recommendedOn": "2025-02-14",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-08-test-state-b-work-002",
+          "title": "Work 2 — Community hall",
+          "category": "community",
+          "locality": "Locality 18",
+          "sanctionedCr": 1.43,
+          "spentCr": 1.43,
+          "status": "completed",
+          "recommendedOn": "2025-05-27",
+          "completedOn": "2025-12-21"
+        },
+        {
+          "id": "test-region-08-test-state-b-work-003",
+          "title": "Work 3 — Health centre",
+          "category": "water",
+          "locality": "Locality 11",
+          "sanctionedCr": 1.55,
+          "spentCr": 0.39,
+          "status": "sanctioned",
+          "recommendedOn": "2024-09-05",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-08-test-state-b-work-004",
+          "title": "Work 4 — Road widening",
+          "category": "community",
+          "locality": "Locality 28",
+          "sanctionedCr": 0.29,
+          "spentCr": 0.22,
+          "status": "sanctioned",
+          "recommendedOn": "2024-05-18",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-08-test-state-b-work-005",
+          "title": "Work 5 — Bridge repair",
+          "category": "community",
+          "locality": "Locality 34",
+          "sanctionedCr": 1.57,
+          "spentCr": 1.16,
+          "status": "in_progress",
+          "recommendedOn": "2024-05-17",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-08-test-state-b-work-006",
+          "title": "Work 6 — Community hall",
+          "category": "education",
+          "locality": "Locality 15",
+          "sanctionedCr": 1.56,
+          "spentCr": 1.56,
+          "status": "completed",
+          "recommendedOn": "2025-05-06",
+          "completedOn": "2026-10-16"
+        },
+        {
+          "id": "test-region-08-test-state-b-work-007",
+          "title": "Work 7 — Footpath",
+          "category": "sanitation",
+          "locality": "Locality 26",
+          "sanctionedCr": 4.36,
+          "spentCr": 4.36,
+          "status": "completed",
+          "recommendedOn": "2024-11-08",
+          "completedOn": "2025-08-01"
+        }
+      ],
+      "bills": [],
+      "affidavit": {
+        "totalAssetsRs": 72830625,
+        "declaredCases": 0,
+        "education": "Post Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-09-test-state-b",
+      "name": "Test MP 09",
+      "party": "Test Party B",
+      "state": "Test State B",
+      "constituency": "Test Region 09",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Doctorate",
+        "profession": "Farmer",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 09",
+          "state": "Test State B",
+          "party": "Test Party C",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 92.1,
+        "debates": 65,
+        "questions": 80,
+        "privateBills": 4,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 61.9
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 55.3
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 43.5
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 83.4
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 85.1
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 23.36,
+        "spentCr": 11.43,
+        "utilisationPct": 48.9,
+        "unspentCr": 11.93,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 6.77,
+            "spentCr": 4.17
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 16.59,
+            "spentCr": 7.26
+          }
+        ]
+      },
+      "works": [],
+      "bills": [
+        {
+          "id": "test-region-09-test-state-b-bill-001",
+          "title": "The Environment (Amendment) Bill, 2026",
+          "introducedOn": "2026-08-18",
+          "type": "private_member",
+          "status": "withdrawn"
+        },
+        {
+          "id": "test-region-09-test-state-b-bill-002",
+          "title": "The Healthcare Access (Amendment) Bill, 2025",
+          "introducedOn": "2026-10-03",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-09-test-state-b-bill-003",
+          "title": "The Worker Welfare (Amendment) Bill, 2026",
+          "introducedOn": "2024-02-24",
+          "type": "private_member",
+          "status": "discussed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 56882758,
+        "declaredCases": 3,
+        "education": "Doctorate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-10-test-state-b",
+      "name": "Test MP 10",
+      "party": "Test Party A",
+      "state": "Test State B",
+      "constituency": "Test Region 10",
+      "reservation": "ST",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": null,
+        "profession": "Businessman",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 10",
+          "state": "Test State B",
+          "party": "Test Party C",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 97.1,
+        "debates": 45,
+        "questions": 159,
+        "privateBills": 1,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 45.2
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 92.7
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 57.2
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 57.3
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 99.8
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 19.92,
+        "spentCr": 4.92,
+        "utilisationPct": 24.7,
+        "unspentCr": 15,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 7.13,
+            "spentCr": 1.48
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 12.79,
+            "spentCr": 3.44
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-10-test-state-b-work-001",
+          "title": "Work 1 — Street lights",
+          "category": "education",
+          "locality": "Locality 38",
+          "sanctionedCr": 4.94,
+          "spentCr": 4.94,
+          "status": "completed",
+          "recommendedOn": "2024-07-13",
+          "completedOn": "2026-05-14"
+        },
+        {
+          "id": "test-region-10-test-state-b-work-002",
+          "title": "Work 2 — School renovation",
+          "category": "sanitation",
+          "locality": "Locality 41",
+          "sanctionedCr": 2.5,
+          "spentCr": 1.58,
+          "status": "sanctioned",
+          "recommendedOn": "2025-02-10",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-10-test-state-b-work-003",
+          "title": "Work 3 — Drainage",
+          "category": "community",
+          "locality": "Locality 14",
+          "sanctionedCr": 4.38,
+          "spentCr": 0.39,
+          "status": "recommended",
+          "recommendedOn": "2024-06-02",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-10-test-state-b-bill-001",
+          "title": "The Digital Rights (Amendment) Bill, 2024",
+          "introducedOn": "2025-07-15",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-10-test-state-b-bill-002",
+          "title": "The Healthcare Access (Amendment) Bill, 2024",
+          "introducedOn": "2024-10-23",
+          "type": "private_member",
+          "status": "withdrawn"
+        },
+        {
+          "id": "test-region-10-test-state-b-bill-003",
+          "title": "The Consumer Protection (Amendment) Bill, 2024",
+          "introducedOn": "2024-10-13",
+          "type": "private_member",
+          "status": "introduced"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 28959812,
+        "declaredCases": 2,
+        "education": "12th Pass",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-11-test-state-b",
+      "name": "Test MP 11",
+      "party": "Test Party C",
+      "state": "Test State B",
+      "constituency": "Test Region 11",
+      "reservation": "GEN",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Doctorate",
+        "profession": "Teacher",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 11",
+          "state": "Test State B",
+          "party": "Test Party C",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 84.5,
+        "debates": 69,
+        "questions": 109,
+        "privateBills": 1,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 43.6
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 70.4
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 77.3
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 56.7
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 98.1
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 24.53,
+        "spentCr": 17.74,
+        "utilisationPct": 72.3,
+        "unspentCr": 6.79,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 11.84,
+            "spentCr": 2.87
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 12.69,
+            "spentCr": 14.87
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-11-test-state-b-work-001",
+          "title": "Work 1 — Street lights",
+          "category": "other",
+          "locality": "Locality 39",
+          "sanctionedCr": 1.57,
+          "spentCr": 0.77,
+          "status": "recommended",
+          "recommendedOn": "2025-10-28",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-11-test-state-b-work-002",
+          "title": "Work 2 — Street lights",
+          "category": "other",
+          "locality": "Locality 19",
+          "sanctionedCr": 4.31,
+          "spentCr": 4.31,
+          "status": "completed",
+          "recommendedOn": "2025-01-11",
+          "completedOn": "2025-09-06"
+        },
+        {
+          "id": "test-region-11-test-state-b-work-003",
+          "title": "Work 3 — School renovation",
+          "category": "roads",
+          "locality": "Locality 8",
+          "sanctionedCr": 1.18,
+          "spentCr": 0.87,
+          "status": "in_progress",
+          "recommendedOn": "2024-12-28",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-11-test-state-b-work-004",
+          "title": "Work 4 — Park development",
+          "category": "water",
+          "locality": "Locality 17",
+          "sanctionedCr": 1.72,
+          "spentCr": 1.46,
+          "status": "sanctioned",
+          "recommendedOn": "2024-07-26",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-11-test-state-b-work-005",
+          "title": "Work 5 — Street lights",
+          "category": "community",
+          "locality": "Locality 13",
+          "sanctionedCr": 4.03,
+          "spentCr": 3.22,
+          "status": "in_progress",
+          "recommendedOn": "2024-05-07",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-11-test-state-b-work-006",
+          "title": "Work 6 — Drainage",
+          "category": "community",
+          "locality": "Locality 17",
+          "sanctionedCr": 0.87,
+          "spentCr": 0.87,
+          "status": "completed",
+          "recommendedOn": "2025-12-21",
+          "completedOn": "2025-03-15"
+        },
+        {
+          "id": "test-region-11-test-state-b-work-007",
+          "title": "Work 7 — Bridge repair",
+          "category": "roads",
+          "locality": "Locality 3",
+          "sanctionedCr": 2.06,
+          "spentCr": 2.06,
+          "status": "completed",
+          "recommendedOn": "2025-05-04",
+          "completedOn": "2026-11-06"
+        },
+        {
+          "id": "test-region-11-test-state-b-work-008",
+          "title": "Work 8 — School renovation",
+          "category": "other",
+          "locality": "Locality 45",
+          "sanctionedCr": 0.27,
+          "spentCr": 0.05,
+          "status": "recommended",
+          "recommendedOn": "2024-06-10",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-11-test-state-b-bill-001",
+          "title": "The Environment (Amendment) Bill, 2024",
+          "introducedOn": "2026-06-14",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-11-test-state-b-bill-002",
+          "title": "The Digital Rights (Amendment) Bill, 2024",
+          "introducedOn": "2026-07-19",
+          "type": "private_member",
+          "status": "introduced"
+        }
+      ],
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-12-test-state-b",
+      "name": "Test MP 12",
+      "party": "Test Party A",
+      "state": "Test State B",
+      "constituency": "Test Region 12",
+      "reservation": "ST",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Businessman",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 12",
+          "state": "Test State B",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 60.7,
+        "debates": 38,
+        "questions": 121,
+        "privateBills": 2,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 71.4
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 66.9
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 44.2
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 69.7
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 84.6
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 12,
+        "spentCr": 0.29,
+        "utilisationPct": 2.4,
+        "unspentCr": 11.71,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 6.97,
+            "spentCr": 1.57
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 5.03,
+            "spentCr": -1.28
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-12-test-state-b-work-001",
+          "title": "Work 1 — Street lights",
+          "category": "education",
+          "locality": "Locality 32",
+          "sanctionedCr": 4.4,
+          "spentCr": 4.4,
+          "status": "completed",
+          "recommendedOn": "2024-12-06",
+          "completedOn": "2026-10-15"
+        },
+        {
+          "id": "test-region-12-test-state-b-work-002",
+          "title": "Work 2 — Drainage",
+          "category": "water",
+          "locality": "Locality 25",
+          "sanctionedCr": 1.78,
+          "spentCr": 1.1,
+          "status": "in_progress",
+          "recommendedOn": "2024-05-13",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-12-test-state-b-work-003",
+          "title": "Work 3 — School renovation",
+          "category": "education",
+          "locality": "Locality 16",
+          "sanctionedCr": 2.53,
+          "spentCr": 0.81,
+          "status": "recommended",
+          "recommendedOn": "2024-10-02",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-12-test-state-b-work-004",
+          "title": "Work 4 — Community hall",
+          "category": "roads",
+          "locality": "Locality 29",
+          "sanctionedCr": 4.14,
+          "spentCr": 2.61,
+          "status": "sanctioned",
+          "recommendedOn": "2024-03-24",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-12-test-state-b-work-005",
+          "title": "Work 5 — Park development",
+          "category": "sanitation",
+          "locality": "Locality 25",
+          "sanctionedCr": 2.85,
+          "spentCr": 1.11,
+          "status": "recommended",
+          "recommendedOn": "2025-08-11",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-12-test-state-b-bill-001",
+          "title": "The Agricultural Support (Amendment) Bill, 2026",
+          "introducedOn": "2026-10-23",
+          "type": "private_member",
+          "status": "lapsed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 19112610,
+        "declaredCases": 0,
+        "education": "Graduate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-13-test-state-b",
+      "name": "Test MP 13",
+      "party": "Test Party B",
+      "state": "Test State B",
+      "constituency": "Test Region 13",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Post Graduate",
+        "profession": "Businessman",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 13",
+          "state": "Test State B",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 79.7,
+        "debates": 70,
+        "questions": 94,
+        "privateBills": 2,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 99.7
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 92.5
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 84
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 40.7
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 71.6
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 23.78,
+        "spentCr": 5.57,
+        "utilisationPct": 23.4,
+        "unspentCr": 18.21,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 5.75,
+            "spentCr": 0.31
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 18.03,
+            "spentCr": 5.26
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-13-test-state-b-work-001",
+          "title": "Work 1 — Street lights",
+          "category": "roads",
+          "locality": "Locality 47",
+          "sanctionedCr": 4.19,
+          "spentCr": 3.39,
+          "status": "sanctioned",
+          "recommendedOn": "2024-08-10",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-13-test-state-b-work-002",
+          "title": "Work 2 — Bridge repair",
+          "category": "education",
+          "locality": "Locality 10",
+          "sanctionedCr": 4,
+          "spentCr": 2.8,
+          "status": "sanctioned",
+          "recommendedOn": "2024-06-07",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-13-test-state-b-work-003",
+          "title": "Work 3 — Street lights",
+          "category": "other",
+          "locality": "Locality 32",
+          "sanctionedCr": 2.81,
+          "spentCr": 2.81,
+          "status": "completed",
+          "recommendedOn": "2025-04-05",
+          "completedOn": "2025-01-22"
+        },
+        {
+          "id": "test-region-13-test-state-b-work-004",
+          "title": "Work 4 — School renovation",
+          "category": "health",
+          "locality": "Locality 23",
+          "sanctionedCr": 0.32,
+          "spentCr": 0.02,
+          "status": "recommended",
+          "recommendedOn": "2024-09-27",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-13-test-state-b-work-005",
+          "title": "Work 5 — Road widening",
+          "category": "other",
+          "locality": "Locality 29",
+          "sanctionedCr": 2.41,
+          "spentCr": 0.87,
+          "status": "sanctioned",
+          "recommendedOn": "2024-02-03",
+          "completedOn": null
+        }
+      ],
+      "bills": [],
+      "affidavit": {
+        "totalAssetsRs": 19440746,
+        "declaredCases": 2,
+        "education": "12th Pass",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-14-test-state-b",
+      "name": "Test MP 14",
+      "party": "Test Party C",
+      "state": "Test State B",
+      "constituency": "Test Region 14",
+      "reservation": "GEN",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Social Worker",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 14",
+          "state": "Test State B",
+          "party": "Test Party A",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 0,
+        "debates": 13,
+        "questions": 133,
+        "privateBills": 5,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 64.3
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 44
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 46.1
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 98
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 75
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 24.99,
+        "spentCr": 11.55,
+        "utilisationPct": 46.2,
+        "unspentCr": 13.44,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 7.95,
+            "spentCr": 3.29
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 17.04,
+            "spentCr": 8.26
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-14-test-state-b-work-001",
+          "title": "Work 1 — Water supply",
+          "category": "other",
+          "locality": "Locality 47",
+          "sanctionedCr": 3.38,
+          "spentCr": 3.38,
+          "status": "completed",
+          "recommendedOn": "2025-06-08",
+          "completedOn": "2026-03-06"
+        },
+        {
+          "id": "test-region-14-test-state-b-work-002",
+          "title": "Work 2 — Footpath",
+          "category": "water",
+          "locality": "Locality 46",
+          "sanctionedCr": 4.64,
+          "spentCr": 1.67,
+          "status": "in_progress",
+          "recommendedOn": "2024-05-12",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-14-test-state-b-bill-001",
+          "title": "The Digital Rights (Amendment) Bill, 2026",
+          "introducedOn": "2026-06-02",
+          "type": "private_member",
+          "status": "introduced"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 9864696,
+        "declaredCases": 3,
+        "education": "Doctorate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-15-test-state-b",
+      "name": "Test MP 15",
+      "party": "Test Party C",
+      "state": "Test State B",
+      "constituency": "Test Region 15",
+      "reservation": "SC",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "Graduate",
+        "profession": "Social Worker",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 15",
+          "state": "Test State B",
+          "party": "Test Party B",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 82,
+        "debates": 59,
+        "questions": 265,
+        "privateBills": 1,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 87.9
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 65.8
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 70.7
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 98.1
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 87
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 18.44,
+        "spentCr": 3.5,
+        "utilisationPct": 19,
+        "unspentCr": 14.94,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 8.16,
+            "spentCr": 1.29
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 10.28,
+            "spentCr": 2.21
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-15-test-state-b-work-001",
+          "title": "Work 1 — Footpath",
+          "category": "water",
+          "locality": "Locality 9",
+          "sanctionedCr": 2.88,
+          "spentCr": 2.88,
+          "status": "completed",
+          "recommendedOn": "2025-07-03",
+          "completedOn": "2025-07-05"
+        },
+        {
+          "id": "test-region-15-test-state-b-work-002",
+          "title": "Work 2 — Drainage",
+          "category": "education",
+          "locality": "Locality 24",
+          "sanctionedCr": 4.81,
+          "spentCr": 4.81,
+          "status": "completed",
+          "recommendedOn": "2024-04-08",
+          "completedOn": "2025-02-28"
+        },
+        {
+          "id": "test-region-15-test-state-b-work-003",
+          "title": "Work 3 — Water supply",
+          "category": "other",
+          "locality": "Locality 22",
+          "sanctionedCr": 2.41,
+          "spentCr": 0.17,
+          "status": "recommended",
+          "recommendedOn": "2025-08-27",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-15-test-state-b-work-004",
+          "title": "Work 4 — Community hall",
+          "category": "roads",
+          "locality": "Locality 15",
+          "sanctionedCr": 3.75,
+          "spentCr": 1.95,
+          "status": "sanctioned",
+          "recommendedOn": "2024-12-22",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-15-test-state-b-work-005",
+          "title": "Work 5 — School renovation",
+          "category": "education",
+          "locality": "Locality 29",
+          "sanctionedCr": 2.59,
+          "spentCr": 2.59,
+          "status": "completed",
+          "recommendedOn": "2025-03-27",
+          "completedOn": "2026-01-10"
+        },
+        {
+          "id": "test-region-15-test-state-b-work-006",
+          "title": "Work 6 — School renovation",
+          "category": "roads",
+          "locality": "Locality 41",
+          "sanctionedCr": 2.75,
+          "spentCr": 2.75,
+          "status": "completed",
+          "recommendedOn": "2025-10-06",
+          "completedOn": "2025-04-06"
+        },
+        {
+          "id": "test-region-15-test-state-b-work-007",
+          "title": "Work 7 — Health centre",
+          "category": "roads",
+          "locality": "Locality 10",
+          "sanctionedCr": 4.97,
+          "spentCr": 0.45,
+          "status": "sanctioned",
+          "recommendedOn": "2024-03-28",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-15-test-state-b-work-008",
+          "title": "Work 8 — School renovation",
+          "category": "other",
+          "locality": "Locality 27",
+          "sanctionedCr": 1.67,
+          "spentCr": 1.15,
+          "status": "sanctioned",
+          "recommendedOn": "2025-02-25",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-15-test-state-b-work-009",
+          "title": "Work 9 — Street lights",
+          "category": "roads",
+          "locality": "Locality 5",
+          "sanctionedCr": 0.85,
+          "spentCr": 0.64,
+          "status": "in_progress",
+          "recommendedOn": "2024-12-20",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-15-test-state-b-bill-001",
+          "title": "The Worker Welfare (Amendment) Bill, 2024",
+          "introducedOn": "2024-02-24",
+          "type": "private_member",
+          "status": "discussed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 30771197,
+        "declaredCases": 2,
+        "education": "Doctorate",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "slug": "test-region-16-test-state-c",
+      "name": "Test MP 16",
+      "party": "Test Party B",
+      "state": "Test State C",
+      "constituency": "Test Region 16",
+      "reservation": "GEN",
+      "term": "18th Lok Sabha",
+      "isMinister": false,
+      "isTest": true,
+      "profile": {
+        "education": "12th Pass",
+        "profession": "Lawyer",
+        "photoUrl": null
+      },
+      "history": [
+        {
+          "lokSabha": "18th Lok Sabha",
+          "constituency": "Test Region 16",
+          "state": "Test State C",
+          "party": "Test Party C",
+          "fromYear": 2024,
+          "toYear": null,
+          "attendancePct": null,
+          "debates": null,
+          "questions": null,
+          "privateBills": null
+        }
+      ],
+      "performance": {
+        "attendancePct": 100,
+        "debates": 57,
+        "questions": 6,
+        "privateBills": 1,
+        "asOf": "2026-10-31",
+        "attendanceBySession": [
+          {
+            "session": "Budget Session 2024",
+            "pct": 68.7
+          },
+          {
+            "session": "Monsoon Session 2024",
+            "pct": 81.5
+          },
+          {
+            "session": "Winter Session 2024",
+            "pct": 45.5
+          },
+          {
+            "session": "Budget Session 2025",
+            "pct": 92.5
+          },
+          {
+            "session": "Monsoon Session 2025",
+            "pct": 76.3
+          }
+        ]
+      },
+      "mplads": {
+        "entitlementCr": 25,
+        "releasedCr": 21.58,
+        "spentCr": 12.85,
+        "utilisationPct": 59.5,
+        "unspentCr": 8.73,
+        "asOf": "2026-03-31",
+        "byYear": [
+          {
+            "fy": "2024-25",
+            "releasedCr": 8.77,
+            "spentCr": 8.27
+          },
+          {
+            "fy": "2025-26",
+            "releasedCr": 12.81,
+            "spentCr": 4.58
+          }
+        ]
+      },
+      "works": [
+        {
+          "id": "test-region-16-test-state-c-work-001",
+          "title": "Work 1 — Footpath",
+          "category": "other",
+          "locality": "Locality 26",
+          "sanctionedCr": 3.68,
+          "spentCr": 0.4,
+          "status": "recommended",
+          "recommendedOn": "2024-11-24",
+          "completedOn": null
+        },
+        {
+          "id": "test-region-16-test-state-c-work-002",
+          "title": "Work 2 — Community hall",
+          "category": "water",
+          "locality": "Locality 34",
+          "sanctionedCr": 0.46,
+          "spentCr": 0.41,
+          "status": "recommended",
+          "recommendedOn": "2024-05-06",
+          "completedOn": null
+        }
+      ],
+      "bills": [
+        {
+          "id": "test-region-16-test-state-c-bill-001",
+          "title": "The Healthcare Access (Amendment) Bill, 2024",
+          "introducedOn": "2026-05-09",
+          "type": "private_member",
+          "status": "lapsed"
+        },
+        {
+          "id": "test-region-16-test-state-c-bill-002",
+          "title": "The Healthcare Access (Amendment) Bill, 2025",
+          "introducedOn": "2026-03-24",
+          "type": "private_member",
+          "status": "other"
+        },
+        {
+          "id": "test-region-16-test-state-c-bill-003",
+          "title": "The Worker Welfare (Amendment) Bill, 2024",
+          "introducedOn": "2026-11-15",
+          "type": "private_member",
+          "status": "withdrawn"
+        },
+        {
+          "id": "test-region-16-test-state-c-bill-004",
+          "title": "The Education Access (Amendment) Bill, 2024",
+          "introducedOn": "2026-12-01",
+          "type": "private_member",
+          "status": "lapsed"
+        }
+      ],
+      "affidavit": {
+        "totalAssetsRs": 61680673,
+        "declaredCases": 2,
+        "education": "12th Pass",
+        "electionYear": 2024
+      },
+      "sources": [
+        {
+          "name": "Test Data Generator",
+          "url": "https://example.com/test-data",
+          "retrievedAt": "2026-10-31"
+        }
+      ]
+    }
+  ],
+  "nationalAverages": {
+    "attendancePct": {
+      "value": 76.2,
+      "n": 15
+    },
+    "debates": {
+      "value": 41.2,
+      "n": 15
+    },
+    "questions": {
+      "value": 140.6,
+      "n": 15
+    },
+    "privateBills": {
+      "value": 1.9,
+      "n": 15
+    }
+  },
+  "stateAverages": {
+    "Test State A": {
+      "attendancePct": {
+        "value": 80,
+        "n": 6
+      },
+      "debates": {
+        "value": 28,
+        "n": 6
+      },
+      "questions": {
+        "value": 154,
+        "n": 6
+      },
+      "privateBills": {
+        "value": 2,
+        "n": 6
+      }
+    },
+    "Test State B": {
+      "attendancePct": {
+        "value": 70.4,
+        "n": 8
+      },
+      "debates": {
+        "value": 49.1,
+        "n": 8
+      },
+      "questions": {
+        "value": 147.4,
+        "n": 8
+      },
+      "privateBills": {
+        "value": 2,
+        "n": 8
+      }
+    },
+    "Test State C": {
+      "attendancePct": {
+        "value": 100,
+        "n": 1
+      },
+      "debates": {
+        "value": 57,
+        "n": 1
+      },
+      "questions": {
+        "value": 6,
+        "n": 1
+      },
+      "privateBills": {
+        "value": 1,
+        "n": 1
+      }
+    }
+  }
+}

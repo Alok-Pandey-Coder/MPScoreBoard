@@ -1,0 +1,199 @@
+[
+  {
+    "slug": "chandni-chowk-delhi",
+    "name": "Praveen Khandelwal",
+    "constituency": "Chandni Chowk",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "east-delhi-delhi",
+    "name": "Harsh Malhotra",
+    "constituency": "East Delhi",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "new-delhi-delhi",
+    "name": "Bansuri Swaraj",
+    "constituency": "New Delhi",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "north-east-delhi-delhi",
+    "name": "Manoj Kumar Tiwari",
+    "constituency": "North East Delhi",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "north-west-delhi-delhi",
+    "name": "Yogender Chandolia",
+    "constituency": "North West Delhi (SC)",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "south-delhi-delhi",
+    "name": "Ramvir Singh Bidhuri",
+    "constituency": "South Delhi",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  },
+  {
+    "slug": "west-delhi-delhi",
+    "name": "Kamaljeet Sehrawat",
+    "constituency": "West Delhi",
+    "mplads": {
+      "entitlement_cr": 5.0,
+      "funds_released_cr": null,
+      "expenditure_cr": null,
+      "utilisation_pct": null,
+      "unspent_balance_cr": null,
+      "works_recommended": null,
+      "works_sanctioned": null,
+      "works_completed": null,
+      "as_of": "2026-10-31",
+      "source_name": "Empowered Indian / MoSPI",
+      "source_url": "https://empoweredindian.in/mplads"
+    },
+    "election": {
+      "election_year": 2024,
+      "winning_votes": null,
+      "runner_up_name": null,
+      "runner_up_party": null,
+      "runner_up_votes": null,
+      "margin_votes": null,
+      "source_name": "Election Commission of India",
+      "source_url": "https://results.eci.gov.in"
+    }
+  }
+]
+

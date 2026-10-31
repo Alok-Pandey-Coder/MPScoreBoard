@@ -1,11 +1,15 @@
-"""Merge normalized Delhi records into the application export."""
+"""Merge normalized Delhi records, affidavits, and custom enrichments into the application export."""
 
+import csv
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data" / "processed" / "normalised.delhi.json"
 OUTPUT = ROOT / "data" / "processed" / "mps.json"
+AFFIDAVIT_FILE = ROOT / "data" / "reference_packs" / "officials_enriched_pack" / "data" / "mp_affidavit_enrichment.csv"
+CUSTOM_ENRICHMENT_FILE = ROOT / "data" / "raw" / "delhi_7mp_custom_enrichment.json"
+
 TERM = "18th Lok Sabha"
 METRICS = ("attendance_pct", "debates", "questions", "private_member_bills")
 
@@ -38,8 +42,116 @@ def performance_block(prs: dict | None) -> dict:
     }
 
 
+def load_affidavits() -> dict[str, dict]:
+    """Load pre-enriched affidavit records indexed by lowercase constituency name."""
+    if not AFFIDAVIT_FILE.exists():
+        return {}
+    with open(AFFIDAVIT_FILE, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return {r["constituency"].strip().lower(): r for r in reader}
+
+
+def load_custom_enrichment() -> dict[str, dict]:
+    """Load user-supplied 7 MP custom enrichment file if available."""
+    if not CUSTOM_ENRICHMENT_FILE.exists():
+        return {}
+    try:
+        data = json.loads(CUSTOM_ENRICHMENT_FILE.read_text(encoding="utf-8"))
+        return {item["slug"]: item for item in data if "slug" in item}
+    except Exception:
+        return {}
+
+
+def affidavit_block(aff: dict | None) -> dict:
+    if not aff:
+        return pending_block(("election_year", "assets", "liabilities", "declared_criminal_cases", "education"))
+
+    total_assets = int(round(float(aff["declared_total_assets_inr"]))) if aff.get("declared_total_assets_inr") else None
+    liabilities = int(round(float(aff["declared_liabilities_inr"]))) if aff.get("declared_liabilities_inr") else 0
+    cases = int(aff["declared_criminal_case_count"]) if aff.get("declared_criminal_case_count") not in (None, "") else 0
+    edu = aff.get("education_detail_as_declared") or aff.get("education_category_as_declared")
+
+    return {
+        "status": "reported",
+        "election_year": int(aff.get("election_year") or 2024),
+        "assets": total_assets,
+        "liabilities": liabilities,
+        "declared_criminal_cases": cases,
+        "education": edu,
+        "as_of": aff.get("retrieved_on") or "2026-10-31",
+        "source": {
+            "name": "Association for Democratic Reforms (ADR) / MyNeta",
+            "url": aff.get("myneta_profile_url"),
+            "retrieved_at": aff.get("retrieved_on") or "2026-10-31",
+            "candidate_id": int(aff["myneta_candidate_id"]) if aff.get("myneta_candidate_id") else None,
+            "adr_report_url": aff.get("adr_2024_candidate_report_source"),
+            "adr_pdf_page": int(aff["adr_asset_pdf_page"]) if aff.get("adr_asset_pdf_page") else None,
+        },
+        "review_status": "cross_checked",
+    }
+
+
+def mplads_block(custom: dict | None) -> dict:
+    if not custom or not custom.get("mplads"):
+        return pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works"))
+    m = custom["mplads"]
+    has_data = any(m.get(k) is not None for k in ("funds_released_cr", "expenditure_cr", "utilisation_pct"))
+    if not has_data:
+        return pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works"))
+    return {
+        "status": "reported",
+        "entitlement": m.get("entitlement_cr"),
+        "funds_released": m.get("funds_released_cr"),
+        "expenditure": m.get("expenditure_cr"),
+        "utilisation_pct": m.get("utilisation_pct"),
+        "unspent_balance": m.get("unspent_balance_cr"),
+        "works": {
+            "recommended": m.get("works_recommended"),
+            "sanctioned": m.get("works_sanctioned"),
+            "completed": m.get("works_completed"),
+        },
+        "as_of": m.get("as_of"),
+        "source": {
+            "name": m.get("source_name") or "Empowered Indian / MoSPI",
+            "url": m.get("source_url") or "https://empoweredindian.in/mplads",
+            "retrieved_at": m.get("as_of"),
+        },
+        "review_status": "user_verified",
+    }
+
+
+def election_block(custom: dict | None) -> dict:
+    if not custom or not custom.get("election"):
+        return pending_block(("election_year", "votes", "runner_up", "margin"))
+    e = custom["election"]
+    has_data = any(e.get(k) is not None for k in ("winning_votes", "margin_votes", "runner_up_name"))
+    if not has_data:
+        return pending_block(("election_year", "votes", "runner_up", "margin"))
+    return {
+        "status": "reported",
+        "election_year": e.get("election_year") or 2024,
+        "votes": e.get("winning_votes"),
+        "runner_up": {
+            "name": e.get("runner_up_name"),
+            "party": e.get("runner_up_party"),
+            "votes": e.get("runner_up_votes"),
+        } if e.get("runner_up_name") else None,
+        "margin": e.get("margin_votes"),
+        "as_of": "2024-06-04",
+        "source": {
+            "name": e.get("source_name") or "Election Commission of India",
+            "url": e.get("source_url") or "https://results.eci.gov.in",
+            "retrieved_at": "2026-10-31",
+        },
+        "review_status": "user_verified",
+    }
+
+
 def main() -> None:
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
+    affidavits = load_affidavits()
+    custom_enrichments = load_custom_enrichment()
+
     records = []
     for row in source["records"]:
         prs = row["prs"]
@@ -48,6 +160,47 @@ def main() -> None:
         prs_source = performance_block(prs)["source"]
         suffix_reservation = "SC" if row["constituency"].endswith("(SC)") else "ST" if row["constituency"].endswith("(ST)") else "GEN"
         agreed = prs and sansad and not any("mismatch" in note for note in row["normalisation_notes"])
+
+        # Match affidavit on exact seat name (case-insensitive)
+        seat_key = row["constituency"].strip().lower()
+        aff = affidavits.get(seat_key)
+        custom = custom_enrichments.get(row["slug"])
+
+        aff_block = affidavit_block(aff)
+        mpl_block = mplads_block(custom)
+        elec_block = election_block(custom)
+
+        sources = [
+            {"name": identity_source["name"], "url": identity_source["url"], "retrieved_at": identity_source["retrieved_at"]},
+            *(
+                [{"name": "Lok Sabha, Digital Sansad", "url": sansad["url"], "retrieved_at": sansad["retrieved_at"]}]
+                if sansad
+                else []
+            ),
+            *([{key: prs_source[key] for key in ("name", "url", "retrieved_at", "licence")}] if prs else []),
+        ]
+
+        if aff_block["status"] == "reported" and aff_block["source"]:
+            sources.append({
+                "name": aff_block["source"]["name"],
+                "url": aff_block["source"]["url"],
+                "retrieved_at": aff_block["source"]["retrieved_at"],
+            })
+
+        if mpl_block["status"] == "reported" and mpl_block["source"]:
+            sources.append({
+                "name": mpl_block["source"]["name"],
+                "url": mpl_block["source"]["url"],
+                "retrieved_at": mpl_block["source"]["retrieved_at"],
+            })
+
+        if elec_block["status"] == "reported" and elec_block["source"]:
+            sources.append({
+                "name": elec_block["source"]["name"],
+                "url": elec_block["source"]["url"],
+                "retrieved_at": elec_block["source"]["retrieved_at"],
+            })
+
         records.append(
             {
                 "slug": row["slug"],
@@ -75,23 +228,16 @@ def main() -> None:
                     "source": prs_source,
                 },
                 "performance": performance_block(prs),
-                "mplads": pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works")),
-                "affidavit": pending_block(("election_year", "assets", "liabilities", "declared_criminal_cases", "education")),
-                "election": pending_block(("election_year", "votes", "runner_up", "margin")),
-                "sources": [
-                    {"name": identity_source["name"], "url": identity_source["url"], "retrieved_at": identity_source["retrieved_at"]},
-                    *(
-                        [{"name": "Lok Sabha, Digital Sansad", "url": sansad["url"], "retrieved_at": sansad["retrieved_at"]}]
-                        if sansad
-                        else []
-                    ),
-                    *([{key: prs_source[key] for key in ("name", "url", "retrieved_at", "licence")}] if prs else []),
-                ],
+                "mplads": mpl_block,
+                "affidavit": aff_block,
+                "election": elec_block,
+                "sources": sources,
                 "normalisation_notes": row["normalisation_notes"],
             }
         )
+
     OUTPUT.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"merged {len(records)} records -> {OUTPUT}")
+    print(f"merged {len(records)} records (with affidavits) -> {OUTPUT}")
 
 
 if __name__ == "__main__":

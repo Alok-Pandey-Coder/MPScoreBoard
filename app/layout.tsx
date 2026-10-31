@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
+import "./globals.css";
+import ThemeToggle from "./theme-toggle";
+import PWARegister from "./pwa-register";
 
 export const metadata: Metadata = {
-  title: "Mera MP Delhi - API Test Harness",
-  description: "Test harness for Delhi Lok Sabha MP Performance and Location APIs",
+  title: "Mera MP — Delhi report cards",
+  description: "Neutral, source-backed report cards for Delhi Lok Sabha MPs.",
+  openGraph: {
+    title: "Mera MP — Delhi report cards",
+    description: "Neutral, source-backed report cards for Delhi Lok Sabha MPs.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -10,6 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isTestData = process.env.MP_DATA_MODE === "test";
   return (
     <html lang="en">
       <head>
@@ -54,7 +63,26 @@ export default function RootLayout({
           }
         `}</style>
       </head>
-      <body style={{ margin: 0, padding: 0, fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      <body>
+        <PWARegister />
+        {isTestData && (
+          <div
+            role="status"
+            style={{
+              background: "#fff3d4",
+              color: "#805b00",
+              fontSize: ".8rem",
+              fontWeight: 700,
+              padding: "8px 16px",
+              textAlign: "center",
+            }}
+          >
+            TEST DATA — fictional records for development only
+          </div>
+        )}
+        <div style={{ position: "fixed", right: 16, bottom: 16, zIndex: 10 }}>
+          <ThemeToggle />
+        </div>
         {children}
       </body>
     </html>
