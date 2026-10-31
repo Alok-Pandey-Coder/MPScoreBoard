@@ -9,6 +9,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        editorial: {
+          bg: '#0C1017',
+          surface: '#131923',
+          card: '#18202E',
+          cardHover: '#1E2838',
+          border: '#232D3E',
+          borderSubtle: '#1C2433',
+          muted: '#8C98A9',
+          lightMuted: '#6B7280',
+          accent: '#E6A23C',
+          brass: '#F59E0B',
+          amberDark: '#B45309',
+          parliament: '#3B82F6',
+          ink: '#0F172A',
+        },
         civic: {
           50: '#f8fafc',
           100: '#f1f5f9',
@@ -22,24 +37,24 @@ module.exports = {
           900: '#0f172a',
           950: '#020617',
         },
-        brand: {
-          blue: '#2563eb',
-          indigo: '#4f46e5',
-          dark: '#090d16',
-          darkCard: '#111827',
-          darkBorder: '#1f2937',
-        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
         display: ['Outfit', 'Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+      },
+      letterSpacing: {
+        tighter: '-0.04em',
+        tight: '-0.02em',
+        editorial: '0.04em',
       },
       boxShadow: {
-        'glow-blue': '0 0 25px -5px rgba(59, 130, 246, 0.3)',
-        'glow-dark': '0 0 35px -10px rgba(0, 0, 0, 0.7)',
+        subtle: '0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 2px -1px rgba(0, 0, 0, 0.2)',
+        card: '0 4px 20px -2px rgba(0, 0, 0, 0.35)',
+        elevated: '0 10px 30px -4px rgba(0, 0, 0, 0.5)',
       },
     },
   },
   plugins: [],
 };
-
