@@ -75,6 +75,25 @@ This file records key data changes, pipeline updates, schema modifications, and 
 
 ---
 
+## 2026-10-31 — Delhi MPLADS Block Completed (7/7 MPs) via Empowered Indian API
+
+- **Summary:** Discovered, inspected, and queried the live Empowered Indian backend API (`https://api.empoweredindian.in/api`). Captured complete MPLADS financial figures and project records for all 7 Delhi Lok Sabha MPs. Merged into `data/processed/mps.json` and synced to frontend. Delhi MVP foundation is now 100% complete across all 6 blocks.
+- **Files or areas changed:**
+  - `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` — NEW: Immutable raw capture containing allocated limit, expenditure, unspent balance, works recommended, and works completed for all 7 Delhi MPs.
+  - `scripts/fetch_empowered_delhi.py` — NEW: API extraction script querying `/mplads/search` and `/mplads/mps/<id>`.
+  - `data/raw/delhi_7mp_custom_enrichment.json` — Updated: populated with exact allocated, expenditure, unspent, and works counts.
+  - `scripts/06_merge.py` — Updated: added fallback field mapping for `as_of_date` and `annual_entitlement_cr`.
+  - `data/processed/mps.json` — All 7 MPs now show `mplads: reported: 7`.
+  - `frontend/src/data/mps.json` — Synced to frontend.
+  - `data.md` — Updated: Table 2.1 and 2.3 now reflect MPLADS as 100% complete.
+- **Validation performed:**
+  - Executed `python scripts/build_data.py`. Validation report shows: 0 hard errors, 0 warnings.
+  - Block status: `performance: 7/7`, `affidavit: 7/7`, `election: 7/7`, `mplads: 7/7`.
+- **Remaining caveat or next step:**
+  - All Delhi MVP blocks are 100% complete. Scale to national election/affidavit datasets as needed.
+
+---
+
 ## 2026-10-31 — All-India Normalisation Completed (544 MPs, 100% PRS Match) & Main Sync
 
 - **Summary:** Built `scripts/05_normalise_india.py` to match the 544 Digital Sansad members with 553 PRS directory entries across all 36 States/UTs. Achieved 100.0% match rate using constituency alias dictionary. Exported canonical `mps.india.json` and `validation_report_india.md`. Synced canonical Delhi `mps.json` to `frontend/src/data/mps.json`. Merged `data-india-sansad-masterlist` into `main`.

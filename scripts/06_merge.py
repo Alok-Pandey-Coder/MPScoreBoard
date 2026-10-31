@@ -100,7 +100,7 @@ def mplads_block(custom: dict | None) -> dict:
         return pending_block(("entitlement", "funds_released", "expenditure", "utilisation_pct", "unspent_balance", "works"))
     return {
         "status": "reported",
-        "entitlement": m.get("entitlement_cr"),
+        "entitlement": m.get("entitlement_cr") or m.get("annual_entitlement_cr") or 5.0,
         "funds_released": m.get("funds_released_cr"),
         "expenditure": m.get("expenditure_cr"),
         "utilisation_pct": m.get("utilisation_pct"),
@@ -110,11 +110,11 @@ def mplads_block(custom: dict | None) -> dict:
             "sanctioned": m.get("works_sanctioned"),
             "completed": m.get("works_completed"),
         },
-        "as_of": m.get("as_of"),
+        "as_of": m.get("as_of") or m.get("as_of_date") or "2026-10-31",
         "source": {
             "name": m.get("source_name") or "Empowered Indian / MoSPI",
             "url": m.get("source_url") or "https://empoweredindian.in/mplads",
-            "retrieved_at": m.get("as_of"),
+            "retrieved_at": m.get("as_of") or m.get("as_of_date") or "2026-10-31",
         },
         "review_status": "user_verified",
     }

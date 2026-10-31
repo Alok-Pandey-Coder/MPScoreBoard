@@ -32,6 +32,7 @@ d:\MPScoreBoard\data\
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
 │   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
 │   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
+│   ├── mplads.delhi.empoweredindian.2026-10-31.json # Empowered Indian MPLADS API raw capture (7 Delhi MPs)
 │   └── delhi_7mp_custom_enrichment.json # User intake: election results + MPLADS (7 Delhi MPs)
 │
 └── reference_packs/                     # EXTERNAL & CIVIC PACKS (MCD, MLAs & Affidavits)
@@ -57,7 +58,7 @@ d:\MPScoreBoard\data\
 | **2. Profile** | PRS Legislative Research | Per MP: Age, gender, education, term number, source provenance | **100% Complete** |
 | **3. Performance** | PRS Legislative Research | Per MP: Attendance %, debates, questions, private member bills, state/national averages | **100% Complete** (6 reported, 1 minister `not_applicable`) |
 | **4. Affidavit** | ADR / MyNeta / ECI | Per MP: Declared criminal cases, total assets, liabilities, education, original citation | **100% Complete** (7/7 reported & cross-checked) |
-| **5. MPLADS** | Empowered Indian / MoSPI | Per MP: Entitlement, released, expenditure, utilisation %, works counts, as-of date | **Pending Intake** (via user file / API) |
+| **5. MPLADS** | Empowered Indian / MoSPI | Per MP: Entitlement, released, expenditure, utilisation %, works counts, as-of date | **100% Complete** (7/7 reported via Empowered Indian / e-SAKSHI) |
 | **6. Election** | Election Commission of India | Per MP: 2024 winning votes, runner-up name/party/votes, margin | **100% Complete** (7/7 reported via ECI 2024 results) |
 
 ### 2.2 Field-by-Field Technical Specifications
@@ -149,13 +150,13 @@ interface MPRecord {
 
 | Constituency Slug | MP Name | Party | Minister | Performance Attendance | Debates | Questions | Bills | Affidavit (Cases / Assets) | MPLADS | Election |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | Pending | **Reported** (516,496 votes, margin 89,325) |
-| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | Pending | **Reported** (664,819 votes, margin 93,663) |
-| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | Pending | **Reported** (453,185 votes, margin 78,370) |
-| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | Pending | **Reported** (824,451 votes, margin 138,778) |
-| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | Pending | **Reported** (866,483 votes, margin 290,849) |
-| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | Pending | **Reported** (692,773 votes, margin 124,333) |
-| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | Pending | **Reported** (842,658 votes, margin 199,013) |
+| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | **Reported** (₹2.65 Cr exp / ₹12.10 Cr unspent) | **Reported** (516,496 votes, margin 89,325) |
+| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | **Reported** (₹2.44 Cr exp / ₹12.27 Cr unspent) | **Reported** (664,819 votes, margin 93,663) |
+| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | **Reported** (₹2.18 Cr exp / ₹13.25 Cr unspent) | **Reported** (453,185 votes, margin 78,370) |
+| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | **Reported** (₹2.97 Cr exp / ₹19.61 Cr unspent) | **Reported** (824,451 votes, margin 138,778) |
+| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | **Reported** (₹1.25 Cr exp / ₹13.54 Cr unspent) | **Reported** (866,483 votes, margin 290,849) |
+| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | **Reported** (₹2.88 Cr exp / ₹11.87 Cr unspent) | **Reported** (692,773 votes, margin 124,333) |
+| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | **Reported** (₹1.31 Cr exp / ₹13.39 Cr unspent) | **Reported** (842,658 votes, margin 199,013) |
 
 ---
 

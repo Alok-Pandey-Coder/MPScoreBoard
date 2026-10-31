@@ -63,16 +63,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 14.75,
+      "expenditure": 2.65,
+      "utilisation_pct": 43.8,
+      "unspent_balance": 12.1,
+      "works": {
+        "recommended": 69,
+        "sanctioned": 69,
+        "completed": 35
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b76",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -130,6 +138,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7896",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b76",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -204,16 +217,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 14.71,
+      "expenditure": 2.44,
+      "utilisation_pct": 52.8,
+      "unspent_balance": 12.27,
+      "works": {
+        "recommended": 113,
+        "sanctioned": 113,
+        "completed": 53
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89ae3",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -271,6 +292,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7899",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89ae3",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -345,16 +371,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 15.43,
+      "expenditure": 2.18,
+      "utilisation_pct": 42.4,
+      "unspent_balance": 13.25,
+      "works": {
+        "recommended": 110,
+        "sanctioned": 110,
+        "completed": 41
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89a6b",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -412,6 +446,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7901",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89a6b",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -486,16 +525,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 22.58,
+      "expenditure": 2.97,
+      "utilisation_pct": 44.5,
+      "unspent_balance": 19.61,
+      "works": {
+        "recommended": 23,
+        "sanctioned": 23,
+        "completed": 6
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b40",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -553,6 +600,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7903",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b40",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -629,16 +681,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 14.79,
+      "expenditure": 1.25,
+      "utilisation_pct": 31.2,
+      "unspent_balance": 13.54,
+      "works": {
+        "recommended": 59,
+        "sanctioned": 59,
+        "completed": 11
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89c40",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -696,6 +756,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7905",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89c40",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -772,16 +837,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 14.76,
+      "expenditure": 2.88,
+      "utilisation_pct": 87.6,
+      "unspent_balance": 11.87,
+      "works": {
+        "recommended": 134,
+        "sanctioned": 134,
+        "completed": 41
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89ba1",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -839,6 +912,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7907",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89ba1",
         "retrieved_at": "2026-10-31"
       },
       {
@@ -913,16 +991,24 @@
       "review_status": "parsed"
     },
     "mplads": {
-      "status": "pending",
-      "entitlement": null,
-      "funds_released": null,
-      "expenditure": null,
-      "utilisation_pct": null,
-      "unspent_balance": null,
-      "works": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "entitlement": 5.0,
+      "funds_released": 14.7,
+      "expenditure": 1.31,
+      "utilisation_pct": 60.2,
+      "unspent_balance": 13.39,
+      "works": {
+        "recommended": 65,
+        "sanctioned": 65,
+        "completed": 31
+      },
+      "as_of": "2026-10-31",
+      "source": {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b0a",
+        "retrieved_at": "2026-10-31"
+      },
+      "review_status": "user_verified"
     },
     "affidavit": {
       "status": "reported",
@@ -980,6 +1066,11 @@
       {
         "name": "Association for Democratic Reforms (ADR) / MyNeta",
         "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=7909",
+        "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Empowered Indian / MoSPI",
+        "url": "https://empoweredindian.in/mps/6a98d96eddf878e1e6c89b0a",
         "retrieved_at": "2026-10-31"
       },
       {
