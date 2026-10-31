@@ -1,5 +1,23 @@
 # Project Change Log
 
+## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
+
+- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
+  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
+  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
+  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
+  4. Displayed bold white constituency numbers with dark outline on every block polygon.
+  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
+  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
+- **Files/Areas Changed**:
+  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
+  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
+  - `package.json`: Added `leaflet` and `@types/leaflet`.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
+
+
 ## 2026-10-31 — Complete Next.js App Router Migration & Unified Runtime
 
 - **Summary**: Fully migrated the entire "Mera MP, Mera Report Card" interactive platform (Nagrik Dark Civic Atlas, MapLibre GL geospatial map, MP report cards, comparisons, and search) into a single, unified Next.js (App Router, Next.js 16 + React 19) full-stack application. Both the frontend UI and backend API routes now run simultaneously on port 3000 in Next.js without needing separate Vite or Node servers. Fixed dark/light theme switching with synchronization between `<html class="dark">`, CSS colorScheme, and localStorage.
@@ -120,7 +138,25 @@
 - **Remaining Caveats / Next Steps**:
   - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
   - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
-# Project Change Log — "Mera MP, Mera Report Card"
+# Project Change Log
+
+## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
+
+- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
+  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
+  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
+  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
+  4. Displayed bold white constituency numbers with dark outline on every block polygon.
+  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
+  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
+- **Files/Areas Changed**:
+  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
+  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
+  - `package.json`: Added `leaflet` and `@types/leaflet`.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
+ — "Mera MP, Mera Report Card"
 
 This file records key data changes, pipeline updates, schema modifications, and source additions in reverse chronological order, as mandated by repository guidelines.
 

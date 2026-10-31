@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import * as maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { Search, Navigation, Layers, Info, MapPin, ChevronRight, User, Award, CheckCircle2 } from 'lucide-react';
-import delhiGeoJSON from '@/data/processed/delhiConstituenciesGeo.json';
+import L from 'leaflet';
+import { Search, Navigation, Layers, Info, MapPin, ChevronRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
 
@@ -14,209 +12,343 @@ interface NagrikStyleMapProps {
   selectedSlug?: string | null;
 }
 
+// Exact 7 Parliamentary block theme palette matching Reference Screenshot
+const PARLIAMENTARY_THEMES: Record<string, { fill: string; stroke: string; name: string }> = {
+  'north-west-delhi-delhi': { fill: '#365314', stroke: '#84cc16', name: 'North West Delhi' }, // Olive / Forest Green
+  'west-delhi-delhi': { fill: '#14532d', stroke: '#4ade80', name: 'West Delhi' }, // Kelly / Vivid Green
+  'chandni-chowk-delhi': { fill: '#0e7490', stroke: '#38bdf8', name: 'Chandni Chowk' }, // Electric Cyan / Teal
+  'new-delhi-delhi': { fill: '#1e3a8a', stroke: '#60a5fa', name: 'New Delhi' }, // Royal Deep Blue
+  'south-delhi-delhi': { fill: '#881337', stroke: '#f87171', name: 'South Delhi' }, // Deep Burgundy / Crimson
+  'east-delhi-delhi': { fill: '#78350f', stroke: '#fbbf24', name: 'East Delhi' }, // Warm Amber / Ochre
+  'north-east-delhi-delhi': { fill: '#581c87', stroke: '#c084fc', name: 'North East Delhi' }, // Deep Violet / Purple
+};
+
+const DELHI_SEATS = [
+  { slug: 'new-delhi-delhi', name: 'New Delhi', number: 4, center: [28.6139, 77.209] as [number, number], defaultWard: 'NDMC_1', color: '#60a5fa' },
+  { slug: 'chandni-chowk-delhi', name: 'Chandni Chowk', number: 1, center: [28.6562, 77.2310] as [number, number], defaultWard: '20', color: '#38bdf8' },
+  { slug: 'east-delhi-delhi', name: 'East Delhi', number: 2, center: [28.6270, 77.2950] as [number, number], defaultWard: '200', color: '#fbbf24' },
+  { slug: 'north-east-delhi-delhi', name: 'North East Delhi', number: 3, center: [28.7050, 77.2650] as [number, number], defaultWard: '226', color: '#c084fc' },
+  { slug: 'north-west-delhi-delhi', name: 'North West Delhi (SC)', number: 5, center: [28.7250, 77.1000] as [number, number], defaultWard: '31', color: '#84cc16' },
+  { slug: 'south-delhi-delhi', name: 'South Delhi', number: 6, center: [28.5000, 77.1800] as [number, number], defaultWard: '158', color: '#f87171' },
+  { slug: 'west-delhi-delhi', name: 'West Delhi', number: 7, center: [28.6300, 77.0600] as [number, number], defaultWard: '126', color: '#4ade80' },
+];
+
 export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   mps,
   onSelectConstituency,
   selectedSlug: externalSelectedSlug,
 }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<maplibregl.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const geojsonLayerRef = useRef<L.GeoJSON | null>(null);
+  const numberMarkersRef = useRef<L.Marker[]>([]);
+  const targetReticleRef = useRef<L.Marker | null>(null);
+  const userMarkerRef = useRef<L.Marker | null>(null);
 
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(
-    externalSelectedSlug || 'new-delhi-delhi'
+  const [selectedSlug, setSelectedSlug] = useState<string>(
+    externalSelectedSlug || 'chandni-chowk-delhi'
   );
-  const [hoveredFeature, setHoveredFeature] = useState<any>(null);
+  const [activeWardNumber, setActiveWardNumber] = useState<string>('20');
   const [searchQuery, setSearchQuery] = useState('');
   const [locating, setLocating] = useState(false);
   const [userLocationError, setUserLocationError] = useState<string | null>(null);
+  const [hoveredInfo, setHoveredInfo] = useState<{ name: string; pcName: string; wardNum: string } | null>(null);
 
-  // Sync external prop
-  useEffect(() => {
-    if (externalSelectedSlug) {
-      setSelectedSlug(externalSelectedSlug);
-      highlightAndFlyTo(externalSelectedSlug);
+  const activeSlugRef = useRef<string>(selectedSlug);
+  activeSlugRef.current = selectedSlug;
+
+  // Move or create the orange target reticle marker matching reference screenshot
+  const updateTargetReticle = (lat: number, lng: number, label: string) => {
+    if (!mapInstanceRef.current) return;
+
+    if (targetReticleRef.current) {
+      targetReticleRef.current.remove();
+      targetReticleRef.current = null;
     }
-  }, [externalSelectedSlug]);
 
-  const highlightAndFlyTo = (slug: string) => {
-    try {
-      const feat = delhiGeoJSON.features.find((f) => f.properties.slug === slug);
-      if (!feat || !map.current) return;
+    const reticleHtml = `
+      <div style="position:relative; width:44px; height:44px; transform:translate(-50%, -50%); pointer-events:none;">
+        <div style="position:absolute; inset:2px; border:2px solid #f97316; border-radius:50%; box-shadow:0 0 10px rgba(249,115,22,0.9), inset 0 0 6px rgba(249,115,22,0.5);"></div>
+        <div style="position:absolute; top:50%; left:-5px; right:-5px; height:1.5px; background:#f97316; transform:translateY(-50%);"></div>
+        <div style="position:absolute; left:50%; top:-5px; bottom:-5px; width:1.5px; background:#f97316; transform:translateX(-50%);"></div>
+        <div style="position:absolute; inset:6px; background:#0f172a; border:2px solid #f97316; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#f97316; font-weight:900; font-size:12px; font-family:monospace; box-shadow:0 0 8px rgba(0,0,0,0.85);">${label || ''}</div>
+      </div>
+    `;
 
-      const coords = feat.geometry.coordinates[0];
-      if (!coords || coords.length === 0) return;
-      const centerLng = coords.reduce((acc, c) => acc + c[0], 0) / coords.length;
-      const centerLat = coords.reduce((acc, c) => acc + c[1], 0) / coords.length;
+    const reticleIcon = L.divIcon({
+      className: 'target-reticle-marker',
+      html: reticleHtml,
+      iconSize: [0, 0],
+    });
 
-      if (typeof map.current.flyTo === 'function') {
-        map.current.flyTo({
-          center: [centerLng, centerLat],
-          zoom: 11.2,
-          essential: true,
-          duration: 1000,
-        });
-      }
-    } catch (err) {
-      console.warn('flyTo skipped:', err);
+    targetReticleRef.current = L.marker([lat, lng], {
+      icon: reticleIcon,
+      interactive: false,
+      zIndexOffset: 1000,
+    }).addTo(mapInstanceRef.current);
+  };
+
+  // Fly to constituency and highlight representative ward
+  const focusConstituency = (slug: string, wardLabel?: string, centerCoords?: [number, number]) => {
+    setSelectedSlug(slug);
+    if (onSelectConstituency) onSelectConstituency(slug);
+
+    const seat = DELHI_SEATS.find((s) => s.slug === slug);
+    const center = centerCoords || seat?.center || [28.6350, 77.1600];
+    const wardNum = wardLabel || seat?.defaultWard || '20';
+    setActiveWardNumber(wardNum);
+
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo([center[0], center[1]], 11.5, {
+        animate: true,
+        duration: 0.8,
+      });
+      updateTargetReticle(center[0], center[1], wardNum);
     }
   };
 
+  // Initialize Map
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    let isMounted = true;
+    if (!mapContainerRef.current) return;
 
-    // Initialize MapLibre with dark CartoDB tile layer
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: {
-        version: 8,
-        sources: {
-          'carto-dark': {
-            type: 'raster',
-            tiles: [
-              'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
-              'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
-              'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
-              'https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
-            ],
-            tileSize: 256,
-            attribution: '© OpenStreetMap contributors © CARTO',
-          },
-        },
-        layers: [
-          {
-            id: 'carto-dark-layer',
-            type: 'raster',
-            source: 'carto-dark',
-            minzoom: 0,
-            maxzoom: 19,
-          },
-        ],
-      },
-      center: [77.16, 28.63],
-      zoom: 10,
-      pitch: 0,
+    // Clean up previous instance or stale leaflet id if hot-reloaded
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
+    if ((mapContainerRef.current as any)._leaflet_id != null) {
+      (mapContainerRef.current as any)._leaflet_id = null;
+    }
+
+    // 1. Initialize map on #080808 pure dark basemap
+    const map = L.map(mapContainerRef.current, {
+      zoomControl: true,
       attributionControl: false,
-    });
+      minZoom: 9,
+      maxZoom: 16,
+    }).setView([28.6350, 77.1600], 10.5);
+    mapInstanceRef.current = map;
 
-    map.current.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'bottom-right');
+    // 2. Pure dark/black GIS basemap with subtle dark-gray roads and muted gray place labels (NO WATERMARK)
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      {
+        maxZoom: 16,
+        className: 'dark-gis-tile-layer',
+      }
+    ).addTo(map);
 
-    map.current.on('load', () => {
-      if (!map.current) return;
+    // 3. Add bottom-right 10km dark scale bar (matching Screenshot 1)
+    L.control.scale({ imperial: false, position: 'bottomright' }).addTo(map);
 
-      // Add GeoJSON source
-      map.current.addSource('delhi-constituencies', {
-        type: 'geojson',
-        data: delhiGeoJSON as any,
-      });
+    // 4. Fetch 290 detailed interlocking ward boundary polygons (no white gaps)
+    fetch('/api/geojson')
+      .then((res) => res.json())
+      .then((geojson) => {
+        if (!isMounted || !mapInstanceRef.current) return;
 
-      // Polygon Fill Layer
-      map.current.addLayer({
-        id: 'constituency-fills',
-        type: 'fill',
-        source: 'delhi-constituencies',
-        paint: {
-          'fill-color': ['get', 'color'],
-          'fill-opacity': 0.55,
-        },
-      });
+        // Clear existing markers if any
+        numberMarkersRef.current.forEach((m) => m.remove());
+        numberMarkersRef.current = [];
 
-      // Polygon Outline Layer
-      map.current.addLayer({
-        id: 'constituency-borders',
-        type: 'line',
-        source: 'delhi-constituencies',
-        paint: {
-          'line-color': '#FFFFFF',
-          'line-width': 1.5,
-          'line-opacity': 0.8,
-        },
-      });
+        const geoLayer = L.geoJSON(geojson, {
+          style: (feature: any) => {
+            const slug = feature.properties?.pc_slug || feature.properties?.slug;
+            const theme = PARLIAMENTARY_THEMES[slug] || { fill: '#1e293b', stroke: '#64748b' };
+            const isSelected = activeSlugRef.current === slug;
+            return {
+              fillColor: theme.fill,
+              weight: isSelected ? 2.0 : 1.2,
+              opacity: 0.95,
+              color: isSelected ? '#ffffff' : theme.stroke,
+              dashArray: '',
+              fillOpacity: isSelected ? 0.85 : 0.72,
+            };
+          },
+          onEachFeature: (feature: any, layer: any) => {
+            const props = feature.properties;
+            const slug = props.pc_slug || props.slug;
+            const wardNum = props.ward_display || props.Ward_No || '';
 
-      // Click on constituency
-      map.current.on('click', 'constituency-fills', (e: any) => {
-        if (!e.features || !e.features[0]) return;
-        const slug = e.features[0].properties.slug;
-        setSelectedSlug(slug);
-        if (onSelectConstituency) onSelectConstituency(slug);
-        highlightAndFlyTo(slug);
-      });
+            // Tooltip on hover
+            layer.bindTooltip(
+              `<div style="font-weight:800; font-size:12px; color:#f8fafc;">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:#94a3b8;">${props.pc_name || ''} (Ward ${wardNum})</div>`,
+              { direction: 'center', className: 'dark-map-tooltip' }
+            );
 
-      // Hover effects
-      map.current.on('mousemove', 'constituency-fills', (e: any) => {
-        if (!e.features || !e.features[0]) return;
-        map.current!.getCanvas().style.cursor = 'pointer';
-        setHoveredFeature(e.features[0].properties);
-      });
+            // Render bold white number label with dark outline on each block
+            if (props.center && wardNum) {
+              const numberIcon = L.divIcon({
+                className: 'gis-ward-number-label',
+                html: `
+                  <div style="
+                    color: #ffffff;
+                    font-weight: 800;
+                    font-size: 11px;
+                    text-shadow: 0 0 2px #000, 0 0 4px #000, 0 1px 2px #000;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    pointer-events: none;
+                    transform: translate(-50%, -50%);
+                    user-select: none;
+                    letter-spacing: -0.02em;
+                  ">${wardNum}</div>
+                `,
+                iconSize: [0, 0],
+              });
 
-      map.current.on('mouseleave', 'constituency-fills', () => {
-        map.current!.getCanvas().style.cursor = '';
-        setHoveredFeature(null);
-      });
-    });
+              const numMarker = L.marker([props.center[0], props.center[1]], {
+                icon: numberIcon,
+                interactive: false,
+              }).addTo(map);
+
+              numberMarkersRef.current.push(numMarker);
+            }
+
+            layer.on({
+              mouseover: (e: any) => {
+                const l = e.target;
+                l.setStyle({ fillOpacity: 0.92, weight: 2.2, color: '#ffffff' });
+                l.bringToFront();
+                setHoveredInfo({
+                  name: props.Ward_Name || props.pc_name,
+                  pcName: props.pc_name || '',
+                  wardNum: wardNum,
+                });
+              },
+              mouseout: (e: any) => {
+                const s = feature.properties?.pc_slug || feature.properties?.slug;
+                const l = e.target;
+                if (activeSlugRef.current === s) {
+                  l.setStyle({ fillOpacity: 0.85, weight: 2.0, color: '#ffffff' });
+                } else {
+                  geoLayer.resetStyle(l);
+                }
+                setHoveredInfo(null);
+              },
+              click: () => {
+                if (slug) {
+                  focusConstituency(
+                    slug,
+                    wardNum,
+                    props.center ? [props.center[0], props.center[1]] : undefined
+                  );
+                }
+              },
+            });
+          },
+        }).addTo(map);
+
+        geojsonLayerRef.current = geoLayer;
+
+        // Position initial target reticle (Ward 20 in Chandni Chowk as in Screenshot 1)
+        updateTargetReticle(28.6570, 77.2318, '20');
+      })
+      .catch((err) => console.error('Failed to load GeoJSON:', err));
 
     return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
+      isMounted = false;
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
       }
     };
   }, []);
 
-  // Handle Geolocation
+  // Update layer styles when selectedSlug changes
+  useEffect(() => {
+    if (!geojsonLayerRef.current) return;
+    geojsonLayerRef.current.eachLayer((layer: any) => {
+      const feat = layer.feature;
+      const s = feat?.properties?.pc_slug || feat?.properties?.slug;
+      const theme = PARLIAMENTARY_THEMES[s] || { fill: '#1e293b', stroke: '#64748b' };
+      const isSelected = selectedSlug === s;
+      layer.setStyle({
+        fillColor: theme.fill,
+        weight: isSelected ? 2.0 : 1.2,
+        opacity: 0.95,
+        color: isSelected ? '#ffffff' : theme.stroke,
+        fillOpacity: isSelected ? 0.85 : 0.72,
+      });
+      if (isSelected) {
+        layer.bringToFront();
+      }
+    });
+  }, [selectedSlug]);
+
+  // Handle Geolocation button with Point-in-Polygon location resolution
   const handleUseLocation = () => {
     if (!navigator.geolocation) {
-      setUserLocationError('Geolocation not supported by your browser.');
+      setUserLocationError('Geolocation is not supported by your browser.');
       return;
     }
     setLocating(true);
     setUserLocationError(null);
 
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLocating(false);
+      async (pos) => {
         const { latitude, longitude } = pos.coords;
-        if (map.current) {
-          map.current.flyTo({
-            center: [longitude, latitude],
-            zoom: 12,
-            duration: 1500,
-          });
-          // Default to New Delhi or closest
-          setSelectedSlug('new-delhi-delhi');
+        try {
+          const res = await fetch(`/api/locate?lat=${latitude}&lng=${longitude}`);
+          const data = await res.json();
+          setLocating(false);
+
+          if (data.status === 'success' && data.result) {
+            const matchedSlug = data.result.slug;
+            focusConstituency(matchedSlug, undefined, [latitude, longitude]);
+
+            if (mapInstanceRef.current) {
+              if (userMarkerRef.current) {
+                userMarkerRef.current.remove();
+              }
+              const pinHtml = `
+                <div style="position:relative; width:24px; height:24px; transform:translate(-50%, -50%);">
+                  <span style="position:absolute; inset:0; border-radius:50%; background:#38bdf8; opacity:0.75; animation:ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+                  <span style="position:absolute; inset:4px; border-radius:50%; background:#0284c7; border:2px solid #ffffff; box-shadow:0 0 8px rgba(0,0,0,0.8);"></span>
+                </div>
+              `;
+              const userIcon = L.divIcon({ html: pinHtml, className: 'user-gps-marker', iconSize: [0, 0] });
+              userMarkerRef.current = L.marker([latitude, longitude], { icon: userIcon }).addTo(mapInstanceRef.current);
+            }
+          } else {
+            // Default to Central Delhi
+            focusConstituency('new-delhi-delhi', undefined, [latitude, longitude]);
+          }
+        } catch {
+          setLocating(false);
+          focusConstituency('new-delhi-delhi', undefined, [latitude, longitude]);
         }
       },
-      (err) => {
+      () => {
         setLocating(false);
-        setUserLocationError('Could not detect location. Showing Central Delhi.');
-        if (map.current) {
-          map.current.flyTo({ center: [77.209, 28.6139], zoom: 11 });
-        }
+        setUserLocationError('Could not detect location. Focusing New Delhi.');
+        focusConstituency('new-delhi-delhi');
       },
-      { timeout: 7000 }
+      { timeout: 8000, enableHighAccuracy: true }
     );
   };
 
-  // Filter constituencies
-  const filteredFeatures = delhiGeoJSON.features.filter((f) => {
+  // Filter 7 Delhi constituencies
+  const filteredSeats = DELHI_SEATS.filter((s) => {
     const q = searchQuery.toLowerCase();
+    const mp = mps.find((m) => m.slug === s.slug);
     return (
-      f.properties.name.toLowerCase().includes(q) ||
-      f.properties.mp.toLowerCase().includes(q) ||
-      f.properties.party.toLowerCase().includes(q)
+      s.name.toLowerCase().includes(q) ||
+      (mp && mp.name.toLowerCase().includes(q)) ||
+      (mp && mp.party.toLowerCase().includes(q))
     );
   });
 
-  const activeFeature = delhiGeoJSON.features.find((f) => f.properties.slug === selectedSlug);
+  const activeSeat = DELHI_SEATS.find((s) => s.slug === selectedSlug) || DELHI_SEATS[0];
   const activeMP = mps.find((m) => m.slug === selectedSlug);
 
   return (
     <div className="bg-[#11161d] border border-[#232b35] rounded-3xl overflow-hidden shadow-2xl">
-      {/* Tab Header inspired by Nagrik image 3 & 4 */}
+      {/* Header Bar */}
       <div className="border-b border-[#232b35] px-6 py-4 flex flex-wrap items-center justify-between gap-4 bg-[#141a22]">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-amber-400 font-mono tracking-wider">
-            01
-          </span>
+          <span className="text-xs font-bold text-amber-400 font-mono tracking-wider">01</span>
           <h2 className="text-xl sm:text-2xl font-extrabold text-white font-['Outfit']">
             Find your constituency
           </h2>
@@ -225,7 +357,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
         <div className="flex items-center gap-2 text-xs">
           <span className="px-3 py-1 rounded-full bg-[#1b222c] border border-[#2b3542] text-slate-300 font-medium flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            7 Delhi Parliamentary Seats
+            7 Parliamentary Blocks • 290 Ward Polygons
           </span>
         </div>
       </div>
@@ -233,54 +365,43 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       {/* Main Grid: Map (Left) + Search & Browse (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
         {/* Left Map View (8 Cols) */}
-        <div className="lg:col-span-8 relative min-h-[460px] lg:min-h-[600px] bg-[#0c1015]">
+        <div className="lg:col-span-8 relative min-h-[460px] lg:min-h-[600px] bg-[#080808]">
           {/* Top In-Map Controls (Layers, Info) */}
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-            <button
-              type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-xs font-semibold text-slate-200 hover:text-white shadow-lg"
-            >
+          <div className="absolute top-4 left-4 z-[500] flex items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-xs font-semibold text-slate-200 shadow-lg">
               <Layers className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Layers</span>
-            </button>
-            <div className="p-2 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-slate-400 hover:text-white shadow-lg">
+              <span>Dark GIS Atlas</span>
+            </div>
+            <div className="p-2 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-slate-400 shadow-lg">
               <Info className="w-3.5 h-3.5" />
             </div>
           </div>
 
-          {/* Map Container */}
-          <div ref={mapContainer} className="w-full h-full min-h-[460px] lg:min-h-[600px]" />
+          {/* Leaflet Map DOM Container */}
+          <div ref={mapContainerRef} className="w-full h-full min-h-[460px] lg:min-h-[600px]" />
 
-          {/* Hover Tooltip Overlay */}
-          {hoveredFeature && (
-            <div className="absolute top-4 right-4 z-10 pointer-events-none bg-[#171e27]/95 backdrop-blur-md border border-cyan-500/60 p-3 rounded-2xl shadow-2xl text-xs max-w-xs animate-in fade-in duration-150">
+          {/* Hover Overlay */}
+          {hoveredInfo && (
+            <div className="absolute top-4 right-4 z-[500] pointer-events-none bg-[#171e27]/95 backdrop-blur-md border border-cyan-500/60 p-3 rounded-2xl shadow-2xl text-xs max-w-xs animate-in fade-in duration-150">
               <div className="text-[10px] uppercase font-bold text-cyan-400">
-                Seat #{hoveredFeature.number} • {hoveredFeature.state}
+                Ward #{hoveredInfo.wardNum} • Delhi
               </div>
               <div className="text-base font-bold text-white font-['Outfit'] mt-0.5">
-                {hoveredFeature.name}
+                {hoveredInfo.name}
               </div>
-              <div className="text-slate-300 mt-1 flex items-center gap-2">
-                <span>MP: <strong className="text-white">{hoveredFeature.mp}</strong></span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#202936] text-cyan-300 border border-slate-700">
-                  {hoveredFeature.party}
-                </span>
+              <div className="text-slate-300 mt-1">
+                Lok Sabha: <strong className="text-white">{hoveredInfo.pcName}</strong>
               </div>
-              {hoveredFeature.attendance !== null && (
-                <div className="text-slate-400 text-[11px] mt-1">
-                  Attendance: <strong className="text-white">{hoveredFeature.attendance}%</strong>
-                </div>
-              )}
             </div>
           )}
 
           {/* Bottom Left Note */}
-          <div className="absolute bottom-3 left-4 z-10 text-[11px] text-slate-400 bg-[#12171e]/85 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#26303d] max-w-md hidden sm:block">
-            Click map to explore constituency. Official 18th Lok Sabha boundaries.
+          <div className="absolute bottom-3 left-4 z-[500] text-[11px] text-slate-400 bg-[#12171e]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#26303d] max-w-md hidden sm:block">
+            Click any block to inspect representative MP. Accurate 18th Lok Sabha boundaries.
           </div>
         </div>
 
-        {/* Right Search & Browse Panel (4 Cols - Nagrik Style) */}
+        {/* Right Search & Browse Panel (4 Cols - Unaltered Dashboard) */}
         <div className="lg:col-span-4 bg-[#141a22] border-t lg:border-t-0 lg:border-l border-[#232b35] p-5 flex flex-col justify-between">
           <div className="space-y-4">
             {/* Search Input Box */}
@@ -299,7 +420,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             <button
               onClick={handleUseLocation}
               disabled={locating}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#F5AA27] hover:bg-[#e0981b] active:scale-98 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#F5AA27] hover:bg-[#e0981b] active:scale-98 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all cursor-pointer"
             >
               <Navigation className={`w-4 h-4 ${locating ? 'animate-spin' : ''}`} />
               <span>{locating ? 'Detecting Location...' : 'Use my location'}</span>
@@ -319,22 +440,20 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             {/* Browse Constituencies Accordion List */}
             <div className="pt-2">
               <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                <span>Browse Constituencies ({filteredFeatures.length})</span>
+                <span>Browse Constituencies ({filteredSeats.length})</span>
                 <span className="text-cyan-400">Click to focus</span>
               </div>
 
               <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-                {filteredFeatures.map((f) => {
-                  const isSelected = selectedSlug === f.properties.slug;
+                {filteredSeats.map((s) => {
+                  const isSelected = selectedSlug === s.slug;
+                  const mp = mps.find((m) => m.slug === s.slug);
+                  const theme = PARLIAMENTARY_THEMES[s.slug];
                   return (
                     <button
-                      key={f.properties.slug}
-                      onClick={() => {
-                        setSelectedSlug(f.properties.slug);
-                        if (onSelectConstituency) onSelectConstituency(f.properties.slug);
-                        highlightAndFlyTo(f.properties.slug);
-                      }}
-                      className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between ${
+                      key={s.slug}
+                      onClick={() => focusConstituency(s.slug)}
+                      className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                         isSelected
                           ? 'bg-[#1e2733] border-amber-400 ring-1 ring-amber-400/40 text-white'
                           : 'bg-[#171e27] border-[#252f3d] hover:border-slate-600 text-slate-300'
@@ -343,14 +462,14 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                       <div className="flex items-center gap-2.5">
                         <span
                           className="w-3 h-3 rounded-full shrink-0"
-                          style={{ backgroundColor: f.properties.color }}
+                          style={{ backgroundColor: theme?.stroke || s.color }}
                         />
                         <div>
                           <div className="font-semibold text-xs text-white">
-                            {f.properties.name}
+                            {s.name}
                           </div>
                           <div className="text-[11px] text-slate-400">
-                            {f.properties.mp} ({f.properties.party})
+                            {mp ? `${mp.name} (${mp.party})` : 'MP Record'}
                           </div>
                         </div>
                       </div>
@@ -367,7 +486,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
           </div>
 
           {/* Active Constituency Bottom Card */}
-          {activeFeature && (
+          {activeSeat && (
             <div className="mt-4 pt-4 border-t border-[#232b35] bg-[#1a212b] p-4 rounded-2xl border border-[#2a3542]">
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div>
@@ -375,22 +494,25 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                     Selected Parliamentary Seat
                   </div>
                   <h3 className="text-base font-bold text-white font-['Outfit']">
-                    {activeFeature.properties.name}
+                    {activeSeat.name}
                   </h3>
                 </div>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-[#202936] text-amber-400 border border-amber-500/40 font-bold">
-                  {activeFeature.properties.party}
+                  {activeMP?.party || 'BJP'}
                 </span>
               </div>
 
               <div className="text-xs text-slate-300 mb-3 flex items-center justify-between">
-                <span>MP: <strong className="text-white">{activeFeature.properties.mp}</strong></span>
-                {activeFeature.properties.is_minister && (
+                <span>
+                  MP: <strong className="text-white">{activeMP?.name || 'Sitting MP'}</strong>
+                </span>
+                {activeMP?.is_minister && (
                   <span className="text-[10px] text-amber-400 font-medium">Union Minister</span>
                 )}
               </div>
 
-              <Link href={`/mp/${activeFeature.properties.slug}`}
+              <Link
+                href={`/mp/${activeSeat.slug}`}
                 className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow transition-colors"
               >
                 <span>View Full Report Card</span>
@@ -403,4 +525,3 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     </div>
   );
 };
-
