@@ -1,27 +1,15 @@
 /**
  * lib/types.ts — Canonical TypeScript types for "Mera MP, Mera Report Card".
- *
- * Money values: always in ₹ crore (Cr).
- * Percentages: always in the range 0–100 (not 0–1).
- * Missing/unknown values: null (never substitute zero).
- * Ministers: performance fields are null and isMinister === true.
- *   utilisationPct = spentCr / releasedCr * 100.
- *   Null when releasedCr is null or zero.
  */
 
 // ── Averages ────────────────────────────────────────────────────────────────
 
-/**
- * One metric's average, computed over non-minister, non-null values.
- * n is the count of MPs included.
- */
 export interface MetricAverage {
   value: number | null;
   /** Number of MPs included in this average (ministers and nulls excluded). */
   n: number;
 }
 
-/** State-level or national-level averages for the four core performance metrics. */
 export interface Averages {
   attendancePct: MetricAverage;
   debates: MetricAverage;
@@ -31,21 +19,19 @@ export interface Averages {
 
 // ── Sub-records ─────────────────────────────────────────────────────────────
 
-/** One Lok Sabha term's parliamentary activity record. */
 export interface TermRecord {
-  lokSabha: string;          // e.g. "18th Lok Sabha"
+  lokSabha: string;
   constituency: string;
   state: string;
   party: string;
   fromYear: number;
-  toYear: number | null;     // null = currently sitting
+  toYear: number | null;
   attendancePct: number | null;
   debates: number | null;
   questions: number | null;
   privateBills: number | null;
 }
 
-/** An MPLADS-funded work item. */
 export interface Work {
   id: string;
   title: string;
@@ -58,46 +44,39 @@ export interface Work {
     | 'community'
     | 'other';
   locality: string | null;
-  sanctionedCr: number | null;  // ₹ crore
-  spentCr: number | null;       // ₹ crore
+  sanctionedCr: number | null;
+  spentCr: number | null;
   status: 'recommended' | 'sanctioned' | 'in_progress' | 'completed';
-  recommendedOn: string | null; // ISO date YYYY-MM-DD
-  completedOn: string | null;   // ISO date YYYY-MM-DD
+  recommendedOn: string | null;
+  completedOn: string | null;
 }
 
-/** A private member bill introduced by the MP. */
 export interface Bill {
   id: string;
   title: string;
-  introducedOn: string; // ISO date YYYY-MM-DD
+  introducedOn: string;
   type: 'private_member';
   status: 'introduced' | 'discussed' | 'withdrawn' | 'lapsed' | 'other';
 }
 
-/** Provenance record for a data field or the whole record. */
 export interface Source {
   name: string;
   url: string;
-  retrievedAt: string; // ISO date YYYY-MM-DD
+  retrievedAt: string;
 }
 
 // ── MP ──────────────────────────────────────────────────────────────────────
 
 export interface MP {
-  /** Constituency-based stable slug, e.g. "test-region-07-test-state-a". */
   slug: string;
   name: string;
   party: string;
   state: string;
   constituency: string;
   reservation?: 'GEN' | 'SC' | 'ST';
-  /** e.g. "18th Lok Sabha" */
   term: string;
-  /** ISO date — set only for by-election winners (mid-term entry). */
   sinceDate?: string;
-  /** True for cabinet/state ministers. Performance fields will be null. */
   isMinister: boolean;
-  /** True for all test-data records. Must be false in real production data. */
   isTest: boolean;
 
   profile: {
@@ -106,29 +85,17 @@ export interface MP {
     photoUrl: string | null;
   };
 
-  /** Previous + current terms, newest first. */
   history: TermRecord[];
 
-  /**
-   * Parliamentary activity metrics.
-   * Absent for ministers (isMinister === true) — show "Not applicable".
-   * Individual fields may still be null if the source did not report them.
-   */
   performance?: {
     attendancePct: number | null;
     debates: number | null;
     questions: number | null;
     privateBills: number | null;
-    asOf: string; // ISO date of the data snapshot from the source
+    asOf: string;
     attendanceBySession: { session: string; pct: number | null }[];
   };
 
-  /**
-   * MPLADS fund utilisation.
-   * utilisationPct = spentCr / releasedCr * 100.
-   * Null when either releasedCr or spentCr is null, or releasedCr === 0.
-   * Absent entirely when no MPLADS data is available for this MP.
-   */
   mplads?: {
     entitlementCr: number | null;
     releasedCr: number | null;
@@ -139,48 +106,151 @@ export interface MP {
     byYear: { fy: string; releasedCr: number | null; spentCr: number | null }[];
   };
 
-  /** MPLADS-funded works. Empty array = MP has zero sanctioned works. */
   works: Work[];
-
-  /** Private member bills. Empty array = none introduced. */
   bills: Bill[];
 
-  /**
-   * Declared affidavit data from the election commission filing.
-   * Absent when affidavit data has not been collected yet.
-   * Cases are allegations/pending cases, NOT convictions.
-   */
   affidavit?: {
-    totalAssetsRs: number | null;   // ₹ (not crore — raw affidavit unit)
+    totalAssetsRs: number | null;
     declaredCases: number | null;
     education: string | null;
     electionYear: number;
   };
 
-  /** At least one source is required per MP record. */
   sources: Source[];
 }
 
-// ── Snapshot ─────────────────────────────────────────────────────────────────
-
-/**
- * Top-level data file written by the generator / pipeline.
- * Loader reads this from mps.json (real) or mps.test.json (test fallback).
- */
 export interface Snapshot {
   meta: {
-    /** "test" for seeded fake data; "real" for production pipeline output. */
     dataMode: 'test' | 'real';
-    /** ISO datetime when this snapshot was generated. */
     generatedAt: string;
-    /** PRNG seed used for test data. Absent for real data. */
     seed?: number;
     mpCount: number;
-    /** GeoJSON boundary vintage, e.g. "2008-delimitation". */
     boundaryVintage?: string;
   };
   mps: MP[];
   nationalAverages: Averages;
-  /** Keyed by state name, e.g. "Test State A". */
   stateAverages: Record<string, Averages>;
+}
+
+// ── Location & Spatial Extensions ───────────────────────────────────────────
+
+export interface MPSource {
+  name: string;
+  url: string;
+  retrieved_at: string;
+  raw_file?: string;
+  licence?: string;
+}
+
+export interface MPProfile {
+  age: number | null;
+  gender: string | null;
+  education: string | null;
+  term_number: string | null;
+  as_of: string;
+  source: MPSource;
+}
+
+export interface NationalStateAverages {
+  attendance_pct: number;
+  debates: number;
+  questions: number;
+  private_member_bills: number;
+}
+
+export interface MPPerformance {
+  status: "reported" | "not_applicable" | "pending";
+  attendance_pct: number | null;
+  debates: number | null;
+  questions: number | null;
+  private_member_bills: number | null;
+  period?: {
+    from: string;
+    to: string;
+  };
+  as_of?: string;
+  prs_averages?: {
+    national: NationalStateAverages;
+    state: NationalStateAverages;
+  };
+  source?: MPSource;
+}
+
+export interface MPBackground {
+  declared_criminal_cases: number | null;
+  declared_assets_inr: number | null;
+  declared_liabilities_inr: number | null;
+  education_detailed: string | null;
+  affidavit_year: number;
+  note: string;
+  source: MPSource;
+}
+
+export interface MPLADSFund {
+  entitled_inr_crore: number | null;
+  released_inr_crore: number | null;
+  spent_inr_crore: number | null;
+  unspent_inr_crore: number | null;
+  utilisation_pct: number | null;
+  as_of: string;
+  source: MPSource;
+}
+
+export interface MPRecord {
+  slug: string;
+  name: string;
+  constituency: string;
+  state: string;
+  party: string;
+  party_full: string;
+  reservation: "GEN" | "SC" | "ST";
+  term: string;
+  since_date: string;
+  is_minister: boolean;
+  special_role: string | null;
+  sansad_mpsno?: number;
+  sansad_status?: string;
+  identity_review_status?: string;
+  profile: MPProfile;
+  performance: MPPerformance;
+  background?: MPBackground;
+  affidavit?: any;
+  mplads?: MPLADSFund;
+  center_coords?: [number, number];
+}
+
+export interface ConstituencySummary {
+  slug: string;
+  name: string;
+  state: string;
+  reservation: "GEN" | "SC" | "ST";
+  mp_name: string;
+  party: string;
+  party_full: string;
+  is_minister: boolean;
+  attendance_pct: number | null;
+  questions: number | null;
+  debates: number | null;
+  center_coords: [number, number];
+}
+
+export interface LocationResolveRequest {
+  lat?: number;
+  lng?: number;
+  pincode?: string;
+  query?: string;
+}
+
+export interface LocationResolveResponse {
+  success: boolean;
+  matched_by: "coordinates" | "pincode" | "query" | "none";
+  constituency?: string;
+  slug?: string;
+  confidence: "exact" | "approximate" | "none";
+  resolved_coords?: {
+    lat: number;
+    lng: number;
+  };
+  mp?: MPRecord | any;
+  error?: string;
 }
