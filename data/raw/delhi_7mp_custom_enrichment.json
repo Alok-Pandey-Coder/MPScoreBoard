@@ -18,11 +18,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 516496,
+      "runner_up_name": "Jai Parkash Agarwal",
+      "runner_up_party": "INC",
+      "runner_up_votes": 427171,
+      "margin_votes": 89325,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -46,11 +46,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 664819,
+      "runner_up_name": "Kuldeep Kumar",
+      "runner_up_party": "AAP",
+      "runner_up_votes": 571156,
+      "margin_votes": 93663,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -74,11 +74,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 453185,
+      "runner_up_name": "Somnath Bharti",
+      "runner_up_party": "AAP",
+      "runner_up_votes": 374815,
+      "margin_votes": 78370,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -102,11 +102,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 824451,
+      "runner_up_name": "Kanhaiya Kumar",
+      "runner_up_party": "INC",
+      "runner_up_votes": 685673,
+      "margin_votes": 138778,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -130,11 +130,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 866483,
+      "runner_up_name": "Udit Raj",
+      "runner_up_party": "INC",
+      "runner_up_votes": 575634,
+      "margin_votes": 290849,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -158,11 +158,11 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 692773,
+      "runner_up_name": "Sahi Ram Pehalwan",
+      "runner_up_party": "AAP",
+      "runner_up_votes": 568440,
+      "margin_votes": 124333,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
@@ -186,14 +186,13 @@
     },
     "election": {
       "election_year": 2024,
-      "winning_votes": null,
-      "runner_up_name": null,
-      "runner_up_party": null,
-      "runner_up_votes": null,
-      "margin_votes": null,
+      "winning_votes": 842658,
+      "runner_up_name": "Mahabal Mishra",
+      "runner_up_party": "AAP",
+      "runner_up_votes": 643645,
+      "margin_votes": 199013,
       "source_name": "Election Commission of India",
       "source_url": "https://results.eci.gov.in"
     }
   }
 ]
-

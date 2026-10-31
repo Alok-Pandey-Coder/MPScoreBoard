@@ -1,6 +1,6 @@
 # Data Architecture & Master Registry — "Mera MP, Mera Report Card"
 
-> **Version:** 1.0 · **Date:** 2026-10-31  
+> **Version:** 1.2 · **Date:** 2026-10-31  
 > **Repository:** `d:\MPScoreBoard`  
 > **Companion Documents:** `AGENTS.md`, `PRD.md`, `PlanV2.md`, `docs/dataSources.md`
 
@@ -18,13 +18,18 @@ d:\MPScoreBoard\data\
 │   ├── snapshot.json                    # Snapshot metadata, timestamp & SHA-256 hash
 │   ├── aliases.json                     # Normalisation aliases (constituency & MP name variants)
 │   ├── validation_report.md             # Automated test proof of zero data errors & exact averages
-│   └── data_dictionary.md               # Technical field types & nullability specifications
+│   ├── data_dictionary.md               # Technical field types & nullability specifications
+│   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0)
+│   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data
+│   └── normalised.delhi.json            # Intermediate normalised records before merge
 │
 ├── raw/                                 # ACTIVE IMMUTABLE SOURCE CAPTURES
 │   ├── masterlist.delhi.json            # Delhi Government official MP directory capture
 │   ├── sansad.members.delhi.2026-10-30.json # Official Digital Sansad JSON API capture
 │   ├── prs.delhi.2026-10-30/            # Raw HTML captures of all 7 PRS profile pages
-│   └── delhi_7mp_custom_enrichment.json # User-provided custom 7 MP data intake file
+│   ├── sansad.members.india.<date>.json # All-India 543-seat Sansad API capture
+│   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
+│   └── delhi_7mp_custom_enrichment.json # User intake: election results + MPLADS (7 Delhi MPs)
 │
 └── reference_packs/                     # EXTERNAL & CIVIC PACKS (MCD, MLAs & Affidavits)
     ├── officials_enriched_pack/         # ⭐ Contains 7 Lok Sabha MP affidavit records & ADR MHT documents
@@ -32,6 +37,7 @@ d:\MPScoreBoard\data\
     ├── mcd_pms_expansion_2026-10-31/    # MCD PMS municipal projects, tenders & zone aggregate counts
     ├── mcd_councillor_collection_ws2/   # 250 MCD ward councillors & local election history
     └── delhi_jurisdiction_collection_01/# Ward-to-assembly-to-parliament boundary registers
+                                         #   incl. assembly_to_parliamentary_mapping.csv (70 AC→PC rows)
 ```
 
 ---
@@ -49,7 +55,7 @@ d:\MPScoreBoard\data\
 | **3. Performance** | PRS Legislative Research | Per MP: Attendance %, debates, questions, private member bills, state/national averages | **100% Complete** (6 reported, 1 minister `not_applicable`) |
 | **4. Affidavit** | ADR / MyNeta / ECI | Per MP: Declared criminal cases, total assets, liabilities, education, original citation | **100% Complete** (7/7 reported & cross-checked) |
 | **5. MPLADS** | Empowered Indian / MoSPI | Per MP: Entitlement, released, expenditure, utilisation %, works counts, as-of date | **Pending Intake** (via user file / API) |
-| **6. Election** | Election Commission of India | Per MP: 2024 winning votes, runner-up name/party/votes, margin | **Pending Intake** (via user file / ECI) |
+| **6. Election** | Election Commission of India | Per MP: 2024 winning votes, runner-up name/party/votes, margin | **100% Complete** (7/7 reported via ECI 2024 results) |
 
 ### 2.2 Field-by-Field Technical Specifications
 
@@ -140,13 +146,13 @@ interface MPRecord {
 
 | Constituency Slug | MP Name | Party | Minister | Performance Attendance | Debates | Questions | Bills | Affidavit (Cases / Assets) | MPLADS | Election |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | Pending | Pending |
-| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | Pending | Pending |
-| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | Pending | Pending |
-| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | Pending | Pending |
-| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | Pending | Pending |
-| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | Pending | Pending |
-| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | Pending | Pending |
+| `chandni-chowk-delhi` | Praveen Khandelwal | BJP | No | 99% | 4 | 40 | 0 | **Reported** (0 cases / ₹11.7 Cr) | Pending | **Reported** (516,496 votes, margin 89,325) |
+| `east-delhi-delhi` | Harsh Malhotra | BJP | **Yes (MoS)**| **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹4.08 Cr) | Pending | **Reported** (664,819 votes, margin 93,663) |
+| `new-delhi-delhi` | Bansuri Swaraj | BJP | No | 95% | 17 | 41 | 0 | **Reported** (0 cases / ₹19.29 Cr) | Pending | **Reported** (453,185 votes, margin 78,370) |
+| `north-east-delhi-delhi` | Manoj Kumar Tiwari | BJP | No | 90% | 21 | 276 | 3 | **Reported** (2 cases / ₹32.81 Cr) | Pending | **Reported** (824,451 votes, margin 138,778) |
+| `north-west-delhi-delhi` | Yogender Chandolia | BJP | No | 97% | 28 | 271 | 0 | **Reported** (2 cases / ₹2.76 Cr) | Pending | **Reported** (866,483 votes, margin 290,849) |
+| `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | Pending | **Reported** (692,773 votes, margin 124,333) |
+| `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | Pending | **Reported** (842,658 votes, margin 199,013) |
 
 ---
 

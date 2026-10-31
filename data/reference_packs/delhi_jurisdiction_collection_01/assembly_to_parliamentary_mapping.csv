@@ -1,1 +1,71 @@
 assembly_constituency_number,assembly_constituency_name,parliamentary_constituency_number,parliamentary_constituency_name,mapping_source_url,verification_status
+1,Narela,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+2,Burari,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+3,Timarpur,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+4,Adarsh Nagar,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+5,Badli,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+6,Rithala,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+7,Bawana (SC),5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+8,Mundka,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+9,Kirari,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+10,Sultan Pur Majra (SC),5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+11,Nangloi Jat,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+12,Mangol Puri (SC),5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+13,Rohini,5,North West Delhi (SC),https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+14,Shalimar Bagh,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+15,Shakur Basti,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+16,Tri Nagar,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+17,Wazirpur,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+18,Model Town,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+19,Sadar Bazar,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+20,Chandni Chowk,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+21,Matia Mahal,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+22,Ballimaran,1,Chandni Chowk,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+23,Karol Bagh (SC),4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+24,Patel Nagar (SC),4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+25,Moti Nagar,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+26,Madipur (SC),6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+27,Rajouri Garden,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+28,Hari Nagar,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+29,Tilak Nagar,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+30,Janakpuri,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+31,Vikaspuri,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+32,Uttam Nagar,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+33,Dwarka,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+34,Matiala,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+35,Najafgarh,6,West Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+36,Bijwasan,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+37,Palam,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+38,Delhi Cantt,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+39,Rajinder Nagar,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+40,New Delhi,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+41,Jangpura,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+42,Kasturba Nagar,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+43,Malviya Nagar,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+44,R.K. Puram,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+45,Mehrauli,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+46,Chhatarpur,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+47,Deoli (SC),7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+48,Ambedkar Nagar (SC),7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+49,Sangam Vihar,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+50,Greater Kailash,4,New Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+51,Kalkaji,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+52,Tughlakabad,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+53,Badarpur,7,South Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+54,Okhla,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+55,Trilokpuri (SC),3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+56,Kondli (SC),3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+57,Patparganj,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+58,Laxmi Nagar,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+59,Vishwas Nagar,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+60,Krishna Nagar,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+61,Gandhi Nagar,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+62,Shahdara,3,East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+63,Seemapuri (SC),2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+64,Rohtas Nagar,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+65,Seelampur,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+66,Ghonda,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+67,Babarpur,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+68,Gokalpur (SC),2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+69,Mustafabad,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
+70,Karawal Nagar,2,North East Delhi,https://eci.gov.in/files/file/3931-delimitation-of-parliamentary-and-assembly-constituencies-order-2008/,verified_official_eci_delimitation_2008
