@@ -69,7 +69,7 @@
       "recommended_amount_cr": 6.4665,
       "expenditure_cr": 2.6488,
       "unspent_cr": 12.0982,
-      "expenditure_pct": 18.0,
+      "expenditure_pct": 18,
       "recommended_pct": 43.8,
       "works_count": {
         "recommended": 69,
@@ -89,7 +89,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0548,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -103,7 +103,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0275,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -117,7 +117,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.161,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -131,7 +131,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2988,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -145,7 +145,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2603,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -159,7 +159,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2551,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -173,7 +173,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1044,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -187,7 +187,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2969,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -201,7 +201,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0418,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -215,7 +215,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2918,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -460,6 +460,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -468,7 +473,13 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 69 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/chandni-chowk-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "east-delhi-delhi",
@@ -560,7 +571,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.5472,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -931,6 +942,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -940,7 +956,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 113 recommended works captured).",
       "MPLADS: the works endpoint returned 100 rows but the profile reports 113 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "new-delhi-delhi",
@@ -1032,7 +1054,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0382,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1046,7 +1068,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1335,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1060,7 +1082,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0651,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1074,7 +1096,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0779,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1403,6 +1425,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -1412,7 +1439,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 110 recommended works captured).",
       "MPLADS: the works endpoint returned 91 rows but the profile reports 110 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/new-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-east-delhi-delhi",
@@ -1504,7 +1537,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.6351,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1518,7 +1551,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2282,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1532,7 +1565,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2218,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1544,9 +1577,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1558,9 +1591,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1572,9 +1605,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1586,9 +1619,9 @@
           "status_raw": "recommended",
           "recommended_on": "2026-06-18",
           "completed_on": null,
-          "recommended_amount_cr": 1.0,
+          "recommended_amount_cr": 1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1602,7 +1635,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.54,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1616,7 +1649,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1365,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1644,7 +1677,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.039,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1658,7 +1691,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.121,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1672,7 +1705,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2324,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1874,6 +1907,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -1883,7 +1921,13 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 23 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/north-east-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "north-west-delhi-delhi",
@@ -1975,7 +2019,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1512,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -1989,7 +2033,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0551,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2003,7 +2047,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.05,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2017,7 +2061,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0208,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2031,7 +2075,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1803,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2045,7 +2089,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0824,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2059,7 +2103,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0824,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2073,7 +2117,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2087,7 +2131,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0461,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2101,7 +2145,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2115,7 +2159,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0462,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2129,7 +2173,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0197,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2344,6 +2388,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -2355,7 +2404,13 @@
       "MPLADS: works list is partial (20 of 59 recommended works captured).",
       "MPLADS: Empowered Indian name spelling 'Yogendra Chandoliya' differs from 'Yogender Chandolia'; joined on constituency.",
       "MPLADS: JanWatchdog name spelling 'Yogendra Chandoliya' differs from 'Yogender Chandolia'; joined on constituency."
-    ]
+    ],
+    "image_url": "/images/mps/north-west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "south-delhi-delhi",
@@ -2447,7 +2502,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2461,7 +2516,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0856,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2475,7 +2530,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0646,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2489,7 +2544,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0982,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2503,7 +2558,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2476,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2517,7 +2572,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.2174,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2531,7 +2586,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1799,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2545,7 +2600,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1799,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2559,7 +2614,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2573,7 +2628,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.0319,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2587,7 +2642,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1237,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2818,6 +2873,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -2827,7 +2887,13 @@
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 134 recommended works captured).",
       "MPLADS: the works endpoint returned 91 rows but the profile reports 134 recommended works."
-    ]
+    ],
+    "image_url": "/images/mps/south-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   },
   {
     "slug": "west-delhi-delhi",
@@ -2919,7 +2985,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1709,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2933,7 +2999,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1991,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2947,7 +3013,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1945,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2961,7 +3027,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.1,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -2975,7 +3041,7 @@
           "completed_on": null,
           "recommended_amount_cr": 0.18,
           "final_amount_cr": null,
-          "paid_cr": 0.0,
+          "paid_cr": 0,
           "has_image": null
         },
         {
@@ -3290,6 +3356,11 @@
         "name": "Election Commission of India",
         "url": "https://results.eci.gov.in",
         "retrieved_at": "2026-10-31"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -3298,6 +3369,12 @@
       "MPLADS: works_count.sanctioned is null because the source publishes no sanctioned count.",
       "MPLADS: annual_entitlement_cr is null; the scheme guideline figure is not yet cited from an official source.",
       "MPLADS: works list is partial (20 of 65 recommended works captured)."
-    ]
+    ],
+    "image_url": "/images/mps/west-delhi-delhi.jpg",
+    "image_source": {
+      "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+      "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+      "retrieved_at": "2026-11-01"
+    }
   }
 ]

@@ -1,5 +1,50 @@
 # Project Change Log
 
+## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
+
+- **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:
+  1. **Official Asset Capture**: Downloaded official high-resolution 18th Lok Sabha portrait photographs for all 7 Delhi MPs from Digital Sansad (`https://sansad.in/getFile/lsapps/mpimage/photo/{mpsno}.jpg`) and stored locally in `public/images/mps/{slug}.jpg` to ensure fast, offline-resilient loading without third-party CDN latency or CORS issues.
+  2. **Reusable MPAvatar Component**: Created `components/ui/MPAvatar.tsx` featuring responsive sizing, high-contrast border treatment, graceful fallback to monospaced initials upon error, and optional party affiliation badge.
+  3. **Universal Profile Integration**:
+     - **Dossier Header (`MPHeader.tsx`)**: Replaced placeholder initials with the MP's authentic official portrait, party badge, and provenance link.
+     - **Home Leadership Grid (`QuickCardsGrid.tsx`)**: Added real portrait thumbnails to all 7 Delhi MP dossier cards.
+     - **Search Omnibar (`UnifiedSearchBar.tsx`)**: Integrated portrait icons into auto-complete search results.
+     - **Comparative Matrix (`CompareClient.tsx`)**: Displayed side-by-side MP portraits in comparison headers.
+     - **Dark GIS Ward Map (`NagrikStyleMap.tsx`)**: Added representative portrait thumbnail to the selected constituency inspector panel.
+  4. **Data & Schema Provenance**: Updated `types/mp.ts`, `data/processed/mps.json`, `data.md`, and `data/processed/data_dictionary.md` documenting `image_url` and `image_source` provenance.
+- **Files/Areas Changed**:
+  - `public/images/mps/*`: Added 7 official MP portrait image files.
+  - `components/ui/MPAvatar.tsx`: Created reusable portrait avatar component with fallback.
+  - `components/home/QuickCardsGrid.tsx`, `UnifiedSearchBar.tsx`: Added MP portrait display.
+  - `components/mp/MPHeader.tsx`: Integrated real MP portrait in header.
+  - `components/compare/CompareClient.tsx`: Added MP portraits in comparison view.
+  - `components/map/NagrikStyleMap.tsx`: Added representative portrait in map inspector.
+  - `types/mp.ts`, `lib/data.ts`: Added `image_url` and `image_source` typings.
+  - `data/processed/mps.json`, `data.md`, `data/processed/data_dictionary.md`: Updated data records and schema documentation.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: All 58 unit tests passed 100%.
+
+## 2026-10-31 — Recharts Pie & Donut Benchmark Visualizer (feat/circular-benchmark-visualizer)
+
+- **Summary**: Implemented Recharts-powered interactive Pie & Donut visualization for the Parliamentary Activity Comparative Benchmark section:
+  1. **Recharts Integration**: Installed recharts (^3.10.1) as an official charting dependency for interactive vector visualizations.
+  2. **Comparative Recharts Donut / Pie Charts**: In ComparisonSection.tsx, transformed benchmark metric cards (Attendance Rate, Debates, Questions Asked, and Private Member Bills) into interactive Recharts Donut/Pie charts comparing the MP (Amber #F59E0B), Delhi State Average (Civic Sky #38BDF8), and National 18th Lok Sabha Average (Slate #94A3B8).
+  3. **Interactive Editorial Tooltips & Center Display**: Integrated custom dark/light editorial Recharts tooltips with entity breakdown, exact figures, and comparative context, paired with high-contrast centered metric typography (tabular-nums) and dynamic sector hover effects.
+  4. **Tri-Modal View Switcher**: Enabled seamless interactive switching between:
+     - **Pie Chart (Default)**: Recharts comparative Donut/Pie visualization.
+     - **Rings**: Recharts multi-tier concentric radial gauges with remainder tracks.
+     - **Bars**: Traditional horizontal ledger comparison bars.
+  5. **SSR & Next.js Hydration Safety**: Applied client-side mounted state guard (isMounted) with an animated layout-stable skeleton to prevent SSR dimension mismatches.
+  6. **Non-Partisan Compliance**: Preserved all mandatory non-partisan disclaimers ('activity volume, not qualitative performance or rankings') and official PRS Legislative Research source attribution.
+- **Files/Areas Changed**:
+  - package.json & package-lock.json: Added recharts.
+  - components/mp/ComparisonSection.tsx: Overhauled benchmark visualization with Recharts Pie, concentric rings, and interactive tooltips.
+- **Validation Performed**:
+  - npm run typecheck: Passed with 0 errors.
+  - npm test: All 58 unit tests passed 100%.
+  - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
+
 ## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
 
 - **Summary:**
