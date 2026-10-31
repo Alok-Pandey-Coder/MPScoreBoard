@@ -1,1 +1,251 @@
-ward_number,ward_name,assembly_constituency_number,assembly_constituency_name,mapping_source_url,mapping_date,verification_status
+ward_number,ward_name,ward_name_2022,mcd_zone,assembly_constituency_id,assembly_constituency_name,overlap_area,overlap_percentage,boundary_version,mapping_method,verification_status
+1,NARELA,NARELA,OUTER NORTH,AC-01,Nerela,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+2,BANKNER,BANKNER,OUTER NORTH,AC-01,Nerela,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+3,HOLAMBI KALAN,HOLAMBI KALAN,OUTER NORTH,AC-01,Nerela,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+4,ALIPUR,ALIPUR,OUTER NORTH,AC-01,Nerela,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+5,BHAKHTAWARPUR,BAKHTAWARPUR,OUTER NORTH,AC-01,Nerela,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+6,BURARI,BURARI,NORTH,AC-02,Burari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+7,KADIPUR,KADIPUR,NORTH,AC-02,Burari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+8,MUKUNDPUR,MUKUNDPUR,NORTH,AC-02,Burari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+9,SANT NAGAR,SANT NAGAR,NORTH,AC-02,Burari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+10,JHARODA,JHARODA,NORTH,AC-02,Burari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+11,TIMARPUR,TIMARPUR,NORTH,AC-03,Timarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+12,MALKA GANJ,MALKA GANJ,NORTH,AC-03,Timarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+13,MUKHERJKEE NAGAR,MUKHERJEE NAGAR,NORTH,AC-03,Timarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+14,DHIRPUR,DHIRPUR,NORTH,AC-04,Adarsh Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+15,ADARSH NAGAR,ADARSH NAGAR,NORTH,AC-04,Adarsh Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+16,AZADPUR,AZADPUR,NORTH,AC-04,Adarsh Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+17,BHALSWA,BHALSWA,NORTH,AC-05,Badli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+18,JAHANGIR PURI,JAHANGIR PURI,NORTH,AC-05,Badli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+19,SARUP NAGAR,SARUP NAGAR,NORTH,AC-05,Badli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+20,SAMAYPUR BADLI,SAMAYPUR BADLI,NORTH,AC-05,Badli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+21,ROHINI-A,ROHINI-A,NORTH WEST,AC-06,Rithala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+22,ROHINI-B,ROHINI-B,NORTH WEST,AC-06,Rithala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+23,RITHALA,RITHALA,NORTH WEST,AC-06,Rithala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+24,VIJAY VIHAR,VIJAY VIHAR,NORTH WEST,AC-06,Rithala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+25,BUDH VIHAR,BUDH VIHAR,NORTH WEST,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+26,POOTHKALAN,POOTH KALAN,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+27,BEGUMPUR,BEGUMPUR,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+28,SHAHBAAD DAIRY,SHAHBAAD DAIRY,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+29,POOTH KHURD,POOTH KHURD,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+30,BAWANA,BAWANA,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+31,NANGAL THAKRAN,NANGAL THAKRAN,OUTER NORTH,AC-07,Bawana (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+32,KANJHAWALA,KARALA,OUTER NORTH,AC-08,Mundka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+33,RANI KHERA,RANI KHERA,OUTER NORTH,AC-08,Mundka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+34,NANGLOI,NANGLOI,OUTER NORTH,AC-08,Mundka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+35,MUNDKA,MUNDKA,OUTER NORTH,AC-08,Mundka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+36,NILOTHI,NILOTHI,OUTER NORTH,AC-08,Mundka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+37,KIRARI,KIRARI,NORTH WEST,AC-09,Kirari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+38,PREM NAGAR,PREM NAGAR,NORTH WEST,AC-09,Kirari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+39,MUBARIKPUR,MUBARIKPUR,NORTH WEST,AC-09,Kirari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+40,NITHARI,NITHARI,NORTH WEST,AC-09,Kirari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+41,AMAN VIHAR,AMAN VIHAR,NORTH WEST,AC-09,Kirari,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+42,MANGOL PURI,MANGOL PURI,NORTH WEST,AC-10,Sultanpur Majra (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+43,SULTANPURI-A,SULTANPURI-A,NORTH WEST,AC-10,Sultanpur Majra (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+44,SULTANPURI-B,SULTANPURI-B,NORTH WEST,AC-10,Sultanpur Majra (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+45,JAWALAPURI,JAWALAPURI,NORTH WEST,AC-11,Nangloi Jat,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+46,NANGLOI JAT,NANGLOI JAT,NORTH WEST,AC-11,Nangloi Jat,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+47,NIHAL VIHAR,NIHAL VIHAR,NORTH WEST,AC-11,Nangloi Jat,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+48,GURU HARKISHAN NAGAR,GURU HARKISHAN NAGAR,NORTH WEST,AC-11,Nangloi Jat,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+49,MANGOLPURI-A,MANGOLPURI-A,NORTH WEST,AC-12,Mangol Puri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+50,MANGOLPURI-B,MANGOLPURI-B,NORTH WEST,AC-12,Mangol Puri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+51,ROHINI-C,ROHINI-C,NORTH WEST,AC-12,Mangol Puri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+52,ROHINI-F,ROHINI-F,NORTH WEST,AC-13,Rohini,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+53,ROHINI-E,ROHINI-E,NORTH WEST,AC-13,Rohini,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+54,ROHINI-D,ROHINI-D,CENTRAL NORTH,AC-13,Rohini,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+55,SHALIMAR BAGH-A,SHALIMAR BAGH-A,CENTRAL NORTH,AC-14,Shalimar Bagh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+56,SHALIMAR BAGH-B,SHALIMAR BAGH-B,CENTRAL NORTH,AC-14,Shalimar Bagh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+57,PITAM PURA,PITAM PURA,CENTRAL NORTH,AC-14,Shalimar Bagh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+58,SARASWATI VIHAR,SARASWATI VIHAR,CENTRAL NORTH,AC-15,Shakur Basti,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+59,PASCHIM VIHAR,PASCHIM VIHAR,CENTRAL NORTH,AC-15,Shakur Basti,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+60,RANI BAGH,RANI BAGH,CENTRAL NORTH,AC-15,Shakur Basti,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+61,KOHAT ENCLAVE,KOHAT ENCLAVE,CENTRAL NORTH,AC-16,Tri Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+62,SHAKUR PUR,SHAKUR PUR,CENTRAL NORTH,AC-16,Tri Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+63,TRI NAGAR,TRI NAGAR,CENTRAL NORTH,AC-16,Tri Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+64,KESHAV PURAM,KESHAV PURAM,CENTRAL NORTH,AC-17,Wazirpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+65,ASHOK VIHAR,ASHOK VIHAR,CENTRAL NORTH,AC-17,Wazirpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+66,WAZIR PUR,WAZIR PUR,CENTRAL NORTH,AC-17,Wazirpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+67,SANGAM PARK,SANGAM PARK,CENTRAL NORTH,AC-18,Model Town,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+68,MODEL TOWN,MODEL TOWN,CENTRAL NORTH,AC-18,Model Town,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+69,KAMLA NAGAR,KAMLA NAGAR,CENTRAL NORTH,AC-18,Model Town,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+70,SHASTRI NAGAR,SHASTRI NAGAR,CENTRAL NORTH,AC-19,Sadar Bazar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+71,KISHAN GANJ,KISHAN GANJ,OLD DELHI,AC-19,Sadar Bazar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+72,SADAR BAZAR,SADAR BAZAR,OLD DELHI,AC-19,Sadar Bazar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+73,CIVIL LINES,CIVIL LINES,OLD DELHI,AC-20,Chandni Chowk,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+74,CHANDNI CHOWK,CHANDNI CHOWK,OLD DELHI,AC-20,Chandni Chowk,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+75,JAMA MASJID,JAMA MASJID,OLD DELHI,AC-20,Chandni Chowk,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+76,CHANDANI MAHAL,CHANDANI MAHAL,OLD DELHI,AC-21,Matia Mahal,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+77,DELHI GATE,DELHI GATE,OLD DELHI,AC-21,Matia Mahal,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+78,BAZAR SITA RAM,BAZAR SITA RAM,OLD DELHI,AC-21,Matia Mahal,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+79,BALLIMARAN,BALLIMARAN,OLD DELHI,AC-22,Ballimaran,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+80,RAM NAGAR,RAM NAGAR,OLD DELHI,AC-22,Ballimaran,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+81,QURAISH NAGAR,QURAISH NAGAR,CENTRAL ZONE,AC-22,Ballimaran,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+82,PAHAR GANJ,PAHAR GANJ,CENTRAL ZONE,AC-23,Karol Bagh (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+83,KAROL BAGH,KAROL BAGH,CENTRAL ZONE,AC-23,Karol Bagh (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+84,DEV NAGAR,DEV NAGAR,CENTRAL ZONE,AC-23,Karol Bagh (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+85,WEST PATEL NAGAR,WEST PATEL NAGAR,CENTRAL ZONE,AC-24,Patel Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+86,EAST PATEL NAGAR,EAST PATEL NAGAR,CENTRAL ZONE,AC-24,Patel Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+87,RANJEET NAGAR,RANJEET NAGAR,CENTRAL ZONE,AC-24,Patel Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+88,BALJEET NAGAR,BALJEET NAGAR,CENTRAL ZONE,AC-24,Patel Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+89,KARAM PURA,KARAM PURA,CENTRAL ZONE,AC-25,Moti Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+90,MOTI NAGAR,MOTI NAGAR,CENTRAL ZONE,AC-25,Moti Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+91,RAMESH NAGAR,RAMESH NAGAR,CENTRAL ZONE,AC-25,Moti Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+92,PUNJABI BAGH,PUNJABI BAGH,WEST ZONE,AC-26,Madipur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+93,MADIPUR,MADIPUR,WEST ZONE,AC-26,Madipur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+94,RAGHUBIR NAGAR,RAGHUBIR NAGAR,WEST ZONE,AC-26,Madipur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+95,VISHNU GARDEN,VISHNU GARDEN,WEST ZONE,AC-27,Rajouri Garden,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+96,RAJOURI GARDEN,RAJOURI GARDEN,WEST ZONE,AC-27,Rajouri Garden,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+97,CHAUKHANDI NAGAR,CHAUKHANDI,WEST ZONE,AC-27,Rajouri Garden,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+98,SUBHASH NAGAR,SUBHASH NAGAR,WEST ZONE,AC-28,Hari Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+99,HARI NAGAR,HARI NAGAR,WEST ZONE,AC-28,Hari Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+100,FATEH NAGAR,FATEH NAGAR,WEST ZONE,AC-28,Hari Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+101,TILAK NAGAR,TILAK NAGAR,WEST ZONE,AC-29,Tilak Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+102,KHYALA,KHYALA,WEST ZONE,AC-29,Tilak Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+103,KESHOPUR,KESHOPUR,WEST ZONE,AC-30,Janakpuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+104,JANAK PURI SOUTH,JANAK PURI SOUTH,WEST ZONE,AC-30,Janakpuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+105,MAHAVEER ENCLAVE,MAHAVEER ENCLAVE,WEST ZONE,AC-30,Janakpuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+106,JANAK PURI WEST,JANAK PURI WEST,WEST ZONE,AC-30,Janakpuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+107,VIKAS PURI,VIKAS PURI,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+108,HASTSAL,HASTSAL,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+109,VIKAS NAGAR,VIKAS NAGAR,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+110,KUNWAR SINGH NAGAR,KUNWAR SINGH NAGAR,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+111,BAPROLA,BAPROLA,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+112,SAINIK ENCLAVE,SAINIK ENCLAVE,WEST ZONE,AC-31,Vikaspuri,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+113,MOHAN GARDEN,MOHAN GARDEN-WEST,SOUTH WEST,AC-32,Uttam Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+114,NAWADA,MOHAN GARDEN-EAST,SOUTH WEST,AC-32,Uttam Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+115,UTTAM NAGAR,UTTAM NAGAR,SOUTH WEST,AC-32,Uttam Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+116,BINDA PUR,BINDA PUR,SOUTH WEST,AC-32,Uttam Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+117,DABRI,DABRI,SOUTH WEST,AC-33,Dwarka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+118,SAGARPUR,SAGARPUR,SOUTH WEST,AC-33,Dwarka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+119,MANGLAPURI,MANGLAPURI,SOUTH WEST,AC-33,Dwarka,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+120,DWARKA-B,DWARKA-B,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+121,DWARKA-A,DWARKA-A,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+122,MATIALA,MATIALA,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+123,KAKROLA,KAKROLA,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+124,NANGLI SAKRAWATI,NANGLI SAKRAWATI,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+125,CHHAWLA,CHHAWALA,SOUTH WEST,AC-34,Matiala,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+126,ISAPUR,ISAPUR,SOUTH WEST,AC-35,Najafgarh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+127,NAJAFGARH,NAJAFGARH,SOUTH WEST,AC-35,Najafgarh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+128,DICHAON KALAN,DICHAON KALAN,SOUTH WEST,AC-35,Najafgarh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+129,ROSHAN PURA,ROSHAN PURA,SOUTH WEST,AC-35,Najafgarh,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+130,DWARKA-C,DWARKA-C,SOUTH WEST,AC-36,Bijwasan,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+131,BIJWASAN,BIJWASAN,SOUTH WEST,AC-36,Bijwasan,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+132,KAPASHERA,KAPASHERA,SOUTH WEST,AC-36,Bijwasan,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+133,MAHIPALPUR,MAHIPALPUR,SOUTH WEST,AC-36,Bijwasan,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+134,RAJ NAGAR,RAJ NAGAR,SOUTH WEST,AC-36,Bijwasan,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+135,PALAM,PALAM,SOUTH WEST,AC-37,Palam,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+136,MADHU VIHAR,MADHU VIHAR,SOUTH WEST,AC-37,Palam,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+137,MAHAVEER ENCLAVE,MAHAVIR ENCLAVE,SOUTH WEST,AC-37,Palam,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+138,SADH NAGAR,SADH NAGAR,SOUTH WEST,AC-37,Palam,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+139,NARAINA,NARAINA,WEST ZONE,AC-39,Rajinder Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+140,INDER PURI,INDER PURI,WEST ZONE,AC-39,Rajinder Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+141,RAJINDER NAGAR,RAJINDER NAGAR,WEST ZONE,AC-39,Rajinder Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+142,DARIYA GANJ,DARYAGANJ,SOUTH EAST,AC-41,Jangpura,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+143,SIDDHARTHA NAGAR,SIDHARTHA NAGAR,SOUTH EAST,AC-41,Jangpura,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+144,LAJPAT NAGAR,LAJPAT NAGAR,SOUTH EAST,AC-41,Jangpura,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+145,ANDREWS GANJ,ANDREWS GANJ,SOUTH EAST,AC-42,Kasturba Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+146,AMAR COLONY,AMAR COLONY,SOUTH EAST,AC-42,Kasturba Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+147,KOTLA MUBARAKPUR,KOTLA MUBARAKPUR,SOUTH EAST,AC-42,Kasturba Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+148,HAUZ KHAS,HAUZ KHAS,SOUTH ZONE,AC-43,Malviya Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+149,MALVIYA NAGAR,MALVIYA NAGAR,SOUTH ZONE,AC-43,Malviya Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+150,GREEN PARK,GREEN PARK,SOUTH ZONE,AC-43,Malviya Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+151,MUNIRKA,MUNIRKA,SOUTH ZONE,AC-44,R.K. Puram,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+152,R.K. PURAM,R.K. PURAM,SOUTH ZONE,AC-44,R.K. Puram,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+153,VASANT VIHAR,VASANT VIHAR,SOUTH ZONE,AC-44,R.K. Puram,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+154,LADO SARAI,LADO SARAI,SOUTH ZONE,AC-45,Mehrauli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+155,MEHRAULI,MEHRAULI,SOUTH ZONE,AC-45,Mehrauli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+156,VASANT KUNJ,VASANT KUNJ,SOUTH ZONE,AC-45,Mehrauli,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+157,AYA NAGAR,AYA NAGAR,SOUTH ZONE,AC-46,Chhatarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+158,BHATI,BHATI,SOUTH ZONE,AC-46,Chhatarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+159,CHHATARPUR,CHHATARPUR,SOUTH ZONE,AC-46,Chhatarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+160,SAID-UL-AJAIB,SAID-UL-AJAIB,SOUTH ZONE,AC-46,Chhatarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+161,DEOLI,DEOLI,SOUTH ZONE,AC-47,Deoli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+162,TIGRI,TIGRI,SOUTH ZONE,AC-47,Deoli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+163,SANGAM VIHAR-A,SANGAM VIHAR-A,SOUTH ZONE,AC-47,Deoli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+164,DAKSHIN PURI,DAKSHIN PURI,SOUTH ZONE,AC-47,Deoli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+165,MADANGIR,MADANGIR,SOUTH ZONE,AC-48,Ambedkar Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+166,PUSHP VIHAR,PUSHP VIHAR,SOUTH ZONE,AC-48,Ambedkar Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+167,KHANPUR,KHANPUR,SOUTH ZONE,AC-48,Ambedkar Nagar (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+168,SANGAM VIHAR-C,SANGAM VIHAR-C,SOUTH EAST,AC-49,Sangam Vihar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+169,SANGAM VIHAR-B,SANGAM VIHAR-B,SOUTH EAST,AC-49,Sangam Vihar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+170,TUGHLAKABAD EXTENSION,TUGHLAKABAD EXTENSION,SOUTH EAST,AC-49,Sangam Vihar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+171,CHITARANJAN PARK,CHITARANJAN PARK,SOUTH ZONE,AC-50,Greater Kailash,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+172,CHIRAGH DELHI,CHIRAG DELHI,SOUTH ZONE,AC-50,Greater Kailash,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+173,GREATER KAILASH,GREATER KAILASH,SOUTH ZONE,AC-50,Greater Kailash,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+174,SRINIWAS PURI,SRI NIWAS PURI,SOUTH EAST,AC-50,Greater Kailash,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+175,KALKAJI,KALKAJI,SOUTH EAST,AC-51,Kalkaji,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+176,GOVIND PURI,GOVIND PURI,SOUTH EAST,AC-51,Kalkaji,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+177,HARKESH NAGAR,HARKESH NAGAR,SOUTH EAST,AC-52,Tughlakabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+178,TUGHLAKABAD,TUGHLAKABAD,SOUTH EAST,AC-52,Tughlakabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+179,PUL PEHLADPUR,PUL PEHLADPUR,SOUTH EAST,AC-52,Tughlakabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+180,BADARPUR,BADARPUR,SOUTH EAST,AC-53,Badarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+181,MOLARBAND,MOLARBAND,SOUTH EAST,AC-53,Badarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+182,MITHAPUR,MEETHAPUR,SOUTH EAST,AC-53,Badarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+183,HARI NAGAR EXTENSION,HARI NAGAR EXTENSION,SOUTH EAST,AC-53,Badarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+184,JAITPUR,JAITPUR,SOUTH EAST,AC-53,Badarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+185,MADANPUR KHADAR EAST,MADANPUR KHADAR EAST,SOUTH EAST,AC-54,Okhla,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+186,MADANPUR KHADAR WEST,MADANPUR KHADAR WEST,SOUTH EAST,AC-54,Okhla,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+187,SARITA VIHAR,SARITA VIHAR,SOUTH EAST,AC-54,Okhla,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+188,ABUL FAZAL ENCLAVE,ABUL FAZAL ENCLAVE,SOUTH ZONE,AC-54,Okhla,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+189,ZAKIR NAGAR,ZAKIR NAGAR,SOUTH ZONE,AC-54,Okhla,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+190,NEW ASHOK NAGAR,NEW ASHOK NAGAR,EAST,AC-55,Trilokpuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+191,MAYUR VIHAR PHASE-I,MAYUR VIHAR PHASE-I,EAST,AC-55,Trilokpuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+192,TRILOKPURI,TRILOKPURI,EAST,AC-55,Trilokpuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+193,KONDLI,KONDLI,EAST,AC-56,Kondli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+194,GHAROLI,GHAROLI,EAST,AC-56,Kondli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+195,KALYANPURI,KALYANPURI,EAST,AC-56,Kondli (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+196,MAYUR VIHAR PHASE-II,MAYUR VIHAR PHASE-II,EAST,AC-57,Patparganj,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+197,PATPAR GANJ,PATPARGANJ,EAST,AC-57,Patparganj,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+198,VINOD NAGAR,VINOD NAGAR,EAST,AC-57,Patparganj,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+199,MANDAWALI,MANDAWALI,EAST,AC-57,Patparganj,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+200,PANDAV NAGAR,PANDAV NAGAR,EAST,AC-58,Laxmi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+201,LALITA PARK,LALITA PARK,EAST,AC-58,Laxmi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+202,SHAKARPUR,SHAKARPUR,EAST,AC-58,Laxmi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+203,LAXMI NAGAR,LAXMI NAGAR,EAST,AC-58,Laxmi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+204,PREET VIHAR,PREET VIHAR,EAST,AC-59,Vishwas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+205,I.P.EXTENSION,I.P. EXTENSION,EAST,AC-59,Vishwas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+206,ANAND VIHAR,ANAND VIHAR,EAST,AC-59,Vishwas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+207,VISHWAS NAGAR,VISHWAS NAGAR,EAST,AC-59,Vishwas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+208,ANARKALI,ANARKALI,EAST,AC-60,Krishna Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+209,JAGAT PURI,JAGAT PURI,NORTH EAST,AC-60,Krishna Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+210,GEETA COLONY,GEETA COLONY,NORTH EAST,AC-60,Krishna Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+211,KRISHNA NAGAR,KRISHNA NAGAR,NORTH EAST,AC-60,Krishna Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+212,GANDHI NAGAR,GANDHI NAGAR,NORTH EAST,AC-61,Gandhi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+213,SHASTRI PARK,SHASTRI PARK,NORTH EAST,AC-61,Gandhi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+214,AZAD NAGAR,AZAD NAGAR,NORTH EAST,AC-61,Gandhi Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+215,SHAHDARA,SHAHDARA,NORTH EAST,AC-62,Shahdara,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+216,JHILMIL,JHILMIL,NORTH EAST,AC-62,Shahdara,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+217,DILSHAD COLONY,DILSHAD COLONY,NORTH EAST,AC-62,Shahdara,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+218,SUNDAR NAGRI,SUNDAR NAGRI,NORTH EAST,AC-63,Seemapuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+219,DILSHAD GARDEN,DILSHAD GARDEN,NORTH EAST,AC-63,Seemapuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+220,NAND NAGRI,NAND NAGRI,NORTH EAST,AC-63,Seemapuri (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+221,ASHOK NAGAR,ASHOK NAGAR,NORTH EAST,AC-64,Rohtas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+222,RAM NAGAR EAST,RAM NAGAR EAST,NORTH EAST,AC-64,Rohtas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+223,ROHTASH NAGAR,ROHTASH NAGAR,NORTH EAST,AC-64,Rohtas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+224,WELCOME COLONY,WELCOME COLONY,NORTH EAST,AC-64,Rohtas Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+225,SEELAMPUR,SEELAMPUR,NORTH EAST,AC-65,Seelam Pur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+226,GAUTAM PURI,GAUTAM PURI,NORTH EAST,AC-65,Seelam Pur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+227,CHAUHAN BANGER,CHAUHAN BANGER,NORTH EAST,AC-65,Seelam Pur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+228,MAUJPUR,MAUJPUR,NORTH EAST,AC-65,Seelam Pur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+229,BRAHAM PURI,BRAHAM PURI,NORTH EAST,AC-66,Ghonda,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+230,BHAJANPURA,BHAJANPURA,NORTH EAST,AC-66,Ghonda,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+231,GHONDA,GHONDA,NORTH EAST,AC-66,Ghonda,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+232,YAMUNA VIHAR,YAMUNA VIHAR,NORTH EAST,AC-66,Ghonda,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+233,SUBHASH MOHALLA,SUBHASH MOHALLA,NORTH EAST,AC-67,Babarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+234,KABIR NAGAR,KABIR NAGAR,NORTH EAST,AC-67,Babarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+235,GORAKH PARK,GORAKH PARK,NORTH EAST,AC-67,Babarpur,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+236,KARDAM PURI,KARDAM PURI,NORTH EAST,AC-68,Gokalpur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+237,HARSH VIHAR,HARSH VIHAR,NORTH EAST,AC-68,Gokalpur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+238,SABOLI,SABOLI,NORTH EAST,AC-68,Gokalpur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+239,GOKAL PURI,GOKAL PURI,NORTH EAST,AC-68,Gokalpur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+240,JOHARIPUR,JOHARIPUR,NORTH EAST,AC-68,Gokalpur (SC),,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+241,KARAWAL NAGAR-EAST,KARAWAL NAGAR-EAST,NORTH EAST,AC-69,Mustafabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+242,DAYALPUR,DAYALPUR,NORTH EAST,AC-69,Mustafabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+243,MUSTAFABAD,MUSTAFABAD,NORTH EAST,AC-69,Mustafabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+244,NEHRU VIHAR,NEHRU VIHAR,NORTH EAST,AC-69,Mustafabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+245,BRIJ PURI,BRIJ PURI,NORTH EAST,AC-69,Mustafabad,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+246,SRI RAM COLONY,SRI RAM COLONY,NORTH EAST,AC-70,Karawal Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+247,SADATPUR,SADATPUR,NORTH EAST,AC-70,Karawal Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+248,KARAWAL NAGAR-WEST,KARAWAL NAGAR-WEST,NORTH EAST,AC-70,Karawal Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+249,SONIA VIHAR,SONIA VIHAR,NORTH EAST,AC-70,Karawal Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified
+250,SABAPUR,SABAPUR,NORTH EAST,AC-70,Karawal Nagar,,,2022_SEC_Delimitation_and_2026_Gazette_Schedule,official_delimitation_parent_ac_schedule,official_verified

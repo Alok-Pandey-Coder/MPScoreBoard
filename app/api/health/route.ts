@@ -8,9 +8,9 @@ export function GET() {
       snapshotDate: getSnapshotDate(),
       mpCount: getAllMPs().length,
     });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json(
-      { status: "error", error: err?.message || String(err) },
+      { status: "error", error: "Health check failed." },
       { status: 500 }
     );
   }

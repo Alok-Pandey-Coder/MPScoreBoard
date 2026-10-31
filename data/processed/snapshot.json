@@ -1,15 +1,15 @@
 {
   "snapshot_version": "delhi-18ls-v2",
-  "generated_at": "2026-10-31T12:22:10.788608+00:00",
+  "generated_at": "2026-10-31T17:18:52.091916+00:00",
   "record_count": 7,
-  "sha256": "d31c1ffbdfff2bf8270d1f4ab2031fb956369934dafeb83ab9d841d85738878b",
-  "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/06_merge.py -> scripts/07_validate.py",
+  "sha256": "af7956623ffc2ce9a8251a9937beb8e9c7bfe05f880c69305be34e1beab3e965",
+  "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/09_intake_mplads.py -> scripts/06_merge.py -> scripts/07_validate.py -> scripts/08_snapshot.py",
   "coverage": "Delhi, seven Lok Sabha constituencies",
   "source_status": {
-    "identity": "collected",
-    "prs": "parsed from cached HTML; manual live check pending",
-    "mplads": "pending",
-    "affidavit": "pending",
-    "eci": "pending"
+    "identity": "cross_checked: 7",
+    "prs": "parsed (PRS Legislative Research 2026-08-13) [not_applicable: 1, reported: 6]",
+    "mplads": "secondary_only (Empowered Indian (aggregating MoSPI eSAKSHI) 2026-10-31; cross-check: JanWatchdog 2026-10-06) [reported: 7]",
+    "affidavit": "cross_checked (Association for Democratic Reforms (ADR) / MyNeta 2026-10-31) [reported: 7]",
+    "eci": "user_verified (Election Commission of India 2024-06-04) [reported: 7]"
   }
 }

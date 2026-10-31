@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STEPS = [
     "03_parse_prs.py",
     "05_normalise.py",
+    "09_intake_mplads.py",
     "06_merge.py",
     "07_validate.py",
     "08_snapshot.py",

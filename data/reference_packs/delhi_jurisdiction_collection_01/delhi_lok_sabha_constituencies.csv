@@ -1,0 +1,8 @@
+parliamentary_constituency_id,parliamentary_constituency_number,lok_sabha_constituency,mp_id,mp_name,total_assembly_constituencies,mcd_containing_assembly_constituencies,mcd_ward_count_in_pc,boundary_version,mapping_method,verification_status,source_url
+PC-01,1,Chandni Chowk,MP-02,Praveen Khandelwal,10,10,30,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-02,2,North East Delhi,MP-06,Manoj Kumar Tiwari,10,10,41,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-03,3,East Delhi,MP-05,Harsh Malhotra,10,10,36,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-04,4,New Delhi,MP-01,Bansuri Swaraj,10,8,26,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-05,5,North West Delhi (SC),MP-07,Yogender Chandolia,10,10,43,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-06,6,West Delhi,MP-04,Kamaljeet Sehrawat,10,10,38,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx
+PC-07,7,South Delhi,MP-03,Ramvir Singh Bidhuri,10,10,36,2008_ECI_Delimitation_Order,official_delimitation_schedule_table,official_verified,https://ceodelhi.gov.in/MapPage.aspx

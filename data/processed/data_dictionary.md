@@ -22,7 +22,9 @@
 | `performance.prs_averages` | National and state averages as published by PRS, for reconciliation only |
 | `performance.source` | URL, retrieval date, raw capture file, licence (PRS: CC BY 4.0) |
 | `*.review_status` | `parsed` → `cross_checked` → `approved` (after a manual check against the live source) |
-| `mplads`, `affidavit`, `election` | `status: "pending"` with all values `null` until captured |
+| `*.review_status` (MPLADS) | `secondary_only`: figures from Empowered Indian (aggregating MoSPI eSAKSHI), not yet checked against an official source |
+| `mplads` | `MpladsData` in `types/mp.ts`. INR crore (4 dp): `allocated_cr`, `recommended_amount_cr`, `expenditure_cr`, `unspent_cr`; `expenditure_pct` = spent ÷ allocated × 100 and `recommended_pct` = recommended ÷ allocated × 100 (computed, 1 dp); `annual_entitlement_cr` `null` (not yet cited); `works_count` {recommended, sanctioned (`null`, not published), completed, pending}; `works[]` (`MpladsWork`, partial list, `works_is_partial`); `cross_check[]` (JanWatchdog, for checking only) |
+| `affidavit`, `election` | `status: "pending"` with all values `null` until captured |
 | `sources` | Every source used for the record, with URL and retrieval date |
 | `normalisation_notes` | Join and normalisation decisions made for the record |
 

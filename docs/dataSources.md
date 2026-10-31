@@ -55,6 +55,24 @@
 - "As of" date (these figures update continuously)
 - Note: early in a term, utilisation numbers are naturally low or incomplete. Show the date.
 
+### MPLADS sources actually used (Delhi, as of 2026-10-31)
+
+| Role | Source | Raw capture | Units | Review status |
+|---|---|---|---|---|
+| Primary (published, labelled secondary) | **Empowered Indian (aggregating MoSPI eSAKSHI)** — `api.empoweredindian.in/api/mplads/mps/{id}` and `/works`; MP pages `https://empoweredindian.in/mps/{id}` | `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` (latest dated capture is picked automatically) | Rupees | `secondary_only` |
+| Cross-check only | **JanWatchdog** — `https://www.janwatchdog.in/mplads/delhi` (secondary aggregator citing the MoSPI MPLADS dashboard), snapshot 2026-10-06 | `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` | Crore | Not published; shown only as `cross_check` |
+| Official (pending) | MoSPI eSAKSHI dashboard `mplads.mospi.gov.in` / `mplads.gov.in` | none — `mplads.gov.in` refused connections on 2026-10-31 | — | — |
+
+Definitions and decisions (implemented in `scripts/09_intake_mplads.py`):
+
+- Empowered Indian's `utilizationPercentage` is **recommended ÷ allocated** (`utilizationDefinition: "recommended_amount"`), not spending. The export computes `expenditure_pct = totalExpenditure ÷ allocatedAmount × 100` and `recommended_pct = totalRecommendedAmount ÷ allocatedAmount × 100` from the rupee amounts (1 dp). Source percentages are only used to validate (tolerance 1 point).
+- `allocatedAmount` is the cumulative term allocation. The source has **no separate "funds released" figure**; none is derived.
+- No sanctioned-works count is published by Empowered Indian, so `works_count.sanctioned` is `null` (JanWatchdog's sanctioned count appears only in `cross_check`).
+- `annual_entitlement_cr` is `null` until the MPLADS guidelines are cited from an official MoSPI/mplads.gov.in URL.
+- The capture holds 20 works per MP (the `/works` endpoint returned up to 100 rows), so `works_is_partial = true` for all seats.
+- Reuse terms of both aggregators are not confirmed; their figures are labelled secondary and the cross-check source is not shown as fact.
+- JanWatchdog spellings differ ("Manoj Tiwari", "Yogendra Chandoliya"); joins are on normalised constituency (reservation suffix stripped), names only confirm.
+
 ### From MyNeta / ADR
 - Total assets, liabilities, declared criminal cases (count, and serious-case count if provided), education
 - Election year the affidavit belongs to
@@ -81,7 +99,8 @@
 scripts/
   01_fetch_masterlist.py     # Sansad / ECI → data/raw/masterlist.*
   02_fetch_prs.py            # PRS MP Track → data/raw/prs_*.{csv,json,html}
-  03_fetch_mplads.py         # MPLADS reports → data/raw/mplads_*
+  fetch_empowered_delhi.py   # Empowered Indian MPLADS API → data/raw/mplads.delhi.empoweredindian.<date>.json
+  09_intake_mplads.py        # latest MPLADS capture (+ JanWatchdog cross-check) → data/processed/mplads.delhi.json
   04_fetch_myneta.py         # affidavit data → data/raw/myneta_*
   05_normalise.py            # clean names, units (Rs / crore), types
   06_merge.py                # join onto the master list, apply aliases

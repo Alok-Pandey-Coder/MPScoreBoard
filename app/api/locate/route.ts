@@ -1,82 +1,45 @@
-import { NextRequest, NextResponse } from "next/server";
-import { resolveLocation } from "@/lib/data";
-import { LocationResolveRequest } from "@/lib/types";
+import { NextRequest, NextResponse } from 'next/server';
+import { resolveLocation } from '@/lib/data';
+import { apiError, readJsonBody } from '@/lib/api';
+import type { LocationResolveRequest, LocationResolveResponse } from '@/types/location';
+
+function respond(result: LocationResolveResponse) {
+  return NextResponse.json(
+    { status: result.success ? 'success' : 'not_found', result },
+    { status: result.success ? 200 : 404 },
+  );
+}
+
+/** Accepts only the known fields, with the right types. */
+function toRequest(input: Record<string, unknown>): LocationResolveRequest | null {
+  const req: LocationResolveRequest = {};
+  if (input.lat !== undefined || input.lng !== undefined) {
+    const lat = Number(input.lat);
+    const lng = Number(input.lng);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    req.lat = lat;
+    req.lng = lng;
+  }
+  if (typeof input.pincode === 'string') req.pincode = input.pincode.slice(0, 6);
+  if (typeof input.query === 'string') req.query = input.query.slice(0, 100);
+  return req;
+}
 
 export async function POST(req: NextRequest) {
-  try {
-    const body: LocationResolveRequest = await req.json();
-    const result = resolveLocation(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        {
-          status: "not_found",
-          result,
-        },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      status: "success",
-      result,
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { status: "error", message: error.message },
-      { status: 400 }
-    );
-  }
+  const body = await readJsonBody(req);
+  const parsed = body && toRequest(body);
+  if (!parsed) return apiError('INVALID_REQUEST', 'Expected { lat, lng } or { pincode } or { query }.', 400);
+  return respond(resolveLocation(parsed));
 }
 
 export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const latParam = searchParams.get("lat");
-    const lngParam = searchParams.get("lng");
-    const pincode = searchParams.get("pincode");
-    const query = searchParams.get("q") || searchParams.get("query");
-
-    const resolveReq: LocationResolveRequest = {};
-
-    if (latParam && lngParam) {
-      const lat = parseFloat(latParam);
-      const lng = parseFloat(lngParam);
-      if (!isNaN(lat) && !isNaN(lng)) {
-        resolveReq.lat = lat;
-        resolveReq.lng = lng;
-      }
-    }
-
-    if (pincode) {
-      resolveReq.pincode = pincode;
-    }
-
-    if (query) {
-      resolveReq.query = query;
-    }
-
-    const result = resolveLocation(resolveReq);
-
-    if (!result.success) {
-      return NextResponse.json(
-        {
-          status: "not_found",
-          result,
-        },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      status: "success",
-      result,
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { status: "error", message: error.message },
-      { status: 400 }
-    );
-  }
+  const params = req.nextUrl.searchParams;
+  const parsed = toRequest({
+    lat: params.get('lat') ?? undefined,
+    lng: params.get('lng') ?? undefined,
+    pincode: params.get('pincode') ?? undefined,
+    query: params.get('q') ?? params.get('query') ?? undefined,
+  });
+  if (!parsed) return apiError('INVALID_REQUEST', 'lat and lng must be numbers.', 400);
+  return respond(resolveLocation(parsed));
 }
-

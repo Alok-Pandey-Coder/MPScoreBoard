@@ -4,6 +4,9 @@ import React from 'react';
 import { X, Award, ChevronRight, User } from 'lucide-react';
 import { ConstituencyGeoData } from '@/lib/indiaGeoData';
 import Link from 'next/link';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { mapMessages } from '@/lib/messages/map';
+import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
 
 export interface ConstituencyInfoPanelProps {
   constituency: ConstituencyGeoData;
@@ -14,12 +17,14 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
   constituency,
   onClose,
 }) => {
+  const t = useMessages(mapMessages);
+  const { lang } = useLang();
   return (
     <div className="w-80 rounded-xl bg-[#171D24]/95 border border-amber-400/80 shadow-2xl backdrop-blur-md overflow-hidden text-[#F3F4F6] animate-in fade-in zoom-in-95 duration-200">
       <div className="p-3 border-b border-[#303A45] flex items-center justify-between bg-[#14191F]/90">
         <div>
           <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">
-            {constituency.reservation || 'GEN'} Seat
+            {t.seatType(constituency.reservation || 'GEN')}
           </span>
           <h4 className="text-sm font-bold text-white mt-1 font-['Outfit',sans-serif]">
             {constituency.name}
@@ -28,7 +33,7 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
         <button
           onClick={onClose}
           className="p-1 text-[#9BAABD] hover:text-white rounded-lg hover:bg-[#1D242D] transition-colors"
-          aria-label="Close constituency panel"
+          aria-label={t.closeConstituencyPanel}
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -50,7 +55,7 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
               </span>
               {constituency.isMinister && (
                 <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 flex items-center gap-0.5">
-                  <Award className="w-2.5 h-2.5" /> Minister
+                  <Award className="w-2.5 h-2.5" /> {t.minister}
                 </span>
               )}
             </div>
@@ -60,19 +65,19 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
         {/* Benchmarks if available */}
         <div className="grid grid-cols-3 gap-1.5 bg-[#14191F]/80 p-2 rounded-lg border border-[#303A45] text-center">
           <div>
-            <div className="text-[9px] text-[#9BAABD] uppercase">Attendance</div>
+            <div className="text-[9px] text-[#9BAABD] uppercase">{t.attendance}</div>
             <div className="text-xs font-bold text-white font-mono mt-0.5">
-              {constituency.attendancePct ? `${constituency.attendancePct}%` : 'N/A'}
+              {constituency.attendancePct !== null && constituency.attendancePct !== undefined ? `${constituency.attendancePct}%` : NOT_AVAILABLE_TEXT[lang]}
             </div>
           </div>
           <div>
-            <div className="text-[9px] text-[#9BAABD] uppercase">Debates</div>
+            <div className="text-[9px] text-[#9BAABD] uppercase">{t.debates}</div>
             <div className="text-xs font-bold text-white font-mono mt-0.5">
               {constituency.debates ?? '—'}
             </div>
           </div>
           <div>
-            <div className="text-[9px] text-[#9BAABD] uppercase">Questions</div>
+            <div className="text-[9px] text-[#9BAABD] uppercase">{t.questions}</div>
             <div className="text-xs font-bold text-white font-mono mt-0.5">
               {constituency.questions ?? '—'}
             </div>
@@ -83,7 +88,7 @@ export const ConstituencyInfoPanel: React.FC<ConstituencyInfoPanelProps> = ({
         <Link href={`/mp/${constituency.slug}`}
           className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md transition-colors font-medium"
         >
-          <span>Open Full Report Card</span>
+          <span>{t.openFullReportCard}</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>

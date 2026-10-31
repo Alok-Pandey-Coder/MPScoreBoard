@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, X, ChevronRight, MapPin, Building2, User } from 'lucide-react';
+import { Search, X, ChevronRight, MapPin } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { MPAvatar } from '@/components/ui/MPAvatar';
 import { searchMPs } from '@/lib/search';
+import { coverageNote, getCoverage } from '@/lib/coverage';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { homeMessages } from '@/lib/messages/home';
 
 interface UnifiedSearchBarProps {
   mps: MPRecord[];
@@ -14,15 +17,9 @@ interface UnifiedSearchBarProps {
   onSelectGeographicalFeature?: (stateId: string, constituencySlug?: string) => void;
 }
 
-const QUICK_DELHI_SEATS = [
-  { name: 'New Delhi', slug: 'new-delhi-delhi' },
-  { name: 'Chandni Chowk', slug: 'chandni-chowk-delhi' },
-  { name: 'East Delhi', slug: 'east-delhi-delhi' },
-  { name: 'North East', slug: 'north-east-delhi-delhi' },
-  { name: 'North West', slug: 'north-west-delhi-delhi' },
-  { name: 'South Delhi', slug: 'south-delhi-delhi' },
-  { name: 'West Delhi', slug: 'west-delhi-delhi' },
-];
+/** Shortcut chips under the search box; capped so they stay one or two rows. */
+const MAX_QUICK_SEATS = 8;
+const toStateId = (state: string) => state.trim().toLowerCase().replace(/\s+/g, '-');
 
 export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   mps,
@@ -31,26 +28,31 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   onSelectGeographicalFeature,
 }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<MPRecord[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const router = useRouter();
+  const t = useMessages(homeMessages);
+  const { lang } = useLang();
+  const quickSeats = useMemo(
+    () =>
+      mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
+        slug: mp.slug,
+        stateId: toStateId(mp.state),
+        name: mp.constituency.replace(/\s*\((SC|ST)\)$/, ''),
+      })),
+    [mps],
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setIsOpen(false);
-      return;
-    }
-
-    const matched = searchMPs(query, mps);
-    setResults(matched);
-    setIsOpen(true);
+  // Results are derived from the query; typing opens the list and resets the highlight.
+  const results = useMemo<MPRecord[]>(() => (query.trim() ? searchMPs(query, mps) : []), [query, mps]);
+  const updateQuery = (value: string) => {
+    setQuery(value);
+    setIsOpen(value.trim().length > 0);
     setSelectedIndex(0);
-  }, [query, mps]);
+  };
 
   // Handle outside click
   useEffect(() => {
@@ -102,25 +104,23 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => updateQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
             if (query.trim() && results.length > 0) setIsOpen(true);
           }}
           autoFocus={autoFocus}
-          placeholder="Search by MP name or seat (e.g. Bansuri, Manoj Tiwari, Chandni Chowk)..."
+          placeholder={t.searchPlaceholder}
           className="w-full pl-11 pr-11 py-3.5 bg-white dark:bg-[#121824] border border-stone-300 dark:border-[#222E42] rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 shadow-sm focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm"
         />
         {query && (
           <button
             onClick={() => {
-              setQuery('');
-              setResults([]);
-              setIsOpen(false);
+              updateQuery('');
               inputRef.current?.focus();
             }}
             className="absolute right-3.5 p-1 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 rounded-md hover:bg-stone-100 dark:hover:bg-[#1A2333] transition-colors"
-            aria-label="Clear search"
+            aria-label={t.clearSearch}
           >
             <X className="w-4 h-4" />
           </button>
@@ -130,15 +130,18 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
       {/* Fast Seat Quick Filter Chips */}
       <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
         <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
-          Fast select:
+          {t.jumpTo}
         </span>
-        {QUICK_DELHI_SEATS.map((seat) => (
+        {quickSeats.map((seat) => (
           <button
             key={seat.slug}
             type="button"
             onClick={() => {
+              // On the home page, focus the seat on the map; elsewhere open its card.
               if (onSelectGeographicalFeature) {
-                onSelectGeographicalFeature('delhi', seat.slug);
+                onSelectGeographicalFeature(seat.stateId, seat.slug);
+              } else {
+                router.push(`/mp/${seat.slug}`);
               }
             }}
             className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#121824] hover:bg-stone-200 dark:hover:bg-[#1A2333] text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white border border-stone-200/90 dark:border-[#222E42] text-[11px] font-medium transition-colors cursor-pointer"
@@ -154,8 +157,8 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
           {results.length > 0 ? (
             <div>
               <div className="px-4 py-2 bg-stone-50 dark:bg-[#0E131E] text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider flex items-center justify-between border-b border-stone-100 dark:border-[#1E283A]">
-                <span>Matching Constituencies &amp; MPs ({results.length})</span>
-                <span className="text-[10px] text-stone-400 dark:text-stone-500">↑↓ to navigate · Enter to select</span>
+                <span>{t.resultsHeading(results.length)}</span>
+                <span className="text-[10px] text-stone-400 dark:text-stone-500">{t.keyboardHint}</span>
               </div>
               {results.map((mp, index) => {
                 const isSelected = index === selectedIndex;
@@ -183,7 +186,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                           </span>
                           {mp.is_minister && (
                             <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 font-medium">
-                              Minister
+                              {t.minister}
                             </span>
                           )}
                         </div>
@@ -199,7 +202,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                     <div className="flex items-center gap-3">
                       {attendance !== null && !mp.is_minister && (
                         <div className="text-right hidden sm:block">
-                          <div className="text-[10px] text-stone-400 font-mono">Attendance</div>
+                          <div className="text-[10px] text-stone-400 font-mono">{t.attendance}</div>
                           <div className="text-xs font-bold font-mono text-stone-800 dark:text-stone-200 tabular-nums">
                             {attendance}%
                           </div>
@@ -213,7 +216,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             </div>
           ) : (
             <div className="p-6 text-center text-xs text-stone-500 dark:text-stone-400">
-              No matching Member of Parliament or Delhi constituency found for &quot;{query}&quot;.
+              {t.noMatch(query)} {coverageNote(getCoverage(mps), lang)}
             </div>
           )}
         </div>

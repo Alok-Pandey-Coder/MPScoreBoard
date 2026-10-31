@@ -42,3 +42,12 @@ yarn-error.log*
 next-env.d.ts
 
 /.agents
+
+# temporary intake
+/temp
+
+# python caches
+__pycache__/
+*.pyc
+.pytest_cache/
+!.env.example

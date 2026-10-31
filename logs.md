@@ -44,6 +44,182 @@
   - npm run typecheck: Passed with 0 errors.
   - npm test: All 58 unit tests passed 100%.
   - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
+## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
+
+- **Summary:**
+  - Headlines and UI copy now describe a country-wide product instead of naming Delhi. The hero uses the PRD §7.1 line, "Know your MP's record in 60 seconds".
+  - Coverage is computed from the data by the new `lib/coverage.ts`, e.g. "Report cards for 7 of 543 constituencies so far. More are being added." No state is hard-coded, and the text updates as states are added. This keeps the PRD's "honest about gaps" principle.
+  - Removed copy the data does not support:
+    - "scrutiny" (a judgement word)
+    - "₹35 Cr in local development funds" (actual allocated total: ₹111.7 Cr)
+    - "Sourced directly from official Parliament and election records" (PRS and Empowered Indian are non-official)
+    - "from official parliamentary logs" on Compare (the data is from PRS)
+    - Invented state-card money figures (₹35 / ₹400 / ₹240 Cr…, which were seats × ₹5 Cr, unsourced)
+    - The unsourced "₹5 Cr entitlement" stat. It is replaced by the computed allocated and spent totals, labelled as a secondary source.
+  - State cards read availability from the data ("7 of 7 report cards available" vs "Report cards coming soon"), replacing the hard-coded `isDelhi` check.
+  - The search shortcut chips are built from the data (max 8), not a hard-coded Delhi list. Off the home page they open the report card; before, they did nothing there.
+  - Section anchors renamed: `#delhi-mps` → `#mp-cards`, `#national-states` → `#by-state`.
+  - Labels inside the Delhi ward map are kept, because they describe what the map shows.
+  - The About page sources table still names the Delhi government directory, because provenance must stay accurate.
+- **Files or areas changed:**
+  - Components: `components/home/HomeClient.tsx`, `NagrikTerritoryBar.tsx`, `NagrikStateCardsGrid.tsx` (rewritten), `UnifiedSearchBar.tsx`, `components/layout/Header.tsx`, `components/compare/CompareClient.tsx`, `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx` (region name).
+  - Pages: `app/not-found.tsx`, `app/explore/page.tsx`, `app/about/page.tsx` (generic minister example).
+  - New: `lib/coverage.ts`. Tests added to `__tests__/data-layer.test.ts`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 40 passed (2 new coverage tests).
+  - `next build` succeeds.
+  - Built home HTML shows the new hero and coverage line and "₹111.7 Cr allocated / ₹15.7 Cr spent". No ₹35/₹400/₹5 Cr figures remain. The only remaining "Delhi" text is data-generated (constituency names, "PRS {state} avg", state card, state picker).
+- **Remaining caveat or next step:** The MP report card itself was already state-agnostic (it uses `mp.state`). The ward map component is Delhi-specific by design and needs a per-state map when more states arrive.
+
+## 2026-11-01 — Top navigation: plain-language labels, one shared link list
+
+- **Summary:**
+  - The header now uses one link list for both desktop and mobile. Previously each link was copied twice, and the two labels disagreed ("Delhi Seats" vs "Delhi Seats & Map", "Sources & Method" vs "Methodology & Sources").
+  - New labels: "Find your MP", "Compare MPs", "Map" and "About the data". Each has a hint, shown as a tooltip on desktop and as a subtitle on mobile.
+  - "Map" no longer suggests all-India data; its hint says full report cards are Delhi-only for now.
+  - The tagline changed from "Delhi Parliamentary Scrutiny & Expenditure Monitor" to "Report cards for Delhi's MPs, with sources", and the badge from "18th Lok Sabha" to "Lok Sabha 2024–29".
+  - Report cards highlight "Find your MP".
+  - Removed the dead `onOpenSearch` search button, which never rendered.
+  - Removed the floating theme pill, which duplicated the header toggle and covered card content.
+  - Footer links and the Map and About page titles now use the same words as the header.
+  - Accessibility: `aria-current="page"`; `aria-expanded` and `aria-controls` on the mobile menu button; 14px nav text (was 12px); 44px tap targets for the menu and theme buttons.
+- **Files or areas changed:** `components/layout/Header.tsx` (rewritten), `components/common/ThemeToggle.tsx`, `components/layout/Footer.tsx`, `app/layout.tsx`, `app/explore/page.tsx`, `app/about/page.tsx`; deleted `components/common/FloatingThemePill.tsx`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Built HTML for `/`, `/mp/west-delhi-delhi`, `/compare` and `/about` shows the four new labels with the correct active item, and no floating theme pill.
+- **Remaining caveat or next step:** Not yet checked visually in a browser at 360px width.
+
+## 2026-11-01 — Source links on every work; card Sources section restructured
+
+- **Summary:**
+  - Every MPLADS work now carries a source line: the MP's Empowered Indian page, with its retrieval date.
+  - The Works section links to the official MoSPI eSAKSHI dashboard for checking a work by its eSAKSHI ID. The portal has no per-work URLs.
+  - The card's Sources section is now "Sources & evidence", in three parts. The structure is modelled on nagrik.in.net/delhi/sources; no content was copied.
+    - **What we take, and from where:** one entry per distinct source URL, listing what it feeds on this card and its role (source, secondary source with official check pending, or cross-check only), with licence and retrieval date.
+    - **How current it is:** the as-of date and review status for each section, plus the snapshot build date.
+    - **Get something corrected:** a GitHub issue link pre-filled for the seat.
+  - A "Sources" jump link was added to the card.
+- **Files or areas changed:** `components/mp/SourcesFooter.tsx` (rewritten), `components/mp/MpladsWorksSection.tsx`, `components/mp/MPReportCardClient.tsx`, `types/mp.ts` (new `ElectionData`, `MPRecord.election`; the field already existed in `mps.json`).
+- **Validation performed:**
+  - `tsc` and `eslint` pass on `components/mp` and `types`.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Rendered HTML for North West Delhi lists 7 sources with correct roles, has 20 per-work source lines and the eSAKSHI link.
+  - The minister card (East Delhi) lists PRS only for profile, since activity is not applicable.
+- **Remaining caveat or next step:** The JanWatchdog cross-check has no recorded retrieval date, and the card says so. Per-work official verification still needs manual eSAKSHI lookups.
+
+## 2026-10-31 — Architecture consolidation: one type, one data layer, dead code removed
+
+- **Summary:** The app had three overlapping MP type systems, two data-access layers and two parallel AI-text implementations:
+  - Types: `types/mp.ts`, `lib/types.ts`, and the `ReportMP` shape built in `lib/data.ts`.
+  - Data access: `lib/data.ts` for the API routes and `lib/mp-data.ts` for the pages.
+  - AI text: `lib/actions.ts` for the API and `lib/ai/*` for the UI.
+
+  The API routes had drifted as a result. For example, `/api/summary` still said MPLADS was unavailable. Now:
+  - `types/mp.ts` (`MPRecord`) is the only MP type.
+  - `lib/data.ts` is the only data layer: it reads `mps.json` directly, and slug aliases redirect with a 308.
+  - `lib/ai/*` is the only text generator, used by both the UI and the API.
+  - The "Explain simply" panel now calls `/api/summary` and falls back to the local template, instead of faking a 250 ms delay.
+  - The LLM path uses the reviewed system prompt, sends only structured facts, keeps the API key in a header, checks the PRD's banned-words list and the numbers guardrail, and caches results per slug and language.
+- **Files or areas changed:**
+  - **Removed, all unreferenced by live code:**
+    - Pages and components: `app/test-frontend/`, `test-frontend/`, `server/server.js`, `scripts/run-all.js`, ten orphaned `app/*` components and two CSS modules, `lib/boundaries.ts`, three empty components, `components/common/ErrorBoundary.tsx`, `public/sw.js`, five template SVGs.
+    - Libraries: `lib/actions.ts`, `lib/mp-data.ts`, `lib/types.ts`.
+    - API routes: `chat`, `constituencies`, `contact`, `data`, `pincode`, `search`.
+    - Test scaffolding: the synthetic test-data generator, its validator and their two jest suites, plus `mps.test.json` and `regions.test.geojson`.
+    - Duplicates: `delhi_pc.geojson` (byte-identical to `delhi_pc.json`), and root `Context.md` and `Plan.md` (identical to `docs/`).
+    - The `maplibre-gl` dependency (only its CSS was imported).
+  - **New:**
+    - `types/location.ts`
+    - `lib/api.ts`: PRD §6.3 error contract, 2 KB body cap, per-IP rate limiter.
+    - `lib/ai/llm.ts`
+    - `__tests__/data-layer.test.ts`
+    - `.env.example`
+    - `docs/decisions.md`: the decision to publish MPLADS data with citation.
+  - **Rewritten:**
+    - Libraries: `lib/data.ts`, `context/ThemeContext.tsx` (`useSyncExternalStore`).
+    - API routes: `summary`, `draft`, `geojson`, `locate`.
+    - `app/mp/[slug]/page.tsx`: 308 alias redirect, canonical and Open Graph tags.
+    - `scripts/fetch_empowered_delhi.py`:
+      - It no longer impersonates a browser or sends the site's own Origin and Referer headers.
+      - It refuses to run without `EMPOWERED_INDIAN_ACCESS_CLEARED=1`.
+      - It never overwrites an existing capture.
+      - It stops on HTTP errors.
+      - It keeps every works row instead of cutting the list to 20.
+      - It no longer writes the legacy enrichment fields.
+  - **Fixed:**
+    - React 19 hook errors in `TakeActionPanel`, `ExplainSimplyPanel`, `UnifiedSearchBar` and `IndiaAtlasMap`. The map's effect cleared the Delhi constituency it had just selected.
+    - `any` types in the map component and API routes.
+    - Esri basemap attribution, which had been switched off.
+  - **Config:**
+    - `.gitignore` now ignores Python caches and lets `.env.example` through.
+    - The ESLint override allows CommonJS `require` in scripts.
+    - `package.json` adds `data:build` and `test:data`.
+  - **Docs:** the `data.md` processed-file inventory now records which geo files the app reads.
+- **Validation performed:**
+  - `tsc --noEmit` passes.
+  - `eslint .` reports 0 errors, down from 75. 3 warnings remain: the custom font, a map hook dependency, and an unused prop.
+  - jest: 38 passed (the agent's 28 UI tests plus 10 new data-layer tests).
+  - pytest: 18 passed.
+  - `python scripts/build_data.py` runs clean.
+  - `next build` succeeds: 57 pages, 6 API routes (down from 13).
+  - An HTTP smoke test against `next start` passed all 51 checks:
+    - Every page and all 7 cards return 200, with the PRD footer disclaimer.
+    - `/mp/new-delhi` returns a 308 to `/mp/new-delhi-delhi`, and unknown slugs and pages return 404.
+    - The removed routes return 404.
+    - Summary and draft validation works: bad language, unknown field, malformed JSON, bad intent, and a name over 60 characters are all rejected.
+    - The draft route rate-limits with a 429 and `Retry-After`.
+    - Location lookup works: Connaught Place resolves to New Delhi.
+    - The minister card shows the not-applicable copy, and no banned words appear.
+- **Remaining caveat or next step:**
+  - The LLM summary needs `GEMINI_API_KEY` and `GEMINI_MODEL` set. Without them the template is used, by design. The live LLM call is not yet exercised.
+  - The rate limiter and the summary cache are in memory, per server instance.
+  - The `/state/*` pages for non-Delhi states have no MP data.
+  - `delhi_regional_hierarchy.json` and `delhiConstituenciesGeo.json` are kept but unused.
+  - `mps.india.json` is still unvalidated.
+  - The 360px layout and the keyboard flow have not been checked in a browser.
+  - Next step: database integration behind `lib/data.ts`.
+
+## 2026-10-31 — MPLADS block corrected to the `MpladsData` contract; JanWatchdog cross-check added
+
+- **Summary:** The previous MPLADS export showed Empowered Indian's `utilizationPercentage` (recommended ÷ allocated, e.g. 43.8% for Chandni Chowk) as spending utilisation, stored `allocatedAmount` as "funds released", assumed works sanctioned = works recommended, and defaulted entitlement to ₹5 cr without a citation. MPLADS is now normalised from the latest dated raw capture by `scripts/09_intake_mplads.py`: `expenditure_pct` and `recommended_pct` are computed from rupee amounts, `works_count.sanctioned` and `annual_entitlement_cr` are `null`, 20 works per MP are mapped to `MpladsWork` (`works_is_partial: true`), `review_status` is `secondary_only`, and JanWatchdog (snapshot 2026-10-06) is attached as `cross_check` with readable differences. Old keys (`entitlement`, `funds_released`, `expenditure`, `utilisation_pct`, `unspent_balance`, `works{}`) are gone from `mps.json`. Corrected expenditure %: Chandni Chowk 18.0, East Delhi 16.6, New Delhi 14.1, North East Delhi 13.2, North West Delhi 8.5, South Delhi 19.6, West Delhi 8.9.
+- **Files or areas changed:**
+  - `scripts/09_intake_mplads.py` — rewritten from a manual intake helper into the MPLADS normaliser; writes `data/processed/mplads.delhi.json` (NEW intermediate).
+  - `scripts/06_merge.py` — reads MPLADS from `mplads.delhi.json`, ignores the legacy `mplads` key in `delhi_7mp_custom_enrichment.json`, appends MPLADS notes to `normalisation_notes`; affidavit liabilities/cases no longer default to 0 when missing (no output change, all 7 values present).
+  - `scripts/07_validate.py` — MPLADS contract checks, hard errors and warnings; MPLADS table in `validation_report.md`.
+  - `scripts/08_snapshot.py` — `source_status` derived from block and review statuses; pipeline string includes 09 and 08.
+  - `scripts/build_data.py` — runs `09_intake_mplads.py` before the merge.
+  - `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` — NEW capture, byte copy of the local temp intake file; documented in `data/raw/README.md`.
+  - `data/processed/mps.json`, `snapshot.json`, `validation_report.md` — regenerated.
+  - `tests/test_mplads.py` — NEW (11 tests: pct computation, rupee→crore, no sanctioned/entitlement assumption, partial flag, null preservation, sort order, latest capture, cross-check, validator errors, export contract, snapshot hash).
+  - `data.md`, `docs/dataSources.md` — MPLADS contract, sources and decisions; `mps.india.json` / `validation_report_india.md` marked unvalidated and not for publication.
+- **Validation performed:** `python scripts/build_data.py` — 0 hard errors, 12 warnings (7 partial works lists; 5 seats where JanWatchdog expenditure is 5.3–22.6% higher than Empowered Indian). Computed percentages match the source's own percentages within 0.1 point for all 7 seats. `python -m pytest tests -q` — 18 passed. `npx tsc --noEmit` — passed. `snapshot.json` sha256 matches `mps.json`.
+- **Remaining caveat or next step:** MPLADS is secondary-only until an official eSAKSHI cross-check is possible (`mplads.gov.in` refused connections). Works lists are 20 per MP; a fuller capture added as a new dated `mplads.delhi.empoweredindian.*.json` is picked up automatically. JanWatchdog's earlier snapshot shows higher expenditure and completed counts than Empowered Indian's later one (and 82 vs 59 recommended works for North West Delhi), which suggests the two sites define figures differently; unresolved. `scripts/fetch_empowered_delhi.py` still writes the legacy `mplads` key to the enrichment file (owned by another agent; now ignored). Annual entitlement needs an official guidelines citation before it can be shown. Note: `logs.md` itself contains a duplicated block of earlier entries (second `# Project Change Log` heading); left as-is per the no-rewrite rule.
+
+---
+
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
+
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
+- **Files or areas changed:**
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
+- **Validation performed:**
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
+
+---
 
 ## 2026-10-31 — Professional Editorial UI/UX Redesign (UI-UX Pro Max)
 
@@ -236,6 +412,26 @@
   - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
   - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
 # Project Change Log
+
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
+
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
+- **Files or areas changed:**
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
+- **Validation performed:**
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
+
+---
 
 ## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
 

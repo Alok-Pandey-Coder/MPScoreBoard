@@ -219,7 +219,7 @@ const geojson = {
   features
 };
 
-const targetPath = path.join(__dirname, '..', 'data', 'processed', 'delhi_pc.geojson');
+const targetPath = path.join(__dirname, '..', 'data', 'processed', 'delhi_pc.json');
 fs.writeFileSync(targetPath, JSON.stringify(geojson, null, 2));
 console.log(`Generated verified GeoJSON with ${features.length} constituencies at ${targetPath}`);
 

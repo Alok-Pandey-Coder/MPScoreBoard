@@ -33,20 +33,73 @@ export interface PerformanceData {
   review_status?: string;
 }
 
+export type MpladsWorkStatus = 'recommended' | 'sanctioned' | 'in_progress' | 'completed' | 'other';
+
+/** One MPLADS work as published by the source. Amounts in INR crore. */
+export interface MpladsWork {
+  /** eSAKSHI work identifier, kept as a string. */
+  work_id: string;
+  description: string;
+  category: string | null;
+  implementing_agency: string | null;
+  status: MpladsWorkStatus;
+  /** Status string exactly as the source published it. */
+  status_raw: string | null;
+  recommended_on: string | null;
+  completed_on: string | null;
+  recommended_amount_cr: number | null;
+  final_amount_cr: number | null;
+  paid_cr: number | null;
+  has_image: boolean | null;
+}
+
+/** A second source's figures for the same MP, kept for cross-checking only. */
+export interface MpladsCrossCheck {
+  source: Source;
+  as_of: string | null;
+  allocated_cr: number | null;
+  expenditure_cr: number | null;
+  works_recommended: number | null;
+  works_sanctioned: number | null;
+  works_completed: number | null;
+  /** Human-readable differences against the primary figures. */
+  differences: string[];
+}
+
+/**
+ * MPLADS block. All money in INR crore; percentages 0–100.
+ * Percentages are computed from the amounts here, never copied blindly from
+ * a source field whose definition differs.
+ */
 export interface MpladsData {
   status: 'reported' | 'pending' | 'not_applicable';
-  entitlement?: number | null;
-  funds_released?: number | null;
-  expenditure?: number | null;
-  utilisation_pct?: number | null;
-  unspent_balance?: number | null;
-  works?: {
-    recommended?: number;
-    sanctioned?: number;
-    completed?: number;
+  /** Scheme entitlement per MP per year (₹5 crore); null if not sourced. */
+  annual_entitlement_cr?: number | null;
+  /** Cumulative amount allocated to the MP in this term, per source. */
+  allocated_cr?: number | null;
+  /** Total recommended by the MP for works. */
+  recommended_amount_cr?: number | null;
+  /** Total expenditure (spent). */
+  expenditure_cr?: number | null;
+  /** allocated − expenditure, as published or computed (see normalisation_notes). */
+  unspent_cr?: number | null;
+  /** expenditure ÷ allocated × 100. */
+  expenditure_pct?: number | null;
+  /** recommended_amount ÷ allocated × 100. */
+  recommended_pct?: number | null;
+  works_count?: {
+    recommended: number | null;
+    sanctioned: number | null;
+    completed: number | null;
+    pending: number | null;
   } | null;
+  /** Work-level records; may be a partial list (compare length with works_count). */
+  works?: MpladsWork[];
+  /** True when `works` is known to be a subset of the source's full list. */
+  works_is_partial?: boolean;
   as_of?: string | null;
   source?: Source | null;
+  cross_check?: MpladsCrossCheck[];
   review_status?: string | null;
 }
 
@@ -57,6 +110,18 @@ export interface AffidavitData {
   liabilities?: number | null;
   declared_criminal_cases?: number | null;
   education?: string | null;
+  as_of?: string | null;
+  source?: Source | null;
+  review_status?: string | null;
+}
+
+/** 2024 general election result for the seat (ECI). */
+export interface ElectionData {
+  status: 'reported' | 'pending' | 'not_applicable';
+  election_year?: number | null;
+  votes?: number | null;
+  runner_up?: { name: string | null; party: string | null; votes: number | null } | null;
+  margin?: number | null;
   as_of?: string | null;
   source?: Source | null;
   review_status?: string | null;
@@ -91,6 +156,7 @@ export interface MPRecord {
   performance: PerformanceData;
   mplads?: MpladsData;
   affidavit?: AffidavitData;
+  election?: ElectionData;
   sources: Source[];
   normalisation_notes?: string[];
 }

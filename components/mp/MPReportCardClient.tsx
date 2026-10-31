@@ -8,17 +8,24 @@ import { MPHeader } from '@/components/mp/MPHeader';
 import { PerformanceGrid } from '@/components/mp/PerformanceGrid';
 import { ComparisonSection } from '@/components/mp/ComparisonSection';
 import { MpladsSection } from '@/components/mp/MpladsSection';
+import { MpladsWorksSection } from '@/components/mp/MpladsWorksSection';
 import { AffidavitSection } from '@/components/mp/AffidavitSection';
 import { ExplainSimplyPanel } from '@/components/mp/ExplainSimplyPanel';
 import { TakeActionPanel } from '@/components/mp/TakeActionPanel';
 import { SourcesFooter } from '@/components/mp/SourcesFooter';
 import { Toast } from '@/components/common/Toast';
+import { useMessages } from '@/context/LanguageContext';
+import { cardMessages } from '@/lib/messages/card';
 
 interface MPReportCardClientProps {
   mp: MPRecord;
 }
 
+const pillClass =
+  'px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium';
+
 export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) => {
+  const t = useMessages(cardMessages);
   const [toastMessage, setToastMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
 
@@ -30,7 +37,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
   const handleCopyLink = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
-      handleShowToast('Direct dossier link copied to clipboard');
+      handleShowToast(t.toastLinkCopied);
     }
   };
 
@@ -50,7 +57,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
             className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1 transition-colors"
           >
             <Home className="w-3.5 h-3.5" />
-            <span>Home</span>
+            <span>{t.breadcrumbHome}</span>
           </Link>
           <ChevronRight className="w-3 h-3 text-stone-400" />
           <span>{mp.state}</span>
@@ -63,49 +70,43 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
           className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white bg-stone-100 dark:bg-[#141C28] hover:bg-stone-200 dark:hover:bg-[#1C2738] transition-colors border border-stone-200 dark:border-[#222E42] cursor-pointer"
         >
           <Printer className="w-3.5 h-3.5" />
-          <span>Print / Save Dossier PDF</span>
+          <span>{t.printButton}</span>
         </button>
       </div>
 
       {/* Quick Jump Navigation Pill Bar */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono no-scrollbar">
-        <a
-          href="#indicators"
-          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
-        >
-          Indicators
+        <a href="#indicators" className={pillClass}>
+          {t.jumpIndicators}
         </a>
-        <a
-          href="#benchmarks"
-          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
-        >
-          Averages
+        <a href="#benchmarks" className={pillClass}>
+          {t.jumpAverages}
         </a>
-        <a
-          href="#mplads"
-          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
-        >
-          MPLADS Funds
+        <a href="#mplads" className={pillClass}>
+          {t.jumpMplads}
         </a>
-        <a
-          href="#affidavit"
-          className="px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium"
-        >
-          Affidavit
+        <a href="#works" className={pillClass}>
+          {t.jumpWorks}
+        </a>
+        <a href="#affidavit" className={pillClass}>
+          {t.jumpAffidavit}
+        </a>
+        <a href="#sources" className={pillClass}>
+          {t.jumpSources}
         </a>
         <a
           href="#explain"
           className="px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 hover:bg-amber-500/20 transition-colors border border-amber-500/30 shrink-0 font-medium flex items-center gap-1.5"
         >
           <FileText className="w-3 h-3" />
-          <span>Factual Briefing</span>
+          <span>{t.jumpBriefing}</span>
         </a>
         <a
           href="#action"
           className="px-3 py-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-950 font-bold hover:bg-stone-800 dark:hover:bg-white transition-colors shrink-0 flex items-center gap-1.5 shadow-xs"
         >
           <Send className="w-3 h-3" />
-          <span>Draft Letter</span>
+          <span>{t.jumpDraft}</span>
         </a>
       </div>
 
@@ -125,6 +126,11 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
       {/* 4. Local Area Development (MPLADS) */}
       <div id="mplads" className="scroll-mt-24">
         <MpladsSection mp={mp} />
+      </div>
+
+      {/* 4b. MPLADS Works list */}
+      <div id="works" className="scroll-mt-24">
+        <MpladsWorksSection mp={mp} />
       </div>
 
       {/* 5. Background / Affidavit Disclosures */}

@@ -39,10 +39,10 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        serif: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
-        display: ['Outfit', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        sans: ['Inter', 'Noto Sans Devanagari', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        serif: ['Newsreader', 'Noto Sans Devanagari', 'Georgia', 'Cambria', 'serif'],
+        display: ['Outfit', 'Inter', 'Noto Sans Devanagari', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Noto Sans Devanagari', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       letterSpacing: {
         tighter: '-0.04em',

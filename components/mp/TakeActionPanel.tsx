@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Send, Copy, Mail, Check, AlertCircle } from 'lucide-react';
 import { CitizenIntent, MPRecord } from '@/types/mp';
 import { generateCitizenDraft } from '@/lib/ai/draft';
@@ -16,22 +16,20 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
   const [citizenName, setCitizenName] = useState('');
   const [locality, setLocality] = useState('');
   const [specificIssue, setSpecificIssue] = useState('');
-  const [editedBody, setEditedBody] = useState('');
-  const [subject, setSubject] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Generate draft when inputs change
-  useEffect(() => {
-    const draft = generateCitizenDraft(mp, {
-      intent,
-      lang,
-      citizenName,
-      locality,
-      specificIssue,
-    });
-    setSubject(draft.subject);
-    setEditedBody(draft.body);
-  }, [mp, intent, lang, citizenName, locality, specificIssue]);
+  // The draft is derived from the inputs. Manual edits are kept only while the
+  // inputs they were made against are unchanged; changing an input regenerates.
+  const draft = useMemo(
+    () => generateCitizenDraft(mp, { intent, lang, citizenName, locality, specificIssue }),
+    [mp, intent, lang, citizenName, locality, specificIssue],
+  );
+  const [edits, setEdits] = useState<{ for: typeof draft; subject?: string; body?: string } | null>(null);
+  const activeEdits = edits?.for === draft ? edits : null;
+  const subject = activeEdits?.subject ?? draft.subject;
+  const editedBody = activeEdits?.body ?? draft.body;
+  const setSubject = (value: string) => setEdits({ ...activeEdits, for: draft, subject: value });
+  const setEditedBody = (value: string) => setEdits({ ...activeEdits, for: draft, body: value });
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`Subject: ${subject}\n\n${editedBody}`);
@@ -51,7 +49,7 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
             <span>Citizen Action: Draft Official Communication</span>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
-            Structured representation letter grounded in verified public data
+            Editable draft that cites only figures shown on this card
           </p>
         </div>
 
@@ -237,7 +235,7 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
             <div className="flex items-start gap-2 text-[10px] font-mono text-stone-500 dark:text-stone-400 leading-relaxed bg-white dark:bg-[#0E1420] p-2.5 rounded border border-stone-200 dark:border-[#1E2636]">
               <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
               <span>
-                <strong>Review before sending:</strong> This draft is prepared for your personal review. Mera MP does not transmit emails or communications on your behalf.
+                <strong>Review before sending.</strong> This is a draft, not an official communication. Mera MP does not send emails on your behalf.
               </span>
             </div>
           </div>

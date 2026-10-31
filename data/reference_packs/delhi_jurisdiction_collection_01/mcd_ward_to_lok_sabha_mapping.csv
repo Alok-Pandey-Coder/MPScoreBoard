@@ -1,0 +1,251 @@
+ward_number,ward_name,ward_name_2022,mcd_zone,lok_sabha_constituency,mp_id,mp_name,overlap_area,overlap_percentage,mapping_method,verification_status
+1,NARELA,NARELA,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+2,BANKNER,BANKNER,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+3,HOLAMBI KALAN,HOLAMBI KALAN,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+4,ALIPUR,ALIPUR,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+5,BHAKHTAWARPUR,BAKHTAWARPUR,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+6,BURARI,BURARI,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+7,KADIPUR,KADIPUR,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+8,MUKUNDPUR,MUKUNDPUR,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+9,SANT NAGAR,SANT NAGAR,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+10,JHARODA,JHARODA,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+11,TIMARPUR,TIMARPUR,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+12,MALKA GANJ,MALKA GANJ,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+13,MUKHERJKEE NAGAR,MUKHERJEE NAGAR,NORTH,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+14,DHIRPUR,DHIRPUR,NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+15,ADARSH NAGAR,ADARSH NAGAR,NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+16,AZADPUR,AZADPUR,NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+17,BHALSWA,BHALSWA,NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+18,JAHANGIR PURI,JAHANGIR PURI,NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+19,SARUP NAGAR,SARUP NAGAR,NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+20,SAMAYPUR BADLI,SAMAYPUR BADLI,NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+21,ROHINI-A,ROHINI-A,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+22,ROHINI-B,ROHINI-B,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+23,RITHALA,RITHALA,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+24,VIJAY VIHAR,VIJAY VIHAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+25,BUDH VIHAR,BUDH VIHAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+26,POOTHKALAN,POOTH KALAN,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+27,BEGUMPUR,BEGUMPUR,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+28,SHAHBAAD DAIRY,SHAHBAAD DAIRY,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+29,POOTH KHURD,POOTH KHURD,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+30,BAWANA,BAWANA,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+31,NANGAL THAKRAN,NANGAL THAKRAN,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+32,KANJHAWALA,KARALA,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+33,RANI KHERA,RANI KHERA,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+34,NANGLOI,NANGLOI,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+35,MUNDKA,MUNDKA,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+36,NILOTHI,NILOTHI,OUTER NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+37,KIRARI,KIRARI,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+38,PREM NAGAR,PREM NAGAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+39,MUBARIKPUR,MUBARIKPUR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+40,NITHARI,NITHARI,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+41,AMAN VIHAR,AMAN VIHAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+42,MANGOL PURI,MANGOL PURI,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+43,SULTANPURI-A,SULTANPURI-A,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+44,SULTANPURI-B,SULTANPURI-B,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+45,JAWALAPURI,JAWALAPURI,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+46,NANGLOI JAT,NANGLOI JAT,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+47,NIHAL VIHAR,NIHAL VIHAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+48,GURU HARKISHAN NAGAR,GURU HARKISHAN NAGAR,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+49,MANGOLPURI-A,MANGOLPURI-A,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+50,MANGOLPURI-B,MANGOLPURI-B,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+51,ROHINI-C,ROHINI-C,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+52,ROHINI-F,ROHINI-F,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+53,ROHINI-E,ROHINI-E,NORTH WEST,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+54,ROHINI-D,ROHINI-D,CENTRAL NORTH,North West Delhi (SC),MP-07,Yogender Chandolia,,,official_delimitation_parent_pc_schedule,official_verified
+55,SHALIMAR BAGH-A,SHALIMAR BAGH-A,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+56,SHALIMAR BAGH-B,SHALIMAR BAGH-B,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+57,PITAM PURA,PITAM PURA,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+58,SARASWATI VIHAR,SARASWATI VIHAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+59,PASCHIM VIHAR,PASCHIM VIHAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+60,RANI BAGH,RANI BAGH,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+61,KOHAT ENCLAVE,KOHAT ENCLAVE,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+62,SHAKUR PUR,SHAKUR PUR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+63,TRI NAGAR,TRI NAGAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+64,KESHAV PURAM,KESHAV PURAM,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+65,ASHOK VIHAR,ASHOK VIHAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+66,WAZIR PUR,WAZIR PUR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+67,SANGAM PARK,SANGAM PARK,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+68,MODEL TOWN,MODEL TOWN,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+69,KAMLA NAGAR,KAMLA NAGAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+70,SHASTRI NAGAR,SHASTRI NAGAR,CENTRAL NORTH,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+71,KISHAN GANJ,KISHAN GANJ,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+72,SADAR BAZAR,SADAR BAZAR,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+73,CIVIL LINES,CIVIL LINES,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+74,CHANDNI CHOWK,CHANDNI CHOWK,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+75,JAMA MASJID,JAMA MASJID,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+76,CHANDANI MAHAL,CHANDANI MAHAL,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+77,DELHI GATE,DELHI GATE,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+78,BAZAR SITA RAM,BAZAR SITA RAM,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+79,BALLIMARAN,BALLIMARAN,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+80,RAM NAGAR,RAM NAGAR,OLD DELHI,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+81,QURAISH NAGAR,QURAISH NAGAR,CENTRAL ZONE,Chandni Chowk,MP-02,Praveen Khandelwal,,,official_delimitation_parent_pc_schedule,official_verified
+82,PAHAR GANJ,PAHAR GANJ,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+83,KAROL BAGH,KAROL BAGH,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+84,DEV NAGAR,DEV NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+85,WEST PATEL NAGAR,WEST PATEL NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+86,EAST PATEL NAGAR,EAST PATEL NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+87,RANJEET NAGAR,RANJEET NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+88,BALJEET NAGAR,BALJEET NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+89,KARAM PURA,KARAM PURA,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+90,MOTI NAGAR,MOTI NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+91,RAMESH NAGAR,RAMESH NAGAR,CENTRAL ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+92,PUNJABI BAGH,PUNJABI BAGH,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+93,MADIPUR,MADIPUR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+94,RAGHUBIR NAGAR,RAGHUBIR NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+95,VISHNU GARDEN,VISHNU GARDEN,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+96,RAJOURI GARDEN,RAJOURI GARDEN,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+97,CHAUKHANDI NAGAR,CHAUKHANDI,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+98,SUBHASH NAGAR,SUBHASH NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+99,HARI NAGAR,HARI NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+100,FATEH NAGAR,FATEH NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+101,TILAK NAGAR,TILAK NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+102,KHYALA,KHYALA,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+103,KESHOPUR,KESHOPUR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+104,JANAK PURI SOUTH,JANAK PURI SOUTH,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+105,MAHAVEER ENCLAVE,MAHAVEER ENCLAVE,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+106,JANAK PURI WEST,JANAK PURI WEST,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+107,VIKAS PURI,VIKAS PURI,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+108,HASTSAL,HASTSAL,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+109,VIKAS NAGAR,VIKAS NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+110,KUNWAR SINGH NAGAR,KUNWAR SINGH NAGAR,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+111,BAPROLA,BAPROLA,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+112,SAINIK ENCLAVE,SAINIK ENCLAVE,WEST ZONE,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+113,MOHAN GARDEN,MOHAN GARDEN-WEST,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+114,NAWADA,MOHAN GARDEN-EAST,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+115,UTTAM NAGAR,UTTAM NAGAR,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+116,BINDA PUR,BINDA PUR,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+117,DABRI,DABRI,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+118,SAGARPUR,SAGARPUR,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+119,MANGLAPURI,MANGLAPURI,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+120,DWARKA-B,DWARKA-B,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+121,DWARKA-A,DWARKA-A,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+122,MATIALA,MATIALA,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+123,KAKROLA,KAKROLA,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+124,NANGLI SAKRAWATI,NANGLI SAKRAWATI,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+125,CHHAWLA,CHHAWALA,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+126,ISAPUR,ISAPUR,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+127,NAJAFGARH,NAJAFGARH,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+128,DICHAON KALAN,DICHAON KALAN,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+129,ROSHAN PURA,ROSHAN PURA,SOUTH WEST,West Delhi,MP-04,Kamaljeet Sehrawat,,,official_delimitation_parent_pc_schedule,official_verified
+130,DWARKA-C,DWARKA-C,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+131,BIJWASAN,BIJWASAN,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+132,KAPASHERA,KAPASHERA,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+133,MAHIPALPUR,MAHIPALPUR,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+134,RAJ NAGAR,RAJ NAGAR,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+135,PALAM,PALAM,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+136,MADHU VIHAR,MADHU VIHAR,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+137,MAHAVEER ENCLAVE,MAHAVIR ENCLAVE,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+138,SADH NAGAR,SADH NAGAR,SOUTH WEST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+139,NARAINA,NARAINA,WEST ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+140,INDER PURI,INDER PURI,WEST ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+141,RAJINDER NAGAR,RAJINDER NAGAR,WEST ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+142,DARIYA GANJ,DARYAGANJ,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+143,SIDDHARTHA NAGAR,SIDHARTHA NAGAR,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+144,LAJPAT NAGAR,LAJPAT NAGAR,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+145,ANDREWS GANJ,ANDREWS GANJ,SOUTH EAST,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+146,AMAR COLONY,AMAR COLONY,SOUTH EAST,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+147,KOTLA MUBARAKPUR,KOTLA MUBARAKPUR,SOUTH EAST,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+148,HAUZ KHAS,HAUZ KHAS,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+149,MALVIYA NAGAR,MALVIYA NAGAR,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+150,GREEN PARK,GREEN PARK,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+151,MUNIRKA,MUNIRKA,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+152,R.K. PURAM,R.K. PURAM,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+153,VASANT VIHAR,VASANT VIHAR,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+154,LADO SARAI,LADO SARAI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+155,MEHRAULI,MEHRAULI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+156,VASANT KUNJ,VASANT KUNJ,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+157,AYA NAGAR,AYA NAGAR,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+158,BHATI,BHATI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+159,CHHATARPUR,CHHATARPUR,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+160,SAID-UL-AJAIB,SAID-UL-AJAIB,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+161,DEOLI,DEOLI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+162,TIGRI,TIGRI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+163,SANGAM VIHAR-A,SANGAM VIHAR-A,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+164,DAKSHIN PURI,DAKSHIN PURI,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+165,MADANGIR,MADANGIR,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+166,PUSHP VIHAR,PUSHP VIHAR,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+167,KHANPUR,KHANPUR,SOUTH ZONE,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+168,SANGAM VIHAR-C,SANGAM VIHAR-C,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+169,SANGAM VIHAR-B,SANGAM VIHAR-B,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+170,TUGHLAKABAD EXTENSION,TUGHLAKABAD EXTENSION,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+171,CHITARANJAN PARK,CHITARANJAN PARK,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+172,CHIRAGH DELHI,CHIRAG DELHI,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+173,GREATER KAILASH,GREATER KAILASH,SOUTH ZONE,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+174,SRINIWAS PURI,SRI NIWAS PURI,SOUTH EAST,New Delhi,MP-01,Bansuri Swaraj,,,official_delimitation_parent_pc_schedule,official_verified
+175,KALKAJI,KALKAJI,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+176,GOVIND PURI,GOVIND PURI,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+177,HARKESH NAGAR,HARKESH NAGAR,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+178,TUGHLAKABAD,TUGHLAKABAD,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+179,PUL PEHLADPUR,PUL PEHLADPUR,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+180,BADARPUR,BADARPUR,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+181,MOLARBAND,MOLARBAND,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+182,MITHAPUR,MEETHAPUR,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+183,HARI NAGAR EXTENSION,HARI NAGAR EXTENSION,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+184,JAITPUR,JAITPUR,SOUTH EAST,South Delhi,MP-03,Ramvir Singh Bidhuri,,,official_delimitation_parent_pc_schedule,official_verified
+185,MADANPUR KHADAR EAST,MADANPUR KHADAR EAST,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+186,MADANPUR KHADAR WEST,MADANPUR KHADAR WEST,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+187,SARITA VIHAR,SARITA VIHAR,SOUTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+188,ABUL FAZAL ENCLAVE,ABUL FAZAL ENCLAVE,SOUTH ZONE,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+189,ZAKIR NAGAR,ZAKIR NAGAR,SOUTH ZONE,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+190,NEW ASHOK NAGAR,NEW ASHOK NAGAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+191,MAYUR VIHAR PHASE-I,MAYUR VIHAR PHASE-I,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+192,TRILOKPURI,TRILOKPURI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+193,KONDLI,KONDLI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+194,GHAROLI,GHAROLI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+195,KALYANPURI,KALYANPURI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+196,MAYUR VIHAR PHASE-II,MAYUR VIHAR PHASE-II,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+197,PATPAR GANJ,PATPARGANJ,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+198,VINOD NAGAR,VINOD NAGAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+199,MANDAWALI,MANDAWALI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+200,PANDAV NAGAR,PANDAV NAGAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+201,LALITA PARK,LALITA PARK,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+202,SHAKARPUR,SHAKARPUR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+203,LAXMI NAGAR,LAXMI NAGAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+204,PREET VIHAR,PREET VIHAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+205,I.P.EXTENSION,I.P. EXTENSION,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+206,ANAND VIHAR,ANAND VIHAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+207,VISHWAS NAGAR,VISHWAS NAGAR,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+208,ANARKALI,ANARKALI,EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+209,JAGAT PURI,JAGAT PURI,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+210,GEETA COLONY,GEETA COLONY,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+211,KRISHNA NAGAR,KRISHNA NAGAR,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+212,GANDHI NAGAR,GANDHI NAGAR,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+213,SHASTRI PARK,SHASTRI PARK,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+214,AZAD NAGAR,AZAD NAGAR,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+215,SHAHDARA,SHAHDARA,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+216,JHILMIL,JHILMIL,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+217,DILSHAD COLONY,DILSHAD COLONY,NORTH EAST,East Delhi,MP-05,Harsh Malhotra,,,official_delimitation_parent_pc_schedule,official_verified
+218,SUNDAR NAGRI,SUNDAR NAGRI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+219,DILSHAD GARDEN,DILSHAD GARDEN,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+220,NAND NAGRI,NAND NAGRI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+221,ASHOK NAGAR,ASHOK NAGAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+222,RAM NAGAR EAST,RAM NAGAR EAST,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+223,ROHTASH NAGAR,ROHTASH NAGAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+224,WELCOME COLONY,WELCOME COLONY,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+225,SEELAMPUR,SEELAMPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+226,GAUTAM PURI,GAUTAM PURI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+227,CHAUHAN BANGER,CHAUHAN BANGER,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+228,MAUJPUR,MAUJPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+229,BRAHAM PURI,BRAHAM PURI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+230,BHAJANPURA,BHAJANPURA,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+231,GHONDA,GHONDA,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+232,YAMUNA VIHAR,YAMUNA VIHAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+233,SUBHASH MOHALLA,SUBHASH MOHALLA,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+234,KABIR NAGAR,KABIR NAGAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+235,GORAKH PARK,GORAKH PARK,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+236,KARDAM PURI,KARDAM PURI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+237,HARSH VIHAR,HARSH VIHAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+238,SABOLI,SABOLI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+239,GOKAL PURI,GOKAL PURI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+240,JOHARIPUR,JOHARIPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+241,KARAWAL NAGAR-EAST,KARAWAL NAGAR-EAST,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+242,DAYALPUR,DAYALPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+243,MUSTAFABAD,MUSTAFABAD,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+244,NEHRU VIHAR,NEHRU VIHAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+245,BRIJ PURI,BRIJ PURI,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+246,SRI RAM COLONY,SRI RAM COLONY,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+247,SADATPUR,SADATPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+248,KARAWAL NAGAR-WEST,KARAWAL NAGAR-WEST,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+249,SONIA VIHAR,SONIA VIHAR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified
+250,SABAPUR,SABAPUR,NORTH EAST,North East Delhi,MP-06,Manoj Kumar Tiwari,,,official_delimitation_parent_pc_schedule,official_verified

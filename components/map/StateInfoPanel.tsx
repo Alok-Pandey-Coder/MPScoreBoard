@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import { X, MapPin, Users, Award, ChevronRight, BarChart2 } from 'lucide-react';
+import { X, MapPin, ChevronRight, BarChart2 } from 'lucide-react';
 import { StateGeoData, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
+import { useMessages } from '@/context/LanguageContext';
+import { mapMessages } from '@/lib/messages/map';
 
 export interface StateInfoPanelProps {
   state: StateGeoData;
@@ -21,12 +23,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
   onSelectConstituency,
   onClose,
 }) => {
-  // Find MPs belonging to this state
-  const stateMPs = mps.filter(
-    (m) =>
-      m.state.toLowerCase() === state.name.toLowerCase() ||
-      m.state.toLowerCase().includes(state.id)
-  );
+  const t = useMessages(mapMessages);
 
   // Available mapped constituencies for this state
   const isDelhi = state.id === 'delhi';
@@ -42,7 +39,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
               {state.code}
             </span>
             <span className="text-xs uppercase tracking-wider text-[#9BAABD]">
-              {state.type === 'ut' ? 'Union Territory' : 'State'}
+              {state.type === 'ut' ? t.typeUnionTerritory : t.typeState}
             </span>
           </div>
           <h3 className="text-lg font-bold text-white mt-1 font-['Outfit',sans-serif]">
@@ -50,13 +47,13 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
           </h3>
           <p className="text-xs text-[#9BAABD] flex items-center gap-1 mt-0.5">
             <MapPin className="w-3 h-3 text-[#55BCE8]" />
-            Capital: {state.capital}
+            {t.capital(state.capital)}
           </p>
         </div>
         <button
           onClick={onClose}
           className="p-1 text-[#9BAABD] hover:text-white rounded-lg hover:bg-[#1D242D] transition-colors"
-          aria-label="Close state panel"
+          aria-label={t.closeStatePanel}
         >
           <X className="w-4 h-4" />
         </button>
@@ -66,7 +63,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
       <div className="grid grid-cols-2 gap-2 p-3 bg-[#1D242D]/50 border-b border-[#303A45]">
         <div className="bg-[#14191F]/70 p-2.5 rounded-lg border border-[#303A45]">
           <span className="text-[10px] text-[#9BAABD] uppercase tracking-wider block">
-            LS Seats
+            {t.lsSeats}
           </span>
           <span className="text-lg font-bold text-amber-400 font-mono">
             {state.seats}
@@ -74,7 +71,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
         </div>
         <div className="bg-[#14191F]/70 p-2.5 rounded-lg border border-[#303A45]">
           <span className="text-[10px] text-[#9BAABD] uppercase tracking-wider block">
-            Active Data
+            {t.activeData}
           </span>
           <span className="text-lg font-bold text-cyan-400 font-mono">
             {state.coveredRecords} / {state.seats}
@@ -87,23 +84,23 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
         <div className="p-3 bg-[#14191F]/40 border-b border-[#303A45] text-xs">
           <div className="flex items-center gap-1.5 text-[#9BAABD] mb-2 font-medium">
             <BarChart2 className="w-3.5 h-3.5 text-[#55BCE8]" />
-            <span>State Baseline Benchmarks</span>
+            <span>{t.stateBaseline}</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <div className="text-[10px] text-[#9BAABD]">Avg Attendance</div>
+              <div className="text-[10px] text-[#9BAABD]">{t.avgAttendance}</div>
               <div className="font-semibold text-white font-mono">
                 {state.avgAttendance}%
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-[#9BAABD]">Avg Debates</div>
+              <div className="text-[10px] text-[#9BAABD]">{t.avgDebates}</div>
               <div className="font-semibold text-white font-mono">
                 {state.avgDebates ?? '—'}
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-[#9BAABD]">Avg Questions</div>
+              <div className="text-[10px] text-[#9BAABD]">{t.avgQuestions}</div>
               <div className="font-semibold text-white font-mono">
                 {state.avgQuestions ?? '—'}
               </div>
@@ -115,9 +112,9 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
       {/* Constituency List */}
       <div className="flex-1 overflow-y-auto p-3 space-y-1.5 custom-scrollbar">
         <div className="text-xs font-semibold text-[#9BAABD] px-1 flex items-center justify-between">
-          <span>Constituencies ({constituencies.length > 0 ? constituencies.length : state.seats})</span>
+          <span>{t.constituenciesCount(constituencies.length > 0 ? constituencies.length : state.seats)}</span>
           {isDelhi && (
-            <span className="text-[10px] text-emerald-400 font-medium">Verified Geometry</span>
+            <span className="text-[10px] text-emerald-400 font-medium">{t.boundaryData}</span>
           )}
         </div>
 
@@ -143,7 +140,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
                   </span>
                 </div>
                 <div className="text-[11px] text-[#9BAABD] mt-0.5 flex items-center justify-between">
-                  <span>MP: {c.sittingMP}</span>
+                  <span>{t.mpLabel(c.sittingMP ?? '')}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-[#9BAABD]" />
                 </div>
               </div>
@@ -151,14 +148,14 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
           })
         ) : (
           <div className="p-4 text-center text-xs text-[#9BAABD] bg-[#14191F]/40 rounded-lg border border-[#303A45]/60 mt-2">
-            <p className="font-medium text-slate-300">Phase 2 Constituency Data</p>
+            <p className="font-medium text-slate-300">{t.phase2Title}</p>
             <p className="text-[11px] mt-1 text-slate-400">
-              National seat boundaries for {state.name} are queued for subsequent data ingestion.
+              {t.phase2Body(state.name)}
             </p>
             <Link href={`/state/${state.id}`}
               className="mt-3 inline-flex items-center gap-1 text-xs text-[#55BCE8] hover:underline"
             >
-              Explore {state.name} State Portal →
+              {t.exploreStatePortal(state.name)}
             </Link>
           </div>
         )}
@@ -169,7 +166,7 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
         <Link href={`/state/${state.id}`}
           className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500 shadow-md transition-all"
         >
-          <span>Explore All {state.seats} Seats in {state.name}</span>
+          <span>{t.exploreAllSeats(state.seats, state.name)}</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>

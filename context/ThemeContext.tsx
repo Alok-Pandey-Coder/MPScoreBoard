@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useSyncExternalStore } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -12,65 +12,40 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const STORAGE_KEY = 'mera-mp-theme';
+const CHANGE_EVENT = 'mera-mp-theme-change';
+
+// The inline script in app/layout.tsx applies the saved theme to <html> before
+// hydration; <html data-theme> is therefore the source of truth here.
+function readTheme(): Theme {
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
+
+function subscribe(onChange: () => void) {
+  window.addEventListener(CHANGE_EVENT, onChange);
+  return () => window.removeEventListener(CHANGE_EVENT, onChange);
+}
+
+function applyTheme(t: Theme) {
+  const root = document.documentElement;
+  root.classList.toggle('dark', t === 'dark');
+  root.dataset.theme = t;
+  root.style.colorScheme = t;
+  try {
+    localStorage.setItem(STORAGE_KEY, t);
+  } catch {
+    // Storage blocked (private mode): the theme still applies for this page.
+  }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
+}
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    try {
-      const saved = localStorage.getItem('mera-mp-theme') as Theme | null;
-      if (saved === 'light' || saved === 'dark') {
-        setThemeState(saved);
-        applyTheme(saved);
-      } else {
-        applyTheme('dark');
-      }
-    } catch (e) {
-      applyTheme('dark');
-    }
-  }, []);
-
-  const applyTheme = (t: Theme) => {
-    if (typeof document === 'undefined') return;
-    const root = document.documentElement;
-    if (t === 'dark') {
-      root.classList.add('dark');
-      root.dataset.theme = 'dark';
-      root.style.colorScheme = 'dark';
-    } else {
-      root.classList.remove('dark');
-      root.dataset.theme = 'light';
-      root.style.colorScheme = 'light';
-    }
-  };
-
-  const toggleTheme = () => {
-    const next: Theme = theme === 'light' ? 'dark' : 'light';
-    setThemeState(next);
-    try {
-      localStorage.setItem('mera-mp-theme', next);
-    } catch (e) {
-      // ignore
-    }
-    applyTheme(next);
-  };
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    try {
-      localStorage.setItem('mera-mp-theme', newTheme);
-    } catch (e) {
-      // ignore
-    }
-    applyTheme(newTheme);
-  };
-
-  const isDark = theme === 'dark';
+  const theme = useSyncExternalStore<Theme>(subscribe, readTheme, () => 'dark');
+  const setTheme = useCallback((t: Theme) => applyTheme(t), []);
+  const toggleTheme = useCallback(() => applyTheme(readTheme() === 'light' ? 'dark' : 'light'), []);
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, isDark: theme === 'dark', toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
