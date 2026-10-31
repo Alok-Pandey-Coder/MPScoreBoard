@@ -1,51 +1,52 @@
 import React from 'react';
 import Link from 'next/link';
-import { ExternalLink, ShieldAlert } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Scale, FileText } from 'lucide-react';
 import { GitHubIcon } from '@/components/common/GitHubIcon';
 import snapshotData from '@/data/processed/snapshot.json';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-900 dark:bg-[#070a12] text-slate-300 dark:text-slate-400 border-t border-slate-800 dark:border-slate-800/80 mt-20 pt-12 pb-10 transition-colors">
+    <footer className="bg-stone-100 dark:bg-[#070A10] text-stone-600 dark:text-stone-400 border-t border-stone-200 dark:border-[#1A2230] mt-20 pt-12 pb-10 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Col 1: About Project */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="font-extrabold text-white text-lg tracking-tight font-['Outfit']">
+          {/* Col 1 & 2: Publication Masthead & Mission */}
+          <div className="md:col-span-2 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-stone-900 dark:text-white text-lg tracking-tight font-sans">
                 Mera MP, Mera Report Card
               </span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 dark:bg-slate-800 text-slate-300 border border-slate-700">
-                MVP v1.0
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-200 dark:bg-[#151D2A] text-stone-700 dark:text-stone-300 border border-stone-300 dark:border-[#222E42]">
+                18th Lok Sabha
               </span>
             </div>
-            <p className="text-sm text-slate-400 dark:text-slate-400 mb-4 max-w-lg leading-relaxed">
-              An open, neutral, citizen-facing portal providing traceable, sourced records of parliamentary activity, local constituency development funds (MPLADS), and sworn affidavit filings for Members of Parliament in the 18th Lok Sabha.
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 max-w-lg leading-relaxed">
+              An open, source-verified citizen public ledger providing traceable records of parliamentary attendance, floor questions, local development fund allocations (MPLADS), and sworn affidavit disclosures for Members of Parliament.
             </p>
-            <div className="flex items-center gap-3 text-xs text-slate-400">
-              <span className="flex items-center gap-1.5 bg-slate-800/80 dark:bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/60">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500 pt-1">
+              <span className="flex items-center gap-1.5 bg-stone-200/70 dark:bg-[#121A26] px-2.5 py-1 rounded border border-stone-300/80 dark:border-[#1E293B]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 Snapshot: {snapshotData.snapshot_version}
               </span>
-              <span>7 Delhi Parliamentary Constituencies</span>
+              <span>·</span>
+              <span>7 Delhi Seats (100% Sourced)</span>
             </div>
           </div>
 
-          {/* Col 2: Public Sources */}
+          {/* Col 3: Primary Government & Official Provenance */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 dark:text-slate-200 mb-3 font-['Outfit']">
-              Data Provenance
-            </h3>
-            <ul className="space-y-2 text-sm text-slate-400">
+            <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-900 dark:text-stone-200 mb-3">
+              Primary Data Provenance
+            </h4>
+            <ul className="space-y-2 text-xs font-mono">
               <li>
                 <a
                   href="https://sansad.in/ls"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white flex items-center gap-1 transition-colors"
+                  className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
                   <span>Lok Sabha (Digital Sansad)</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
+                  <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
               </li>
               <li>
@@ -53,21 +54,10 @@ export const Footer: React.FC = () => {
                   href="https://prsindia.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white flex items-center gap-1 transition-colors"
+                  className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
                   <span>PRS Legislative Research</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://delhi.gov.in/members-of-parliament"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white flex items-center gap-1 transition-colors"
-                >
-                  <span>Govt of NCT of Delhi</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
+                  <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
               </li>
               <li>
@@ -75,71 +65,67 @@ export const Footer: React.FC = () => {
                   href="https://affidavit.eci.gov.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white flex items-center gap-1 transition-colors"
+                  className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
-                  <span>Election Commission of India</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
+                  <span>Election Commission of India (ECI)</span>
+                  <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Navigation & Transparency */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 dark:text-slate-200 mb-3 font-['Outfit']">
-              Transparency
-            </h3>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li>
-                <Link href="/about" className="hover:text-white transition-colors">
-                  Methodology &amp; Definitions
-                </Link>
-              </li>
-              <li>
-                <Link href="/compare" className="hover:text-white transition-colors">
-                  Compare MPs Side-by-Side
-                </Link>
               </li>
               <li>
                 <a
-                  href="https://github.com"
+                  href="https://mplads.gov.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white flex items-center gap-1.5 transition-colors"
+                  className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
                 >
-                  <GitHubIcon className="w-3.5 h-3.5" />
-                  <span>Report Data Issue / GitHub</span>
+                  <span>Ministry of Statistics (MPLADS Portal)</span>
+                  <ExternalLink className="w-3 h-3 text-stone-400" />
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Methodology & Neutrality Commitment */}
+          <div>
+            <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-900 dark:text-stone-200 mb-3">
+              Methodology &amp; Standards
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/about" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  Methodology &amp; Data Pipeline
+                </Link>
+              </li>
+              <li>
+                <Link href="/compare" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  Side-by-Side MP Comparison
+                </Link>
+              </li>
+              <li>
+                <Link href="/explore" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  All-India Geospatial Atlas
+                </Link>
+              </li>
+              <li>
+                <Link href="/about#minister-policy" className="hover:text-stone-900 dark:hover:text-white transition-colors">
+                  Minister Quota &amp; Governance Policy
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Legal & Non-partisan Disclaimer Box */}
-        <div className="bg-slate-950/80 dark:bg-slate-950/90 border border-slate-800 dark:border-slate-800/90 rounded-2xl p-4.5 mb-8">
-          <div className="flex items-start gap-3">
-            <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-slate-400 dark:text-slate-400 leading-relaxed space-y-1">
-              <p className="font-semibold text-slate-300 dark:text-slate-200">
-                Official Civic &amp; Non-Affiliation Disclaimer
-              </p>
-              <p>
-                This is an independent, non-partisan civic technology project created for academic and citizen transparency purposes. It is not affiliated with, authorized, or endorsed by the Parliament of India, the Election Commission of India, PRS Legislative Research, ADR, or any political party.
-              </p>
-              <p>
-                Parliamentary activity indicators show quantitative participation, not the qualitative merit or total impact of an MP&apos;s service. Declared affidavit information reflects candidates&apos; sworn pre-election disclosures, not criminal convictions.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
-          <div className="flex items-center gap-1">
-            <span>Built for citizen empowerment at</span>
-            <span className="font-semibold text-slate-400">hackCBS 9.0</span>
-          </div>
-          <div>
-            <span>Data captured strictly from immutable public snapshots</span>
+        {/* Legal Disclaimer & Neutrality Guardrail */}
+        <div className="pt-6 border-t border-stone-200 dark:border-[#1A2230] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-stone-500 dark:text-stone-400">
+          <p className="text-center sm:text-left leading-relaxed max-w-3xl">
+            Non-partisan civic transparency project. Declared criminal cases represent sworn affidavit filings, not judicial convictions. Performance indicators are descriptive official records and do not constitute rank or performance scorecards.
+          </p>
+          <div className="flex items-center gap-3 shrink-0">
+            <span>Open Civic Data</span>
+            <span>·</span>
+            <Link href="/about" className="hover:underline">
+              Review Sources
+            </Link>
           </div>
         </div>
       </div>

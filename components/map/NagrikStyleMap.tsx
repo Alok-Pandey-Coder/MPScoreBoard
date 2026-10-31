@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { Search, Navigation, Layers, Info, MapPin, ChevronRight } from 'lucide-react';
+import { Search, Navigation, Layers, Info, MapPin, ChevronRight, ExternalLink, ShieldCheck } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
 
@@ -112,7 +112,6 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     let isMounted = true;
     if (!mapContainerRef.current) return;
 
-    // Clean up previous instance or stale leaflet id if hot-reloaded
     if (mapInstanceRef.current) {
       mapInstanceRef.current.remove();
       mapInstanceRef.current = null;
@@ -130,7 +129,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     }).setView([28.6350, 77.1600], 10.5);
     mapInstanceRef.current = map;
 
-    // 2. Pure dark/black GIS basemap with subtle dark-gray roads and muted gray place labels (NO WATERMARK)
+    // 2. Pure dark GIS basemap (ESRI Dark Canvas, NO WATERMARKS, subtle dark-gray roads)
     L.tileLayer(
       'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
       {
@@ -139,16 +138,15 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       }
     ).addTo(map);
 
-    // 3. Add bottom-right 10km dark scale bar (matching Screenshot 1)
+    // 3. Add bottom-right 10km dark scale bar (matching Screenshot 1 & 2)
     L.control.scale({ imperial: false, position: 'bottomright' }).addTo(map);
 
-    // 4. Fetch 290 detailed interlocking ward boundary polygons (no white gaps)
+    // 4. Fetch 290 detailed interlocking ward boundary polygons
     fetch('/api/geojson')
       .then((res) => res.json())
       .then((geojson) => {
         if (!isMounted || !mapInstanceRef.current) return;
 
-        // Clear existing markers if any
         numberMarkersRef.current.forEach((m) => m.remove());
         numberMarkersRef.current = [];
 
@@ -173,7 +171,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
             // Tooltip on hover
             layer.bindTooltip(
-              `<div style="font-weight:800; font-size:12px; color:#f8fafc;">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:#94a3b8;">${props.pc_name || ''} (Ward ${wardNum})</div>`,
+              `<div style="font-family:sans-serif;"><div style="font-weight:700; font-size:12px; color:#f8fafc;">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:#94a3b8;">${props.pc_name || ''} · Ward #${wardNum}</div></div>`,
               { direction: 'center', className: 'dark-map-tooltip' }
             );
 
@@ -186,6 +184,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                     color: #ffffff;
                     font-weight: 800;
                     font-size: 11px;
+                    font-family: 'JetBrains Mono', monospace;
                     text-shadow: 0 0 2px #000, 0 0 4px #000, 0 1px 2px #000;
                     white-space: nowrap;
                     cursor: pointer;
@@ -242,7 +241,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
         geojsonLayerRef.current = geoLayer;
 
-        // Position initial target reticle (Ward 20 in Chandni Chowk as in Screenshot 1)
+        // Position initial target reticle (Ward 20 in Chandni Chowk as in Reference Screenshot)
         updateTargetReticle(28.6570, 77.2318, '20');
       })
       .catch((err) => console.error('Failed to load GeoJSON:', err));
@@ -303,16 +302,15 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                 userMarkerRef.current.remove();
               }
               const pinHtml = `
-                <div style="position:relative; width:24px; height:24px; transform:translate(-50%, -50%);">
-                  <span style="position:absolute; inset:0; border-radius:50%; background:#38bdf8; opacity:0.75; animation:ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
-                  <span style="position:absolute; inset:4px; border-radius:50%; background:#0284c7; border:2px solid #ffffff; box-shadow:0 0 8px rgba(0,0,0,0.8);"></span>
+                <div style="position:relative; width:22px; height:22px; transform:translate(-50%, -50%);">
+                  <span style="position:absolute; inset:0; border-radius:50%; background:#f59e0b; opacity:0.75; animation:ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+                  <span style="position:absolute; inset:3px; border-radius:50%; background:#d97706; border:2px solid #ffffff; box-shadow:0 0 8px rgba(0,0,0,0.8);"></span>
                 </div>
               `;
               const userIcon = L.divIcon({ html: pinHtml, className: 'user-gps-marker', iconSize: [0, 0] });
               userMarkerRef.current = L.marker([latitude, longitude], { icon: userIcon }).addTo(mapInstanceRef.current);
             }
           } else {
-            // Default to Central Delhi
             focusConstituency('new-delhi-delhi', undefined, [latitude, longitude]);
           }
         } catch {
@@ -322,14 +320,13 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       },
       () => {
         setLocating(false);
-        setUserLocationError('Could not detect location. Focusing New Delhi.');
+        setUserLocationError('Could not detect location. Defaulting to New Delhi.');
         focusConstituency('new-delhi-delhi');
       },
       { timeout: 8000, enableHighAccuracy: true }
     );
   };
 
-  // Filter 7 Delhi constituencies
   const filteredSeats = DELHI_SEATS.filter((s) => {
     const q = searchQuery.toLowerCase();
     const mp = mps.find((m) => m.slug === s.slug);
@@ -344,20 +341,26 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   const activeMP = mps.find((m) => m.slug === selectedSlug);
 
   return (
-    <div className="bg-[#11161d] border border-[#232b35] rounded-3xl overflow-hidden shadow-2xl">
-      {/* Header Bar */}
-      <div className="border-b border-[#232b35] px-6 py-4 flex flex-wrap items-center justify-between gap-4 bg-[#141a22]">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-amber-400 font-mono tracking-wider">01</span>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white font-['Outfit']">
-            Find your constituency
-          </h2>
+    <div className="bg-[#0C1017] border border-[#1E2636] rounded-2xl overflow-hidden shadow-xl transition-all">
+      {/* Editorial Header Bar */}
+      <div className="border-b border-[#1E2636] px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4 bg-[#0E1420]">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold text-amber-500 tracking-wider uppercase">
+              GEOSPATIAL AUDIT
+            </span>
+            <span className="text-stone-600">·</span>
+            <span className="text-xs text-stone-400 font-mono">NCT OF DELHI</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-bold text-white font-sans mt-0.5 tracking-tight">
+            Constituency Block &amp; Municipal Ward Boundaries
+          </h3>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
-          <span className="px-3 py-1 rounded-full bg-[#1b222c] border border-[#2b3542] text-slate-300 font-medium flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            7 Parliamentary Blocks • 290 Ward Polygons
+        <div className="flex items-center gap-2 text-xs font-mono">
+          <span className="px-2.5 py-1 rounded bg-[#151D2A] border border-[#243144] text-stone-300 font-medium flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span>7 Parliamentary Blocks · 290 Wards</span>
           </span>
         </div>
       </div>
@@ -365,54 +368,51 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
       {/* Main Grid: Map (Left) + Search & Browse (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
         {/* Left Map View (8 Cols) */}
-        <div className="lg:col-span-8 relative min-h-[460px] lg:min-h-[600px] bg-[#080808]">
-          {/* Top In-Map Controls (Layers, Info) */}
+        <div className="lg:col-span-8 relative min-h-[460px] lg:min-h-[620px] bg-[#080808]">
+          {/* Integrated Map Meta Pill */}
           <div className="absolute top-4 left-4 z-[500] flex items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-xs font-semibold text-slate-200 shadow-lg">
-              <Layers className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Dark GIS Atlas</span>
-            </div>
-            <div className="p-2 rounded-xl bg-[#171d25]/90 backdrop-blur-md border border-[#2c3644] text-slate-400 shadow-lg">
-              <Info className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E1420]/90 backdrop-blur-md border border-[#232F42] text-[11px] font-mono text-stone-300 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
+              <span>ESRI Pure Dark Base · Scale 10 km</span>
             </div>
           </div>
 
           {/* Leaflet Map DOM Container */}
-          <div ref={mapContainerRef} className="w-full h-full min-h-[460px] lg:min-h-[600px]" />
+          <div ref={mapContainerRef} className="w-full h-full min-h-[460px] lg:min-h-[620px]" />
 
           {/* Hover Overlay */}
           {hoveredInfo && (
-            <div className="absolute top-4 right-4 z-[500] pointer-events-none bg-[#171e27]/95 backdrop-blur-md border border-cyan-500/60 p-3 rounded-2xl shadow-2xl text-xs max-w-xs animate-in fade-in duration-150">
-              <div className="text-[10px] uppercase font-bold text-cyan-400">
-                Ward #{hoveredInfo.wardNum} • Delhi
+            <div className="absolute top-4 right-4 z-[500] pointer-events-none bg-[#0C121D]/95 backdrop-blur-md border border-amber-500/50 p-3 rounded-xl shadow-xl text-xs max-w-xs animate-in fade-in duration-100 font-sans">
+              <div className="text-[10px] font-mono uppercase font-bold text-amber-400">
+                Ward #{hoveredInfo.wardNum} · Delhi
               </div>
-              <div className="text-base font-bold text-white font-['Outfit'] mt-0.5">
+              <div className="text-sm font-bold text-white mt-0.5">
                 {hoveredInfo.name}
               </div>
-              <div className="text-slate-300 mt-1">
+              <div className="text-stone-300 text-[11px] mt-1 font-mono">
                 Lok Sabha: <strong className="text-white">{hoveredInfo.pcName}</strong>
               </div>
             </div>
           )}
 
           {/* Bottom Left Note */}
-          <div className="absolute bottom-3 left-4 z-[500] text-[11px] text-slate-400 bg-[#12171e]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#26303d] max-w-md hidden sm:block">
-            Click any block to inspect representative MP. Accurate 18th Lok Sabha boundaries.
+          <div className="absolute bottom-3 left-4 z-[500] text-[11px] font-mono text-stone-400 bg-[#0C121D]/90 backdrop-blur-md px-3 py-1 rounded-md border border-[#222E40] max-w-md hidden sm:block">
+            Click any polygon block to focus representative MP and records.
           </div>
         </div>
 
-        {/* Right Search & Browse Panel (4 Cols - Unaltered Dashboard) */}
-        <div className="lg:col-span-4 bg-[#141a22] border-t lg:border-t-0 lg:border-l border-[#232b35] p-5 flex flex-col justify-between">
+        {/* Right Search & Browse Panel (4 Cols - Refined Editorial Dossier) */}
+        <div className="lg:col-span-4 bg-[#0E1420] border-t lg:border-t-0 lg:border-l border-[#1E2636] p-5 flex flex-col justify-between">
           <div className="space-y-4">
             {/* Search Input Box */}
             <div className="relative">
-              <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-stone-400 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search seat, MP or landmark..."
+                placeholder="Search seat or MP..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#1b222c] border border-[#2a3442] rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#141C29] border border-[#232F42] rounded-xl text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
               />
             </div>
 
@@ -420,31 +420,31 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             <button
               onClick={handleUseLocation}
               disabled={locating}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#F5AA27] hover:bg-[#e0981b] active:scale-98 text-slate-950 font-bold text-sm rounded-xl shadow-lg transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-stone-950 font-bold text-xs font-mono uppercase tracking-wider rounded-xl shadow-sm transition-all cursor-pointer"
             >
-              <Navigation className={`w-4 h-4 ${locating ? 'animate-spin' : ''}`} />
-              <span>{locating ? 'Detecting Location...' : 'Use my location'}</span>
+              <Navigation className={`w-3.5 h-3.5 ${locating ? 'animate-spin' : ''}`} />
+              <span>{locating ? 'Detecting Coordinates...' : 'Auto-Detect My Seat'}</span>
             </button>
 
             {userLocationError && (
-              <p className="text-xs text-amber-400 text-center">{userLocationError}</p>
+              <p className="text-[11px] text-amber-400 text-center font-mono">{userLocationError}</p>
             )}
 
-            <div className="flex items-center justify-between text-xs text-slate-400 px-1">
-              <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Delhi Coordinates: 28.61° N, 77.20° E</span>
+            <div className="flex items-center justify-between text-[11px] font-mono text-stone-400 px-1 border-b border-[#1E2636] pb-2">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="w-3 h-3 text-amber-400" />
+                <span>Delhi Center: 28.61° N, 77.20° E</span>
               </span>
             </div>
 
-            {/* Browse Constituencies Accordion List */}
-            <div className="pt-2">
-              <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                <span>Browse Constituencies ({filteredSeats.length})</span>
-                <span className="text-cyan-400">Click to focus</span>
+            {/* Browse Constituencies List */}
+            <div>
+              <div className="flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider text-stone-400 mb-2">
+                <span>Constituencies ({filteredSeats.length})</span>
+                <span className="text-amber-400">Click to inspect</span>
               </div>
 
-              <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+              <div className="space-y-1.5 max-h-[210px] overflow-y-auto pr-1">
                 {filteredSeats.map((s) => {
                   const isSelected = selectedSlug === s.slug;
                   const mp = mps.find((m) => m.slug === s.slug);
@@ -453,29 +453,29 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                     <button
                       key={s.slug}
                       onClick={() => focusConstituency(s.slug)}
-                      className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
+                      className={`w-full text-left p-2.5 rounded-lg border transition-all flex items-center justify-between cursor-pointer ${
                         isSelected
-                          ? 'bg-[#1e2733] border-amber-400 ring-1 ring-amber-400/40 text-white'
-                          : 'bg-[#171e27] border-[#252f3d] hover:border-slate-600 text-slate-300'
+                          ? 'bg-[#182232] border-amber-500 text-white shadow-xs'
+                          : 'bg-[#121A26] border-[#1F2B3D] hover:border-stone-600 text-stone-300'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className="w-3 h-3 rounded-full shrink-0"
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
                           style={{ backgroundColor: theme?.stroke || s.color }}
                         />
                         <div>
                           <div className="font-semibold text-xs text-white">
                             {s.name}
                           </div>
-                          <div className="text-[11px] text-slate-400">
+                          <div className="text-[10px] font-mono text-stone-400">
                             {mp ? `${mp.name} (${mp.party})` : 'MP Record'}
                           </div>
                         </div>
                       </div>
                       <ChevronRight
-                        className={`w-4 h-4 transition-transform ${
-                          isSelected ? 'text-amber-400 translate-x-1' : 'text-slate-500'
+                        className={`w-3.5 h-3.5 transition-transform ${
+                          isSelected ? 'text-amber-400 translate-x-0.5' : 'text-stone-500'
                         }`}
                       />
                     </button>
@@ -487,35 +487,44 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
           {/* Active Constituency Bottom Card */}
           {activeSeat && (
-            <div className="mt-4 pt-4 border-t border-[#232b35] bg-[#1a212b] p-4 rounded-2xl border border-[#2a3542]">
+            <div className="mt-4 pt-3.5 border-t border-[#1E2636] bg-[#121A26] p-4 rounded-xl border border-[#232F42]">
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div>
-                  <div className="text-[10px] text-cyan-400 font-bold uppercase">
-                    Selected Parliamentary Seat
+                  <div className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wide">
+                    Selected Lok Sabha Seat
                   </div>
-                  <h3 className="text-base font-bold text-white font-['Outfit']">
+                  <h4 className="text-base font-bold text-white font-sans">
                     {activeSeat.name}
-                  </h3>
+                  </h4>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-[#202936] text-amber-400 border border-amber-500/40 font-bold">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1A2536] text-amber-300 border border-amber-500/30 font-bold">
                   {activeMP?.party || 'BJP'}
                 </span>
               </div>
 
-              <div className="text-xs text-slate-300 mb-3 flex items-center justify-between">
-                <span>
-                  MP: <strong className="text-white">{activeMP?.name || 'Sitting MP'}</strong>
-                </span>
+              <div className="text-xs text-stone-300 mb-3 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-stone-400">Representative:</span>
+                  <strong className="text-white">{activeMP?.name || 'Sitting MP'}</strong>
+                </div>
                 {activeMP?.is_minister && (
-                  <span className="text-[10px] text-amber-400 font-medium">Union Minister</span>
+                  <div className="text-[10px] text-amber-400 font-mono">
+                    Union Minister · Questions not applicable
+                  </div>
+                )}
+                {!activeMP?.is_minister && activeMP?.performance?.attendance_pct !== null && (
+                  <div className="flex items-center justify-between text-[11px] font-mono pt-1 text-stone-400 border-t border-[#1C2738]">
+                    <span>Attendance: <strong className="text-stone-200">{activeMP?.performance?.attendance_pct}%</strong></span>
+                    <span>Questions: <strong className="text-stone-200">{activeMP?.performance?.questions}</strong></span>
+                  </div>
                 )}
               </div>
 
               <Link
                 href={`/mp/${activeSeat.slug}`}
-                className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 bg-stone-100 hover:bg-white text-stone-950 font-bold text-xs font-mono uppercase tracking-wider rounded-lg shadow-sm transition-colors cursor-pointer"
               >
-                <span>View Full Report Card</span>
+                <span>View Full Dossier</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>

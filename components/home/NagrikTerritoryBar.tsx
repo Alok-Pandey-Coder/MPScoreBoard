@@ -1,130 +1,124 @@
 import React from 'react';
-import { Landmark, Calendar, CheckCircle2, TrendingUp, IndianRupee } from 'lucide-react';
+import { Calendar, ShieldCheck, FileText, CheckCircle2 } from 'lucide-react';
 
 export const NagrikTerritoryBar: React.FC = () => {
   return (
-    <div className="space-y-6">
-      {/* Top Territory Bar with Live Weather/AQI style chips */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[#232c37]">
-        <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#1a222d] border border-[#2b3746] flex items-center justify-center text-cyan-400 shrink-0">
-            <Landmark className="w-8 h-8" />
+    <div className="space-y-6 pt-2">
+      {/* Top Editorial Metadata Strip */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-stone-200 dark:border-[#1E2636]">
+        <div>
+          <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-amber-600 dark:text-amber-400 font-semibold mb-1">
+            <span>National Capital Territory of Delhi</span>
+            <span className="text-stone-400 dark:text-stone-600">·</span>
+            <span>18th Lok Sabha (2024–2029)</span>
           </div>
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              NATIONAL CAPITAL TERRITORY · 18TH LOK SABHA (2024–2029)
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-['Outfit'] tracking-tight mt-0.5">
-              DELHI LOK SABHA
-            </h1>
-          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight font-sans">
+            Delhi Parliamentary Audit
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1 max-w-2xl font-normal leading-relaxed">
+            Source-backed public monitoring of legislative engagement, attendance records, questions asked, and local constituency expenditure for all 7 parliamentary seats.
+          </p>
         </div>
 
-        {/* Right Status Chips */}
-        <div className="flex flex-wrap items-center gap-2.5 text-xs">
-          <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span>Active Term (18th LS)</span>
+        {/* Right Status Badges */}
+        <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
+          <span className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-300/80 dark:border-[#222E42] text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px]">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>7/7 Seats Verified</span>
           </span>
 
-          <span className="px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold flex items-center gap-1.5">
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>State Avg: 96% Attendance</span>
-          </span>
-
-          <span className="px-3 py-1.5 rounded-xl bg-[#161d26] border border-[#273342] text-slate-400 font-medium hidden sm:flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>31 Oct 2026, 3:45 PM</span>
+          <span className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#131B27] border border-stone-300/80 dark:border-[#222E42] text-stone-700 dark:text-stone-300 flex items-center gap-1.5 font-mono text-[11px]">
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <span>Digital Sansad &amp; ECI Verified</span>
           </span>
         </div>
       </div>
 
-      {/* 4 Counter Metrics Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-[#141a22] p-4.5 rounded-3xl border border-[#232c37]">
-        <div className="px-3 py-1">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-            Constituencies Mapped
+      {/* 4 Essential Civic Ledger Metrics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white dark:bg-[#101622] p-4 sm:p-5 rounded-2xl border border-stone-200/90 dark:border-[#1E2636] shadow-sm">
+        <div className="p-2 sm:p-3">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
+            Seats Mapped
           </span>
-          <div className="text-3xl font-black text-white font-['Outfit'] mt-1">
-            7
+          <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-mono mt-0.5 tabular-nums">
+            7 / 7
           </div>
-          <span className="text-[11px] text-slate-400">All 7 Lok Sabha seats</span>
+          <span className="text-[11px] text-stone-500 dark:text-stone-400">
+            290 Ward Boundaries
+          </span>
         </div>
 
-        <div className="px-3 py-1 border-l border-[#232c37]">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
+        <div className="p-2 sm:p-3 border-l border-stone-200 dark:border-[#1E2636]">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
             Sitting MPs Tracked
           </span>
-          <div className="text-3xl font-black text-amber-400 font-['Outfit'] mt-1">
+          <div className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 font-mono mt-0.5 tabular-nums">
             7
           </div>
-          <span className="text-[11px] text-slate-400">100% verified provenance</span>
+          <span className="text-[11px] text-stone-500 dark:text-stone-400">
+            100% Affidavits &amp; Terms
+          </span>
         </div>
 
-        <div className="px-3 py-1 border-l border-[#232c37]">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-            Parliamentary Questions
+        <div className="p-2 sm:p-3 border-l-0 sm:border-l border-t sm:border-t-0 border-stone-200 dark:border-[#1E2636] pt-3 sm:pt-2">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
+            Questions Submitted
           </span>
-          <div className="text-3xl font-black text-cyan-400 font-['Outfit'] mt-1">
+          <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white font-mono mt-0.5 tabular-nums">
             1,031
           </div>
-          <span className="text-[11px] text-slate-400">Submitted across ministries</span>
+          <span className="text-[11px] text-stone-500 dark:text-stone-400">
+            Across Union Ministries
+          </span>
         </div>
 
-        <div className="px-3 py-1 border-l border-[#232c37]">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-            MPLADS Funds Tracked
+        <div className="p-2 sm:p-3 border-l border-t sm:border-t-0 border-stone-200 dark:border-[#1E2636] pt-3 sm:pt-2">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 dark:text-stone-400 block font-medium">
+            MPLADS Entitlement
           </span>
-          <div className="text-3xl font-black text-emerald-400 font-['Outfit'] mt-1">
+          <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 tabular-nums">
             ₹ 35.0 Cr
           </div>
-          <span className="text-[11px] text-slate-400">Entitlement baseline</span>
+          <span className="text-[11px] text-stone-500 dark:text-stone-400">
+            ₹5 Cr Annual / MP
+          </span>
         </div>
       </div>
 
-      {/* Subnavigation Tabs Bar (Nagrik style tabs) */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs border-b border-[#232c37] no-scrollbar">
-        <button
-          type="button"
-          className="px-4 py-2.5 rounded-xl font-bold text-slate-950 bg-amber-400 shadow-md shrink-0 flex items-center gap-1.5"
+      {/* Editorial Navigation Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs border-b border-stone-200 dark:border-[#1E2636] no-scrollbar">
+        <a
+          href="#find-constituency"
+          className="px-3.5 py-2 rounded-lg font-semibold text-stone-900 dark:text-white bg-stone-200/90 dark:bg-[#1A2333] border border-stone-300 dark:border-[#2C384D] shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px]">01</span>
-          <span>Find your constituency</span>
-        </button>
+          <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-bold">01</span>
+          <span>Constituency Block Map</span>
+        </a>
 
         <a
           href="#delhi-mps"
-          className="px-4 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-[#1a222d] transition-colors shrink-0 flex items-center gap-1.5"
+          className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px] text-slate-500">02</span>
-          <span>People (MPs)</span>
+          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">02</span>
+          <span>Sitting Members of Parliament</span>
         </a>
 
         <a
           href="#national-states"
-          className="px-4 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-[#1a222d] transition-colors shrink-0 flex items-center gap-1.5"
+          className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px] text-slate-500">03</span>
-          <span>Explore All States</span>
-        </a>
-
-        <a
-          href="/compare"
-          className="px-4 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-[#1a222d] transition-colors shrink-0 flex items-center gap-1.5"
-        >
-          <span className="font-mono text-[10px] text-slate-500">04</span>
-          <span>Compare MPs</span>
+          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">03</span>
+          <span>All-India Directory</span>
         </a>
 
         <a
           href="/about"
-          className="px-4 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-[#1a222d] transition-colors shrink-0 flex items-center gap-1.5"
+          className="px-3.5 py-2 rounded-lg font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-[#141B28] transition-colors shrink-0 flex items-center gap-2"
         >
-          <span className="font-mono text-[10px] text-slate-500">05</span>
-          <span>Sources</span>
+          <span className="font-mono text-[10px] text-stone-400 dark:text-stone-600 font-bold">04</span>
+          <span>Methodology &amp; Standards</span>
         </a>
       </div>
     </div>
   );
 };
-
