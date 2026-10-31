@@ -15,34 +15,34 @@ export const PerformanceGrid: React.FC<PerformanceGridProps> = ({ mp }) => {
 
   if (isMinister) {
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
-        <div className="flex items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
+        <div className="flex items-center justify-between gap-4 mb-4 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+            <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
               Parliamentary Activity Indicators
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Sitting data for the 18th Lok Sabha
+            <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
+              18th Lok Sabha Official Sittings Data
             </p>
           </div>
-          <span className="text-xs px-3 py-1 bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-semibold rounded-full border border-amber-200 dark:border-amber-800/60">
-            Ministerial Exemption
+          <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 bg-amber-500/10 text-amber-700 dark:text-amber-400 rounded border border-amber-500/30">
+            Ministerial Status
           </span>
         </div>
 
-        <div className="bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200/90 dark:border-amber-800/60 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0">
-            <AlertCircle className="w-6 h-6 text-amber-700 dark:text-amber-400" />
+        <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
+            <AlertCircle className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-bold text-amber-950 dark:text-amber-200 text-base">
-              Performance Indicators Not Applicable (Union Minister)
+            <h3 className="font-bold text-stone-900 dark:text-amber-300 text-sm sm:text-base font-sans">
+              Indicators Not Applicable (Union Minister of State)
             </h3>
-            <p className="text-sm text-amber-900/80 dark:text-amber-300/80 leading-relaxed">
-              As a serving Minister in the Union Council of Ministers, {mp.name} represents the Government in Parliament. Under parliamentary convention, ministers do not sign the attendance register, pose parliamentary questions, or introduce private member bills.
+            <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+              As a serving member of the Union Council of Ministers, {mp.name} represents the Government in Parliament. Under constitutional conventions, ministers do not sign the attendance register, submit private parliamentary questions, or sponsor private member bills.
             </p>
-            <p className="text-xs text-amber-800/70 dark:text-amber-400/60 pt-1">
-              Their ministerial accountability is carried out through executive leadership, policy formulation, and official answers.
+            <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400 pt-0.5">
+              Source convention: Lok Sabha Rules of Procedure &amp; Conduct of Business.
             </p>
           </div>
         </div>
@@ -58,7 +58,7 @@ export const PerformanceGrid: React.FC<PerformanceGridProps> = ({ mp }) => {
       unit: '',
       icon: CheckCircle2,
       tooltip: 'Percentage of total Lok Sabha sittings attended by the member during the 18th Lok Sabha sessions.',
-      source: 'PRS Legislative Research / Lok Sabha',
+      source: 'PRS / Lok Sabha',
     },
     {
       id: 'debates',
@@ -76,7 +76,7 @@ export const PerformanceGrid: React.FC<PerformanceGridProps> = ({ mp }) => {
       unit: 'questions',
       icon: HelpCircle,
       tooltip: 'Total starred and unstarred parliamentary questions submitted to ministries regarding public issues.',
-      source: 'PRS Legislative Research',
+      source: 'Lok Sabha Questions Portal',
     },
     {
       id: 'bills',
@@ -85,54 +85,54 @@ export const PerformanceGrid: React.FC<PerformanceGridProps> = ({ mp }) => {
       unit: 'bills',
       icon: FileText,
       tooltip: 'Bills introduced by the MP in an individual capacity to propose legislative changes.',
-      source: 'PRS Legislative Research',
+      source: 'Lok Sabha Bills Portal',
     },
   ];
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+    <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm transition-colors">
       {/* Block Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+          <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
             Key Parliamentary Indicators
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
             Quantitative participation records for the 18th Lok Sabha
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-slate-700 self-start sm:self-auto">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
-          <span>Records as of {asOf}</span>
+        <div className="flex items-center gap-2 text-xs font-mono text-stone-500 dark:text-stone-400 bg-stone-50 dark:bg-[#141C29] px-2.5 py-1 rounded border border-stone-200 dark:border-[#222F42] self-start sm:self-auto">
+          <Calendar className="w-3.5 h-3.5 text-stone-400" />
+          <span>Verified as of {asOf}</span>
         </div>
       </div>
 
       {/* Grid of 4 Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         {indicators.map((ind) => {
           const Icon = ind.icon;
           return (
             <div
               key={ind.id}
-              className="bg-slate-50/70 dark:bg-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/80 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 transition-all flex flex-col justify-between"
+              className="bg-stone-50/80 dark:bg-[#121A26] rounded-lg p-4 border border-stone-200/80 dark:border-[#1E293B] flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                    <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                  <div className="flex items-center gap-1.5 text-stone-600 dark:text-stone-300">
+                    <Icon className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-stone-600 dark:text-stone-300">
                       {ind.label}
                     </span>
                   </div>
                   <Tooltip content={ind.tooltip} />
                 </div>
 
-                <div className="text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit'] my-2">
+                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-stone-900 dark:text-white my-2 tabular-nums">
                   {ind.value}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="pt-2.5 border-t border-stone-200/60 dark:border-[#1A2536] flex items-center justify-between text-[10px] font-mono text-stone-500 dark:text-stone-400">
                 <span>{ind.source}</span>
               </div>
             </div>

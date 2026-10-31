@@ -127,13 +127,13 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
 
   return (
     <div
-      className={`relative w-full rounded-3xl bg-[#0c1015] border border-[#232c37] overflow-hidden shadow-2xl flex flex-col ${className}`}
+      className={`relative w-full rounded-2xl bg-[#0C1017] border border-[#1E2636] overflow-hidden shadow-lg flex flex-col ${className}`}
       style={{ minHeight: '620px' }}
       onMouseMove={handleMouseMove}
     >
       {/* Top Map Context Bar */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-[#171e27]/90 backdrop-blur-md px-3.5 py-2 rounded-xl border border-[#27323f] text-xs shadow-md">
-        <Compass className="w-4 h-4 text-cyan-400 animate-pulse" />
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-[#0E1420]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#222E42] text-xs font-mono shadow-md">
+        <Compass className="w-3.5 h-3.5 text-amber-500" />
         <span className="font-bold text-white font-['Outfit']">
           {selectedStateObj ? selectedStateObj.name : 'Republic of India — 18th Lok Sabha'}
         </span>

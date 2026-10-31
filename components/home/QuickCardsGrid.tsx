@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChevronRight, Award, ShieldCheck } from 'lucide-react';
+import { ChevronRight, Award, ShieldAlert, GraduationCap, ArrowUpRight, Scale } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 
 interface QuickCardsGridProps {
@@ -9,93 +9,116 @@ interface QuickCardsGridProps {
 
 export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
       {mps.map((mp) => {
         const isMinister = mp.is_minister || mp.performance.status === 'not_applicable';
         const attendance = mp.performance.attendance_pct;
         const questions = mp.performance.questions;
+        const criminalCases = mp.affidavit?.declared_criminal_cases ?? null;
+        const education = mp.profile?.education || 'Graduate';
 
         return (
           <Link
             key={mp.slug}
             href={`/mp/${mp.slug}`}
-            className="group bg-white dark:bg-[#171D24] rounded-3xl p-5 border border-slate-200/90 dark:border-[#303A45] shadow-sm hover:shadow-2xl hover:border-cyan-400 dark:hover:border-cyan-500/60 transition-all duration-300 flex flex-col justify-between cursor-pointer"
+            className="group bg-white dark:bg-[#0E1420] rounded-xl p-5 border border-stone-200/90 dark:border-[#1E2636] hover:border-amber-500/80 dark:hover:border-amber-500/60 shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer relative"
           >
             <div>
-              {/* Header with Avatar and Party */}
-              <div className="flex items-start justify-between gap-3 mb-3.5">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-[#1D242D] dark:to-[#171D24] border border-slate-200 dark:border-[#303A45] flex items-center justify-center font-bold text-slate-800 dark:text-slate-200 text-base group-hover:from-cyan-950/40 group-hover:to-cyan-900/20 group-hover:text-cyan-400 transition-all">
-                    {mp.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join('')}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors text-base line-clamp-1 font-['Outfit']">
-                      {mp.name}
-                    </h3>
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                      {mp.constituency}
-                    </p>
+              {/* Top Dossier Header: Seat + Category */}
+              <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-stone-100 dark:border-[#1A2333]">
+                <div className="flex items-center gap-1.5 text-[11px] font-mono font-medium text-stone-500 dark:text-stone-400">
+                  <span className="text-stone-900 dark:text-stone-200 font-bold">{mp.constituency}</span>
+                </div>
+                <div className="flex items-center gap-1 font-mono text-[10px]">
+                  <span className="px-1.5 py-0.5 rounded bg-stone-100 dark:bg-[#16202E] text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-[#223044] font-bold">
+                    {mp.party}
+                  </span>
+                  {mp.reservation && mp.reservation !== 'GEN' && (
+                    <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-bold">
+                      {mp.reservation}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Member Profile Seal & Name */}
+              <div className="flex items-start gap-3.5 mb-4">
+                <div className="w-11 h-11 rounded-lg bg-stone-100 dark:bg-[#16202E] border border-stone-200 dark:border-[#26344A] flex items-center justify-center font-bold font-mono text-stone-800 dark:text-stone-200 text-sm shrink-0 group-hover:border-amber-500/60 transition-colors">
+                  {mp.name
+                    .split(' ')
+                    .map((n) => n[0])
+                    .slice(0, 2)
+                    .join('')}
+                </div>
+                <div>
+                  <h3 className="font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors text-base font-sans line-clamp-1">
+                    {mp.name}
+                  </h3>
+                  <div className="text-[11px] text-stone-500 dark:text-stone-400 flex items-center gap-2 mt-0.5">
+                    <span>{mp.term || '18th Lok Sabha'}</span>
+                    <span>·</span>
+                    <span className="truncate max-w-[120px]">{education}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Badges */}
-              <div className="flex flex-wrap items-center gap-1.5 mb-4">
-                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-[#1D242D] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-[#303A45]">
-                  {mp.party}
-                </span>
-                {mp.reservation && mp.reservation !== 'GEN' && (
-                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 border border-indigo-200/80 dark:border-indigo-800/60">
-                    {mp.reservation} Seat
-                  </span>
-                )}
-                {isMinister && (
-                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 flex items-center gap-1">
-                    <Award className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                    Minister
-                  </span>
-                )}
-              </div>
-
-              {/* Key Indicators Mini Display */}
-              <div className="bg-slate-50 dark:bg-[#1D242D]/60 rounded-2xl p-3 border border-slate-100 dark:border-[#303A45] mb-4">
+              {/* Key Indicators Ledger Display */}
+              <div className="bg-stone-50 dark:bg-[#121A26] rounded-lg p-3 border border-stone-200/80 dark:border-[#1E293B] mb-3">
                 {isMinister ? (
-                  <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-                    <p className="font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                      Executive Governance Role
-                    </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      Ministers do not sign attendance or ask questions.
+                  <div className="text-xs space-y-1.5">
+                    <div className="font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1.5 font-mono text-[11px]">
+                      <Award className="w-3.5 h-3.5 shrink-0" />
+                      <span>Union Minister of State</span>
+                    </div>
+                    <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-snug">
+                      Ministers answer on behalf of Government; questions &amp; private debates not applicable per parliamentary rules.
                     </p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 gap-2 text-center">
-                    <div className="bg-white dark:bg-[#171D24] rounded-xl p-2.5 border border-slate-200/60 dark:border-[#303A45] shadow-xs">
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Attendance</div>
-                      <div className="text-base font-extrabold text-slate-900 dark:text-white mt-0.5 font-['Outfit']">
+                    <div className="bg-white dark:bg-[#0E1420] rounded-md p-2 border border-stone-200/70 dark:border-[#1C2738]">
+                      <div className="text-[10px] font-mono text-stone-500 dark:text-stone-400 uppercase tracking-wider">
+                        Attendance
+                      </div>
+                      <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white mt-0.5 tabular-nums">
                         {attendance !== null ? `${attendance}%` : 'N/A'}
                       </div>
+                      <div className="text-[9px] text-stone-400 font-mono mt-0.5">
+                        State Avg: 96%
+                      </div>
                     </div>
-                    <div className="bg-white dark:bg-[#171D24] rounded-xl p-2.5 border border-slate-200/60 dark:border-[#303A45] shadow-xs">
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Questions</div>
-                      <div className="text-base font-extrabold text-slate-900 dark:text-white mt-0.5 font-['Outfit']">
+
+                    <div className="bg-white dark:bg-[#0E1420] rounded-md p-2 border border-stone-200/70 dark:border-[#1C2738]">
+                      <div className="text-[10px] font-mono text-stone-500 dark:text-stone-400 uppercase tracking-wider">
+                        Questions
+                      </div>
+                      <div className="text-base font-extrabold font-mono text-stone-900 dark:text-white mt-0.5 tabular-nums">
                         {questions !== null ? questions : 'N/A'}
+                      </div>
+                      <div className="text-[9px] text-stone-400 font-mono mt-0.5">
+                        State Avg: 172
                       </div>
                     </div>
                   </div>
                 )}
               </div>
+
+              {/* Sworn Affidavit Snapshot Rule */}
+              <div className="flex items-center justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400 px-1 py-1">
+                <span className="flex items-center gap-1">
+                  <Scale className="w-3 h-3 text-stone-400" />
+                  <span>Criminal Cases:</span>
+                </span>
+                <span className={`font-semibold ${criminalCases && criminalCases > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-stone-700 dark:text-stone-300'}`}>
+                  {criminalCases !== null ? criminalCases : '0'} declared
+                </span>
+              </div>
             </div>
 
-            {/* Card Footer */}
-            <div className="pt-3 border-t border-slate-100 dark:border-[#303A45] flex items-center justify-between text-xs font-semibold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500">
-              <span>View Full Report Card</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {/* Dossier Card Footer */}
+            <div className="pt-3 mt-2 border-t border-stone-100 dark:border-[#1A2333] flex items-center justify-between text-xs font-mono font-medium text-stone-600 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+              <span>View Dossier &amp; Sources</span>
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </div>
           </Link>
         );

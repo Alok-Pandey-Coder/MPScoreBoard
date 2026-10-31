@@ -19,13 +19,23 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased transition-colors duration-200;
+    @apply bg-[#F9F9F7] text-slate-900 font-sans antialiased transition-colors duration-150;
   }
 
   html.dark body {
-    background-color: #14191F;
-    color: #F3F4F6;
+    background-color: #0A0E17;
+    color: #F1F5F9;
   }
+
+  /* Editorial typography refinements */
+  h1, h2, h3, h4 {
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Tabular numbers for clean numeric alignment */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* MapLibre dark styling */
@@ -34,39 +44,39 @@
 }
 
 .maplibregl-popup-content {
-  background: #171D24 !important;
-  color: #F3F4F6 !important;
-  border: 1px solid #303A45 !important;
+  background: #121824 !important;
+  color: #F1F5F9 !important;
+  border: 1px solid #232D3E !important;
   border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
-  padding: 10px 14px !important;
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.7) !important;
+  padding: 12px 16px !important;
 }
 
 .maplibregl-popup-tip {
-  border-top-color: #171D24 !important;
-  border-bottom-color: #171D24 !important;
+  border-top-color: #121824 !important;
+  border-bottom-color: #121824 !important;
 }
 
-/* Custom scrollbars */
+/* Custom editorial scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 html.dark ::-webkit-scrollbar-thumb {
-  background: #303A45;
+  background: #232D3E;
 }
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #55BCE8;
+  background: #384860;
 }
 
 /* Utility to hide scrollbar */
@@ -94,10 +104,10 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 }
 
 .dark-map-tooltip {
-  background: rgba(15, 23, 42, 0.95) !important;
-  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  background: rgba(10, 14, 23, 0.96) !important;
+  border: 1px solid rgba(245, 158, 11, 0.5) !important;
   border-radius: 8px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7) !important;
   padding: 6px 10px !important;
   color: #f8fafc !important;
 }
@@ -107,11 +117,12 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 }
 
 .leaflet-control-scale-line {
-  background: rgba(15, 23, 42, 0.85) !important;
-  border: 1px solid #475569 !important;
+  background: rgba(10, 14, 23, 0.85) !important;
+  border: 1px solid #334155 !important;
   border-top: none !important;
   color: #cbd5e1 !important;
   font-size: 11px !important;
+  font-family: 'JetBrains Mono', monospace !important;
   font-weight: 700 !important;
   padding: 2px 6px !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.5) !important;

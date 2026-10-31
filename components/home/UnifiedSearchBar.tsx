@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, X, ChevronRight, MapPin } from 'lucide-react';
+import { Search, X, ChevronRight, MapPin, Building2, User } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { searchMPs } from '@/lib/search';
 
@@ -12,6 +12,16 @@ interface UnifiedSearchBarProps {
   onSelect?: () => void;
   onSelectGeographicalFeature?: (stateId: string, constituencySlug?: string) => void;
 }
+
+const QUICK_DELHI_SEATS = [
+  { name: 'New Delhi', slug: 'new-delhi-delhi' },
+  { name: 'Chandni Chowk', slug: 'chandni-chowk-delhi' },
+  { name: 'East Delhi', slug: 'east-delhi-delhi' },
+  { name: 'North East', slug: 'north-east-delhi-delhi' },
+  { name: 'North West', slug: 'north-west-delhi-delhi' },
+  { name: 'South Delhi', slug: 'south-delhi-delhi' },
+  { name: 'West Delhi', slug: 'west-delhi-delhi' },
+];
 
 export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   mps,
@@ -83,10 +93,10 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-2xl mx-auto">
+    <div ref={containerRef} className="relative w-full max-w-2xl mx-auto space-y-3">
       {/* Search Input Box */}
       <div className="relative flex items-center group">
-        <Search className="absolute left-4 w-5 h-5 text-slate-400 dark:text-slate-500 pointer-events-none group-focus-within:text-blue-500 transition-colors" />
+        <Search className="absolute left-4 w-4 h-4 text-stone-400 dark:text-stone-500 pointer-events-none group-focus-within:text-amber-500 transition-colors" />
         <input
           ref={inputRef}
           type="text"
@@ -97,8 +107,8 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
             if (query.trim() && results.length > 0) setIsOpen(true);
           }}
           autoFocus={autoFocus}
-          placeholder="Search by MP name, seat (e.g. Bansuri, New Delhi, Manoj)..."
-          className="w-full pl-12 pr-11 py-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-2xl text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-xl shadow-slate-200/50 dark:shadow-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-base"
+          placeholder="Search by MP name or seat (e.g. Bansuri, Manoj Tiwari, Chandni Chowk)..."
+          className="w-full pl-11 pr-11 py-3.5 bg-white dark:bg-[#121824] border border-stone-300 dark:border-[#222E42] rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 shadow-sm focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm"
         />
         {query && (
           <button
@@ -108,7 +118,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
               setIsOpen(false);
               inputRef.current?.focus();
             }}
-            className="absolute right-3.5 p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="absolute right-3.5 p-1 text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 rounded-md hover:bg-stone-100 dark:hover:bg-[#1A2333] transition-colors"
             aria-label="Clear search"
           >
             <X className="w-4 h-4" />
@@ -116,30 +126,52 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
         )}
       </div>
 
+      {/* Fast Seat Quick Filter Chips */}
+      <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
+        <span className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mr-1 hidden sm:inline">
+          Fast select:
+        </span>
+        {QUICK_DELHI_SEATS.map((seat) => (
+          <button
+            key={seat.slug}
+            type="button"
+            onClick={() => {
+              if (onSelectGeographicalFeature) {
+                onSelectGeographicalFeature('delhi', seat.slug);
+              }
+            }}
+            className="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-[#121824] hover:bg-stone-200 dark:hover:bg-[#1A2333] text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white border border-stone-200/90 dark:border-[#222E42] text-[11px] font-medium transition-colors cursor-pointer"
+          >
+            {seat.name}
+          </button>
+        ))}
+      </div>
+
       {/* Dropdown Results */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-h-96 overflow-y-auto z-50 divide-y divide-slate-100 dark:divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#121824] rounded-xl shadow-xl border border-stone-200 dark:border-[#222E42] max-h-96 overflow-y-auto z-50 divide-y divide-stone-100 dark:divide-[#1C2638] animate-in fade-in duration-100">
           {results.length > 0 ? (
             <div>
-              <div className="px-4 py-2.5 bg-slate-50/80 dark:bg-slate-800/60 text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
+              <div className="px-4 py-2 bg-stone-50 dark:bg-[#0E131E] text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider flex items-center justify-between border-b border-stone-100 dark:border-[#1E283A]">
                 <span>Matching Constituencies &amp; MPs ({results.length})</span>
-                <span className="text-[10px] text-slate-400 dark:text-slate-500">Use ↑↓ keys to navigate</span>
+                <span className="text-[10px] text-stone-400 dark:text-stone-500">↑↓ to navigate · Enter to select</span>
               </div>
               {results.map((mp, index) => {
                 const isSelected = index === selectedIndex;
+                const attendance = mp.performance?.attendance_pct;
                 return (
                   <button
                     key={mp.slug}
                     onClick={() => handleSelect(mp)}
                     onMouseEnter={() => setSelectedIndex(index)}
-                    className={`w-full text-left px-4 py-3.5 flex items-center justify-between transition-colors ${
+                    className={`w-full text-left px-4 py-3 flex items-center justify-between transition-colors cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-50/80 dark:bg-blue-950/60'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                        ? 'bg-amber-500/10 dark:bg-[#1A2333] border-l-2 border-amber-500'
+                        : 'hover:bg-stone-50 dark:hover:bg-[#151D2A]'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-sm shrink-0 border border-slate-200 dark:border-slate-700">
+                      <div className="w-8 h-8 rounded-lg bg-stone-100 dark:bg-[#192231] text-stone-700 dark:text-stone-300 flex items-center justify-center font-bold text-xs shrink-0 border border-stone-200 dark:border-[#26344A]">
                         {mp.name
                           .split(' ')
                           .map((n) => n[0])
@@ -148,56 +180,45 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-slate-900 dark:text-white text-sm">
+                          <span className="font-semibold text-stone-900 dark:text-white text-xs">
                             {mp.name}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium border border-slate-200 dark:border-slate-700">
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-stone-100 dark:bg-[#1C2637] text-stone-700 dark:text-stone-300 font-medium border border-stone-200 dark:border-[#2C3B52]">
                             {mp.party}
                           </span>
                           {mp.is_minister && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 font-medium">
+                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 font-medium">
                               Minister
                             </span>
                           )}
                         </div>
-                        <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                          <span className="flex items-center gap-1 font-medium">
-                            <MapPin className="w-3 h-3 text-blue-500 shrink-0" />
-                            {mp.constituency}
-                          </span>
-                          <span>•</span>
+                        <div className="flex items-center gap-1.5 text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">
+                          <MapPin className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                          <span>{mp.constituency}</span>
+                          <span>·</span>
                           <span>{mp.state}</span>
-                          {mp.reservation && mp.reservation !== 'GEN' && (
-                            <>
-                              <span>•</span>
-                              <span className="text-indigo-600 dark:text-indigo-400 font-medium">
-                                ({mp.reservation})
-                              </span>
-                            </>
-                          )}
                         </div>
                       </div>
                     </div>
 
-                    <ChevronRight
-                      className={`w-4 h-4 transition-transform ${
-                        isSelected
-                          ? 'text-blue-600 dark:text-blue-400 translate-x-1'
-                          : 'text-slate-300 dark:text-slate-600'
-                      }`}
-                    />
+                    <div className="flex items-center gap-3">
+                      {attendance !== null && !mp.is_minister && (
+                        <div className="text-right hidden sm:block">
+                          <div className="text-[10px] text-stone-400 font-mono">Attendance</div>
+                          <div className="text-xs font-bold font-mono text-stone-800 dark:text-stone-200 tabular-nums">
+                            {attendance}%
+                          </div>
+                        </div>
+                      )}
+                      <ChevronRight className="w-4 h-4 text-stone-400" />
+                    </div>
                   </button>
                 );
               })}
             </div>
           ) : (
-            <div className="p-8 text-center text-slate-500 dark:text-slate-400">
-              <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                No matching MP or constituency found
-              </p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 max-w-sm mx-auto">
-                Try searching for Delhi seats like &quot;Chandni Chowk&quot;, &quot;New Delhi&quot;, or MP names like &quot;Bansuri&quot; or &quot;Manoj&quot;.
-              </p>
+            <div className="p-6 text-center text-xs text-stone-500 dark:text-stone-400">
+              No matching Member of Parliament or Delhi constituency found for &quot;{query}&quot;.
             </div>
           )}
         </div>
