@@ -1,0 +1,19 @@
+{
+  "run_at": "2026-10-31T22:18:12+00:00",
+  "fetch": [],
+  "build": "passed validation",
+  "official_checks": [
+    {
+      "level": "ok",
+      "check": "official_records",
+      "detail": "All 7 seats match the sitting member, name and party on Digital Sansad (2026-11-01)."
+    },
+    {
+      "level": "ok",
+      "check": "roster_page",
+      "detail": "Delhi MP list page unchanged (delhi_members.2026-10-30.html → delhi_members.2026-11-01.html)."
+    }
+  ],
+  "needs_review": [],
+  "updated": []
+}

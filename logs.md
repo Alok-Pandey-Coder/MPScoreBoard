@@ -1,5 +1,34 @@
 # Project Change Log
 
+## 2026-11-01 — Daily hybrid data refresh with official-record checks and human review
+
+- **Summary:**
+  - `scripts/refresh.py` runs fetch → build → check → diff → report.
+  - New dated captures come from Digital Sansad (official), the Delhi government MP list (official) and PRS (CC BY 4.0).
+  - Each run rebuilds and validates the snapshot. If validation fails, the approved files are restored.
+  - Official-record checks: every seat's sitting member, name and party are checked against Digital Sansad; vacancies and membership changes between captures are detected; the Delhi MP list page is checked for wording changes.
+  - The result is diffed against the last committed `mps.json` and written to `data/processed/refresh_report.md` / `.json`.
+  - Daily GitHub Action (`.github/workflows/data-refresh.yml`, 06:00 IST): opens a pull request for review only when parsed data changed. Nothing is auto-published.
+  - Earlier commits by another tool (`cebcdb6`, `b7dbbce`, `e1f539d`, `0f59fc8`) already contain:
+    - `scripts/polite_fetch.py`: honest User-Agent, robots.txt, Crawl-delay (PRS: 10 s; previously 0–0.8 s), stop on 401/403/429.
+    - All-or-nothing PRS captures, so a partial run can no longer become the latest capture and drop MPs.
+    - Removal of browser impersonation and borrowed Referer headers.
+    - MP portraits (previously hand-added to `mps.json` and deleted by every rebuild), now a raw capture carried by `06_merge`.
+  - This entry adds:
+    - Page-change detection that ignores the page's "last updated" date and visitor counter. This was a real false positive on the first live run.
+    - The workflow, `requirements.txt`, `npm run data:refresh`, and a corrected `data.md` §4. It previously described a non-existent `refresh_latest.py`.
+- **Files or areas changed:** `scripts/refresh.py`, `tests/test_refresh.py`, `.github/workflows/data-refresh.yml` (new), `requirements.txt` (new), `package.json`, `scripts/README.md`, `data.md`, `docs/decisions.md`. Also new 2026-11-01 captures in `data/raw/` (Sansad, Delhi MP list page, 7 PRS pages) and the rebuilt `data/processed/` files.
+- **Validation performed:**
+  - A live `python scripts/refresh.py` run: all 3 sources fetched; validation passed; all 7 seats match the sitting member, name and party on Digital Sansad (2026-11-01); 0 changes needing review; 0 updated values.
+  - pytest: 36 passed (20 refresh/fetch tests).
+  - jest: 304 passed.
+  - `tsc` passes.
+- **Remaining caveat or next step:**
+  - The workflow needs the repo setting "Allow GitHub Actions to create and approve pull requests", and it has not been run on GitHub yet.
+  - Official sources may block GitHub's runner IP addresses. If so, the run fails visibly and the approved data is kept.
+  - MPLADS, affidavits and election results are not refreshed automatically (see `docs/decisions.md`).
+  - A database with per-field review state can replace the pull-request gate later.
+
 ## 2026-11-01 — Automatic 2-3s Sliding Carousel for Hero Sansad Backdrop & Comprehensive Hindi Localization
 
 - **Summary:**

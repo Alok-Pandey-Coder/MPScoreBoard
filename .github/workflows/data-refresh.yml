@@ -1,0 +1,70 @@
+# Daily hybrid data refresh (scripts/refresh.py).
+#
+# Fetches the official and PRS sources politely, rebuilds and validates the
+# snapshot, checks it against official Digital Sansad records and diffs it with
+# the last approved (committed) snapshot. When anything changed it opens a pull
+# request whose description is the refresh report; nothing reaches the site
+# until a person reviews and merges it. A failed build or validation fails the
+# run (GitHub emails the maintainers) and leaves main untouched.
+#
+# Repository setting required: Settings → Actions → General → Workflow
+# permissions → "Allow GitHub Actions to create and approve pull requests".
+
+name: Data refresh
+
+on:
+  schedule:
+    - cron: '30 0 * * *' # 00:30 UTC = 06:00 IST, daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm ci
+
+      - name: Fetch, rebuild, check and diff
+        id: refresh
+        run: python scripts/refresh.py
+
+      - name: Data and contract tests on the candidate snapshot
+        run: |
+          python -m pytest tests -q
+          npx jest
+
+      - name: Open a pull request for review
+        if: steps.refresh.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: data-refresh/auto
+          delete-branch: true
+          title: 'Data refresh: changes found — review before merging'
+          body-path: data/processed/refresh_report.md
+          commit-message: 'data: daily refresh (review required)'
+          add-paths: |
+            data/raw/**
+            data/processed/**
+          labels: data-refresh

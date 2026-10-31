@@ -2,13 +2,13 @@
   "source": {
     "name": "PRS Legislative Research MP Track",
     "url": "https://prsindia.org/mptrack/18th-lok-sabha",
-    "capture": "data/raw/prs.delhi.2026-10-30",
-    "retrieved_at": "2026-10-30",
+    "capture": "data/raw/prs.delhi.2026-11-01",
+    "retrieved_at": "2026-11-01",
     "parser": "scripts/03_parse_prs.py"
   },
   "records": [
     {
-      "file": "data/raw/prs.delhi.2026-10-30/bansuri-swaraj.html",
+      "file": "data/raw/prs.delhi.2026-11-01/bansuri-swaraj.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
       "name": "Bansuri Swaraj",
       "state": "Delhi",
@@ -70,7 +70,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/harsh-malhotra.html",
+      "file": "data/raw/prs.delhi.2026-11-01/harsh-malhotra.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
       "name": "Harsh Malhotra",
       "state": "Delhi",
@@ -132,7 +132,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/kamaljeet-sehrawat.html",
+      "file": "data/raw/prs.delhi.2026-11-01/kamaljeet-sehrawat.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
       "name": "Kamaljeet Sehrawat",
       "state": "Delhi",
@@ -194,7 +194,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/manoj-kumar-tiwari.html",
+      "file": "data/raw/prs.delhi.2026-11-01/manoj-kumar-tiwari.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
       "name": "Manoj Tiwari",
       "state": "Delhi",
@@ -256,7 +256,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/praveen-khandelwal.html",
+      "file": "data/raw/prs.delhi.2026-11-01/praveen-khandelwal.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
       "name": "Praveen Khandelwal",
       "state": "Delhi",
@@ -318,7 +318,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/ramvir-singh-bidhuri.html",
+      "file": "data/raw/prs.delhi.2026-11-01/ramvir-singh-bidhuri.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
       "name": "Ramvir Singh Bidhuri",
       "state": "Delhi",
@@ -380,7 +380,7 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.delhi.2026-10-30/yogender-chandolia.html",
+      "file": "data/raw/prs.delhi.2026-11-01/yogender-chandolia.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
       "name": "Yogender Chandolia",
       "state": "Delhi",

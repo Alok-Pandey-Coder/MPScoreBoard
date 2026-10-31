@@ -112,6 +112,19 @@ def test_page_hash_ignores_markup_and_scripts():
     assert refresh.page_text_hash(a) != refresh.page_text_hash(b"<p>Someone Else</p>")
 
 
+def test_page_hash_ignores_last_updated_date_and_visitor_counter():
+    """Real false positive seen on delhi.gov.in on 2026-11-01."""
+    a = b"<p>Bansuri Swaraj</p><span>Last updated 30/10/2026</span><span>Visitors 4720061</span>"
+    b = b"<p>Bansuri Swaraj</p><span>Last updated 31/10/2026</span><span>Visitors 4729600</span>"
+    assert refresh.page_text_hash(a) == refresh.page_text_hash(b)
+
+
+def test_real_delhi_captures_compare_as_unchanged():
+    captures = sorted((ROOT / "data" / "raw").glob("delhi_members.*.html"))
+    if len(captures) >= 2:
+        assert refresh.roster_page_check(captures)["level"] == "ok"
+
+
 # ── polite fetcher ───────────────────────────────────────────────────────────
 
 def _robots(text: str) -> urllib.robotparser.RobotFileParser:

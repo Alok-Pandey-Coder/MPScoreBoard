@@ -31,9 +31,11 @@ d:\MPScoreBoard\data\
 │   └── validation_report_india.md       # UNVALIDATED, NOT FOR PUBLICATION (see 2.4)
 │
 ├── raw/                                 # ACTIVE IMMUTABLE SOURCE CAPTURES
-│   ├── masterlist.delhi.json            # Delhi Government official MP directory capture
-│   ├── sansad.members.delhi.2026-10-30.json # Official Digital Sansad JSON API capture
-│   ├── prs.delhi.2026-10-30/            # Raw HTML captures of all 7 PRS profile pages
+│   ├── masterlist.delhi.json            # Reviewed transcription of the Delhi Government MP list (pipeline input)
+│   ├── delhi_members.<date>.html        # Dated captures of that page; the refresh flags wording changes for review
+│   ├── sansad.members.delhi.<date>.json # Official Digital Sansad API captures (2026-10-30, 2026-11-01); latest is used
+│   ├── prs.delhi.<date>/                # PRS profile pages for all 7 MPs (2026-10-30, 2026-11-01); latest complete capture is used
+│   ├── mp_portraits.delhi.2026-11-01.json # Official Sansad portrait URLs + image paths, carried into mps.json by 06_merge
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
 │   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
 │   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
@@ -238,35 +240,45 @@ This directory houses auxiliary packs for civic cross-referencing and historical
 
 ---
 
-## 4. Real-Time & Latest Data Freshness Architecture
+## 4. Data Freshness: the Hybrid Refresh
 
-To prevent stale information while ensuring 100% demo uptime and sub-second load times, the platform operates on a **three-tier hybrid freshness engine**:
+The website never fetches sources at request time; it serves the reviewed snapshot in
+`data/processed/`. Freshness comes from a **daily refresh job that proposes changes for
+human review** (`scripts/refresh.py`, run by `.github/workflows/data-refresh.yml` at 06:00 IST,
+or locally with `npm run data:refresh`):
 
 ```
-[Official Online APIs] (Digital Sansad / MoSPI / PRS)
-         │
-         ▼  (Daily or On-Demand Trigger)
-[Refresh Script: scripts/refresh_latest.py]
-         │
-         ▼  (Atomic Write with Content Hash)
-[Static Edge Snapshot: data/processed/mps.json]
-         │
-         ▼  (Next.js Stale-While-Revalidate Caching)
-[Live Citizen Web Application: 0ms Edge Payload]
+1. FETCH   polite, official-first (scripts/polite_fetch.py: honest User-Agent, robots.txt,
+           Crawl-delay, stop on 401/403/429) → new dated captures in data/raw/;
+           a failed source keeps its last good capture (fetchers are all-or-nothing)
+2. BUILD   03 parse → 05 normalise → 09 MPLADS → 06 merge → 07 validate → 08 snapshot
+           (validation failure → approved processed files restored, run fails)
+3. CHECK   official-record checks against the latest Digital Sansad capture
+           (sitting member, name, party, vacancies, membership change between captures)
+           and change detection on the Delhi government MP list page
+4. DIFF    candidate vs last committed mps.json → data/processed/refresh_report.md / .json
+           🔴 needs review: identity (MP, party, minister, reservation, portrait), removed
+              records or fields, values that became null, failed official checks
+           🟡 updated: activity numbers (old → new)
+5. REVIEW  CI opens a pull request (body = report) only when something changed;
+           a person merges it and the site redeploys. Nothing is auto-published.
 ```
 
-### 4.1 Update Cadence by Source
+### 4.1 Sources and cadence
 
-| Source | Dimension | Freshness Cadence | Invalidation Trigger |
+| Source | What it updates | In the daily refresh? | Notes |
 |:---|:---|:---|:---|
-| **Digital Sansad API** | MP status, minister posts, vacancies | **Live / Daily** | Automated nightly health check |
-| **Empowered Indian / MoSPI** | MPLADS funds & works | **Bi-weekly / Monthly** | New monthly MoSPI release |
-| **PRS MP Track** | Attendance, questions, debates | **Session-wise** | End of Budget, Monsoon, and Winter sessions |
-| **ECI Affidavits & Results** | Wealth, cases, vote margins | **Static / Term-long** | Updated only upon by-elections |
+| **Digital Sansad member API** (official) | Sitting member, party, status | Yes | Used for the official-record checks |
+| **Govt of NCT of Delhi MP list** (official) | Roster page | Yes (change detection) | `masterlist.delhi.json` is a reviewed transcription; a page change is flagged, not auto-parsed |
+| **PRS MP Track** (CC BY 4.0) | Attendance, debates, questions, private member bills | Yes | robots.txt `Crawl-delay: 10` honoured; figures change after each session |
+| **Empowered Indian / MoSPI eSAKSHI** | MPLADS funds and works | **No** | Automated access not cleared (`docs/decisions.md`); fetcher refuses to run |
+| **ADR/MyNeta affidavits, ECI results** | Assets, cases, education, margins | No | Change only at elections or by-elections |
 
-### 4.2 Offline & Failure Safeguards
-* **Zero Runtime Dependencies:** The UI **never** fetches third-party government websites directly at request time. If a government website goes offline, the report card continues serving the cached snapshot with clear "as of [date]" labels.
-* **Grounding Guardrails:** The AI summary engine receives strictly typed JSON payloads. Summaries are automatically verified by `groundingCheck()` before display to ensure zero invented figures.
+### 4.2 Safeguards
+
+* **No runtime dependency:** if a source is down, the site keeps serving the approved snapshot with its "as of" dates.
+* **No AI in the data path:** stored facts come only from deterministic parsers over cached source pages, which `07_validate.py` re-parses. LLMs are used only for the optional plain-language summary, which is checked against the record's numbers (`lib/ai/summary.ts verifyGuardrails`).
+* **Refresh outputs:** `data/processed/refresh_report.md` and `refresh_report.json` describe the last run (fetch results, official checks, review items, updated values). They are reports, not application data.
 
 ---
 

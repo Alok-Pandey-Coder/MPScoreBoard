@@ -47,3 +47,23 @@ becomes available, replace or confirm the figures and drop the secondary label.
 2. Check the 5 sample work IDs by hand on the eSAKSHI dashboard.
 3. Ask MoSPI about a GODL release, or file an RTI request for the Delhi
    district work lists.
+
+## 2026-11-01 — Daily hybrid refresh with human review; no AI in the data path
+
+**Decision:**
+- Data is refreshed daily by `scripts/refresh.py`, run by `.github/workflows/data-refresh.yml`.
+- The website keeps serving the reviewed static snapshot.
+- A refresh only proposes changes, as a pull request whose description is the refresh report. A person merges it.
+
+**Why:**
+- PRD §2.2 and §10.2: no live fetching at request time, and the demo must work offline.
+- AGENTS.md: publish no fact until its source and review status are clear, and never delete an approved record when a source fails.
+- Daily rather than weekly: vacancies and by-elections show up on Digital Sansad quickly. A PR only opens when parsed data changed, so quiet days add nothing to the repository.
+
+**AI:**
+- No LLM formats or produces stored data. Every stored figure comes from a deterministic parser over a cached source page, which validation re-parses.
+- An LLM in that path could change a number in a way nobody could trace.
+- AI may be used around the data: the checked plain-language summary, suggesting parser fixes when a source changes layout, or summarising a refresh report for the reviewer.
+
+**Reversal triggers:**
+- Move to a database with review state per field. The refresh would then write candidate rows instead of opening a PR, and the review gate stays.

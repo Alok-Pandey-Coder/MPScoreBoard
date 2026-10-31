@@ -121,9 +121,13 @@ def official_checks(mps: list[dict], sansad_latest: dict | None, sansad_previous
 
 
 def page_text_hash(html: bytes) -> str:
-    """Hash of visible text only, so markup or script churn does not count as a change."""
+    """Hash of the visible words only. Markup, scripts, and standalone dates or numbers
+    (the page's "last updated" date and visitor counter change daily) are ignored, so
+    only a change in wording, such as a different member's name, counts."""
     text = re.sub(rb"<(script|style)[\s\S]*?</\1>", b" ", html, flags=re.I)
     text = re.sub(rb"<[^>]+>", b" ", text)
+    text = re.sub(rb"\b\d{1,4}[/.-]\d{1,2}[/.-]\d{1,4}\b", b" ", text)  # dates
+    text = re.sub(rb"\b\d+\b", b" ", text)  # counters and other bare numbers
     return hashlib.sha256(re.sub(rb"\s+", b" ", text).strip()).hexdigest()
 
 

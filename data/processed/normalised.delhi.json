@@ -16,7 +16,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/praveen-khandelwal.html",
+        "file": "data/raw/prs.delhi.2026-11-01/praveen-khandelwal.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/praveen-khandelwal",
         "name": "Praveen Khandelwal",
         "state": "Delhi",
@@ -79,7 +79,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5661,
@@ -89,7 +89,7 @@
         "no_of_terms": 1,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/5661",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": []
     },
@@ -109,7 +109,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/harsh-malhotra.html",
+        "file": "data/raw/prs.delhi.2026-11-01/harsh-malhotra.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/harsh-malhotra",
         "name": "Harsh Malhotra",
         "state": "Delhi",
@@ -172,7 +172,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5563,
@@ -182,7 +182,7 @@
         "no_of_terms": 1,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/5563",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": []
     },
@@ -202,7 +202,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/bansuri-swaraj.html",
+        "file": "data/raw/prs.delhi.2026-11-01/bansuri-swaraj.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/bansuri-swaraj",
         "name": "Bansuri Swaraj",
         "state": "Delhi",
@@ -265,7 +265,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5588,
@@ -275,7 +275,7 @@
         "no_of_terms": 1,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/5588",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": []
     },
@@ -295,7 +295,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/manoj-kumar-tiwari.html",
+        "file": "data/raw/prs.delhi.2026-11-01/manoj-kumar-tiwari.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/manoj-tiwari",
         "name": "Manoj Tiwari",
         "state": "Delhi",
@@ -358,7 +358,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 4606,
@@ -368,7 +368,7 @@
         "no_of_terms": 3,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/4606",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": [
         "PRS name 'Manoj Tiwari' matched 'Manoj Kumar Tiwari' via aliases.json."
@@ -390,7 +390,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/yogender-chandolia.html",
+        "file": "data/raw/prs.delhi.2026-11-01/yogender-chandolia.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/yogender-chandoliya",
         "name": "Yogender Chandolia",
         "state": "Delhi",
@@ -453,7 +453,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5587,
@@ -463,7 +463,7 @@
         "no_of_terms": 1,
         "reservation": "SC",
         "url": "https://sansad.in/api_ls/member/5587",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": [
         "PRS constituency 'North West Delhi' matched 'North West Delhi (SC)' after removing the reservation suffix."
@@ -485,7 +485,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/ramvir-singh-bidhuri.html",
+        "file": "data/raw/prs.delhi.2026-11-01/ramvir-singh-bidhuri.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/ramvir-singh-bidhuri",
         "name": "Ramvir Singh Bidhuri",
         "state": "Delhi",
@@ -548,7 +548,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5543,
@@ -558,7 +558,7 @@
         "no_of_terms": 1,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/5543",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": []
     },
@@ -578,7 +578,7 @@
         "coverage": "18th Lok Sabha, Delhi's seven constituencies"
       },
       "prs": {
-        "file": "data/raw/prs.delhi.2026-10-30/kamaljeet-sehrawat.html",
+        "file": "data/raw/prs.delhi.2026-11-01/kamaljeet-sehrawat.html",
         "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/kamaljeet-sehrawat",
         "name": "Kamaljeet Sehrawat",
         "state": "Delhi",
@@ -641,7 +641,7 @@
         "term_start_iso": "2024-06-09",
         "coverage_from_iso": "2024-06-24",
         "coverage_to_iso": "2026-08-13",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "sansad": {
         "mpsno": 5565,
@@ -651,7 +651,7 @@
         "no_of_terms": 1,
         "reservation": "GEN",
         "url": "https://sansad.in/api_ls/member/5565",
-        "retrieved_at": "2026-10-30"
+        "retrieved_at": "2026-11-01"
       },
       "normalisation_notes": []
     }

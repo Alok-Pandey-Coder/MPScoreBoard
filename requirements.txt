@@ -1,0 +1,4 @@
+# Python tooling for the data pipeline (scripts/) and its tests (tests/).
+# The Delhi refresh itself uses only the standard library.
+pytest==8.2.0
+beautifulsoup4==4.12.3  # used by scripts/02_crawl_prs_manifest_india.py only
