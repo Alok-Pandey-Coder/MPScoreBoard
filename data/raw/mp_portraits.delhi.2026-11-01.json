@@ -1,0 +1,73 @@
+{
+  "source": {
+    "name": "Lok Sabha, Digital Sansad (official portraits)",
+    "retrieved_at": "2026-11-01",
+    "provenance": "Image paths and source URLs added to mps.json by commit b41bd2f (feat/mp-real-images); extracted here so the pipeline carries them on every rebuild. Image files are in public/images/mps/.",
+    "licence": "Reuse terms of Sansad portraits not yet confirmed (PRD 16 open question 2)."
+  },
+  "records": [
+    {
+      "slug": "chandni-chowk-delhi",
+      "image_url": "/images/mps/chandni-chowk-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5661.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "east-delhi-delhi",
+      "image_url": "/images/mps/east-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5563.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "new-delhi-delhi",
+      "image_url": "/images/mps/new-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5588.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "north-east-delhi-delhi",
+      "image_url": "/images/mps/north-east-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/4606.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "north-west-delhi-delhi",
+      "image_url": "/images/mps/north-west-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5587.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "south-delhi-delhi",
+      "image_url": "/images/mps/south-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "west-delhi-delhi",
+      "image_url": "/images/mps/west-delhi-delhi.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5565.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    }
+  ]
+}

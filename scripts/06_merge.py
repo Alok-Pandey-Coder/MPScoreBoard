@@ -14,6 +14,7 @@ OUTPUT = ROOT / "data" / "processed" / "mps.json"
 AFFIDAVIT_FILE = ROOT / "data" / "reference_packs" / "officials_enriched_pack" / "data" / "mp_affidavit_enrichment.csv"
 CUSTOM_ENRICHMENT_FILE = ROOT / "data" / "raw" / "delhi_7mp_custom_enrichment.json"
 MPLADS_FILE = ROOT / "data" / "processed" / "mplads.delhi.json"
+RAW = ROOT / "data" / "raw"
 
 TERM = "18th Lok Sabha"
 METRICS = ("attendance_pct", "debates", "questions", "private_member_bills")
@@ -143,11 +144,20 @@ def election_block(custom: dict | None) -> dict:
     }
 
 
+def load_portraits() -> dict[str, dict]:
+    """Official portraits from the latest data/raw/mp_portraits.delhi.<date>.json, by slug."""
+    captures = sorted(RAW.glob("mp_portraits.delhi.*.json"))
+    if not captures:
+        return {}
+    return {row["slug"]: row for row in json.loads(captures[-1].read_text(encoding="utf-8"))["records"]}
+
+
 def main() -> None:
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
     affidavits = load_affidavits()
     custom_enrichments = load_custom_enrichment()
     mplads_seats = load_mplads()
+    portraits = load_portraits()
 
     records = []
     for row in source["records"]:
@@ -231,6 +241,12 @@ def main() -> None:
                 "election": elec_block,
                 "sources": sources,
                 "normalisation_notes": row["normalisation_notes"] + (mpl_seat["notes"] if mpl_seat else []),
+                # Present only when a portrait capture exists for the seat.
+                **(
+                    {"image_url": portraits[row["slug"]]["image_url"], "image_source": portraits[row["slug"]]["image_source"]}
+                    if row["slug"] in portraits
+                    else {}
+                ),
             }
         )
 
