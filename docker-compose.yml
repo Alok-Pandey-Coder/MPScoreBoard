@@ -1,0 +1,22 @@
+# Local YugabyteDB for development and the offline demo.
+#   docker compose up -d yugabyte
+#   DATABASE_URL=postgresql://yugabyte:yugabyte@localhost:5433/yugabyte
+# YSQL (PostgreSQL protocol) on 5433; web UI on http://localhost:15433.
+services:
+  yugabyte:
+    image: yugabytedb/yugabyte:2025.2.7.0-b107
+    command: ["bin/yugabyted", "start", "--background=false"]
+    ports:
+      - "5433:5433"
+      - "15433:15433"
+    volumes:
+      - yugabyte-data:/root/var
+    healthcheck:
+      # yugabyted listens on the container hostname, not localhost.
+      test: ["CMD-SHELL", "bin/ysqlsh -h $$(hostname) -p 5433 -U yugabyte -tAc 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  yugabyte-data:

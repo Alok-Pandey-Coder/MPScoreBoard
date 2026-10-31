@@ -31,7 +31,7 @@ export default async function StatePage({
   params: Promise<{ state: string }>;
 }) {
   const { state } = await params;
-  const mps = getAllMPs();
+  const mps = await getAllMPs();
 
   return <StateExplorationClient mps={mps} stateParam={state} />;
 }

@@ -19,6 +19,7 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^1.16.0",
     "next": "16.4.3",
+    "pg": "8.13.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "recharts": "^3.10.1",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^20",
+    "@types/pg": "8.11.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",

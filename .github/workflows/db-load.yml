@@ -1,0 +1,45 @@
+# Loads each approved snapshot into YugabyteDB after it is merged to main.
+#
+# Runs only when data/processed changes on main (i.e. after a reviewed data
+# refresh PR is merged). scripts/load_db.py is idempotent: an already-loaded
+# snapshot is skipped, and every load is one transaction.
+#
+# Requires the repository secret DATABASE_URL (YugabyteDB Aeon connection
+# string). Without it the job is skipped and the site keeps serving the JSON
+# snapshot.
+
+name: Load snapshot into YugabyteDB
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/processed/mps.json'
+      - 'data/processed/snapshot.json'
+  workflow_dispatch: {}
+
+concurrency:
+  group: db-load
+  cancel-in-progress: false
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        if: env.DATABASE_URL != ''
+
+      - uses: actions/setup-python@v5
+        if: env.DATABASE_URL != ''
+        with:
+          python-version: '3.12'
+
+      - name: Validate and load the approved snapshot
+        if: env.DATABASE_URL != ''
+        run: |
+          pip install -r requirements.txt
+          python -m pytest tests -q
+          python scripts/load_db.py --schema

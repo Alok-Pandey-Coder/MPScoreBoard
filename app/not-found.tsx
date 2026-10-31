@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   title: 'Page not found — Mera MP, Mera Report Card',
 };
 
-export default function NotFound() {
-  return <NotFoundContent mps={getAllMPs()} />;
+export default async function NotFound() {
+  return <NotFoundContent mps={await getAllMPs()} />;
 }

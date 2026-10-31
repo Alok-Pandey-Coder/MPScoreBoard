@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAllMPs } from "@/lib/data";
 
-export function GET() {
-  return NextResponse.json(getAllMPs().map((mp) => ({
+export async function GET() {
+  return NextResponse.json((await getAllMPs()).map((mp) => ({
     slug: mp.slug,
     name: mp.name,
     constituency: mp.constituency,
