@@ -102,7 +102,7 @@ export const mapMessages = defineMessages({
     ministerNotApplicable: 'Minister · indicators not applicable',
     labelAttendance: 'Attendance:',
     labelQuestions: 'Questions:',
-    viewFullDossier: 'View Full Dossier',
+    viewFullReportCard: 'View Full Report Card',
 
     // StateMapExplorer (state-by-state map picker)
     explorerEyebrow: 'SELECT A REGION',
@@ -241,7 +241,7 @@ export const mapMessages = defineMessages({
     ministerNotApplicable: 'मंत्री · ये संकेतक लागू नहीं',
     labelAttendance: 'उपस्थिति:',
     labelQuestions: 'प्रश्न:',
-    viewFullDossier: 'पूरा रिपोर्ट कार्ड देखें',
+    viewFullReportCard: 'पूरा रिपोर्ट कार्ड देखें',
 
     // StateMapExplorer (state-by-state map picker)
     explorerEyebrow: 'क्षेत्र चुनें',

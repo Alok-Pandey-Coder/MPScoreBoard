@@ -132,7 +132,7 @@ export async function generateChatResponse(
 
   if (sources.length === 0) {
     sources.push({
-      name: 'Delhi Public Civic Master Dossier',
+      name: 'Delhi Public Civic Records',
       category: 'Civic Jurisdiction',
       description: 'Verified 18th Lok Sabha Delhi Civic Records',
     });

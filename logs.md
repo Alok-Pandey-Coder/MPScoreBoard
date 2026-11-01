@@ -1309,3 +1309,10 @@ This file records key data changes, pipeline updates, schema modifications, and 
 - **Validation performed:** Read-through of every changed line against the repository (script names, file names, package scripts, component folders).
 - **Remaining caveat or next step:** The screenshots are still placeholders; the demo video URL is still `<add video URL>`.
 
+## 2026-11-01 — "Dossier" replaced with "Report Card" across the app
+
+- **Summary:** The word "dossier" was jargon for a citizen-facing product whose name is "Mera MP, Mera Report Card". Replaced it everywhere users see it: "Share Dossier" → "Share Report Card", "View Full Dossier" → "View Full Report Card" (map panels and compare page), "View Dossier & Sources" → "View Report Card & Sources", the print button, the copy-link label and toast, the chat source name ("Delhi Public Civic Records"), and the README. Hindi text already said रिपोर्ट कार्ड. Renamed the internal message keys (`viewFullDossier` → `viewFullReportCard`, `viewDossier` → `viewReportCardSources`) so the word is gone from the code too. Earlier log entries and the reference-pack validation report were left as written (history / source data).
+- **Files or areas changed:** `lib/messages/card.ts`, `lib/messages/compare.ts`, `lib/messages/home.ts`, `lib/messages/map.ts`, `components/home/QuickCardsGrid.tsx`, `components/map/NagrikStyleMap.tsx`, `components/map/StateConstituencyMap.tsx`, `lib/ai/chat.ts`, `README.md`
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 670 passed (the one failure is the existing `ai-chat` Rohini test, which fails on `origin/main` too); no "dossier" left outside history/reference data.
+- **Remaining caveat or next step:** The deployed site updates after this is pushed.
+

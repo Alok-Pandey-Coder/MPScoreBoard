@@ -25,7 +25,7 @@ export const cardMessages = defineMessages({
     breadcrumbHome: 'Home',
     breadcrumbLabel: 'Breadcrumb',
     jumpNavLabel: 'Jump to a section',
-    printButton: 'Print / Save Dossier PDF',
+    printButton: 'Print / Save Report Card PDF',
     jumpIndicators: 'Indicators',
     jumpAverages: 'Averages',
     jumpMplads: 'MPLADS Funds',
@@ -33,7 +33,7 @@ export const cardMessages = defineMessages({
     jumpAffidavit: 'Affidavit',
     jumpSources: 'Sources',
     jumpBriefing: 'Factual Briefing',
-    toastLinkCopied: 'Direct dossier link copied to clipboard',
+    toastLinkCopied: 'Direct report card link copied to clipboard',
 
     // Shared bits
     sourceLabel: (name: string) => `Source: ${name}`,
@@ -61,8 +61,8 @@ export const cardMessages = defineMessages({
     termNumber: (raw: string) => raw,
     termLabel: (raw: string) => raw,
     electedOn: (date: string) => `Elected ${date}`,
-    shareButton: 'Share Dossier',
-    copyLinkLabel: 'Copy direct dossier link',
+    shareButton: 'Share Report Card',
+    copyLinkLabel: 'Copy direct report card link',
     ministerModalTitle: 'Why are parliamentary metrics not applicable?',
     ministerModalSubtitle: 'PRS Legislative Research excludes ministers from these indicators',
     ministerModalIntro:

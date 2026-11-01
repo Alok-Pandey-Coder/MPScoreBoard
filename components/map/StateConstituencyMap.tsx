@@ -319,7 +319,7 @@ export const StateConstituencyMap: React.FC<StateConstituencyMapProps> = ({
               href={`/mp/${activeMP.slug}`}
               className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 bg-stone-900 hover:bg-stone-800 text-white dark:bg-stone-100 dark:hover:bg-white dark:text-stone-950 font-bold text-xs font-mono uppercase tracking-wider rounded-lg"
             >
-              <span>{t.viewFullDossier}</span>
+              <span>{t.viewFullReportCard}</span>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
           </div>

@@ -57,7 +57,7 @@ export const homeMessages = defineMessages({
     stateAvg: (state: string, value: string) => `PRS ${state} avg: ${value}`,
     stateAvgNotAvailable: 'State avg not available',
     pendingCases: 'Pending cases (as declared in affidavit):',
-    viewDossier: 'View Dossier & Sources',
+    viewReportCardSources: 'View Report Card & Sources',
 
     // NagrikStateCardsGrid
     typeState: 'State',
@@ -142,7 +142,7 @@ export const homeMessages = defineMessages({
     stateAvg: (state: string, value: string) => `PRS ${state} औसत: ${value}`,
     stateAvgNotAvailable: 'राज्य औसत उपलब्ध नहीं',
     pendingCases: 'लंबित मामले (चुनावी हलफ़नामे में घोषित):',
-    viewDossier: 'रिपोर्ट कार्ड और स्रोत देखें',
+    viewReportCardSources: 'रिपोर्ट कार्ड और स्रोत देखें',
 
     // NagrikStateCardsGrid
     typeState: 'राज्य',
