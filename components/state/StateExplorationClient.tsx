@@ -2,9 +2,11 @@
 
 import React, { useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, Building, ChevronRight, Award } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { INDIA_STATES, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
+import { StateSwitcher } from '@/components/state/StateSwitcher';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { stateMessages } from '@/lib/messages/state';
@@ -21,6 +23,8 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
   stateParam,
 }) => {
   const t = useMessages(stateMessages);
+  const router = useRouter();
+  const openStateMap = (id: string) => router.push(`/?state=${id}#find-constituency`);
   const { lang } = useLang();
   const localizedMps = useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
   const stateId = stateParam?.toLowerCase() || 'delhi';
@@ -45,6 +49,9 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>{t.backToAtlas}</span>
           </Link>
+          <div className="mb-3">
+            <StateSwitcher currentId={state.id} mps={mps} />
+          </div>
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
               {localizedStateName}
@@ -65,6 +72,7 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
           <IndiaAtlasMap
             mps={localizedMps}
             initialStateId={state.id}
+            onOpenStateMap={openStateMap}
             className="w-full h-[560px]"
           />
         </div>

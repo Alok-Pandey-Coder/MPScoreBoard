@@ -54,6 +54,13 @@ export const HINDI_STATES: Record<string, string> = {
   'Andaman and Nicobar Islands': 'अंडमान और निकोबार द्वीप समूह',
   'Dadra and Nagar Haveli and Daman and Diu': 'दादरा और नगर हवेली एवं दमन और दीव',
   Lakshadweep: 'लक्षद्वीप',
+  // Spellings used by the atlas data (lib/realIndiaMapData.ts, lib/indiaGeoData.ts).
+  'Jammu & Kashmir': 'जम्मू और कश्मीर',
+  'Andaman & Nicobar': 'अंडमान और निकोबार द्वीप समूह',
+  'Andaman & Nicobar Islands': 'अंडमान और निकोबार द्वीप समूह',
+  'Daman & Diu': 'दमन और दीव',
+  'Dadra & Nagar Haveli and Daman & Diu': 'दादरा और नगर हवेली एवं दमन और दीव',
+  'Delhi (NCT)': 'दिल्ली (एनसीटी)',
 };
 
 export const HINDI_PARTIES: Record<string, { short: string; full: string }> = {

@@ -5,6 +5,7 @@ import { ExternalLink, Database, ShieldCheck, HelpCircle, Scale, Award, FileText
 import { GitHubIcon } from '@/components/common/GitHubIcon';
 import { useMessages } from '@/context/LanguageContext';
 import { aboutMessages } from '@/lib/messages/about';
+import { getAllStateImages, getStateIconSets } from '@/lib/stateImages';
 
 /** Coverage figures computed on the server from the dataset (lib/coverage.ts). */
 export interface AboutCoverage {
@@ -243,9 +244,31 @@ export function AboutContent({ snapshotVersion, coverage }: { snapshotVersion: s
           <p>{t.aiScope}</p>
           <p>{t.aiChecks}</p>
           <p>{t.aiPipeline}</p>
-          <p>{t.aiDrafts}</p>
         </div>
       </section>
+
+      {/* State picture and icon credits */}
+      <section id="image-credits" className="space-y-3">
+        <p className="text-xs text-slate-600 dark:text-slate-300">
+          {t.iconCreditsNote(getStateIconSets().map((s) => s.name).join(', '))}
+        </p>
+      </section>
+      {getAllStateImages().length > 0 && (
+        <section id="photo-credits" className="space-y-3">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">{t.imageCreditsHeading}</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">{t.imageCreditsNote}</p>
+          <ul className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
+            {getAllStateImages().map((img) => (
+              <li key={img.stateId}>
+                <a href={img.source_url} target="_blank" rel="noopener noreferrer" className="underline">
+                  {img.subject}
+                </a>
+                {img.author ? ` — ${img.author}` : ''}, {img.licence}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Section 8: Unofficial Project Disclaimer */}
       <section className="bg-[#171D24] text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-[#303A45] space-y-4">

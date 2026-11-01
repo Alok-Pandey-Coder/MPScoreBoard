@@ -7,6 +7,10 @@ import { X, Search, Share2, ExternalLink } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { MPAvatar } from '@/components/ui/MPAvatar';
 import { Toast } from '@/components/common/Toast';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { compareMessages } from '@/lib/messages/compare';
+import { localizeMP } from '@/lib/i18n';
+import { formatNumber } from '@/lib/formatters';
 
 interface CompareClientProps {
   mps: MPRecord[];
@@ -22,7 +26,11 @@ const MEMBER_BAR_COLORS = [
   { fill: 'bg-[#0e7490] dark:bg-teal-400', text: 'text-[#0e7490] dark:text-teal-300' },
 ];
 
-export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
+export const CompareClient: React.FC<CompareClientProps> = ({ mps: rawMps }) => {
+  const t = useMessages(compareMessages);
+  const { lang } = useLang();
+  // Party, term and similar labels follow the page language; names stay as published.
+  const mps = React.useMemo(() => rawMps.map((mp) => localizeMP(mp, lang)), [rawMps, lang]);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -160,7 +168,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
       <div className="max-w-5xl mx-auto space-y-7">
         {/* Top Explanatory Notice (Matching reference screenshot exactly) */}
         <p className="text-xs text-[#78716c] dark:text-slate-400 leading-relaxed font-normal">
-          Add up to three members. Bars compare these people to each other, not to a score. The sitting house median uses listed members only — missing is not zero.
+          {t.intro}
         </p>
 
         {/* Add a member search input & Selected Member Chips */}
@@ -170,7 +178,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               htmlFor="add-member-input"
               className="block text-xs font-medium text-[#44403c] dark:text-slate-300 mb-1.5"
             >
-              Add a member
+              {t.addMember}
             </label>
             <div className="relative">
               <input
@@ -184,7 +192,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                 }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={
-                  selectedSlugs.length >= 3 ? 'Maximum 3 members compared' : 'Type a name'
+                  selectedSlugs.length >= 3 ? t.maxMembers : t.typeName
                 }
                 className="w-full bg-white dark:bg-[#1A222D] border border-[#DDD6C8] dark:border-[#303A45] rounded-lg px-3.5 py-2.5 text-sm text-[#1c1917] dark:text-white placeholder-[#a8a29e] dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#78716c] dark:focus:ring-cyan-500 shadow-xs transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               />
@@ -212,13 +220,13 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                           </div>
                         </div>
                         <span className="text-xs font-semibold text-[#0e7490] dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/60 px-2.5 py-1 rounded-md border border-cyan-200 dark:border-cyan-800/60">
-                          + Add
+                          {t.addButton}
                         </span>
                       </button>
                     ))
                   ) : (
                     <div className="px-4 py-3 text-xs text-[#78716c] dark:text-slate-400">
-                      No matching members found.
+                      {t.noMatch}
                     </div>
                   )}
                 </div>
@@ -238,7 +246,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                   <button
                     type="button"
                     onClick={() => handleRemoveMember(mp.slug)}
-                    aria-label={`Remove ${mp.name}`}
+                    aria-label={t.removeMember(mp.name)}
                     className="hover:text-stone-300 dark:hover:text-slate-300 focus:outline-none cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -283,11 +291,11 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 2: House */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-3.5 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
-                  House
+                  {t.rowHouse}
                 </td>
                 {selectedMPs.map((mp) => (
                   <td key={mp.slug} className="py-3.5 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                    {mp.term || '18th Lok Sabha'}
+                    {mp.term || t.houseFallback}
                   </td>
                 ))}
               </tr>
@@ -295,11 +303,11 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 3: Role */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-3.5 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
-                  Role
+                  {t.rowRole}
                 </td>
                 {selectedMPs.map((mp) => (
                   <td key={mp.slug} className="py-3.5 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                    {mp.is_minister ? 'Union Minister' : 'Member of Parliament'}
+                    {mp.is_minister ? t.roleMinister : t.roleMember}
                   </td>
                 ))}
               </tr>
@@ -307,7 +315,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 4: Attendance (Value + Horizontal Bar) */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
-                  Attendance
+                  {t.rowAttendance}
                 </td>
                 {selectedMPs.map((mp, idx) => {
                   const pct = getAttendancePct(mp);
@@ -316,7 +324,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                   return (
                     <td key={mp.slug} className="py-4 px-3 align-top">
                       <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                        {pct !== null ? `${pct}%` : 'not applicable (minister)'}
+                        {pct !== null ? `${formatNumber(pct, lang)}%` : t.notApplicableMinister}
                       </div>
 
                       {pct !== null && (
@@ -335,7 +343,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 5: Questions (Value + Horizontal Bar) */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
-                  Questions
+                  {t.rowQuestions}
                 </td>
                 {selectedMPs.map((mp, idx) => {
                   const q = getQuestions(mp);
@@ -345,7 +353,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                   return (
                     <td key={mp.slug} className="py-4 px-3 align-top">
                       <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                        {q !== null ? q : 'not applicable (minister)'}
+                        {q !== null ? formatNumber(q, lang) : t.notApplicableMinister}
                       </div>
 
                       {q !== null && (
@@ -364,7 +372,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 6: MPLADS spent (Value + Horizontal Bar) */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
-                  MPLADS spent
+                  {t.rowMpladsSpent}
                 </td>
                 {selectedMPs.map((mp, idx) => {
                   const spent = getMpladsSpentCr(mp);
@@ -374,7 +382,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                   return (
                     <td key={mp.slug} className="py-4 px-3 align-top">
                       <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                        {spent !== null ? `₹${spent.toFixed(2)} cr` : 'not listed'}
+                        {spent !== null ? t.crore(spent.toFixed(2)) : t.notListed}
                       </div>
 
                       {spent !== null && (
@@ -393,7 +401,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 7: Works completed (Value + Horizontal Bar) */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400 align-top">
-                  Works completed
+                  {t.rowWorksCompleted}
                 </td>
                 {selectedMPs.map((mp, idx) => {
                   const works = getWorksCompleted(mp);
@@ -403,7 +411,7 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
                   return (
                     <td key={mp.slug} className="py-4 px-3 align-top">
                       <div className="text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                        {works !== null ? works : 'not listed'}
+                        {works !== null ? formatNumber(works, lang) : t.notListed}
                       </div>
 
                       {works !== null && (
@@ -422,14 +430,14 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
               {/* Row 8: Pending cases disclosed (Value only, NO bar) */}
               <tr className="border-b border-[#E7E1D7] dark:border-[#273344]">
                 <td className="py-4 pr-4 text-xs sm:text-sm font-medium text-[#78716c] dark:text-slate-400">
-                  Pending cases disclosed
+                  {t.rowCases}
                 </td>
                 {selectedMPs.map((mp) => {
                   const cases = getPendingCases(mp);
 
                   return (
                     <td key={mp.slug} className="py-4 px-3 text-xs sm:text-sm text-[#1c1917] dark:text-slate-200">
-                      {cases !== null ? cases : 'not listed'}
+                      {cases !== null ? formatNumber(cases, lang) : t.notListed}
                     </td>
                   );
                 })}
@@ -438,14 +446,9 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
           </table>
         </div>
 
-        {/* Bottom Explanatory Notes & Medians (Matching reference screenshot exactly) */}
-        <div className="pt-4 space-y-2 text-xs text-[#78716c] dark:text-slate-400 leading-relaxed border-t border-[#E7E1D7] dark:border-[#273344]">
-          <p>
-            Catalog as of 31 Oct 2026. Sitting house medians (listed members only): Lok Sabha attendance 96%, questions 172, MPLADS spent ₹2.44 cr. Not a score.
-          </p>
-          <p>
-            Latest listed Lok Sabha session: 18th Lok Sabha. 19 sittings held, 7,529 questions listed, 95% median attendance among listed members. Not a score.
-          </p>
+        {/* Neutral notice: indicators are shown side by side, never as a score */}
+        <div className="pt-4 text-xs text-[#78716c] dark:text-slate-400 leading-relaxed border-t border-[#E7E1D7] dark:border-[#273344]">
+          <p>{t.notice}</p>
         </div>
 
         {/* Share Button */}
@@ -456,13 +459,13 @@ export const CompareClient: React.FC<CompareClientProps> = ({ mps }) => {
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#1A222D] text-[#44403c] dark:text-slate-300 border border-[#DDD6C8] dark:border-[#303A45] hover:bg-[#F2EDE4] dark:hover:bg-[#222E3E] transition-colors cursor-pointer"
           >
             <Share2 className="w-3.5 h-3.5" />
-            <span>Share comparison link</span>
+            <span>{t.share}</span>
           </button>
         </div>
       </div>
 
       <Toast
-        message="Comparison link copied to clipboard!"
+        message={t.copied}
         isOpen={toastOpen}
         onClose={() => setToastOpen(false)}
       />

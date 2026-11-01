@@ -1,0 +1,28 @@
+{
+  "source": {
+    "name": "Lok Sabha, Digital Sansad (official portraits)",
+    "retrieved_at": "2026-11-01",
+    "provenance": "Fetched by scripts/11_fetch_portraits.py; files are in public/images/mps/.",
+    "licence": "Reuse terms of Sansad portraits not yet confirmed (PRD 16 open question 2)."
+  },
+  "records": [
+    {
+      "slug": "north-goa-goa",
+      "image_url": "/images/mps/north-goa-goa.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/273.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    },
+    {
+      "slug": "south-goa-goa",
+      "image_url": "/images/mps/south-goa-goa.jpg",
+      "image_source": {
+        "name": "Lok Sabha, Digital Sansad (Official Portrait)",
+        "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5710.jpg?source=lsapps",
+        "retrieved_at": "2026-11-01"
+      }
+    }
+  ]
+}

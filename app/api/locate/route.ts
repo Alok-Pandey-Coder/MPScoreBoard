@@ -21,6 +21,7 @@ function toRequest(input: Record<string, unknown>): LocationResolveRequest | nul
     req.lng = lng;
   }
   if (typeof input.pincode === 'string') req.pincode = input.pincode.slice(0, 6);
+  if (typeof input.state === 'string' && /^[a-z-]{2,40}$/.test(input.state)) req.state = input.state;
   if (typeof input.query === 'string') req.query = input.query.slice(0, 100);
   return req;
 }
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
     lng: params.get('lng') ?? undefined,
     pincode: params.get('pincode') ?? undefined,
     query: params.get('q') ?? params.get('query') ?? undefined,
+    state: params.get('state') ?? undefined,
   });
   if (!parsed) return apiError('INVALID_REQUEST', 'lat and lng must be numbers.', 400);
   return respond(await resolveLocation(parsed));

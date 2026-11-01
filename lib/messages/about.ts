@@ -91,6 +91,9 @@ export const aboutMessages = defineMessages({
     limitSnapshot:
       'The site shows a dated snapshot, not live data. Each figure carries the date it was captured or reported; check the linked source for the latest position.',
 
+    iconCreditsNote: (sets: string) => `State card icons: ${sets}, open-source icon sets served through Iconify, used under the MIT licence.`,
+    imageCreditsHeading: 'State picture credits',
+    imageCreditsNote: 'Monument and emblem pictures on the state cards. Each is shown under its own licence.',
     aiHeading: '7. AI usage and safeguards',
     aiScope:
       "AI is used only to write the optional plain-language summary on a card, from that card's structured data. It does not add facts, sources or opinions.",
@@ -98,8 +101,6 @@ export const aboutMessages = defineMessages({
       'Every number in an AI summary is checked against the record. If any check fails, or the AI service is unavailable, the summary is replaced by a fixed template written from the same data.',
     aiPipeline:
       'No AI is used in the data pipeline: collecting, normalising, merging and validating the data is done by deterministic scripts.',
-    aiDrafts:
-      'Message drafts are templates filled with the card data. Please review and edit a draft before you send it.',
 
     disclaimerHeading: '8. Legal & Academic Disclaimer',
     disclaimer:
@@ -195,6 +196,9 @@ export const aboutMessages = defineMessages({
     limitSnapshot:
       'साइट एक तय तारीख का स्नैपशॉट दिखाती है, लाइव डेटा नहीं। हर आँकड़े के साथ वह तारीख दी जाती है जब उसे लिया या प्रकाशित किया गया; ताज़ा स्थिति के लिए दिया गया स्रोत देखें।',
 
+    iconCreditsNote: (sets: string) => `राज्य कार्ड के आइकन: ${sets}, Iconify से मिले ओपन-सोर्स आइकन सेट, MIT लाइसेंस के तहत इस्तेमाल किए गए।`,
+    imageCreditsHeading: 'राज्यों की तस्वीरों का श्रेय',
+    imageCreditsNote: 'राज्य कार्ड पर दिखने वाली स्मारक और प्रतीक की तस्वीरें। हर तस्वीर अपने लाइसेंस के तहत दिखाई गई है।',
     aiHeading: '7. AI का उपयोग और सुरक्षा उपाय',
     aiScope:
       'AI का उपयोग केवल कार्ड पर वैकल्पिक सरल भाषा का सारांश लिखने के लिए होता है, और वह भी उसी कार्ड के व्यवस्थित डेटा से। यह कोई नया तथ्य, स्रोत या राय नहीं जोड़ता।',
@@ -202,8 +206,6 @@ export const aboutMessages = defineMessages({
       'AI सारांश की हर संख्या का रिकॉर्ड से मिलान किया जाता है। अगर कोई जाँच विफल हो या AI सेवा उपलब्ध न हो, तो सारांश की जगह उसी डेटा से बना एक तय टेम्पलेट दिखाया जाता है।',
     aiPipeline:
       'डेटा पाइपलाइन में AI का उपयोग नहीं होता: डेटा इकट्ठा करना, एक जैसे रूप में लाना, जोड़ना और जाँचना तय नियमों वाली स्क्रिप्ट से होता है।',
-    aiDrafts:
-      'संदेश के ड्राफ़्ट कार्ड के डेटा से भरे गए टेम्पलेट हैं। भेजने से पहले ड्राफ़्ट को ज़रूर पढ़ें और ज़रूरत हो तो बदलें।',
 
     disclaimerHeading: '8. कानूनी और शैक्षणिक अस्वीकरण',
     disclaimer:

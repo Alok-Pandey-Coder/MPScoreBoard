@@ -4,6 +4,10 @@ import { defineMessages } from '@/lib/i18n';
 export const stateMessages = defineMessages({
   en: {
     backToAtlas: 'Back to All-India Atlas',
+    switchState: 'Switch state',
+    allStates: 'All states',
+    india: 'India',
+    liveBadge: 'Live',
     seats: (n: number) => `${n} Lok Sabha Seats`,
     capital: 'Capital:',
     representationState: 'State representation in the 18th Lok Sabha',
@@ -19,6 +23,10 @@ export const stateMessages = defineMessages({
   },
   hi: {
     backToAtlas: 'पूरे भारत के नक्शे पर वापस जाएँ',
+    switchState: 'राज्य बदलें',
+    allStates: 'सभी राज्य',
+    india: 'भारत',
+    liveBadge: 'उपलब्ध',
     seats: (n: number) => `लोकसभा की ${n} सीटें`,
     capital: 'राजधानी:',
     representationState: '18वीं लोकसभा में राज्य का प्रतिनिधित्व',

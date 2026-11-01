@@ -30,6 +30,7 @@ import {
   type PolygonCoordinates,
 } from './spatial';
 import { lookupPincode } from './delhi_pincodes';
+import { getStatePcCollection } from './state_pc';
 
 export type DataSource = 'yugabytedb' | 'json-snapshot' | 'json-snapshot (database unreachable)';
 
@@ -182,6 +183,7 @@ function byPincode(data: Dataset, pincode: string): LocationResolveResponse {
       success: false,
       matched_by: 'pincode',
       confidence: 'none',
+      reason: 'not_found',
       error: `Pincode '${pincode}' was not found in the pincode directory.`,
     };
   }
@@ -201,9 +203,55 @@ export async function resolveLocationByCoords(lat: number, lng: number): Promise
   return byCoords(await getDataset(), lat, lng);
 }
 
+/** Exact point-in-polygon lookup against another state's constituency polygons (no nearest-centre guess). */
+function byStateCoords(data: Dataset, stateId: string, lat: number, lng: number): LocationResolveResponse {
+  const collection = getStatePcCollection(stateId);
+  if (!collection) {
+    return {
+      success: false,
+      matched_by: 'none',
+      confidence: 'none',
+      reason: 'unsupported',
+      error: 'Constituency boundaries for this state are not available yet.',
+    };
+  }
+  const found = collection.features.find((feature) => containsPoint(feature, [lng, lat]));
+  if (!found) {
+    return {
+      success: false,
+      matched_by: 'coordinates',
+      confidence: 'none',
+      reason: 'outside',
+      error: 'This location is outside the constituencies of this state.',
+    };
+  }
+  return {
+    success: true,
+    matched_by: 'coordinates',
+    constituency: found.properties.pc_name,
+    slug: found.properties.slug,
+    confidence: 'exact',
+    resolved_coords: { lat, lng },
+    mp: data.bySlug.get(found.properties.slug),
+  };
+}
+
 /** Resolves lat/lng, a pincode, or a free-text constituency/MP query. */
 export async function resolveLocation(req: LocationResolveRequest): Promise<LocationResolveResponse> {
   const data = await getDataset();
+  if (req.state && req.state !== 'delhi') {
+    if (typeof req.lat === 'number' && typeof req.lng === 'number') {
+      return byStateCoords(data, req.state, req.lat, req.lng);
+    }
+    // Only Delhi has a pincode directory; no pincode-to-constituency source is cleared for other states.
+    return {
+      success: false,
+      matched_by: 'pincode',
+      confidence: 'none',
+      reason: 'unsupported',
+      error: 'Pincode lookup is not available for this state yet. Use your location instead.',
+    };
+  }
   if (typeof req.lat === 'number' && typeof req.lng === 'number') {
     return byCoords(data, req.lat, req.lng);
   }

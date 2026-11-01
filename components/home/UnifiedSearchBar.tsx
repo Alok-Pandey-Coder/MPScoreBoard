@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, ChevronRight, MapPin } from 'lucide-react';
+import { stateIdOf } from '@/lib/stateId';
 import { MPRecord } from '@/types/mp';
 import { MPAvatar } from '@/components/ui/MPAvatar';
 import { searchMPs } from '@/lib/search';
@@ -20,7 +21,6 @@ interface UnifiedSearchBarProps {
 
 /** Shortcut chips under the search box; capped so they stay one or two rows. */
 const MAX_QUICK_SEATS = 8;
-const toStateId = (state: string) => state.trim().toLowerCase().replace(/\s+/g, '-');
 
 export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
   mps,
@@ -41,7 +41,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
       showQuickChips
         ? mps.slice(0, MAX_QUICK_SEATS).map((mp) => ({
             slug: mp.slug,
-            stateId: toStateId(mp.state),
+            stateId: stateIdOf(mp.state),
             name: mp.constituency.replace(/\s*\((SC|ST)\)$/, ''),
           }))
         : [],
@@ -73,7 +73,7 @@ export const UnifiedSearchBar: React.FC<UnifiedSearchBarProps> = ({
     setIsOpen(false);
     setQuery('');
     if (onSelectGeographicalFeature) {
-      const stateId = mp.state.toLowerCase().replace(/\s+/g, '-');
+      const stateId = stateIdOf(mp.state);
       onSelectGeographicalFeature(stateId, mp.slug);
     }
     if (onSelect) onSelect();

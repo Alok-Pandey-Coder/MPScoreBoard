@@ -1,0 +1,379 @@
+{
+  "description": "Outline landmark icon per state card (open-source icon sets via Iconify). Built by scripts/12_fetch_state_icons.py; files in public/icons/states/.",
+  "sets": {
+    "iconoven": {
+      "name": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "url": "https://iconoven.com/icons"
+    },
+    "hugeicons": {
+      "name": "Hugeicons",
+      "author": "Hugeicons",
+      "licence": "MIT",
+      "url": "https://hugeicons.com"
+    }
+  },
+  "icons": {
+    "delhi": {
+      "icon": "hugeicons:india-gate",
+      "label": "India Gate",
+      "file": "/icons/states/delhi.svg",
+      "source_url": "https://api.iconify.design/hugeicons/india-gate.svg",
+      "set": "Hugeicons",
+      "author": "Hugeicons",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "uttar-pradesh": {
+      "icon": "hugeicons:taj-mahal",
+      "label": "Taj Mahal",
+      "file": "/icons/states/uttar-pradesh.svg",
+      "source_url": "https://api.iconify.design/hugeicons/taj-mahal.svg",
+      "set": "Hugeicons",
+      "author": "Hugeicons",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "maharashtra": {
+      "icon": "iconoven:taj-arch",
+      "label": "Arched gateway (Gateway of India)",
+      "file": "/icons/states/maharashtra.svg",
+      "source_url": "https://api.iconify.design/iconoven/taj-arch.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "west-bengal": {
+      "icon": "iconoven:capitol-dome",
+      "label": "Domed memorial (Victoria Memorial)",
+      "file": "/icons/states/west-bengal.svg",
+      "source_url": "https://api.iconify.design/iconoven/capitol-dome.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "bihar": {
+      "icon": "iconoven:buddhist-temple",
+      "label": "Buddhist temple (Mahabodhi)",
+      "file": "/icons/states/bihar.svg",
+      "source_url": "https://api.iconify.design/iconoven/buddhist-temple.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "tamil-nadu": {
+      "icon": "iconoven:gopuram-tower",
+      "label": "Gopuram (Dravidian temple tower)",
+      "file": "/icons/states/tamil-nadu.svg",
+      "source_url": "https://api.iconify.design/iconoven/gopuram-tower.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "madhya-pradesh": {
+      "icon": "iconoven:stupa",
+      "label": "Stupa (Sanchi)",
+      "file": "/icons/states/madhya-pradesh.svg",
+      "source_url": "https://api.iconify.design/iconoven/stupa.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "karnataka": {
+      "icon": "iconoven:palace",
+      "label": "Palace (Mysore Palace)",
+      "file": "/icons/states/karnataka.svg",
+      "source_url": "https://api.iconify.design/iconoven/palace.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "gujarat": {
+      "icon": "iconoven:statue",
+      "label": "Statue (Statue of Unity)",
+      "file": "/icons/states/gujarat.svg",
+      "source_url": "https://api.iconify.design/iconoven/statue.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "rajasthan": {
+      "icon": "iconoven:fortress",
+      "label": "Fort",
+      "file": "/icons/states/rajasthan.svg",
+      "source_url": "https://api.iconify.design/iconoven/fortress.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "andhra-pradesh": {
+      "icon": "iconoven:temple-hindu",
+      "label": "Hindu temple (Tirupati)",
+      "file": "/icons/states/andhra-pradesh.svg",
+      "source_url": "https://api.iconify.design/iconoven/temple-hindu.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "odisha": {
+      "icon": "iconoven:temple",
+      "label": "Temple (Konark)",
+      "file": "/icons/states/odisha.svg",
+      "source_url": "https://api.iconify.design/iconoven/temple.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "kerala": {
+      "icon": "iconoven:palm-tree",
+      "label": "Palm tree (backwaters and coast)",
+      "file": "/icons/states/kerala.svg",
+      "source_url": "https://api.iconify.design/iconoven/palm-tree.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "telangana": {
+      "icon": "iconoven:minaret",
+      "label": "Minaret (Charminar)",
+      "file": "/icons/states/telangana.svg",
+      "source_url": "https://api.iconify.design/iconoven/minaret.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "assam": {
+      "icon": "iconoven:rhino",
+      "label": "One-horned rhino",
+      "file": "/icons/states/assam.svg",
+      "source_url": "https://api.iconify.design/iconoven/rhino.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "jharkhand": {
+      "icon": "iconoven:elephant",
+      "label": "Elephant (forests)",
+      "file": "/icons/states/jharkhand.svg",
+      "source_url": "https://api.iconify.design/iconoven/elephant.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "punjab": {
+      "icon": "iconoven:gurdwara",
+      "label": "Gurdwara (Golden Temple)",
+      "file": "/icons/states/punjab.svg",
+      "source_url": "https://api.iconify.design/iconoven/gurdwara.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "chhattisgarh": {
+      "icon": "iconoven:waterfall",
+      "label": "Waterfall (Chitrakote)",
+      "file": "/icons/states/chhattisgarh.svg",
+      "source_url": "https://api.iconify.design/iconoven/waterfall.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "haryana": {
+      "icon": "iconoven:ruins",
+      "label": "Ancient ruins (Kurukshetra)",
+      "file": "/icons/states/haryana.svg",
+      "source_url": "https://api.iconify.design/iconoven/ruins.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "jammu-kashmir": {
+      "icon": "iconoven:peak-snow",
+      "label": "Snow peak",
+      "file": "/icons/states/jammu-kashmir.svg",
+      "source_url": "https://api.iconify.design/iconoven/peak-snow.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "uttarakhand": {
+      "icon": "iconoven:place-of-worship",
+      "label": "Himalayan shrine (Kedarnath)",
+      "file": "/icons/states/uttarakhand.svg",
+      "source_url": "https://api.iconify.design/iconoven/place-of-worship.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "himachal-pradesh": {
+      "icon": "iconoven:mountain-range",
+      "label": "Mountain range",
+      "file": "/icons/states/himachal-pradesh.svg",
+      "source_url": "https://api.iconify.design/iconoven/mountain-range.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "tripura": {
+      "icon": "iconoven:pavilion",
+      "label": "Pavilion (Ujjayanta Palace)",
+      "file": "/icons/states/tripura.svg",
+      "source_url": "https://api.iconify.design/iconoven/pavilion.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "manipur": {
+      "icon": "iconoven:lotus",
+      "label": "Lotus (Loktak Lake)",
+      "file": "/icons/states/manipur.svg",
+      "source_url": "https://api.iconify.design/iconoven/lotus.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "meghalaya": {
+      "icon": "iconoven:cave",
+      "label": "Caves (Mawsmai)",
+      "file": "/icons/states/meghalaya.svg",
+      "source_url": "https://api.iconify.design/iconoven/cave.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "goa": {
+      "icon": "iconoven:church",
+      "label": "Church (Basilica of Bom Jesus)",
+      "file": "/icons/states/goa.svg",
+      "source_url": "https://api.iconify.design/iconoven/church.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "sikkim": {
+      "icon": "iconoven:buddhist-monastery",
+      "label": "Buddhist monastery (Rumtek)",
+      "file": "/icons/states/sikkim.svg",
+      "source_url": "https://api.iconify.design/iconoven/buddhist-monastery.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "nagaland": {
+      "icon": "iconoven:memorial-wreath",
+      "label": "Memorial wreath (Kohima War Cemetery)",
+      "file": "/icons/states/nagaland.svg",
+      "source_url": "https://api.iconify.design/iconoven/memorial-wreath.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "mizoram": {
+      "icon": "iconoven:mountain",
+      "label": "Hills",
+      "file": "/icons/states/mizoram.svg",
+      "source_url": "https://api.iconify.design/iconoven/mountain.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "arunachal-pradesh": {
+      "icon": "iconoven:buddha-statue",
+      "label": "Buddha statue (Tawang)",
+      "file": "/icons/states/arunachal-pradesh.svg",
+      "source_url": "https://api.iconify.design/iconoven/buddha-statue.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "chandigarh": {
+      "icon": "iconoven:government-building",
+      "label": "Capitol complex",
+      "file": "/icons/states/chandigarh.svg",
+      "source_url": "https://api.iconify.design/iconoven/government-building.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "puducherry": {
+      "icon": "iconoven:lighthouse",
+      "label": "Lighthouse",
+      "file": "/icons/states/puducherry.svg",
+      "source_url": "https://api.iconify.design/iconoven/lighthouse.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "andaman-nicobar": {
+      "icon": "iconoven:watchtower",
+      "label": "Watchtower (Cellular Jail)",
+      "file": "/icons/states/andaman-nicobar.svg",
+      "source_url": "https://api.iconify.design/iconoven/watchtower.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "lakshadweep": {
+      "icon": "iconoven:island",
+      "label": "Island",
+      "file": "/icons/states/lakshadweep.svg",
+      "source_url": "https://api.iconify.design/iconoven/island.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "dadra-daman-diu": {
+      "icon": "iconoven:castle",
+      "label": "Fort (Diu Fort)",
+      "file": "/icons/states/dadra-daman-diu.svg",
+      "source_url": "https://api.iconify.design/iconoven/castle.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    },
+    "ladakh": {
+      "icon": "iconoven:monastery",
+      "label": "Monastery (Thiksey)",
+      "file": "/icons/states/ladakh.svg",
+      "source_url": "https://api.iconify.design/iconoven/monastery.svg",
+      "set": "IconOven",
+      "author": "Appic Marketing",
+      "licence": "MIT",
+      "retrieved_at": "2026-11-01"
+    }
+  }
+}

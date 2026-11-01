@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import type { Feature, Geometry } from 'geojson';
-import { Search, Navigation, MapPin, ChevronRight } from 'lucide-react';
+import { Search, MapPin, ChevronRight } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -11,6 +11,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { localizeParty } from '@/lib/i18n';
 import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
 import { mapMessages } from '@/lib/messages/map';
+import { LocateMySeat } from '@/components/map/LocateMySeat';
 
 /** Properties of ward features (delhi_wards_enriched.geojson) or PC features (delhi_pc.json). */
 interface MapFeatureProps {
@@ -112,14 +113,10 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   const geojsonLayerRef = useRef<L.GeoJSON | null>(null);
   const numberMarkersRef = useRef<Array<L.Marker & { _wardNum?: string }>>([]);
   const targetReticleRef = useRef<L.Marker | null>(null);
-  const userMarkerRef = useRef<L.Marker | null>(null);
 
-  const [selectedSlug, setSelectedSlug] = useState<string>(
-    externalSelectedSlug || 'chandni-chowk-delhi'
-  );
+  // No seat is preselected: the map opens neutral until the user picks one.
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(externalSelectedSlug || null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [locating, setLocating] = useState(false);
-  const [userLocationError, setUserLocationError] = useState<'geoUnsupported' | 'geoFailed' | null>(null);
   const [hoveredInfo, setHoveredInfo] = useState<{ name: string; pcName: string; wardNum: string } | null>(null);
 
   const t = useMessages(mapMessages);
@@ -131,7 +128,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
   }, [t]);
 
   // Leaflet event handlers read the selection via a ref.
-  const activeSlugRef = useRef<string>(selectedSlug);
+  const activeSlugRef = useRef<string | null>(selectedSlug);
   useEffect(() => {
     activeSlugRef.current = selectedSlug;
   }, [selectedSlug]);
@@ -307,8 +304,9 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
         geojsonLayerRef.current = geoLayer;
 
-        // Position initial target reticle (Ward 20 in Chandni Chowk as in Reference Screenshot)
-        updateTargetReticle(28.6570, 77.2318, '20');
+        // Only mark a seat when one was requested from outside (e.g. via search).
+        const requested = DELHI_SEATS.find((s) => s.slug === activeSlugRef.current);
+        if (requested) updateTargetReticle(requested.center[0], requested.center[1], requested.defaultWard);
       })
       .catch((err) => console.error('Failed to load GeoJSON:', err));
 
@@ -390,56 +388,13 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     });
   }, [selectedSlug, isDark]);
 
-  // Handle Geolocation button with Point-in-Polygon location resolution
-  const handleUseLocation = () => {
-    if (!navigator.geolocation) {
-      setUserLocationError('geoUnsupported');
-      return;
+  // Follow a seat chosen outside the map (e.g. the hero search box).
+  useEffect(() => {
+    if (externalSelectedSlug && externalSelectedSlug !== activeSlugRef.current) {
+      focusConstituency(externalSelectedSlug);
     }
-    setLocating(true);
-    setUserLocationError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        try {
-          const res = await fetch(`/api/locate?lat=${latitude}&lng=${longitude}`);
-          const data = await res.json();
-          setLocating(false);
-
-          if (data.status === 'success' && data.result) {
-            const matchedSlug = data.result.slug;
-            focusConstituency(matchedSlug, undefined, [latitude, longitude]);
-
-            if (mapInstanceRef.current) {
-              if (userMarkerRef.current) {
-                userMarkerRef.current.remove();
-              }
-              const pinHtml = `
-                <div style="position:relative; width:22px; height:22px; transform:translate(-50%, -50%);">
-                  <span style="position:absolute; inset:0; border-radius:50%; background:#f59e0b; opacity:0.75; animation:ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
-                  <span style="position:absolute; inset:3px; border-radius:50%; background:#d97706; border:2px solid #ffffff; box-shadow:0 0 8px rgba(0,0,0,0.8);"></span>
-                </div>
-              `;
-              const userIcon = L.divIcon({ html: pinHtml, className: 'user-gps-marker', iconSize: [0, 0] });
-              userMarkerRef.current = L.marker([latitude, longitude], { icon: userIcon }).addTo(mapInstanceRef.current);
-            }
-          } else {
-            focusConstituency('new-delhi-delhi', undefined, [latitude, longitude]);
-          }
-        } catch {
-          setLocating(false);
-          focusConstituency('new-delhi-delhi', undefined, [latitude, longitude]);
-        }
-      },
-      () => {
-        setLocating(false);
-        setUserLocationError('geoFailed');
-        focusConstituency('new-delhi-delhi');
-      },
-      { timeout: 8000, enableHighAccuracy: true }
-    );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalSelectedSlug]);
 
   const filteredSeats = DELHI_SEATS.filter((s) => {
     const q = searchQuery.toLowerCase();
@@ -451,7 +406,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
     );
   });
 
-  const activeSeat = DELHI_SEATS.find((s) => s.slug === selectedSlug) || DELHI_SEATS[0];
+  const activeSeat = DELHI_SEATS.find((s) => s.slug === selectedSlug) || null;
   const activeMP = mps.find((m) => m.slug === selectedSlug);
 
   return (
@@ -524,6 +479,8 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
         {/* Right Search & Browse Panel (4 Cols - Refined Editorial Dossier) */}
         <div className="lg:col-span-4 bg-stone-50/90 dark:bg-[#0E1420] border-t lg:border-t-0 lg:border-l border-stone-200 dark:border-[#1E2636] p-5 flex flex-col justify-between">
           <div className="space-y-4">
+            <LocateMySeat stateId="delhi" onResolved={(slug) => focusConstituency(slug)} />
+
             {/* Search Input Box */}
             <div className="relative">
               <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-stone-400 pointer-events-none" />
@@ -535,20 +492,6 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                 className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#141C29] border border-stone-300 dark:border-[#232F42] rounded-xl text-xs sm:text-sm text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-1 focus:ring-amber-500 shadow-xs"
               />
             </div>
-
-            {/* Amber Action Button: Use My Location */}
-            <button
-              onClick={handleUseLocation}
-              disabled={locating}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-stone-950 font-bold text-xs font-mono uppercase tracking-wider rounded-xl shadow-sm transition-all cursor-pointer"
-            >
-              <Navigation className={`w-3.5 h-3.5 ${locating ? 'animate-spin' : ''}`} />
-              <span>{locating ? t.locating : t.useMyLocation}</span>
-            </button>
-
-            {userLocationError && (
-              <p className="text-[11px] text-amber-600 dark:text-amber-400 text-center font-mono">{t[userLocationError]}</p>
-            )}
 
             <div className="flex items-center justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400 px-1 border-b border-stone-200 dark:border-[#1E2636] pb-2">
               <span className="flex items-center gap-1.5">
@@ -606,6 +549,11 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
           </div>
 
           {/* Active Constituency Bottom Card */}
+          {!activeSeat && (
+            <p className="mt-4 p-4 rounded-xl border border-dashed border-stone-300 dark:border-[#232F42] text-[11px] font-mono text-stone-500 dark:text-stone-400 text-center">
+              {t.selectSeatPrompt}
+            </p>
+          )}
           {activeSeat && (
             <div className="mt-4 pt-3.5 border-t border-stone-200 dark:border-[#1E2636] bg-white dark:bg-[#121A26] p-4 rounded-xl border border-stone-200 dark:border-[#232F42] shadow-xs">
               <div className="flex items-start justify-between gap-2 mb-2">

@@ -66,6 +66,9 @@ export const homeMessages = defineMessages({
     cardsAvailable: (n: number, total: number) => `${n} of ${total} report cards available`,
     cardsComingSoon: 'Report cards coming soon',
     linkConstituencies: 'Constituencies',
+    pagePrev: '← Previous',
+    pageNext: 'Next →',
+    pageOf: (page: number, total: number) => `Page ${page} of ${total}`,
     linkMPs: 'MPs',
 
     // StateConstituencyPicker
@@ -148,6 +151,9 @@ export const homeMessages = defineMessages({
     cardsAvailable: (n: number, total: number) => `${total} में से ${n} रिपोर्ट कार्ड उपलब्ध`,
     cardsComingSoon: 'रिपोर्ट कार्ड जल्द आएँगे',
     linkConstituencies: 'निर्वाचन क्षेत्र',
+    pagePrev: '← पिछला',
+    pageNext: 'अगला →',
+    pageOf: (page: number, total: number) => `पृष्ठ ${page} / ${total}`,
     linkMPs: 'सांसद',
 
     // StateConstituencyPicker

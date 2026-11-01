@@ -8,7 +8,8 @@ import { MapControls } from './MapControls';
 import { StateInfoPanel } from './StateInfoPanel';
 import { ConstituencyInfoPanel } from './ConstituencyInfoPanel';
 import { Compass, Sparkles } from 'lucide-react';
-import { useMessages } from '@/context/LanguageContext';
+import { useLang, useMessages } from '@/context/LanguageContext';
+import { localizeState } from '@/lib/i18n';
 import { useTheme } from '@/context/ThemeContext';
 import { mapMessages } from '@/lib/messages/map';
 
@@ -258,6 +259,8 @@ interface IndiaAtlasMapProps {
   initialStateId?: string;
   initialConstituencySlug?: string;
   onSelectMP?: (slug: string) => void;
+  /** When set, clicking a state opens that state's own map elsewhere on the page instead of zooming here. */
+  onOpenStateMap?: (stateId: string) => void;
   className?: string;
 }
 
@@ -266,12 +269,14 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   initialStateId,
   initialConstituencySlug,
   onSelectMP,
+  onOpenStateMap,
   className = '',
 }) => {
   const { isDark } = useTheme();
   const activeRegions = isDark ? REGIONS_DARK : REGIONS_LIGHT;
 
   const t = useMessages(mapMessages);
+  const { lang } = useLang();
   const regionShortName = (id: string) => t.regionShortName[id as keyof typeof t.regionShortName] ?? activeRegions[id]?.shortName;
   const regionName = (id: string) => t.regionName[id as keyof typeof t.regionName] ?? activeRegions[id]?.name;
   // A Delhi constituency implies the Delhi state view.
@@ -325,6 +330,10 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
   }
 
   const handleStateSelect = (stateId: string) => {
+    if (onOpenStateMap) {
+      onOpenStateMap(stateId);
+      return;
+    }
     setSelectedStateId(stateId);
     setSelectedConstituencySlug(null);
     const box = viewBoxForState(stateId);
@@ -385,7 +394,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
       <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 bg-white/95 dark:bg-[#10151d]/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-stone-200 dark:border-[#27323f] text-xs shadow-md dark:shadow-xl">
         <Compass className="w-4 h-4 text-cyan-600 dark:text-cyan-400 animate-pulse" />
         <span className="font-bold text-stone-900 dark:text-white font-['Outfit']">
-          {selectedStateObj ? selectedStateObj.name : t.nationalTitle}
+          {selectedStateObj ? localizeState(selectedStateObj.name, lang) : t.nationalTitle}
         </span>
         <span className="text-[11px] font-semibold text-cyan-800 dark:text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-100/80 dark:bg-cyan-950/80 border border-cyan-300 dark:border-cyan-800">
           {selectedStateObj ? t.stateSeats(selectedStateObj.seats) : t.nationalSeats}
@@ -857,7 +866,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
         </div>
 
         <div className="text-[11px] text-stone-500 dark:text-slate-400 hidden lg:block">
-          {t.atlasClickHint}
+          {onOpenStateMap ? t.atlasOpenMapHint : t.atlasClickHint}
         </div>
       </div>
 
@@ -879,7 +888,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
                 {hoveredState.code}
               </span>
               <span className="font-bold text-stone-900 dark:text-white font-['Outfit'] text-sm ml-1.5">
-                {hoveredState.name}
+                {localizeState(hoveredState.name, lang)}
               </span>
             </div>
             <span
@@ -908,7 +917,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
           </div>
 
           <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-semibold block mt-2 pt-1 border-t border-stone-200 dark:border-slate-800/80">
-            {hoveredState.id === 'delhi' ? t.tooltipZoomDelhi : t.tooltipInspectState}
+            {onOpenStateMap ? t.tooltipOpenMap : hoveredState.id === 'delhi' ? t.tooltipZoomDelhi : t.tooltipInspectState}
           </span>
         </div>
       )}

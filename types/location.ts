@@ -22,6 +22,8 @@ export interface LocationResolveRequest {
   lng?: number;
   pincode?: string;
   query?: string;
+  /** State id (e.g. "goa"); Delhi is assumed when omitted. */
+  state?: string;
 }
 
 export interface LocationResolveResponse {
@@ -33,4 +35,6 @@ export interface LocationResolveResponse {
   resolved_coords?: { lat: number; lng: number };
   mp?: MPRecord;
   error?: string;
+  /** Why a lookup failed, so the UI can show a specific message. */
+  reason?: 'not_found' | 'outside' | 'unsupported' | 'invalid';
 }

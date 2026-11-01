@@ -21,6 +21,9 @@ d:\MPScoreBoard\data\
 │   ├── data_dictionary.md               # Technical field types & nullability specifications
 │   ├── delhi_pc.json                    # 7 PC polygons + centres used by the app (lib/data.ts, /api/geojson?type=pc, /api/locate); built by scripts/build_delhi_pc_geojson.js
 │   ├── delhi_wards_enriched.geojson     # MCD ward polygons tagged with their PC, served by /api/geojson for the home map; built by scripts/enrich_wards.js
+│   ├── state_icons.json                 # Outline landmark icon per state card (IconOven/Hugeicons via Iconify, MIT): icon id, label, source URL, licence, retrieved date; files in public/icons/states/; built by scripts/12_fetch_state_icons.py; credits on /about
+│   ├── state_images.json                # Monument/emblem picture per state card (file under public/images/states/, subject, source URL, licence, author, retrieved date); empty until pictures are added; read by lib/stateImages.ts, credits shown on /about
+│   ├── goa_pc.geojson                   # 2 Goa Lok Sabha PC polygons (DataMeet 2019, CC-BY-4.0, unchanged for the 18th LS); slug = MP slug; served by /api/geojson?state=goa; built by scripts/build_state_pc_geojson.py from raw/india_pc_2019_simplified.geojson
 │   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0); input to the geo build scripts, not read by the app
 │   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data; NOT read by the app (out of current scope)
 │   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids; NOT read by the app (superseded by delhi_pc.json)
@@ -42,6 +45,7 @@ d:\MPScoreBoard\data\
 │   ├── prs.goa.2026-11-01/              # PRS profile pages for both Goa MPs (CC BY 4.0), all-or-nothing capture
 │   ├── eci.results.goa.fetch_log.2026-11-01.json # Log of the polite ECI 2024 results attempts for Goa (all 404; nothing captured)
 │   ├── mp_portraits.delhi.2026-11-01.json # Official Sansad portrait URLs + image paths, carried into mps.json by 06_merge
+│   ├── mp_portraits.goa.2026-11-01.json   # Goa portraits fetched by scripts/11_fetch_portraits.py (Sansad mpsno photo URLs), merged the same way; image files in public/images/mps/
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
 │   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
 │   ├── india_pc_2019_simplified.geojson # DataMeet All-India 543 PC boundaries raw (CC-BY-4.0)
@@ -98,7 +102,7 @@ interface MPRecord {
   sansad_mpsno: number;                  // Official Digital Sansad member ID
   sansad_status: "Sitting" | "Former";   // Current seat status
   identity_review_status: string;        // "cross_checked"
-  image_url?: string;                    // Static public path to official portrait (e.g. "/images/mps/{slug}.jpg"); absent when none captured (Goa)
+  image_url?: string;                    // Static public path to official portrait (e.g. "/images/mps/{slug}.jpg"); absent when none captured; fetched by scripts/11_fetch_portraits.py --state KEY
   image_source?: SourceProvenance;       // Digital Sansad official portrait provenance; absent with image_url
   
   profile: {
@@ -198,7 +202,7 @@ interface MPRecord {
 - Activity: PRS MP Track profile pages (CC BY 4.0), retrieved 2026-11-01, period 2024-06-24 to 2026-08-13. State averages are PRS's published Goa averages.
 - Affidavit: Self-declared 2024 Lok Sabha nomination affidavits (ECI Form 26 / ADR MyNeta candidate profiles: Shripad Naik candidate_id=3668; Captain Viriato Fernandes candidate_id=3876). Ingested via `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`. Declared cases are allegations, not convictions.
 - Pending blocks (MPLADS, Election) hold `null` in every field (never `0`); each record's `normalisation_notes` records why: MPLADS source not cleared, ECI 2024 results pages returned 404.
-- No portrait: `image_url`/`image_source` are absent for Goa (no official portrait captured).
+- No portrait: `image_url`/`image_source` are absent for any MP whose portrait could not be fetched; the UI shows initials. Run `python scripts/11_fetch_portraits.py --state KEY`, then `python scripts/build_data.py`.
 - Sansad lists South Goa's education as "Post Graduate", PRS as "Graduate"; the profile shows PRS's value and the difference is a normalisation note.
 
 MPLADS figures are Empowered Indian as of 2026-10-31 (`secondary_only`). Declared affidavit cases are allegations, not convictions. Activity and MPLADS figures are descriptive, not a ranking.

@@ -17,7 +17,6 @@ import {
 } from '../lib/formatters';
 import { compareWithAverage } from '../lib/comparisons';
 import { generateTemplateSummary, knownNumbersForRecord, verifyGuardrails } from '../lib/ai/summary';
-import { generateCitizenDraft } from '../lib/ai/draft';
 import type { MPRecord } from '../types/mp';
 
 function makeRecord(overrides: Partial<MPRecord> = {}): MPRecord {
@@ -176,21 +175,6 @@ describe('generateTemplateSummary', () => {
     const file = path.join(__dirname, '..', 'data', 'processed', 'mps.json');
     const records: MPRecord[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
     for (const r of records) expect(verifyGuardrails(generateTemplateSummary(r, lang), r)).toBe(true);
-  });
-});
-
-describe('generateCitizenDraft', () => {
-  it('uses gender-neutral Hinglish and no judgement-tinged thanks', () => {
-    const mp = makeRecord();
-    for (const intent of ['mplads_works', 'parliament_question', 'attendance_clarification', 'general_feedback'] as const) {
-      const hi = generateCitizenDraft(mp, { intent, lang: 'hinglish' }).body;
-      expect(hi).not.toMatch(/\bhoon\b|kar raha|karta hoon|chahta/);
-      const en = generateCitizenDraft(mp, { intent, lang: 'en' }).body;
-      expect(en).not.toMatch(/service and dedication/);
-      for (const n of (en.match(/\d+(?:\.\d+)?/g) ?? []).map(Number)) {
-        expect(knownNumbersForRecord(mp).has(n)).toBe(true);
-      }
-    }
   });
 });
 

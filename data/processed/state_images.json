@@ -1,0 +1,4 @@
+{
+  "description": "Monument or emblem picture shown on each state card. Keyed by state id (see lib/realIndiaMapData.ts). A state with no entry shows the generic icon. Every entry needs the subject, source URL, licence, author and retrieval date, and its file must exist under public/ (checked by __tests__/state-images.test.ts).",
+  "images": {}
+}

@@ -7,7 +7,9 @@
 
 ## 1. Goal and success criteria
 
-**Goal:** a deployed, reliable web app that shows any Lok Sabha MP's report card from real public data, with an AI plain-language summary and a draft-letter action, demoed in 2 minutes.
+> **Scope change (2026-11-01):** the citizen draft-letter feature ("Citizen Action" panel and `/api/draft`) was removed from the product. Remaining mentions of it below are historical.
+
+**Goal:** a deployed, reliable web app that shows any Lok Sabha MP's report card from real public data, with an AI plain-language summary, demoed in 2 minutes.
 
 **Success means (in priority order):**
 1. The demo never breaks. It runs off a local snapshot, with a fallback for every external call.
@@ -27,7 +29,7 @@ Assumes 3–4 people. Merge roles if the team is smaller. One person is the **te
 |------|------|----------------------|
 | **Data lead** | `/scripts`, `/data` | master list, fetchers, merge, validation, `mps.json` |
 | **Frontend lead** | `/app`, `/components` | pages, search, report card UI, comparison bars, responsive layout |
-| **AI/Backend** | `/lib/ai`, API routes | summary and draft-letter routes, prompts, caching, fallbacks |
+| **AI/Backend** | `/lib/ai`, API routes | summary route, prompts, caching, fallbacks |
 | **Product/Demo** | pitch, deck, README, QA | demo script, slides, screenshots, test pass, judge Q&A prep |
 
 If 2 people: Person A = data + AI backend. Person B = frontend + demo. If solo: follow the cut order strictly.
@@ -70,7 +72,7 @@ Alok is expected to be hands-on with the code he's responsible for. Whoever buil
 | Rendering | Static generation for `/mp/[slug]`, server route for AI | fast pages, AI isolated and cacheable |
 | Styling | Tailwind, small custom component set | speed, consistency |
 | State | URL params and server components | no global store needed |
-| AI | One server route per feature (`/api/summary`, `/api/draft`), cached per MP, template fallback | robustness |
+| AI | One server route per feature (`/api/summary`), cached per MP, template fallback | robustness |
 | Charts | Hand-rolled CSS/SVG bars | no heavy library, full control |
 | Deploy | Vercel | zero-config |
 
@@ -85,7 +87,7 @@ Anything that deviates from this table needs a one-line note in `docs/decisions.
 | **P0 – Foundations** | T+0 → T+3 | repo, types, layout, Delhi sample data in the UI |
 | **P1 – Vertical slice** | T+3 → T+10 | one full MP card with real data, end to end |
 | **P2 – Scale data + core UI** | T+10 → T+20 | all-state data, search, comparison, MPLADS and affidavit sections |
-| **P3 – AI + actions** | T+20 → T+27 | summary and draft letter, with fallbacks |
+| **P3 – AI + actions** | T+20 → T+27 | summary, with fallbacks |
 | **P4 – Polish + hardening** | T+27 → T+32 | UX, empty states, mobile, disclaimers, performance, QA |
 | **P5 – Demo prep** | T+32 → T+35 | deck, rehearsals, backup recording, final deploy freeze |
 | **Submission buffer** | last 60 min | no new features, only fixes and submission |
@@ -147,9 +149,6 @@ Each task has an ID, an owner, a dependency, and acceptance criteria (AC). Keep 
 | P3-2 | Template-based fallback summary (no LLM) | AI/Backend | P3-1 | Auto-used on timeout, error, or a missing key; indistinguishable in layout |
 | P3-3 | Cache summaries (pre-generate for all MPs at build time, or on-demand with disk/KV cache) | AI/Backend | P3-1 | Repeat calls are instant; the demo MPs are pre-warmed |
 | P3-4 | "Explain simply" UI: loading state, error state, language toggle (English / Hinglish) | Frontend | P3-1 | Doesn't shift the layout; the Hinglish output is checked by a native speaker |
-| P3-5 | Draft-letter prompt + `/api/draft` (letter/question to the MP, editable) | AI/Backend | P3-1 | References the MP's real numbers factually, polite tone, no accusations |
-| P3-6 | Draft UI: editable textarea, copy button, "open in mail" link, and a note to review before sending | Frontend | P3-5 | Works on mobile; copy gives user feedback |
-| P3-7 | Rate limiting and basic abuse protection on the API routes (per-IP, small payload cap) | AI/Backend | P3-1 | Cannot be used as a free general-purpose LLM proxy |
 
 ### P4 – Polish and hardening (T+27 → T+32)
 
@@ -212,7 +211,6 @@ Code merged, builds and lints pass, acceptance criteria verified by someone else
 | `/compare?a=&b=` | page (stretch) | side-by-side comparison |
 | `/about` | page | methodology, sources, disclaimers |
 | `/api/summary` | POST | `{ slug }` → `{ text, source: "llm" \| "template" }` |
-| `/api/draft` | POST | `{ slug, intent, lang }` → `{ text }` |
 | `/api/search-index` | GET/static | lightweight index for client search |
 
 ### Display rules
@@ -228,9 +226,6 @@ Code merged, builds and lints pass, acceptance criteria verified by someone else
 - **System:** "You summarise public parliamentary data for citizens. Use only the JSON provided. Do not add facts, opinions, or comparisons not in the data. Neutral tone. Do not rank or judge. Do not use the words 'criminal' for an MP; refer to 'declared cases in the election affidavit'. If a field is null, say it is not available. 3–4 short sentences. Output language: {lang}."
 - **User:** the structured MP object plus the state/national averages and the as-of dates.
 - **Parameters:** low temperature, a token cap, and a hard timeout (about 8 s) before the template fallback fires.
-
-### Draft-letter prompt (outline)
-- Respectful, factual, specific to one issue the citizen chooses (for example "ask about local MPLADS works"). It cites only provided numbers, includes placeholders for the citizen's name and locality, and contains no accusations or political language.
 
 ### Guardrails (verified in P3 and P4)
 - **Grounding test:** every number in the output must appear in the input JSON. Add a simple post-check (regex numbers vs input) and fall back to the template on mismatch.
@@ -258,7 +253,6 @@ Code merged, builds and lints pass, acceptance criteria verified by someone else
 | 0:15–0:45 | Search a constituency someone in the room knows, and the card opens |
 | 0:45–1:10 | Walk through the metrics, the comparison bars and the MPLADS section |
 | 1:10–1:30 | Click "Explain simply" (switch to Hinglish) |
-| 1:30–1:50 | Click "Draft a question to my MP" |
 | 1:50–2:00 | Close: sources, neutrality, what scales next |
 
 ### Likely judge questions (prepare answers)
@@ -296,7 +290,6 @@ Cut from the top first. Never cut the last three.
 1. Compare page, Hindi UI, subject-wise questions, pincode lookup
 2. OG images and SEO extras
 3. Affidavit section (keep it only if verified and time allows)
-4. Draft-letter generator
 5. State averages (keep national only)
 6. AI summary (keep the template summary)
 7. **Never cut:** accurate performance data, source/date labels, a deployed, working card page with search.

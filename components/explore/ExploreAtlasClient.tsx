@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
@@ -17,6 +18,8 @@ interface ExploreAtlasClientProps {
 
 export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) => {
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
+  const router = useRouter();
+  const openStateMap = (stateId: string) => router.push(`/?state=${stateId}#find-constituency`);
   const t = useMessages(exploreMessages);
   const { lang } = useLang();
   const localizedMps = useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
@@ -91,6 +94,7 @@ export const ExploreAtlasClient: React.FC<ExploreAtlasClientProps> = ({ mps }) =
         mps={localizedMps}
         initialStateId={selectedStateId || undefined}
         initialConstituencySlug={selectedSlug}
+        onOpenStateMap={openStateMap}
         className="w-full h-[680px]"
       />
     </div>

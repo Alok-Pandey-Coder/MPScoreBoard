@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { MPRecord } from '@/types/mp';
+import { StateMapExplorer } from '@/components/map/StateMapExplorer';
+import { REAL_INDIA_STATES } from '@/lib/realIndiaMapData';
 import { NagrikTerritoryBar } from '@/components/home/NagrikTerritoryBar';
-import { NagrikStateCardsGrid } from '@/components/home/NagrikStateCardsGrid';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
@@ -59,26 +58,13 @@ const SANSAD_VIEWS: Record<SansadViewKey, SansadViewItem> = {
 
 const SLIDE_KEYS: SansadViewKey[] = ['facade', 'chamber', 'panoramic'];
 
-const NagrikStyleMap = dynamic(
-  () => import('@/components/map/NagrikStyleMap').then((mod) => mod.NagrikStyleMap),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-[620px] rounded-2xl bg-stone-100 dark:bg-[#0C1017] border border-stone-200 dark:border-[#1E2636] flex items-center justify-center animate-pulse">
-        <div className="text-stone-500 font-mono text-sm tracking-wide">
-          Loading Geospatial Map Layers...
-        </div>
-      </div>
-    ),
-  }
-);
-
 interface HomeClientProps {
   mps: MPRecord[];
 }
 
 export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
-  const [selectedMapSlug, setSelectedMapSlug] = useState<string>('new-delhi-delhi');
+  const [selectedMapSlug, setSelectedMapSlug] = useState<string | null>(null);
+  const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
@@ -86,6 +72,22 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
   const t = useMessages(homeMessages);
   const { lang } = useLang();
   const localizedMps = useMemo(() => mps.map((mp) => localizeMP(mp, lang)), [mps, lang]);
+
+  // Arriving from another page's atlas (/?state=<id>): open that state's map.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('state');
+    if (!id || !REAL_INDIA_STATES.some((s) => s.id === id)) return;
+    const frame = requestAnimationFrame(() => {
+      setSelectedStateId(id);
+      document.getElementById('find-constituency')?.scrollIntoView();
+      // The param has been consumed. Drop it from this history entry so Back, refresh or a
+      // later "All states" click does not reopen this state; the hash is kept.
+      const url = new URL(window.location.href);
+      url.searchParams.delete('state');
+      window.history.replaceState(window.history.state, '', url);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   // Auto-advance sliding images every 2.8 seconds (2-3s interval)
   useEffect(() => {
@@ -114,9 +116,12 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
   const currentView = SANSAD_VIEWS[currentKey];
 
   const handleSelectGeographicalFeature = (stateId: string, constituencySlug?: string) => {
-    if (constituencySlug) {
-      setSelectedMapSlug(constituencySlug);
-    }
+    setSelectedStateId(stateId);
+    setSelectedMapSlug(constituencySlug ?? null);
+    scrollToStateMap();
+  };
+
+  const scrollToStateMap = () => {
     const mapEl = document.getElementById('find-constituency');
     if (mapEl) {
       mapEl.scrollIntoView({ behavior: 'smooth' });
@@ -228,35 +233,18 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
         {/* Territory Status & Live Metrics Strip */}
         <NagrikTerritoryBar mps={localizedMps} />
 
-        {/* The Master Leaflet Dark GIS Map with 290 Wards */}
-        <NagrikStyleMap
+        <div id="by-state" className="scroll-mt-20" />
+        {/* State-by-state map picker: no map until a state or UT is chosen */}
+        <StateMapExplorer
           mps={localizedMps}
+          selectedStateId={selectedStateId}
+          onSelectState={(id) => {
+            setSelectedStateId(id);
+            setSelectedMapSlug(null);
+          }}
           selectedSlug={selectedMapSlug}
-          onSelectConstituency={(slug) => setSelectedMapSlug(slug)}
+          onSelectConstituency={(slug) => setSelectedMapSlug(slug || null)}
         />
-      </section>
-
-      {/* 3. State Overview Cards Grid */}
-      <section id="by-state" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 scroll-mt-20">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-200 dark:border-[#1E2636]">
-          <div>
-            <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-              {t.statesEyebrow}
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-sans tracking-tight">
-              {t.statesTitle}
-            </h2>
-          </div>
-          <Link
-            href="/explore"
-            className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1.5 self-start sm:self-auto"
-          >
-            <span>{t.openMap}</span>
-            <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-          </Link>
-        </div>
-
-        <NagrikStateCardsGrid mps={localizedMps} />
       </section>
 
       {/* 4. Map of India */}
@@ -272,7 +260,15 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
           </div>
         </div>
 
-        <IndiaAtlasMap mps={localizedMps} className="w-full" />
+        <IndiaAtlasMap
+          mps={localizedMps}
+          className="w-full"
+          onOpenStateMap={(stateId) => {
+            setSelectedStateId(stateId);
+            setSelectedMapSlug(null);
+            scrollToStateMap();
+          }}
+        />
       </section>
 
       {/* 5. Step-by-Step Dropdown Selector */}

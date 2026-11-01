@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home, Printer, Send, FileText } from 'lucide-react';
+import { ChevronRight, Home, Printer, FileText } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
 import { MPHeader } from '@/components/mp/MPHeader';
 import { PerformanceGrid } from '@/components/mp/PerformanceGrid';
@@ -11,7 +11,6 @@ import { MpladsSection } from '@/components/mp/MpladsSection';
 import { MpladsWorksSection } from '@/components/mp/MpladsWorksSection';
 import { AffidavitSection } from '@/components/mp/AffidavitSection';
 import { ExplainSimplyPanel } from '@/components/mp/ExplainSimplyPanel';
-import { TakeActionPanel } from '@/components/mp/TakeActionPanel';
 import { SourcesFooter } from '@/components/mp/SourcesFooter';
 import { Toast } from '@/components/common/Toast';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -108,13 +107,6 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
           <FileText className="w-3 h-3" />
           <span>{t.jumpBriefing}</span>
         </a>
-        <a
-          href="#action"
-          className="px-3 py-1.5 rounded-lg bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-950 font-bold hover:bg-stone-800 dark:hover:bg-white transition-colors shrink-0 flex items-center gap-1.5 shadow-xs"
-        >
-          <Send className="w-3 h-3" />
-          <span>{t.jumpDraft}</span>
-        </a>
       </nav>
 
       {/* 1. Identity Header */}
@@ -150,12 +142,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
         <ExplainSimplyPanel mp={mp} onCopyToast={handleShowToast} />
       </div>
 
-      {/* 7. Take Action: Citizen Draft Generator */}
-      <div id="action" className="scroll-mt-24">
-        <TakeActionPanel mp={mp} onCopyToast={handleShowToast} />
-      </div>
-
-      {/* 8. Sources and Methodology */}
+      {/* 7. Sources and Methodology */}
       <div id="sources" className="scroll-mt-24">
         <SourcesFooter mp={mp} />
       </div>

@@ -1,5 +1,133 @@
 # Project Change Log
 
+## 2026-11-01 — Language consistency fixes (Hindi/English mixing and state order)
+
+- **Summary:**
+  - **Different state order and wrong badges in Hindi (root cause):** `localizeMP` rewrites `mp.state` to Hindi, and several components built a state id by slugifying `mp.state`. On the Hindi site that produced e.g. `दिल्ली`, so Delhi and Goa were not recognised as states with report cards: they lost their first-place sort, showed "coming soon", and Delhi's map received no MPs. Added `lib/stateId.ts` (`stateIdOf`, which reverses Hindi names) and used it in the state cards, state map explorer, search bar and state switcher.
+  - **Compare page was English-only:** the redesigned page no longer used `compareMessages`. Every label, placeholder, aria text, role and toast is now translated; party/term labels follow the language (`localizeMP`); numbers go through `formatNumber`. Removed two hard-coded paragraphs of medians and session counts (attendance 96%, questions 172, 19 sittings, 7,529 questions) that were not derived from the data and described a different MP set; the neutral "not a rank or score" notice replaces them.
+  - **State names:** added Hindi names for the atlas spellings "Jammu & Kashmir", "Andaman & Nicobar (Islands)", "Daman & Diu", "Dadra & Nagar Haveli and Daman & Diu" and "Delhi (NCT)", and localized the state name in the India atlas header and tooltip.
+  - **Other:** state cards no longer show a native-script subtitle (Hindi/Bengali/Kannada/Tamil text under English names); they show State / Union Territory in the page language. Map loading text is translated.
+- **Files or areas changed:** `lib/stateId.ts` (new), `components/compare/CompareClient.tsx`, `lib/messages/compare.ts`, `lib/messages/map.ts`, `lib/i18n/localizeData.ts`, `components/home/NagrikStateCardsGrid.tsx`, `components/home/UnifiedSearchBar.tsx`, `components/map/StateMapExplorer.tsx`, `components/map/IndiaAtlasMap.tsx`, `components/state/StateSwitcher.tsx`, `__tests__/i18n-state-ids.test.ts` and `__tests__/helpers/mps.ts` (new)
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 650 passed; eslint 0 errors. New tests check state ids match across languages and that every atlas/state-page state has a Hindi name. Not clicked through in a browser in Hindi.
+- **Remaining caveat or next step:** MP names, constituency names and the Delhi ward-map seat names are shown as published in both languages (PRD 5.6), so they stay in English on Hindi pages by design. Source names such as "Election Commission of India" on the About page are proper nouns left as is.
+
+## 2026-11-01 — State switcher no longer stacks history entries
+
+- **Summary:** Choosing a state in the switcher on `/state/<id>` pushed a new history entry each time, so after hopping between states the browser Back button walked back through each visited state (e.g. returning to `/state/goa`) instead of leaving the state pages. State-to-state moves now use `replace`, so Back returns to the page the user came from before the state pages. "All states" still navigates normally.
+- **Files or areas changed:** `components/state/StateSwitcher.tsx`
+- **Validation performed:** `npx tsc --noEmit`, eslint (see session). Not re-tested in a browser.
+- **Remaining caveat or next step:** History entries created before this change are unaffected.
+
+## 2026-11-01 — Fix: Back button kept reopening /?state=goa
+
+- **Summary:** Cause: the atlas on `/explore` and `/state/<id>` sends users to `/?state=<id>#find-constituency`, and the home page opened that state on every load of that URL. The param was never removed, so each history entry kept it; later in-page `#` links (e.g. "Browse by state" -> `#by-state`) added more entries, and pressing Back landed on `/?state=goa...` and reopened Goa every time, as did a refresh. The home page now removes `state` from the current history entry (`history.replaceState`, hash kept) as soon as it has opened that state.
+- **Files or areas changed:** `components/home/HomeClient.tsx`
+- **Validation performed:** `npx tsc --noEmit` clean; eslint 0 errors. Not re-tested in a browser.
+- **Remaining caveat or next step:** Entries visited before this fix still have `?state=goa` in history until replaced; a hard refresh on `/` clears it.
+
+## 2026-11-01 — Landmark icons for every state card (open-source, MIT)
+
+- **Summary:** Each of the 36 state/UT cards now shows an outline landmark icon instead of a generic building: India Gate (Delhi), Taj Mahal (Uttar Pradesh), gopuram (Tamil Nadu), gurdwara (Punjab), stupa (Madhya Pradesh), minaret (Telangana), rhino (Assam), lighthouse (Puducherry) and so on; where the set has no specific monument a thematic icon is used (palace, waterfall, island). Icons come from IconOven and Hugeicons (both MIT, same 24px outline style) via the Iconify API, which allows automated access; `scripts/12_fetch_state_icons.py` fetches them with the polite fetcher and writes `public/icons/states/<id>.svg` plus `data/processed/state_icons.json` (icon id, label, source URL, licence, author, date). Icons are drawn as CSS masks so they follow the light/dark text colour. A real photo in `state_images.json` (if added later) takes priority over the icon. The About page credits the icon sets.
+- **Files or areas changed:** `scripts/12_fetch_state_icons.py` (new), `data/processed/state_icons.json` (new), `public/icons/states/*.svg` (36 new), `lib/stateImages.ts`, `components/home/NagrikStateCardsGrid.tsx`, `app/about/AboutContent.tsx`, `lib/messages/about.ts`, `__tests__/state-images.test.ts`, `data.md`
+- **Validation performed:** all 36 state ids covered; contact sheet of the icons checked by eye; tsc, jest, eslint (see session). Not checked in the live page.
+- **Remaining caveat or next step:** These are stylised icons, not photographs; some stand for a theme rather than a named monument. Real photos can still be added through `state_images.json`.
+
+## 2026-11-01 — State card monument/emblem pictures: support added, pictures not yet sourced
+
+- **Summary:** State cards can now show a real monument or emblem picture (e.g. India Gate for Delhi) instead of the generic icon. Pictures are listed in `data/processed/state_images.json` (file, subject, source URL, licence, author, retrieval date); a state without an entry keeps its icon. The About page lists credits for any pictures added. A test checks every entry has a real file and full provenance. No pictures have been added yet.
+- **Why none yet:** Wikipedia and Wikimedia Commons disallow automated access in robots.txt (and the project rules forbid bypassing it). Official sources probed on 2026-11-01: `india.gov.in` and `pib.gov.in` returned 403, `knowindia.india.gov.in` did not resolve, and Incredible India disallows its image directory (and its photos are copyrighted). `asi.nic.in` allows crawling but no per-state images with clear licences were identified.
+- **Files or areas changed:** `data/processed/state_images.json` (new), `lib/stateImages.ts` (new), `components/home/NagrikStateCardsGrid.tsx`, `app/about/AboutContent.tsx`, `lib/messages/about.ts`, `__tests__/state-images.test.ts` (new), `data.md`
+- **Validation performed:** `npx tsc --noEmit` clean; jest and eslint (see session).
+- **Remaining caveat or next step:** Add pictures: drop licensed files into `public/images/states/<state-id>.jpg` and add their entries to the manifest.
+
+## 2026-11-01 — Find my constituency by pincode or location, per state
+
+- **Summary:** Added a "Find my constituency" box to the region map of each state that has constituency geometry (Delhi and Goa): a 6-digit pincode field (digits only, validated client-side) and a "Use my location" button. A match focuses that seat on the map and opens its MP card. `/api/locate` now takes an optional `state`. Delhi keeps its existing pincode directory and point-in-polygon lookup. Goa location lookup is exact point-in-polygon against `goa_pc.geojson` (no nearest-centre guess; outside the state returns "outside"). Goa pincode lookup is deliberately unavailable: no pincode-to-constituency source is in the repo, so it answers "not available yet" rather than guessing. This re-introduces the location button removed earlier, now scoped to a state and next to the pincode option, at the user's request. Neither input is stored.
+- **Files or areas changed:** `components/map/LocateMySeat.tsx` (new), `lib/state_pc.ts` (new), `lib/data.ts`, `types/location.ts`, `app/api/locate/route.ts`, `app/api/geojson/route.ts`, `components/map/NagrikStyleMap.tsx`, `components/map/StateConstituencyMap.tsx`, `lib/messages/map.ts`
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 621 passed; eslint 0 errors; live `/api/locate` checks: Goa coords in Panaji → North Goa, Margao → South Goa, Delhi coords with state=goa → outside, Goa pincode → unsupported, Delhi pincode 110001 → New Delhi, unknown pincode → not found, Delhi coords → New Delhi. Not checked in a browser.
+- **Remaining caveat or next step:** Goa pincode lookup needs an authoritative pincode-to-constituency (or pincode-to-taluka) source. States without constituency geometry show no lookup box. The Delhi pincode table's provenance is not documented in `data.md`.
+
+## 2026-11-01 — State switcher on the state page
+
+- **Summary:** Added a Nagrik-style dropdown at the top of `/state/<id>` to move between states and union territories without going back to the atlas. It lists "All states (India)" then every state (those with report cards first, tagged "Live"), marks the current one, and closes on outside click or Escape. English and Hindi labels.
+- **Files or areas changed:** `components/state/StateSwitcher.tsx` (new), `components/state/StateExplorationClient.tsx`, `lib/messages/state.ts`
+- **Validation performed:** see session (tsc, jest, eslint). Not checked in a browser.
+- **Remaining caveat or next step:** Not keyboard-arrow navigable; items are links reachable by Tab.
+
+## 2026-11-01 — Atlas on Explore and state pages now opens the region map
+
+- **Summary:** The India atlas on `/explore` and `/state/<id>` only zoomed in place, so clicking a state there did not take the user to the region map. It now navigates to `/?state=<id>#find-constituency`; the home page reads `state` on load, opens that state's map and scrolls to it. Unknown ids are ignored.
+- **Files or areas changed:** `components/home/HomeClient.tsx`, `components/explore/ExploreAtlasClient.tsx`, `components/state/StateExplorationClient.tsx`
+- **Validation performed:** `npx tsc --noEmit`, `npx jest`, eslint 0 errors. Not checked in a browser.
+- **Remaining caveat or next step:** The "Use my location" button was removed from the region map earlier at the user's request; it is not restored.
+
+## 2026-11-01 — India atlas opens the selected state's own map
+
+- **Summary:** On the home page, clicking any state or UT on the "Map of India" atlas (shape, number badge or Delhi pill) now selects that state in the "Find your MP" section and scrolls to it, where Delhi shows its ward map, Goa its constituency map, and other states their outline and MPs. The atlas on the Explore and state pages keeps its zoom behaviour (new optional `onOpenStateMap` prop). Tooltip and hint text updated (English and Hindi).
+- **Files or areas changed:** `components/map/IndiaAtlasMap.tsx`, `components/home/HomeClient.tsx`, `lib/messages/map.ts`
+- **Validation performed:** `npx tsc --noEmit`, `npx jest`, eslint (see session). Not checked in a browser.
+- **Remaining caveat or next step:** The atlas's region pills still filter regions; only the Delhi pill opens a state map.
+
+## 2026-11-01 — Automated MP portrait fetch (Goa portraits added)
+
+- **Summary:** Added `scripts/11_fetch_portraits.py`, which downloads each MP's official Lok Sabha portrait from Digital Sansad (`.../mpimage/photo/<mpsno>.jpg`, the same source as the Delhi portraits) using the polite fetcher (robots.txt, crawl delay, stop on 401/403/429), checks the response is a plausible JPEG, saves it to `public/images/mps/<slug>.jpg`, and writes a dated `mp_portraits.<state>.<date>.json` capture that `06_merge.py` merges into `mps.json` as `image_url` + `image_source`. Reruns keep existing portraits unless `--force`; an MP with no fetchable portrait keeps no image and the UI shows initials. Ran it for Goa (North Goa and South Goa) and rebuilt the data; the existing profile header, search, compare and map panels show the photo with no UI change.
+- **Files or areas changed:** `scripts/11_fetch_portraits.py` (new), `data/raw/mp_portraits.goa.2026-11-01.json` (new), `public/images/mps/north-goa-goa.jpg`, `south-goa-goa.jpg` (new), `data/processed/mps.json`, `data/processed/snapshot.json`, `data.md`
+- **Validation performed:** `python scripts/build_data.py` completed (merge, validate, snapshot); both Goa records carry image_url and image_source with source URL and retrieval date; images checked by eye.
+- **Remaining caveat or next step:** Reuse terms for Sansad portraits are still unconfirmed (PRD open question 2) — confirm before wider publication. Image fetching is a separate step and is not part of `build_data.py` (it needs network).
+
+## 2026-11-01 — Citizen Action (draft official communication) feature removed
+
+- **Summary:** Removed the "Citizen Action: Draft Official Communication" panel from every MP report card, along with the "Draft Letter" jump link, the `/api/draft` route, the draft generator, the draft LLM prompt, all draft UI strings (English and Hindi), the About-page sentence about message drafts, and the tests that covered drafts. The plain-language summary ("Explain simply") and `/api/summary` are unchanged.
+- **Files or areas changed:** deleted `components/mp/TakeActionPanel.tsx`, `lib/ai/draft.ts`, `app/api/draft/route.ts`; edited `components/mp/MPReportCardClient.tsx`, `components/home/HomeClient.tsx`, `lib/messages/card.ts`, `lib/messages/about.ts`, `app/about/AboutContent.tsx`, `lib/ai/prompts.ts`, `__tests__/i18n-card.test.ts`, `__tests__/ui-contract.test.ts`, `docs/plan.md`
+- **Validation performed:** `npx tsc --noEmit` clean after clearing stale generated types in `.next`; `npx jest` all passing; eslint 0 errors.
+- **Remaining caveat or next step:** `PRD.md` and `PlanV2.md` are earlier planning documents and still describe the draft feature (left as history); `docs/plan.md` carries a scope-change note.
+
+## 2026-11-01 — Goa map rebuilt on Leaflet to match the Delhi map
+
+- **Summary:** Replaced the bare SVG Goa map with a Leaflet map using the same Esri light/dark basemap, scale bar, attribution, sticky hover tooltips, in-map seat labels, hover info card, light/dark live switching, fit-to-state framing, zoom-to-seat on selection, a reset-view control, and an MP card with photo. Goa's map is client-only (dynamic import, no SSR) like Delhi's.
+- **Files or areas changed:** `components/map/StateConstituencyMap.tsx`, `components/map/StateMapExplorer.tsx`, `components/home/HomeClient.tsx`, `lib/messages/map.ts`
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 675 passed; eslint 0 errors. Not checked in a browser.
+- **Remaining caveat or next step:** No ward-level layer for Goa (no ward data); no seat search box since there are only two seats.
+
+## 2026-11-01 — Goa data check and real Goa constituency map
+
+- **Summary:**
+  - Reviewed both Goa MP records (`north-goa-goa`, `south-goa-goa`) against `mps.json`, `validation_report.md` and the source URLs: identity, PRS profile/performance and ADR affidavit blocks are present with source URL and retrieval date; MPLADS and 2024 election results are `pending` (null, not zero); the North Goa MP is a minister so performance is `not_applicable`; the one declared criminal case (South Goa) is carried as a case, not a conviction.
+  - The Goa map was a coarse national-atlas outline. Built `data/processed/goa_pc.geojson` from the cached DataMeet capture (North Goa 61 points, South Goa 77) with slugs equal to the MP slugs, and added an SVG constituency map (`StateConstituencyMap`) that colours each seat, shows the MP card, and links to the report card.
+  - `/api/geojson` now accepts `?state=goa`.
+- **Files or areas changed:** `scripts/build_state_pc_geojson.py` (new), `data/processed/goa_pc.geojson` (new), `app/api/geojson/route.ts`, `components/map/StateConstituencyMap.tsx` (new), `components/map/StateMapExplorer.tsx`, `lib/messages/map.ts`, `data.md`
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 673 passed; eslint 0 errors. Not checked in a browser.
+- **Remaining caveat or next step:** Boundaries are the 2019 simplified DataMeet polygons (coarse, not an official ECI source); the PRS education value ("Graduate") differs from Digital Sansad ("Post Graduate") for South Goa and is noted in the record; ECI 2024 results for Goa still return 404.
+
+## 2026-11-01 — State picker cards restyled and paginated
+
+- **Summary:** State cards now use a two-column layout with a large outline icon, bold name, regional name, a divider with seat count and report-card status, an arrow, and a three-tab footer (Constituencies / MPs / About the data). The picker shows six cards per page with Previous/Next controls; paging resets on search.
+- **Files or areas changed:** `components/home/NagrikStateCardsGrid.tsx`, `lib/messages/home.ts`
+- **Validation performed:** `npx tsc --noEmit`, `npx jest`, eslint (results in the session reply). Not checked in a browser.
+- **Remaining caveat or next step:** Reference design shows a "value tendered" figure; we show seats and report-card status instead, as no equivalent figure applies here.
+
+## 2026-11-01 — Find Your MP: state picker reuses the state-card design
+
+- **Summary:** The state picker now uses the "Browse by state" card design (icon, name, regional name, seats, report-card badge, Constituencies · MPs · About links) for all states and UTs; clicking a card or "Constituencies" opens that state's map. The separate "Browse by state" section was removed as a duplicate (its `#by-state` anchor now points at the picker, and its "Open the map" link to `/explore` was dropped).
+- **Files or areas changed:** `components/home/NagrikStateCardsGrid.tsx`, `components/map/StateMapExplorer.tsx`, `components/home/HomeClient.tsx`
+- **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 666 passed; eslint 0 errors. Not checked in a browser.
+- **Remaining caveat or next step:** Regional-language names exist only for the six originally featured states.
+
+## 2026-11-01 — Find Your MP: state-by-state map picker, default Delhi map and geolocation removed
+
+- **Summary:**
+  - The "Find your MP" section no longer opens on a default Delhi map. It now shows a searchable list of states and UTs; picking one opens that state's own view, and an "All states" button returns to the list.
+  - Delhi opens the existing ward/constituency Leaflet map with no seat preselected. Other states show their outline, seat count and any sitting MPs already published (e.g. Goa), or a "coming soon" note when none exist. Constituency boundaries for non-Delhi states are not yet shipped.
+  - Removed the "Auto-Detect My Seat" geolocation button and its client code. The `/api/locate` route is now unused by the UI and was left in place.
+  - Hero search now selects the matching state and seat in the picker.
+- **Files or areas changed:**
+  - `components/map/StateMapExplorer.tsx` (new), `components/map/NagrikStyleMap.tsx`, `components/home/HomeClient.tsx`, `lib/messages/map.ts`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 errors. `npx jest`: 666 passed (1 skipped). `npx eslint`: 0 errors.
+  - Not checked in a browser yet.
+- **Remaining caveat or next step:**
+  - Add per-state constituency boundary data so more states get a detailed map; decide whether to delete `/api/locate`.
+
 ## 2026-11-01 — Goa 2024 Lok Sabha MP Election Affidavit Ingestion (branch feat/goa-mps)
 
 - **Summary:**

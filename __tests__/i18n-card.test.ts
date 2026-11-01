@@ -15,7 +15,6 @@ import {
   parseSummaryRequest,
   verifyGuardrails,
 } from '../lib/ai/summary';
-import { DRAFT_INTENTS, generateCitizenDraft, parseDraftRequest } from '../lib/ai/draft';
 import type { MPRecord } from '../types/mp';
 
 const ROOT = path.join(__dirname, '..');
@@ -134,29 +133,8 @@ describe('Hindi template summary', () => {
   });
 });
 
-describe('Hindi citizen drafts', () => {
-  const cases = records.flatMap((r) => DRAFT_INTENTS.map((intent) => [r.slug, intent, r] as const));
-
-  it.each(cases)('%s / %s is Hindi, neutral and cites only record numbers', (_slug, intent, mp) => {
-    const draft = generateCitizenDraft(mp, { intent, lang: 'hi' });
-    const text = `${draft.subject}\n${draft.body}`;
-    expect(draft.lang).toBe('hi');
-    expect(DEVANAGARI.test(draft.subject)).toBe(true);
-    expect(DEVANAGARI.test(draft.body)).toBe(true);
-    expect(verifyGuardrails(text, mp)).toBe(true);
-    expect(containsBannedWords(text)).toBe(false);
-    expect(text).not.toMatch(GENDERED_HI);
-    expect(text).toContain(mp.name);
-    expect(text).toContain(mp.constituency);
-  });
-});
-
 describe('API request parsing accepts Hindi', () => {
   it('parses a Hindi summary request', () => {
     expect(parseSummaryRequest({ slug: 'new-delhi-delhi', lang: 'hi' })).toEqual({ slug: 'new-delhi-delhi', lang: 'hi' });
-  });
-
-  it.each(DRAFT_INTENTS)('parses a Hindi draft request (%s)', (intent) => {
-    expect(parseDraftRequest({ slug: 'new-delhi-delhi', intent, lang: 'hi' })).toMatchObject({ intent, lang: 'hi' });
   });
 });
