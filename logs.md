@@ -1301,3 +1301,11 @@ This file records key data changes, pipeline updates, schema modifications, and 
 - **Files or areas changed:** `lib/stateId.ts` (new), `components/compare/CompareClient.tsx`, `lib/messages/compare.ts`, `lib/messages/map.ts`, `lib/i18n/localizeData.ts`, `components/home/NagrikStateCardsGrid.tsx`, `components/home/UnifiedSearchBar.tsx`, `components/map/StateMapExplorer.tsx`, `components/map/IndiaAtlasMap.tsx`, `components/state/StateSwitcher.tsx`, `__tests__/i18n-state-ids.test.ts` and `__tests__/helpers/mps.ts` (new)
 - **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 650 passed; eslint 0 errors. New tests check state ids match across languages and that every atlas/state-page state has a Hindi name. Not clicked through in a browser in Hindi.
 - **Remaining caveat or next step:** MP names, constituency names and the Delhi ward-map seat names are shown as published in both languages (PRD 5.6), so they stay in English on Hindi pages by design. Source names such as "Election Commission of India" on the About page are proper nouns left as is.
+
+## 2026-11-01 — README: live URL added and content refreshed (structure unchanged)
+
+- **Summary:** Added the deployed app (https://mp-score-board.vercel.app/) to the badge, Live Demo table, summary, How to Use, scalability row and tech stack. Updated the text to match the current product (state card picker, region maps, pincode/location lookup, Goa map, state switcher, Chat with AI, bilingual consistency), corrected the test stack (Jest, 670+ tests), the pipeline script names, the Goa boundary source (DataMeet 2019, CC BY 4.0), the processed-file names, and added portrait and icon sources. All section headings and their order are unchanged apart from the renamed section 2 title.
+- **Files or areas changed:** `README.md`, `logs.md`
+- **Validation performed:** Read-through of every changed line against the repository (script names, file names, package scripts, component folders).
+- **Remaining caveat or next step:** The screenshots are still placeholders; the demo video URL is still `<add video URL>`.
+

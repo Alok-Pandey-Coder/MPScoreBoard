@@ -2,10 +2,10 @@
 
 > **Know your representative. Track every rupee. Hold power accountable.**
 
-[![Status](https://img.shields.io/badge/Status-Live%20Pilot-22c55e?style=flat-square)](#-live-demo)
+[![Status](https://img.shields.io/badge/Status-Live%20Pilot-22c55e?style=flat-square)](https://mp-score-board.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/Tests-668%20Passing-22c55e?style=flat-square)](./__tests__)
+[![Tests](https://img.shields.io/badge/Tests-670%2B%20Automated-22c55e?style=flat-square)](./__tests__)
 [![License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)](./LICENSE)
 [![Data](https://img.shields.io/badge/Data-Open%20%26%20Sourced-6366f1?style=flat-square)](./data.md)
 
@@ -19,23 +19,23 @@
 
 | | |
 |---|---|
-| 🌐 **Live app** | `<add deployed URL>` |
+| 🌐 **Live app** | [https://mp-score-board.vercel.app/](https://mp-score-board.vercel.app/) |
 | 🎬 **Demo video** | `<add video URL>` |
 | 💻 **Source** | https://github.com/Alok-Pandey-Coder/MPScoreBoard |
 
-<!-- Add 2–3 screenshots here: homepage, Delhi map with GPS detect, an MP dossier -->
+<!-- Add 2–3 screenshots here: homepage state picker, Delhi map with pincode / location lookup, an MP dossier -->
 
 ---
 
 ## ⚡ In 30 Seconds
 
-**Mera MP** gives any Indian citizen a **60-second, source-backed dossier** on their Lok Sabha MP: attendance, questions, debates, MPLADS spending, declared assets, and declared criminal cases. Every figure links to its official government source. There are **no scores, no rankings and no editorial spin.**
+**Mera MP** ([live at mp-score-board.vercel.app](https://mp-score-board.vercel.app/)) gives any Indian citizen a **60-second, source-backed dossier** on their Lok Sabha MP: attendance, questions, debates, MPLADS spending, declared assets, and declared criminal cases. Pick your state, find your constituency on its map, and open the report card. Every figure links to its official source. There are **no scores, no rankings and no editorial spin.**
 
 | | |
 |---|---|
-| **Delhi** | 7 / 7 MPs audited, interactive ward-level map, GPS "Find my MP" |
-| **Goa** | 2 / 2 MPs audited, proving the pipeline works across states |
-| **Quality** | 668 automated tests, 7-step idempotent data pipeline |
+| **Delhi** | 7 / 7 MPs audited, interactive ward-level map, "Find my constituency" by pincode or location |
+| **Goa** | 2 / 2 MPs audited, its own constituency map and location lookup, proving the pipeline works across states |
+| **Quality** | 670+ automated tests, 7-step idempotent data pipeline |
 | **Access** | Bilingual (English / हिन्दी), mobile-first, WCAG 2.2 AA-oriented |
 
 ---
@@ -60,23 +60,23 @@
 - **MPLADS:** constituency development fund allocation and spend
 - **Provenance:** every figure carries its **source link and retrieval date**
 
-### 2. 🗺️ Hyperlocal Delhi Map and GPS Auto-Detect
-- Interactive map of Delhi's municipal wards and 7 Lok Sabha constituencies (Leaflet + ESRI tiles)
-- **One tap on "Auto-Detect My Seat":** browser geolocation → constituency → MP card
-- Click any ward to see its constituency and open the MP card
+### 2. 🗺️ State-by-State Region Maps and Find My Constituency
+- **No default map.** Choose any of the 36 states and union territories from a card picker (six per page, with a landmark icon for each); the India atlas, Explore page and state pages open the same region map, and a state switcher on every state page moves you between states
+- **Delhi:** interactive map of municipal wards and 7 Lok Sabha constituencies (Leaflet + ESRI tiles); click any ward to see its constituency and open the MP card
+- **Find my constituency:** type a **6-digit pincode** (Delhi) or tap **Use my location**; the match is focused on the map and opens the MP card. Your pincode or location is used only for the lookup and is not stored
 - Colour-coded constituencies, seat badges, touch targets of at least 44×44 px
 
 ### 3. 🏖️ Multi-State Proof: Goa
-The same GIS and data architecture was extended to North Goa and South Goa with no code redesign, which shows the platform scales state by state.
+The same GIS and data architecture was extended to North Goa and South Goa with no code redesign: real constituency boundaries on the same Esri basemap as Delhi, exact point-in-polygon location lookup, official MP portraits, and report cards for both seats. This shows the platform scales state by state. (Pincode lookup for Goa is not available yet because no authoritative pincode-to-constituency source is cleared.)
 
 ### 4. 🔗 Multi-Source Data Unification Pipeline
 Combines 6+ official and open-licensed sources into one validated dataset with cross-source checks (for example, Sansad vs PRS attendance must agree within ±2 percentage points). Details below.
 
 ### 5. 🤖 Constrained AI Summary
-A Gemini-generated plain-language summary per MP. The model receives **only the structured fields already in the record**, and the prompt forbids inference beyond them. Summaries are labelled as AI-generated and sit next to the underlying sources.
+A Gemini-generated plain-language summary per MP. The model receives **only the structured fields already in the record**, and the prompt forbids inference beyond them. Every number is checked against the record, and a fixed template replaces the summary if a check fails. Summaries are labelled as AI-generated and sit next to the underlying sources. A separate **Chat with AI** assistant answers questions from the same retrieved records.
 
 ### 6. 🌐 Bilingual Interface
-Full English and Hindi UI with a font stack tuned for Devanagari on mobile.
+Full English and Hindi UI with a font stack tuned for Devanagari on mobile. State names, labels, the Compare page and the state list order are identical in both languages; MP and constituency names are shown as published.
 
 ---
 
@@ -105,12 +105,12 @@ fetch raw → parse → normalize → merge → validate → export → serve
 
 | Step | What happens | Where |
 |---|---|---|
-| 1. Fetch | Pull from Sansad, PRS, ECI, MPLADS. Store immutable captures with source URL and date | `scripts/fetch_*.py` → `data/raw/` |
-| 2. Parse | Extract fields from JSON, HTML and PDF | `scripts/parse_*.py` |
-| 3. Normalize | Standardise MP names, constituency slugs, party names, number formats | `scripts/normalize.py` |
-| 4. Merge | Join on `(state, constituency_slug)`; names used only as secondary confirmation | `scripts/merge.py` |
-| 5. Validate | Cross-source invariants, null-vs-zero audit, minister N/A check, criminal-label audit | `scripts/validate.py` |
-| 6. Export | Write `mps.json` and constituency GeoJSON | `scripts/export.py` → `data/processed/` |
+| 1. Fetch | Pull from Sansad, PRS, ECI, MPLADS, plus official portraits. Store immutable captures with source URL and date | `scripts/01_*`, `02_*`, `10_*`, `11_fetch_portraits.py` → `data/raw/` |
+| 2. Parse | Extract fields from JSON, HTML and PDF | `scripts/03_parse_prs.py` |
+| 3. Normalize | Standardise MP names, constituency slugs, party names, number formats | `scripts/05_normalise.py` |
+| 4. Merge | Join on `(state, constituency_slug)`; names used only as secondary confirmation | `scripts/06_merge.py` |
+| 5. Validate | Cross-source invariants, null-vs-zero audit, minister N/A check, criminal-label audit | `scripts/07_validate.py` |
+| 6. Export | Write `mps.json`, the snapshot and constituency GeoJSON | `scripts/08_snapshot.py`, `build_state_pc_geojson.py` → `data/processed/` |
 | 7. Serve | Next.js API routes and React components | `app/api/`, `components/` |
 
 The pipeline is **idempotent** and **database-optional**. By default it runs from a flat JSON snapshot, with optional YugabyteDB/PostgreSQL.
@@ -126,9 +126,10 @@ The pipeline is **idempotent** and **database-optional**. By default it runs fro
 | [ECI Form 26 Affidavits](https://affidavit.eci.gov.in) | Assets, liabilities, declared cases | Public record |
 | [ADR / MyNeta](https://myneta.info) | Affidavit **discovery only**; figures published from ECI primary source | Discovery only |
 | [MPLADS Portal](https://mplads.gov.in) | Fund allocation and expenditure | Government open data |
-| [DataMeet](https://datameet.org) | Delhi PC and ward boundaries | CC BY 4.0 |
-| Goa PC boundary | North / South Goa polygons (from delimitation order) | Public domain |
+| [DataMeet](https://datameet.org) | Delhi and Goa parliamentary constituency boundaries (2019) | CC BY 4.0 |
 | [ECI Delimitation Orders](https://eci.gov.in) | Ward/segment → constituency mapping | Public domain |
+| Digital Sansad portraits | Official MP portraits shown on report cards | Reuse terms not yet confirmed |
+| [IconOven](https://iconoven.com/icons) / [Hugeicons](https://hugeicons.com) via [Iconify](https://iconify.design) | Landmark icons on state cards | MIT |
 | ESRI / OpenStreetMap | Basemap tiles | Per provider terms |
 
 ---
@@ -141,18 +142,18 @@ The pipeline is **idempotent** and **database-optional**. By default it runs fro
 | Maps / GIS | Leaflet 1.9 + ESRI tiles, custom Python GeoJSON processing |
 | Data pipeline | Python 3 scripts, flat-JSON snapshot, optional YugabyteDB / PostgreSQL |
 | AI | Gemini API (input-constrained summaries) |
-| Testing | Vitest + Testing Library (668 tests, 10 suites) |
-| Deployment | Vercel / Node.js |
+| Testing | Jest (670+ tests) and pytest for the data pipeline |
+| Deployment | Vercel ([live app](https://mp-score-board.vercel.app/)) / Node.js |
 
 ---
 
 ## 📱 How to Use
 
-1. **Open the homepage** and pick **Delhi** or **Goa**.
-2. **Find your seat.** Tap **⚡ Auto-Detect My Seat** (allow location), or click any ward or constituency on the map.
+1. **Open the [live app](https://mp-score-board.vercel.app/)** and pick a state or union territory from the cards (**Delhi** and **Goa** have report cards), or click a state on the India map.
+2. **Find your seat.** Enter your **6-digit pincode** (Delhi) or tap **Use my location**, or click any ward or constituency on the map.
 3. **Open the MP card** in the sidebar, then **View Full Dossier**.
 4. **Verify anything.** Click the 🔗 icon beside any figure to open the original government source, with its retrieval date.
-5. **Compare MPs** in the Directory on the state page. Raw numbers only, no ranking.
+5. **Compare MPs** on the Compare page, and **switch state** from the dropdown on any state page. Raw numbers only, no ranking.
 
 > ℹ️ For ministers, attendance, questions and debates show **"Not Applicable"**, never zero.
 
@@ -166,7 +167,7 @@ The pipeline is **idempotent** and **database-optional**. By default it runs fro
 git clone https://github.com/Alok-Pandey-Coder/MPScoreBoard.git
 cd MPScoreBoard
 npm ci
-npm run dev        # → http://localhost:3000
+npm run dev        # → http://localhost:3000  (or use the live app above)
 ```
 
 No database or Docker is required. The app reads `data/processed/mps.json` by default.
@@ -217,11 +218,11 @@ npm run data:refresh    # fetch sources and rebuild (network)
 
 | Criterion | Our answer |
 |---|---|
-| **Innovation** | A neutral MP report card with an input-constrained AI summariser and GPS-based constituency detection. |
+| **Innovation** | A neutral MP report card with an input-constrained AI summariser and pincode / location-based constituency lookup. |
 | **Impact** | Helps first-time and non-technical voters find and verify their MP in seconds. Delhi alone has over 14M voters. |
-| **Technical depth** | 7-step idempotent pipeline, cross-source validation, 668 tests, GIS with hundreds of polygons. |
+| **Technical depth** | 7-step idempotent pipeline, cross-source validation, 670+ tests, GIS with hundreds of polygons. |
 | **Social value** | Strict neutrality rules, bilingual, accessible, and no scores or rankings that could mislead. |
-| **Scalability** | Proven on 2 states with no redesign, and architected for all 543 seats. |
+| **Scalability** | Proven on 2 states with no redesign and deployed at [mp-score-board.vercel.app](https://mp-score-board.vercel.app/); architected for all 543 seats. |
 | **Data quality** | Every fact has a primary-source URL and retrieval date. |
 
 ---
@@ -231,16 +232,16 @@ npm run data:refresh    # fetch sources and rebuild (network)
 ```
 MPScoreBoard/
 ├── app/            # Next.js pages and API routes (mp/[slug], state/[state], api/)
-├── components/     # home/, map/, mp/, state/
+├── components/     # home/, map/, mp/, state/, compare/, chat/
 ├── data/
 │   ├── raw/        # Immutable source captures (never edit)
-│   └── processed/  # mps.json, delhi_wards.json, goa_pc.json
+│   └── processed/  # mps.json, delhi_wards_enriched.geojson, goa_pc.geojson, state_icons.json
 ├── lib/            # Data access and utilities
 ├── scripts/        # Python pipeline
 ├── __tests__/      # Test suites
 ├── docs/           # context.md, plan.md, dataSources.md
 ├── data.md         # Data catalog and dictionary
-├── logs.md         # Append-only changelog
+├── logs.md         # Append-only changelog (newest entry at the bottom)
 └── PRD.md          # Product requirements
 ```
 
