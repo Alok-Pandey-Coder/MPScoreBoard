@@ -1,0 +1,19 @@
+{
+  "source": {
+    "name": "Election Commission of India - 2024 General Election results",
+    "purpose": "Goa (North Goa, South Goa) 2024 winner votes, runner-up and margin",
+    "retrieved_at": "2026-11-01",
+    "fetcher": "scripts/polite_fetch.py (honest User-Agent, robots.txt checked; results.eci.gov.in has no robots.txt, www.eci.gov.in allows all)",
+    "outcome": "not captured",
+    "decision": "Goa election blocks stay 'pending'. No values were taken from memory, news reports or non-official aggregators."
+  },
+  "attempts": [
+    {"url": "https://results.eci.gov.in/PcResultGenJune2024/candidateswise-S051.htm", "result": "HTTP 404 Not Found"},
+    {"url": "https://results.eci.gov.in/PcResultGenJune2024/candidateswise-S052.htm", "result": "HTTP 404 Not Found"},
+    {"url": "https://results.eci.gov.in/PcResultGenJune2024/index.htm", "result": "HTTP 404 Not Found"},
+    {"url": "https://results.eci.gov.in/AcResultGenJune2024/index.htm", "result": "HTTP 404 Not Found (the URL cited by the Delhi election blocks)"},
+    {"url": "https://results.eci.gov.in/", "result": "HTTP 200; meta-refresh to the October 2026 bye-election results, no link to the June 2024 results"},
+    {"url": "https://www.eci.gov.in/statistical-reports", "result": "HTTP 200; JavaScript application shell only, no report links in the HTML"}
+  ],
+  "next_step": "Download the official ECI 2024 Lok Sabha statistical report (constituency-wise detailed results) by hand from eci.gov.in, store it as a dated raw capture, and add a parser; or find a documented, CAPTCHA-free ECI download URL."
+}

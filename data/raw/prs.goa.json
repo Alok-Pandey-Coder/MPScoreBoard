@@ -1,0 +1,16 @@
+{
+  "source": {
+    "name": "PRS Legislative Research MP Track",
+    "url": "https://prsindia.org/mptrack/18th-lok-sabha",
+    "retrieved_at": "2026-11-01",
+    "coverage": "18th Lok Sabha, Goa (2 seats)",
+    "collection_method": "profile page extraction with cached HTML responses (scripts/02_fetch_prs.py --state goa)",
+    "discovery": "Profile URLs taken from the PRS MP Track 18th Lok Sabha directory (data/raw/prs.india.manifest.2026-10-31.json, crawled from https://prsindia.org/mptrack/18-lok-sabha) and confirmed against each fetched page's og:url, State and Constituency fields.",
+    "licence": "CC BY 4.0",
+    "caveat": "Metrics are activity indicators, not quality scores. Ministers are excluded by PRS."
+  },
+  "records": [
+    {"name": "Shripad Yesso Naik", "constituency": "North Goa", "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik", "collection_status": "direct"},
+    {"name": "Viriato Fernandes", "constituency": "South Goa", "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes", "collection_status": "direct"}
+  ]
+}
