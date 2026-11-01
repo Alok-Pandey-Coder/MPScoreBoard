@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { Hammer, ExternalLink } from 'lucide-react';
+import { Hammer, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MPRecord, MpladsWork, MpladsWorkStatus } from '@/types/mp';
 import { formatCroreOrLakh, formatDate, formatNumber, NOT_AVAILABLE_TEXT } from '@/lib/formatters';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -41,6 +41,8 @@ const FILTERS: Array<{ id: StatusFilter; labelKey: 'filterAll' | 'filterComplete
   { id: 'not_completed', labelKey: 'filterNotCompleted' },
 ];
 
+const PAGE_SIZE = 10;
+
 const tileClass =
   'p-3.5 rounded-lg bg-stone-50 dark:bg-[#121A26] border border-stone-200/80 dark:border-[#1E293B]';
 
@@ -63,12 +65,23 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
   );
   const counts = isReported ? mplads?.works_count ?? null : null;
   const [filter, setFilter] = useState<StatusFilter>('all');
+  const [page, setPage] = useState<number>(1);
 
   const filtered = useMemo(() => {
     if (filter === 'completed') return works.filter((w) => w.status === 'completed');
     if (filter === 'not_completed') return works.filter((w) => w.status !== 'completed');
     return works;
   }, [filter, works]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const paginatedWorks = useMemo(() => {
+    const start = (safePage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, safePage]);
+
+  const startIdx = filtered.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1;
+  const endIdx = Math.min(safePage * PAGE_SIZE, filtered.length);
 
   const asOf = mplads?.as_of ? formatDate(mplads.as_of, lang) : null;
   const source = mplads?.source ?? null;
@@ -128,6 +141,7 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
             {countTiles.map((tile) => {
+              const isUnavailable = tile.value === null || tile.value === undefined;
               const text = formatNumber(tile.value, lang);
               return (
                 <div key={tile.label} className={tileClass}>
@@ -136,11 +150,16 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
                   </span>
                   <div
                     className={`font-bold font-mono text-stone-900 dark:text-white mt-1 tabular-nums ${
-                      text === notAvailable ? 'text-sm' : 'text-lg'
+                      isUnavailable ? 'text-sm' : 'text-lg'
                     }`}
                   >
                     {text}
                   </div>
+                  {isUnavailable && tile.label === t.countSanctioned && (
+                    <span className="block text-[10px] font-mono text-stone-400 dark:text-stone-500 mt-0.5">
+                      ({t.sanctionedNoteNotReported})
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -158,7 +177,10 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
                     <button
                       key={f.id}
                       type="button"
-                      onClick={() => setFilter(f.id)}
+                      onClick={() => {
+                        setFilter(f.id);
+                        setPage(1);
+                      }}
                       aria-pressed={filter === f.id}
                       className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                         filter === f.id
@@ -171,86 +193,163 @@ export const MpladsWorksSection: React.FC<MpladsWorksSectionProps> = ({ mp }) =>
                   ))}
                 </div>
                 <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400" aria-live="polite">
-                  {mplads?.works_is_partial
-                    ? t.worksShowingPartial(filtered.length, totalBySource)
-                    : t.worksShowing(filtered.length, works.length)}
+                  {filtered.length === 0
+                    ? null
+                    : mplads?.works_is_partial
+                      ? t.worksShowingWindowPartial(startIdx, endIdx, filtered.length, totalBySource)
+                      : t.worksShowingWindow(startIdx, endIdx, filtered.length)}
                 </p>
               </div>
 
               {filtered.length === 0 ? (
                 <p className="text-sm text-stone-600 dark:text-stone-400 p-4">{t.worksNoMatch}</p>
               ) : (
-                <ul className="space-y-2.5">
-                  {filtered.map((w, idx) => (
-                    <li
-                      key={`${w.work_id}-${idx}`}
-                      className="p-3.5 rounded-lg bg-stone-50/80 dark:bg-[#121A26] border border-stone-200/80 dark:border-[#1E293B] text-xs"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                        <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm break-words min-w-0">
-                          {w.description || t.workNoDescription}
-                        </p>
-                        <span
-                          className={`self-start shrink-0 px-2 py-0.5 rounded border text-[10px] font-mono font-semibold ${
-                            STATUS_CLASSES[w.status] ?? STATUS_CLASSES.other
-                          }`}
+                <>
+                  <ul className="space-y-2.5">
+                    {paginatedWorks.map((w, idx) => {
+                      const costCr = w.final_amount_cr ?? w.recommended_amount_cr ?? null;
+                      return (
+                        <li
+                          key={`${w.work_id}-${idx}`}
+                          className="p-3.5 rounded-lg bg-stone-50/80 dark:bg-[#121A26] border border-stone-200/80 dark:border-[#1E293B] text-xs transition-colors"
                         >
-                          {statusLabel(w, t)}
-                        </span>
-                      </div>
-                      <dl className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 font-mono text-[11px] text-stone-600 dark:text-stone-400">
-                        <div className="flex gap-1 min-w-0">
-                          <dt className="shrink-0">{t.workAgency}</dt>
-                          <dd className="break-words min-w-0">{w.implementing_agency ?? notAvailable}</dd>
-                        </div>
-                        <div className="flex gap-1">
-                          <dt>{t.workRecommendedOn}</dt>
-                          <dd>{formatDate(w.recommended_on, lang)}</dd>
-                        </div>
-                        <div className="flex gap-1">
-                          <dt>{t.workCompletedOn}</dt>
-                          <dd>{formatDate(w.completed_on, lang)}</dd>
-                        </div>
-                        <div className="flex gap-1">
-                          <dt>{t.workRecommendedAmount}</dt>
-                          <dd>{formatCroreOrLakh(w.recommended_amount_cr, lang)}</dd>
-                        </div>
-                        {w.final_amount_cr !== null && w.final_amount_cr !== undefined && (
-                          <div className="flex gap-1">
-                            <dt>{t.workFinalAmount}</dt>
-                            <dd>{formatCroreOrLakh(w.final_amount_cr, lang)}</dd>
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm break-words">
+                                {w.description || t.workNoDescription}
+                              </p>
+                              {w.category && (
+                                <span className="inline-block mt-0.5 text-[10px] font-mono text-stone-500 dark:text-stone-400">
+                                  {w.category}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 self-start shrink-0">
+                              {costCr !== null && (
+                                <span className="font-mono text-xs font-bold text-stone-900 dark:text-white tabular-nums bg-stone-100 dark:bg-[#192333] px-2 py-0.5 rounded border border-stone-200/80 dark:border-[#26344A]">
+                                  {formatCroreOrLakh(costCr, lang)}
+                                </span>
+                              )}
+                              <span
+                                className={`px-2 py-0.5 rounded border text-[10px] font-mono font-semibold ${
+                                  STATUS_CLASSES[w.status] ?? STATUS_CLASSES.other
+                                }`}
+                              >
+                                {statusLabel(w, t)}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                        {w.paid_cr !== null && w.paid_cr !== undefined && (
-                          <div className="flex gap-1">
-                            <dt>{t.workPaid}</dt>
-                            <dd>{formatCroreOrLakh(w.paid_cr, lang)}</dd>
-                          </div>
-                        )}
-                        <div className="flex gap-1 min-w-0">
-                          <dt className="shrink-0">{t.workId}</dt>
-                          <dd className="break-all">{w.work_id || notAvailable}</dd>
-                        </div>
-                      </dl>
-                      {source?.url && (
-                        <p className="mt-2 pt-2 border-t border-stone-200/70 dark:border-[#1E293B] font-mono text-[10px] text-stone-500 dark:text-stone-400">
-                          {t.sourceWord}{' '}
-                          <a
-                            href={source.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-blue-700 dark:text-blue-300 hover:underline"
+                          <dl className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 font-mono text-[11px] text-stone-600 dark:text-stone-400">
+                            <div className="flex gap-1 min-w-0">
+                              <dt className="shrink-0">{t.workAgency}</dt>
+                              <dd className="break-words min-w-0">{w.implementing_agency ?? notAvailable}</dd>
+                            </div>
+                            {w.recommended_on && (
+                              <div className="flex gap-1">
+                                <dt>{t.workRecommendedOn}</dt>
+                                <dd>{formatDate(w.recommended_on, lang)}</dd>
+                              </div>
+                            )}
+                            {w.completed_on && (
+                              <div className="flex gap-1">
+                                <dt>{t.workCompletedOn}</dt>
+                                <dd>{formatDate(w.completed_on, lang)}</dd>
+                              </div>
+                            )}
+                            {w.final_amount_cr !== null && w.final_amount_cr !== undefined && (
+                              <div className="flex gap-1">
+                                <dt>{t.workFinalAmount}</dt>
+                                <dd className="font-semibold text-stone-900 dark:text-stone-100 tabular-nums">
+                                  {formatCroreOrLakh(w.final_amount_cr, lang)}
+                                </dd>
+                              </div>
+                            )}
+                            {w.recommended_amount_cr !== null && w.recommended_amount_cr !== undefined && (
+                              <div className="flex gap-1">
+                                <dt>{t.workRecommendedAmount}</dt>
+                                <dd className="font-semibold text-stone-900 dark:text-stone-100 tabular-nums">
+                                  {formatCroreOrLakh(w.recommended_amount_cr, lang)}
+                                </dd>
+                              </div>
+                            )}
+                            {w.paid_cr !== null && w.paid_cr !== undefined && (
+                              <div className="flex gap-1">
+                                <dt>{t.workPaid}</dt>
+                                <dd className="tabular-nums">{formatCroreOrLakh(w.paid_cr, lang)}</dd>
+                              </div>
+                            )}
+                            <div className="flex gap-1 min-w-0">
+                              <dt className="shrink-0">{t.workId}</dt>
+                              <dd className="break-all">{w.work_id || notAvailable}</dd>
+                            </div>
+                          </dl>
+                          {source?.url && (
+                            <p className="mt-2.5 pt-2 border-t border-stone-200/70 dark:border-[#1E293B] font-mono text-[10px] text-stone-500 dark:text-stone-400">
+                              {t.sourceWord}{' '}
+                              <a
+                                href={source.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-blue-700 dark:text-blue-300 hover:underline"
+                              >
+                                {source.name}
+                                <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                                <span className="sr-only">{common.opensInNewTab}</span>
+                              </a>
+                              {source.retrieved_at ? t.workRetrievedSuffix(formatDate(source.retrieved_at, lang)) : ''}
+                            </p>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  {totalPages > 1 && (
+                    <nav
+                      aria-label={t.worksPaginationAria}
+                      className="mt-4 pt-4 border-t border-stone-200/80 dark:border-[#1E293B] flex items-center justify-between gap-2"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        disabled={safePage === 1}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-mono border transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200 dark:bg-[#141C28] dark:text-stone-300 dark:border-[#222E42] dark:hover:bg-[#1A2536]"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" aria-hidden="true" />
+                        <span>{t.worksPaginationPrevious}</span>
+                      </button>
+
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                          <button
+                            key={p}
+                            type="button"
+                            onClick={() => setPage(p)}
+                            aria-current={p === safePage ? 'page' : undefined}
+                            aria-label={t.worksPaginationPageAria(p)}
+                            className={`min-w-8 h-8 px-2 rounded-lg text-xs font-mono font-semibold border transition-colors ${
+                              p === safePage
+                                ? 'bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-950 dark:border-stone-100'
+                                : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-200 dark:bg-[#141C28] dark:text-stone-300 dark:border-[#222E42] dark:hover:bg-[#1A2536]'
+                            }`}
                           >
-                            {source.name}
-                            <ExternalLink className="w-3 h-3" aria-hidden="true" />
-                            <span className="sr-only">{common.opensInNewTab}</span>
-                          </a>
-                          {source.retrieved_at ? t.workRetrievedSuffix(formatDate(source.retrieved_at, lang)) : ''}
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                            {p}
+                          </button>
+                        ))}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        disabled={safePage === totalPages}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-mono border transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200 dark:bg-[#141C28] dark:text-stone-300 dark:border-[#222E42] dark:hover:bg-[#1A2536]"
+                      >
+                        <span>{t.worksPaginationNext}</span>
+                        <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+                      </button>
+                    </nav>
+                  )}
+                </>
               )}
             </>
           )}
