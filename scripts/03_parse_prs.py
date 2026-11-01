@@ -1,6 +1,8 @@
 """Parse cached PRS MP Track profile pages into structured records.
 
-Reads the newest `data/raw/prs.<state>.<date>/` capture and never edits it.
+Reads the newest `data/raw/prs.<state>.<date>/` capture of each registered
+state (scripts/states.py; `--state KEY` limits it) and never edits it. Writes
+`data/processed/prs.parsed.<state>.json`.
 Only the "Selected MP" value is taken as the MP's metric; PRS national and
 state averages are kept separately for reconciliation.
 """
@@ -8,12 +10,16 @@ state averages are kept separately for reconciliation.
 import html
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
 RAW = ROOT / "data" / "raw"
 PROCESSED = ROOT / "data" / "processed"
-STATE = "delhi"
+STATE = "delhi"  # default for callers that pass no state (kept for compatibility)
 
 MINISTER_BANNER = "This MP is a minister."
 METRICS = {
@@ -103,15 +109,20 @@ def parse_page(path: Path) -> dict:
     }
 
 
-def latest_capture() -> Path:
-    captures = sorted(path for path in RAW.glob(f"prs.{STATE}.*") if path.is_dir())
+def latest_capture(state_key: str = STATE) -> Path:
+    captures = sorted(path for path in RAW.glob(f"prs.{state_key}.*") if path.is_dir())
     if not captures:
-        raise SystemExit(f"no PRS capture found for {STATE}")
+        raise SystemExit(f"no PRS capture found for {state_key}")
     return captures[-1]
 
 
 def main() -> None:
-    capture = latest_capture()
+    for state in states.selected(description=__doc__.split("\n")[0]):
+        parse_state(state.key)
+
+
+def parse_state(state_key: str) -> None:
+    capture = latest_capture(state_key)
     records = [parse_page(path) for path in sorted(capture.glob("*.html"))]
     output = {
         "source": {
@@ -123,7 +134,7 @@ def main() -> None:
         },
         "records": records,
     }
-    target = PROCESSED / f"prs.parsed.{STATE}.json"
+    target = PROCESSED / f"prs.parsed.{state_key}.json"
     target.write_text(json.dumps(output, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"parsed {len(records)} PRS pages from {capture.name} -> {target}")
 

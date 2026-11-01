@@ -1,14 +1,23 @@
-"""Merge normalized Delhi records, affidavits, MPLADS blocks and election enrichments into the application export.
+"""Merge normalized records, affidavits, MPLADS blocks and election enrichments of every
+registered state (scripts/states.py) into ONE application export, sorted by slug.
 
-MPLADS comes from data/processed/mplads.delhi.json (built by 09_intake_mplads.py from the
-latest raw captures). The `mplads` key in delhi_7mp_custom_enrichment.json is legacy and ignored.
+Per state it reads data/processed/normalised.<key>.json and, where the registry lists
+them, mplads.<key>.json (built by 09_intake_mplads.py), the reviewed affidavit pack, the
+reviewed election intake and mp_portraits.<key>.<date>.json. A block with no source stays
+"pending" with the registry's reason in normalisation_notes. The `mplads` key in
+delhi_7mp_custom_enrichment.json is legacy and ignored.
 """
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
+PROCESSED = ROOT / "data" / "processed"
 SOURCE = ROOT / "data" / "processed" / "normalised.delhi.json"
 OUTPUT = ROOT / "data" / "processed" / "mps.json"
 AFFIDAVIT_FILE = ROOT / "data" / "reference_packs" / "officials_enriched_pack" / "data" / "mp_affidavit_enrichment.csv"
@@ -48,21 +57,21 @@ def performance_block(prs: dict | None) -> dict:
     }
 
 
-def load_affidavits() -> dict[str, dict]:
+def load_affidavits(path: Path | None = AFFIDAVIT_FILE) -> dict[str, dict]:
     """Load pre-enriched affidavit records indexed by lowercase constituency name."""
-    if not AFFIDAVIT_FILE.exists():
+    if path is None or not path.exists():
         return {}
-    with open(AFFIDAVIT_FILE, encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         return {r["constituency"].strip().lower(): r for r in reader}
 
 
-def load_custom_enrichment() -> dict[str, dict]:
-    """Load user-supplied 7 MP custom enrichment file if available."""
-    if not CUSTOM_ENRICHMENT_FILE.exists():
+def load_custom_enrichment(path: Path | None = CUSTOM_ENRICHMENT_FILE) -> dict[str, dict]:
+    """Load the reviewed election-result intake for a state, if it has one."""
+    if path is None or not path.exists():
         return {}
     try:
-        data = json.loads(CUSTOM_ENRICHMENT_FILE.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
         return {item["slug"]: item for item in data if "slug" in item}
     except Exception:
         return {}
@@ -104,11 +113,11 @@ MPLADS_PENDING_FIELDS = (
 )
 
 
-def load_mplads() -> dict[str, dict]:
+def load_mplads(path: Path = MPLADS_FILE) -> dict[str, dict]:
     """Per-seat MPLADS blocks produced by 09_intake_mplads.py from the latest raw captures."""
-    if not MPLADS_FILE.exists():
+    if not path.exists():
         return {}
-    return json.loads(MPLADS_FILE.read_text(encoding="utf-8"))["seats"]
+    return json.loads(path.read_text(encoding="utf-8"))["seats"]
 
 
 def mplads_block(seat: dict | None) -> dict:
@@ -144,20 +153,29 @@ def election_block(custom: dict | None) -> dict:
     }
 
 
-def load_portraits() -> dict[str, dict]:
-    """Official portraits from the latest data/raw/mp_portraits.delhi.<date>.json, by slug."""
-    captures = sorted(RAW.glob("mp_portraits.delhi.*.json"))
+def load_portraits(state_key: str = "delhi") -> dict[str, dict]:
+    """Official portraits from the latest data/raw/mp_portraits.<state>.<date>.json, by slug."""
+    captures = sorted(RAW.glob(f"mp_portraits.{state_key}.*.json"))
     if not captures:
         return {}
     return {row["slug"]: row for row in json.loads(captures[-1].read_text(encoding="utf-8"))["records"]}
 
 
 def main() -> None:
-    source = json.loads(SOURCE.read_text(encoding="utf-8"))
-    affidavits = load_affidavits()
-    custom_enrichments = load_custom_enrichment()
-    mplads_seats = load_mplads()
-    portraits = load_portraits()
+    records = []
+    for state in states.STATES:
+        records.extend(merge_state(state))
+    records.sort(key=lambda r: r["slug"])
+    OUTPUT.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"merged {len(records)} records from {len(states.STATES)} states -> {OUTPUT}")
+
+
+def merge_state(state: states.State) -> list[dict]:
+    source = json.loads((PROCESSED / f"normalised.{state.key}.json").read_text(encoding="utf-8"))
+    affidavits = load_affidavits(ROOT / state.affidavit_pack if state.affidavit_pack else None)
+    custom_enrichments = load_custom_enrichment(ROOT / state.election_intake if state.election_intake else None)
+    mplads_seats = load_mplads(PROCESSED / f"mplads.{state.key}.json") if state.mplads_source else {}
+    portraits = load_portraits(state.key)
 
     records = []
     for row in source["records"]:
@@ -225,7 +243,8 @@ def main() -> None:
                 "special_role": None,
                 "sansad_mpsno": sansad["mpsno"] if sansad else None,
                 "sansad_status": sansad["status"] if sansad else None,
-                # Cross-checked when the Delhi government list, PRS and Sansad agree on name, seat and party.
+                # Cross-checked when the identity master, PRS and Sansad agree on name, seat and party
+                # (where Sansad is the master, Sansad and PRS are the two independent sources).
                 "identity_review_status": "cross_checked" if agreed else "parsed",
                 "profile": {
                     "age": int(prs["age"]) if prs and (prs["age"] or "").isdigit() else None,
@@ -240,7 +259,9 @@ def main() -> None:
                 "affidavit": aff_block,
                 "election": elec_block,
                 "sources": sources,
-                "normalisation_notes": row["normalisation_notes"] + (mpl_seat["notes"] if mpl_seat else []),
+                "normalisation_notes": row["normalisation_notes"]
+                + (mpl_seat["notes"] if mpl_seat else [])
+                + pending_notes(state, {"mplads": mpl_block, "affidavit": aff_block, "election": elec_block}),
                 # Present only when a portrait capture exists for the seat.
                 **(
                     {"image_url": portraits[row["slug"]]["image_url"], "image_source": portraits[row["slug"]]["image_source"]}
@@ -249,9 +270,13 @@ def main() -> None:
                 ),
             }
         )
+    print(f"{state.name}: merged {len(records)} records")
+    return records
 
-    OUTPUT.write_text(json.dumps(records, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"merged {len(records)} records (with affidavits) -> {OUTPUT}")
+
+def pending_notes(state: states.State, blocks: dict[str, dict]) -> list[str]:
+    """The registry's reason for each block that stayed pending (never a zero)."""
+    return [state.pending_notes[name] for name, block in blocks.items() if block["status"] == "pending" and name in state.pending_notes]
 
 
 if __name__ == "__main__":

@@ -46,11 +46,12 @@ describe('data source', () => {
 });
 
 describe('MP records', () => {
-  it('serves the seven Delhi seats with unique slugs', async () => {
+  it('serves the seven Delhi and two Goa seats with unique slugs', async () => {
     const mps = await getAllMPs();
-    expect(mps).toHaveLength(7);
-    expect(new Set(mps.map((mp) => mp.slug)).size).toBe(7);
-    expect(mps.every((mp) => mp.state === 'Delhi')).toBe(true);
+    expect(mps).toHaveLength(9);
+    expect(new Set(mps.map((mp) => mp.slug)).size).toBe(9);
+    expect(mps.filter((mp) => mp.state === 'Delhi')).toHaveLength(7);
+    expect(mps.filter((mp) => mp.state === 'Goa')).toHaveLength(2);
   });
 
   it('matches only canonical slugs, case-insensitively', async () => {

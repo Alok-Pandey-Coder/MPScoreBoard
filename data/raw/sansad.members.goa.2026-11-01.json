@@ -1,0 +1,63 @@
+{
+  "source": {
+    "name": "Lok Sabha, Digital Sansad member API",
+    "list_url": "https://sansad.in/api_ls/member?loksabha=18&page=1&size=100&state=Goa",
+    "retrieved_at": "2026-11-01",
+    "coverage": "18th Lok Sabha, Goa",
+    "total_elements": 2,
+    "extraction": "JSON responses filtered to identity fields",
+    "dropped_fields": "addresses, phone numbers, email, date of birth, family and marital details, photo URL"
+  },
+  "records": [
+    {
+      "mpsno": 5710,
+      "initial": "Shri",
+      "mpFirstLastName": "Captain Viriato Fernandes",
+      "constName": "South Goa",
+      "stateName": "Goa",
+      "partyFname": "Indian National Congress",
+      "partySname": "INC",
+      "gender": "Male",
+      "status": "Sitting",
+      "noOfTerms": 1,
+      "qualification": "Post Graduate",
+      "categoryCode": "    ",
+      "profileUrl": null,
+      "lsExpr": "18",
+      "detail": {
+        "mpsno": 5710,
+        "fullName": "Shri Captain Viriato Fernandes",
+        "constituency": "South Goa",
+        "stateName": "Goa",
+        "partySname": "INC",
+        "councilMinSts": " "
+      },
+      "detail_url": "https://sansad.in/api_ls/member/5710"
+    },
+    {
+      "mpsno": 273,
+      "initial": "Shri",
+      "mpFirstLastName": "Shripad Yesso Naik",
+      "constName": "North Goa",
+      "stateName": "Goa",
+      "partyFname": "Bharatiya Janata Party",
+      "partySname": "BJP",
+      "gender": "Male",
+      "status": "Sitting",
+      "noOfTerms": 6,
+      "qualification": "Graduate",
+      "categoryCode": "    ",
+      "profileUrl": null,
+      "lsExpr": "13,14,15,16,17,18",
+      "detail": {
+        "mpsno": 273,
+        "fullName": "Shri Shripad Yesso Naik",
+        "constituency": "North Goa",
+        "stateName": "Goa",
+        "partySname": "BJP",
+        "councilMinSts": " "
+      },
+      "detail_url": "https://sansad.in/api_ls/member/273"
+    }
+  ]
+}

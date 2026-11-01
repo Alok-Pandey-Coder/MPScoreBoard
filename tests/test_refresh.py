@@ -20,7 +20,9 @@ def load(script: str):
 
 refresh = load("refresh.py")
 polite = load("polite_fetch.py")
-MPS = json.loads((ROOT / "data" / "processed" / "mps.json").read_text(encoding="utf-8"))
+ALL_MPS = json.loads((ROOT / "data" / "processed" / "mps.json").read_text(encoding="utf-8"))
+# Delhi records and Delhi's Sansad capture; the multi-state checks are in test_states.py.
+MPS = [m for m in ALL_MPS if m["state"] == "Delhi"]
 SANSAD = json.loads(sorted((ROOT / "data" / "raw").glob("sansad.members.delhi.*.json"))[-1].read_text(encoding="utf-8"))
 
 
@@ -68,6 +70,8 @@ def test_removed_and_added_seats_need_review():
 
 def test_portraits_are_carried_by_the_pipeline():
     assert all(m.get("image_url") and m.get("image_source", {}).get("url") for m in MPS)
+    # No official portrait has been captured for other states: the field is absent, not invented.
+    assert all("image_url" not in m for m in ALL_MPS if m["state"] != "Delhi")
 
 
 # ── official checks ──────────────────────────────────────────────────────────

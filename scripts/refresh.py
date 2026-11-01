@@ -2,7 +2,8 @@
 
 The website never fetches live. This job produces a *candidate* snapshot plus a
 report of what changed; a human reviews it (a pull request in CI) before it is
-published. Rules from AGENTS.md:
+published. Every registered state (scripts/states.py) is fetched per source and
+checked against its own latest Digital Sansad capture. Rules from AGENTS.md:
 
 - Raw captures are new dated files; earlier captures are never edited.
 - A source that fails keeps its last good capture (fetchers are all-or-nothing).
@@ -33,6 +34,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
 SCRIPTS = ROOT / "scripts"
 RAW = ROOT / "data" / "raw"
 PROCESSED = ROOT / "data" / "processed"
@@ -42,14 +46,27 @@ REPORT_JSON = PROCESSED / "refresh_report.json"
 
 # Sources refreshed automatically. Affidavits and election results change only at
 # elections; MPLADS access is not cleared (docs/decisions.md), so it is excluded.
-FETCHERS = [
-    {"source": "Digital Sansad member API (official)", "script": "01_fetch_sansad_members.py"},
-    {"source": "Govt of NCT of Delhi MP list (official)", "script": "01_fetch_masterlist.py"},
-    {"source": "PRS MP Track (CC BY 4.0)", "script": "02_fetch_prs.py"},
-]
+def fetchers() -> list[dict]:
+    """One fetch per source and state, so the report shows which state's capture failed."""
+    jobs = []
+    for state in states.STATES:
+        jobs.append({"source": f"Digital Sansad member API (official) — {state.name}", "script": "01_fetch_sansad_members.py",
+                     "args": ["--state", state.key]})
+        if state.roster_fetcher:
+            jobs.append({"source": state.roster_source, "script": state.roster_fetcher, "args": []})
+        if (RAW / f"prs.{state.key}.json").exists():
+            jobs.append({"source": f"PRS MP Track (CC BY 4.0) — {state.name}", "script": "02_fetch_prs.py", "args": ["--state", state.key]})
+    return jobs
+
+
+FETCHERS = fetchers()
 
 # Processed files the build rewrites; restored if the build fails.
-BUILD_OUTPUTS = ["mps.json", "snapshot.json", "validation_report.md", "normalised.delhi.json", "prs.parsed.delhi.json", "mplads.delhi.json"]
+BUILD_OUTPUTS = ["mps.json", "snapshot.json", "validation_report.md"] + [
+    name
+    for state in states.STATES
+    for name in (f"normalised.{state.key}.json", f"prs.parsed.{state.key}.json", f"mplads.{state.key}.json")
+]
 
 IDENTITY_FIELDS = ["name", "party", "constituency", "reservation", "is_minister", "special_role", "since_date", "image_url"]
 PERFORMANCE_FIELDS = ["status", "attendance_pct", "debates", "questions", "private_member_bills", "as_of"]
@@ -75,11 +92,27 @@ def name_key(name: str | None) -> str:
 
 # ── official-record checks ───────────────────────────────────────────────────
 
-def official_checks(mps: list[dict], sansad_latest: dict | None, sansad_previous: dict | None) -> list[dict]:
-    """Compares the candidate records with the latest official Sansad capture."""
+def official_checks_all_states(candidate: list[dict]) -> list[dict]:
+    """Official-record checks for every registered state, each against its own latest Sansad capture."""
     checks: list[dict] = []
+    for state in states.STATES:
+        latest, previous = latest_two(f"sansad.members.{state.key}.*.json")
+        rows = [mp for mp in candidate if mp.get("state") == state.name]
+        checks += [{**c, "state": state.name} for c in official_checks(rows, latest, previous, state.name)]
+        if state.roster_page_glob:
+            check = roster_page_check(sorted(RAW.glob(state.roster_page_glob)), state.roster_page_name, f"masterlist.{state.key}.json")
+            checks.append({**check, "state": state.name})
+    return checks
+
+
+def official_checks(mps: list[dict], sansad_latest: dict | None, sansad_previous: dict | None, state_name: str | None = None) -> list[dict]:
+    """Compares one state's candidate records with that state's latest official Sansad capture."""
+    checks: list[dict] = []
+    where = f" for {state_name}" if state_name else ""
     if not sansad_latest:
-        return [{"level": "review", "check": "sansad_capture", "detail": "No Digital Sansad capture available to check against."}]
+        return [{"level": "review", "check": "sansad_capture", "detail": f"No Digital Sansad capture available{where} to check against."}]
+    if not mps:
+        return [{"level": "review", "check": "seat_missing_from_cards", "detail": f"No cards exist{where} although a Sansad capture does."}]
 
     official = {seat_key(r.get("constName")): r for r in sansad_latest.get("records", [])}
     for mp in mps:
@@ -115,7 +148,7 @@ def official_checks(mps: list[dict], sansad_latest: dict | None, sansad_previous
 
     if not checks:
         checks.append({"level": "ok", "check": "official_records",
-                       "detail": f"All {len(mps)} seats match the sitting member, name and party on Digital Sansad "
+                       "detail": f"All {len(mps)} seats{where} match the sitting member, name and party on Digital Sansad "
                                  f"({sansad_latest.get('source', {}).get('retrieved_at', 'date unknown')})."})
     return checks
 
@@ -131,14 +164,14 @@ def page_text_hash(html: bytes) -> str:
     return hashlib.sha256(re.sub(rb"\s+", b" ", text).strip()).hexdigest()
 
 
-def roster_page_check(captures: list[Path]) -> dict:
+def roster_page_check(captures: list[Path], page: str = "Delhi MP list page", master: str = "masterlist.delhi.json") -> dict:
     if len(captures) < 2:
-        return {"level": "ok", "check": "roster_page", "detail": "Only one capture of the Delhi MP list page; nothing to compare yet."}
+        return {"level": "ok", "check": "roster_page", "detail": f"Only one capture of the {page}; nothing to compare yet."}
     prev, last = captures[-2], captures[-1]
     if page_text_hash(prev.read_bytes()) == page_text_hash(last.read_bytes()):
-        return {"level": "ok", "check": "roster_page", "detail": f"Delhi MP list page unchanged ({prev.name} → {last.name})."}
+        return {"level": "ok", "check": "roster_page", "detail": f"{page} unchanged ({prev.name} → {last.name})."}
     return {"level": "review", "check": "roster_page",
-            "detail": f"Delhi MP list page text changed ({prev.name} → {last.name}). Review data/raw/masterlist.delhi.json."}
+            "detail": f"{page} text changed ({prev.name} → {last.name}). Review data/raw/{master}."}
 
 
 # ── snapshot diff ────────────────────────────────────────────────────────────
@@ -173,8 +206,8 @@ def diff_snapshots(old: list[dict], new: list[dict]) -> dict:
 
 # ── orchestration ────────────────────────────────────────────────────────────
 
-def run(script: str) -> tuple[int, str]:
-    proc = subprocess.run([sys.executable, str(SCRIPTS / script)], cwd=ROOT, capture_output=True, text=True)
+def run(script: str, *args: str) -> tuple[int, str]:
+    proc = subprocess.run([sys.executable, str(SCRIPTS / script), *args], cwd=ROOT, capture_output=True, text=True)
     return proc.returncode, (proc.stdout + proc.stderr).strip()
 
 
@@ -219,7 +252,7 @@ def main() -> int:
     report: dict = {"run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "fetch": []}
     if not args.no_fetch:
         for fetcher in FETCHERS:
-            code, output = run(fetcher["script"])
+            code, output = run(fetcher["script"], *fetcher["args"])
             last = output.splitlines()[-1] if output else ""
             report["fetch"].append({"source": fetcher["source"], "ok": code == 0,
                                     "result": ("✅ " if code == 0 else "⚠️ kept previous capture — ") + last})
@@ -239,9 +272,7 @@ def main() -> int:
                           official_checks=[], needs_review=[{"seat": "-", "field": "build", "old": "", "new": "validation failed; see build_log"}], updated=[])
         else:
             candidate = json.loads(MPS.read_text(encoding="utf-8"))
-            sansad_latest, sansad_previous = latest_two("sansad.members.delhi.*.json")
-            checks = official_checks(candidate, sansad_latest, sansad_previous)
-            checks.append(roster_page_check(sorted(RAW.glob("delhi_members.*.html"))))
+            checks = official_checks_all_states(candidate)
             diff = diff_snapshots(approved, candidate)
             report.update(build="passed validation", official_checks=checks,
                           needs_review=diff["review"] + [

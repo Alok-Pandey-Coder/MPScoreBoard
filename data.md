@@ -1,6 +1,6 @@
 # Data Architecture & Master Registry — "Mera MP, Mera Report Card"
 
-> **Version:** 1.3 · **Date:** 2026-10-31  
+> **Version:** 1.4 · **Date:** 2026-11-01  
 > **Repository:** `d:\MPScoreBoard`  
 > **Companion Documents:** `AGENTS.md`, `PRD.md`, `PlanV2.md`, `docs/dataSources.md`
 
@@ -14,8 +14,8 @@ The repository enforces a strict, three-tier data hierarchy to guarantee that ra
 d:\MPScoreBoard\data\
 │
 ├── processed/                           # ACTIVE APPLICATION PAYLOADS
-│   ├── mps.json                         # Canonical dataset for all Lok Sabha MPs
-│   ├── snapshot.json                    # Snapshot metadata, timestamp & SHA-256 hash
+│   ├── mps.json                         # Canonical dataset: ONE combined export for every registered state, sorted by slug
+│   ├── snapshot.json                    # Snapshot metadata ("18ls-v3"), per-state coverage, timestamp & SHA-256 hash
 │   ├── aliases.json                     # Normalisation aliases (constituency & MP name variants)
 │   ├── validation_report.md             # Automated test proof of zero data errors & exact averages
 │   ├── data_dictionary.md               # Technical field types & nullability specifications
@@ -25,7 +25,9 @@ d:\MPScoreBoard\data\
 │   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data; NOT read by the app (out of current scope)
 │   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids; NOT read by the app (superseded by delhi_pc.json)
 │   ├── prs.parsed.delhi.json            # Intermediate PRS parse (03_parse_prs.py)
+│   ├── prs.parsed.goa.json              # Intermediate PRS parse for Goa (03_parse_prs.py)
 │   ├── normalised.delhi.json            # Intermediate normalised records before merge
+│   ├── normalised.goa.json              # Intermediate normalised Goa records (identity master: Digital Sansad)
 │   ├── mplads.delhi.json                # Intermediate MPLADS blocks per seat (09_intake_mplads.py) + raw source values
 │   ├── mps.india.json                   # UNVALIDATED, NOT FOR PUBLICATION (see 2.4); unused by the app
 │   └── validation_report_india.md       # UNVALIDATED, NOT FOR PUBLICATION (see 2.4)
@@ -35,6 +37,10 @@ d:\MPScoreBoard\data\
 │   ├── delhi_members.<date>.html        # Dated captures of that page; the refresh flags wording changes for review
 │   ├── sansad.members.delhi.<date>.json # Official Digital Sansad API captures (2026-10-30, 2026-11-01); latest is used
 │   ├── prs.delhi.<date>/                # PRS profile pages for all 7 MPs (2026-10-30, 2026-11-01); latest complete capture is used
+│   ├── sansad.members.goa.2026-11-01.json # Official Digital Sansad API capture for Goa (2 MPs); Goa's identity master
+│   ├── prs.goa.json                     # Reviewed PRS URL manifest for the 2 Goa MPs (input to 02_fetch_prs.py --state goa)
+│   ├── prs.goa.2026-11-01/              # PRS profile pages for both Goa MPs (CC BY 4.0), all-or-nothing capture
+│   ├── eci.results.goa.fetch_log.2026-11-01.json # Log of the polite ECI 2024 results attempts for Goa (all 404; nothing captured)
 │   ├── mp_portraits.delhi.2026-11-01.json # Official Sansad portrait URLs + image paths, carried into mps.json by 06_merge
 │   ├── sansad.members.india.2026-10-31.json # All-India 544-seat Sansad API capture (retrieved 2026-10-31)
 │   ├── prs.india.manifest.2026-10-31.json   # All-India 553-member PRS directory manifest with metrics
@@ -56,7 +62,12 @@ d:\MPScoreBoard\data\
 
 ## 2. Canonical Product Registry (`data/processed/mps.json`)
 
-`mps.json` is the sole data contract consumed by the application front-end. It contains 7 records covering Delhi's 18th Lok Sabha parliamentary constituencies.
+`mps.json` is the sole data contract consumed by the application front-end. It contains **9 records**: Delhi's 7 and Goa's 2 18th Lok Sabha parliamentary constituencies, sorted by slug. It is built by the multi-state pipeline: every step loops over the state registry `scripts/states.py` (key, display name, Digital Sansad state name, identity master, seat count, cleared sources, and the reason each pending block is pending).
+
+| State | Key | Seats | Identity master | Sansad state name | MPLADS | Affidavit | Election |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| Delhi | `delhi` | 7 | Reviewed GNCTD roster `masterlist.delhi.json` (Sansad + PRS confirm) | `NCT of Delhi` | Empowered Indian (secondary) | ADR/MyNeta reference pack | Reviewed intake `delhi_7mp_custom_enrichment.json` |
+| Goa | `goa` | 2 | Digital Sansad member API capture `sansad.members.goa.<date>.json` (PRS confirms) | `Goa` | **pending** | **pending** | **pending** |
 
 ### 2.1 The 6 Data Blocks
 
@@ -76,7 +87,7 @@ interface MPRecord {
   slug: string;                          // Format: {constituency}-{state} (e.g. "new-delhi-delhi")
   name: string;                          // Full official name
   constituency: string;                  // Official constituency name (e.g. "North West Delhi (SC)")
-  state: string;                         // "Delhi"
+  state: string;                         // Registry display name: "Delhi" | "Goa"
   party: string;                         // Short party code (e.g. "BJP")
   party_full: string;                    // "Bharatiya Janata Party"
   reservation: "GEN" | "SC" | "ST";      // Reservation category
@@ -87,8 +98,8 @@ interface MPRecord {
   sansad_mpsno: number;                  // Official Digital Sansad member ID
   sansad_status: "Sitting" | "Former";   // Current seat status
   identity_review_status: string;        // "cross_checked"
-  image_url: string;                     // Static public path to official portrait (e.g. "/images/mps/{slug}.jpg")
-  image_source: SourceProvenance;        // Digital Sansad official portrait provenance
+  image_url?: string;                    // Static public path to official portrait (e.g. "/images/mps/{slug}.jpg"); absent when none captured (Goa)
+  image_source?: SourceProvenance;       // Digital Sansad official portrait provenance; absent with image_url
   
   profile: {
     age: number | null;
@@ -176,12 +187,28 @@ interface MPRecord {
 | `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | **Secondary** (₹2.88 / ₹14.76 Cr, 19.6%; recommended 87.6%) | **Reported** (692,773 votes, margin 124,333) |
 | `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | **Secondary** (₹1.31 / ₹14.70 Cr, 8.9%; recommended 60.2%) | **Reported** (842,658 votes, margin 199,013) |
 
+### 2.3a Status of the 2 Goa MP records (added 2026-11-01, enriched 2026-11-01)
+
+| Constituency Slug | MP Name | Party | Minister | Performance Attendance | Debates | Questions | Bills | Affidavit | MPLADS | Election |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| `north-goa-goa` | Shripad Yesso Naik | BJP | **Yes** (PRS minister banner) | **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹10.87 Cr assets / ₹5.09 L liabilities) | **Pending** | **Pending** |
+| `south-goa-goa` | Captain Viriato Fernandes | INC | No | 87% | 28 | 84 | 1 | **Reported** (1 case / ₹5.27 Cr assets / ₹3.80 L liabilities) | **Pending** | **Pending** |
+
+- Identity: Digital Sansad member API (official), retrieved 2026-11-01; PRS agrees on seat, name (via the alias `viriato fernandes` → `Captain Viriato Fernandes`) and party, so `identity_review_status` is `cross_checked`.
+- Activity: PRS MP Track profile pages (CC BY 4.0), retrieved 2026-11-01, period 2024-06-24 to 2026-08-13. State averages are PRS's published Goa averages.
+- Affidavit: Self-declared 2024 Lok Sabha nomination affidavits (ECI Form 26 / ADR MyNeta candidate profiles: Shripad Naik candidate_id=3668; Captain Viriato Fernandes candidate_id=3876). Ingested via `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`. Declared cases are allegations, not convictions.
+- Pending blocks (MPLADS, Election) hold `null` in every field (never `0`); each record's `normalisation_notes` records why: MPLADS source not cleared, ECI 2024 results pages returned 404.
+- No portrait: `image_url`/`image_source` are absent for Goa (no official portrait captured).
+- Sansad lists South Goa's education as "Post Graduate", PRS as "Graduate"; the profile shows PRS's value and the difference is a normalisation note.
+
 MPLADS figures are Empowered Indian as of 2026-10-31 (`secondary_only`). Declared affidavit cases are allegations, not convictions. Activity and MPLADS figures are descriptive, not a ranking.
 
 ### 2.4 Intermediate and non-publishable processed files
 
 | File | Producer | Status | Notes |
 |:---|:---|:---|:---|
+| `data/processed/prs.parsed.<state>.json` | `scripts/03_parse_prs.py` | Pipeline intermediate | One per registered state (`delhi`, `goa`): parsed PRS pages of the latest capture. |
+| `data/processed/normalised.<state>.json` | `scripts/05_normalise.py` | Pipeline intermediate | One per state: identity-master rows joined to PRS and Sansad on state + constituency, with normalisation notes. |
 | `data/processed/mplads.delhi.json` | `scripts/09_intake_mplads.py` | Pipeline intermediate | `{primary_capture, cross_check_capture, unmatched_primary, unmatched_cross_check, seats: {slug: {block, source_values, notes}}}`. `block` is the exact `MpladsData` merged into `mps.json`; `source_values` keeps the raw rupee amounts and the source's own percentages (`utilization_pct`, `utilization_definition`, `expenditure_pct`) and works endpoint counts, used by `07_validate.py` only. |
 | `data/processed/mps.india.json` | `scripts/05_normalise_india.py` | **Unvalidated - not for publication** | Known broken: 544 rows for 543 seats, every row has performance `not_applicable`. Not imported by the app. |
 | `data/processed/validation_report_india.md` | `scripts/05_normalise_india.py` | **Unvalidated - not for publication** | Claims "Ministers: 544"; inherits the defects above. |
@@ -268,9 +295,9 @@ or locally with `npm run data:refresh`):
 
 | Source | What it updates | In the daily refresh? | Notes |
 |:---|:---|:---|:---|
-| **Digital Sansad member API** (official) | Sitting member, party, status | Yes | Used for the official-record checks |
+| **Digital Sansad member API** (official) | Sitting member, party, status | Yes (one capture per state) | Used for the official-record checks of every state; Goa's identity master |
 | **Govt of NCT of Delhi MP list** (official) | Roster page | Yes (change detection) | `masterlist.delhi.json` is a reviewed transcription; a page change is flagged, not auto-parsed |
-| **PRS MP Track** (CC BY 4.0) | Attendance, debates, questions, private member bills | Yes | robots.txt `Crawl-delay: 10` honoured; figures change after each session |
+| **PRS MP Track** (CC BY 4.0) | Attendance, debates, questions, private member bills | Yes (one all-or-nothing capture per state) | robots.txt `Crawl-delay: 10` honoured; figures change after each session |
 | **Empowered Indian / MoSPI eSAKSHI** | MPLADS funds and works | **No** | Automated access not cleared (`docs/decisions.md`); fetcher refuses to run |
 | **ADR/MyNeta affidavits, ECI results** | Assets, cases, education, margins | No | Change only at elections or by-elections |
 
@@ -344,8 +371,11 @@ python scripts/07_validate.py
 # 6. Export production snapshot with SHA-256 hash
 python scripts/08_snapshot.py
 
-# Or run the entire pipeline in one step:
+# Or run the entire pipeline in one step (every state in scripts/states.py):
 python scripts/build_data.py
+
+# Any step can be limited to one state:
+python scripts/03_parse_prs.py --state goa
 ```
 
 ### 6.2 Mandatory Invariants (Enforced in CI & Validation)

@@ -9,6 +9,10 @@ Inputs (immutable raw captures, never modified):
 
 Output: `data/processed/mplads.delhi.json`, read by `06_merge.py` and `07_validate.py`.
 
+Runs for each registered state whose MPLADS source is cleared (`mplads_source` in
+scripts/states.py) - currently Delhi only. Other states (Goa) get no file and their
+MPLADS block stays "pending"; nothing is fetched here.
+
 Normalisation decisions (also written into each seat's notes):
   - 1 crore = 10,000,000 rupees; crore values are rounded to 4 decimals (Rs 1,000).
   - expenditure_pct = expenditure / allocated x 100 and
@@ -34,11 +38,15 @@ import csv
 import importlib.util
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
 RAW = ROOT / "data" / "raw"
-OUTPUT = ROOT / "data" / "processed" / "mplads.delhi.json"
+OUTPUT = ROOT / "data" / "processed" / "mplads.delhi.json"  # Delhi output; see intake_state()
 MASTER = RAW / "masterlist.delhi.json"
 
 CRORE = 10_000_000
@@ -143,13 +151,13 @@ def _float_or_none(value) -> float | None:
     return float(value)
 
 
-def load_cross_check(path: Path | None) -> dict[tuple[str, str], dict]:
+def load_cross_check(path: Path | None, state_key: str = "delhi") -> dict[tuple[str, str], dict]:
     if path is None:
         return {}
     rows = {}
     with open(path, encoding="utf-8", newline="") as f:
         for row in csv.DictReader(f):
-            seat = ("delhi", normalise.constituency_key(row["constituency"]))
+            seat = (state_key, normalise.constituency_key(row["constituency"]))
             rows[seat] = row
     return rows
 
@@ -278,16 +286,30 @@ def build_block(rec: dict, raw_file: str) -> tuple[dict, dict, list[str]]:
 
 
 def main() -> None:
-    primary_path = latest_capture("mplads.delhi.empoweredindian.*.json")
-    cross_path = latest_capture("mplads.delhi.janwatchdog.*.csv")
-    master = json.loads(MASTER.read_text(encoding="utf-8"))["records"]
+    """Normalise MPLADS for every registered state whose MPLADS source is cleared.
+
+    A state without a cleared source (e.g. Goa) gets no mplads.<key>.json; 06_merge.py
+    then writes a pending block with the registry's reason. Nothing is fetched here.
+    """
+    for state in states.selected(description=__doc__.split("\n")[0]):
+        if not state.mplads_source:
+            print(f"{state.name}: no cleared MPLADS source; block stays pending")
+            continue
+        intake_state(state)
+
+
+def intake_state(state: "states.State") -> None:
+    primary_path = latest_capture(f"mplads.{state.key}.empoweredindian.*.json")
+    cross_path = latest_capture(f"mplads.{state.key}.janwatchdog.*.csv")
+    output = ROOT / "data" / "processed" / f"mplads.{state.key}.json"
+    master = normalise.identity_master(state, normalise.latest_sansad_capture(state.key))["records"]
     if primary_path is None:
-        raise SystemExit("no Empowered Indian MPLADS capture found in data/raw/")
+        raise SystemExit(f"no Empowered Indian MPLADS capture for {state.name} found in data/raw/")
     primary = json.loads(primary_path.read_text(encoding="utf-8"))
     primary_rel = primary_path.relative_to(ROOT).as_posix()
     cross_rel = cross_path.relative_to(ROOT).as_posix() if cross_path else None
-    by_seat = {("delhi", normalise.constituency_key(r["constituency"])): r for r in primary["records"]}
-    cross = load_cross_check(cross_path)
+    by_seat = {(state.key, normalise.constituency_key(r["constituency"])): r for r in primary["records"]}
+    cross = load_cross_check(cross_path, state.key)
 
     seats: dict[str, dict] = {}
     for mp in master:
@@ -315,8 +337,8 @@ def main() -> None:
         "unmatched_cross_check": [r.get("constituency") for r in cross.values()],
         "seats": seats,
     }
-    OUTPUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"normalised MPLADS for {sum(1 for s in seats.values() if s['block'])}/{len(seats)} seats from {primary_rel} -> {OUTPUT}")
+    output.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"{state.name}: normalised MPLADS for {sum(1 for s in seats.values() if s['block'])}/{len(seats)} seats from {primary_rel} -> {output}")
 
 
 if __name__ == "__main__":

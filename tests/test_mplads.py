@@ -141,7 +141,7 @@ def test_validator_flags_hard_errors():
 
 
 def test_export_matches_contract():
-    records = json.loads(MPS.read_text(encoding="utf-8"))
+    records = [r for r in json.loads(MPS.read_text(encoding="utf-8")) if r["state"] == "Delhi"]
     assert len(records) == 7
     for r in records:
         m = r["mplads"]
@@ -159,4 +159,19 @@ def test_export_matches_contract():
 def test_snapshot_hash_matches_export():
     snapshot = json.loads((ROOT / "data" / "processed" / "snapshot.json").read_text(encoding="utf-8"))
     assert snapshot["sha256"] == hashlib.sha256(MPS.read_bytes()).hexdigest()
-    assert "pending" not in snapshot["source_status"]["mplads"]
+    # Delhi MPLADS is reported; every other state stays pending until a source is cleared.
+    records = json.loads(MPS.read_text(encoding="utf-8"))
+    pending = sum(1 for r in records if r["mplads"]["status"] == "pending")
+    assert pending == sum(1 for r in records if r["state"] != "Delhi")
+    assert f"pending: {pending}" in snapshot["source_status"]["mplads"]
+    assert "reported: 7" in snapshot["source_status"]["mplads"]
+
+
+def test_states_without_mplads_source_stay_pending():
+    for r in json.loads(MPS.read_text(encoding="utf-8")):
+        if r["state"] == "Delhi":
+            continue
+        m = r["mplads"]
+        assert m["status"] == "pending" and set(m) == validate.MPLADS_KEYS
+        assert all(m[k] is None for k in m if k not in ("status", "works", "works_is_partial", "cross_check"))
+        assert m["works"] == [] and m["cross_check"] == [] and m["works_is_partial"] is False

@@ -1,19 +1,40 @@
 {
-  "run_at": "2026-10-31T22:18:12+00:00",
+  "run_at": "2026-11-01T00:20:35+00:00",
   "fetch": [],
   "build": "passed validation",
   "official_checks": [
     {
       "level": "ok",
       "check": "official_records",
-      "detail": "All 7 seats match the sitting member, name and party on Digital Sansad (2026-11-01)."
+      "detail": "All 7 seats for Delhi match the sitting member, name and party on Digital Sansad (2026-11-01).",
+      "state": "Delhi"
     },
     {
       "level": "ok",
       "check": "roster_page",
-      "detail": "Delhi MP list page unchanged (delhi_members.2026-10-30.html → delhi_members.2026-11-01.html)."
+      "detail": "Delhi MP list page unchanged (delhi_members.2026-10-30.html → delhi_members.2026-11-01.html).",
+      "state": "Delhi"
+    },
+    {
+      "level": "ok",
+      "check": "official_records",
+      "detail": "All 2 seats for Goa match the sitting member, name and party on Digital Sansad (2026-11-01).",
+      "state": "Goa"
     }
   ],
-  "needs_review": [],
+  "needs_review": [
+    {
+      "seat": "north-goa-goa",
+      "field": "record",
+      "old": "absent",
+      "new": "added"
+    },
+    {
+      "seat": "south-goa-goa",
+      "field": "record",
+      "old": "absent",
+      "new": "added"
+    }
+  ],
   "updated": []
 }
