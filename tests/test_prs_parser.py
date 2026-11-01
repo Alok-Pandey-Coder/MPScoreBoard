@@ -71,6 +71,6 @@ def test_iso_date():
 def test_identity_cross_checked_with_sansad():
     records = json.loads((ROOT / "data" / "processed" / "mps.json").read_text(encoding="utf-8"))
     assert all(row["sansad_mpsno"] and row["identity_review_status"] == "cross_checked" for row in records)
-    reservations = {row["slug"]: row["reservation"] for row in records}
+    reservations = {row["slug"]: row["reservation"] for row in records if row["state"] == "Delhi"}
     assert reservations["north-west-delhi-delhi"] == "SC"
     assert list(reservations.values()).count("GEN") == 6

@@ -1,5 +1,36 @@
 # Project Change Log
 
+## 2026-11-01 - Multi-State Data Pipeline and Goa Lok Sabha MP Integration (branch feat/goa-mps)
+
+- **Summary:**
+  - Expanded the data foundation from Delhi-only (7 seats) to a generalised multi-state architecture supporting Delhi (7 seats) and Goa (2 seats: North Goa, South Goa) in the 18th Lok Sabha.
+  - Implemented scripts/states.py registry defining state configuration, identity master rules, Lok Sabha seat counts, and pending rationale.
+  - Generalised intake, normalisation, and merge scripts (01_fetch_sansad_members.py, 02_fetch_prs.py, 03_parse_prs.py, 05_normalise.py, 06_merge.py, 07_validate.py, 08_snapshot.py, 09_intake_mplads.py, build_data.py, refresh.py) to run per state or for all registered states.
+  - Captured official identity master for Goa from Digital Sansad member API (data/raw/sansad.members.goa.2026-11-01.json):
+    - north-goa-goa: Shripad Yesso Naik (BJP, Minister of State)
+    - south-goa-goa: Captain Viriato Fernandes (INC)
+  - Captured and parsed PRS MP Track profile pages (data/raw/prs.goa.2026-11-01/):
+    - Shripad Yesso Naik: marked is_minister = true, performance status not_applicable per repository rule.
+    - Captain Viriato Fernandes: attendance 87%, debates 28, questions 84, PMBs 1.
+  - Preserved exact data invariants: all pending blocks (affidavit, MPLADS, election results) retain null values, never coerced to 0; reasons documented in normalisation notes.
+  - Verified Delhi records in data/processed/mps.json are 100% identical field-by-field against baseline.
+- **Files or areas changed:**
+  - scripts/states.py, scripts/01_fetch_sansad_members.py, scripts/02_fetch_prs.py, scripts/03_parse_prs.py, scripts/05_normalise.py, scripts/06_merge.py, scripts/07_validate.py, scripts/08_snapshot.py, scripts/09_intake_mplads.py, scripts/build_data.py, scripts/refresh.py
+  - data/raw/sansad.members.goa.2026-11-01.json, data/raw/prs.goa.json, data/raw/prs.goa.2026-11-01/, data/raw/eci.results.goa.fetch_log.2026-11-01.json
+  - data/processed/mps.json, data/processed/snapshot.json, data/processed/normalised.goa.json, data/processed/prs.parsed.goa.json, data/processed/aliases.json, data/processed/validation_report.md, data/processed/refresh_report.md, data/processed/refresh_report.json
+  - tests/test_states.py, tests/test_refresh.py, tests/test_mplads.py, tests/test_prs_parser.py, __tests__/data-layer.test.ts
+  - data.md, logs.md
+- **Validation performed:**
+  - python -m pytest tests -q: 55/55 passed.
+  - python scripts/07_validate.py: 0 hard errors, 12 warnings (MPLADS sample partials and differences for Delhi; Goa pending blocks valid).
+  - Field-by-field verification of Delhi records in mps.json against git show HEAD:data/processed/mps.json: 100% identical.
+  - npx tsc --noEmit: 0 TypeScript errors.
+  - npx jest: 312 unit tests passing (1 skipped: optional db parity).
+- **Remaining caveat or next step:**
+  - Goa affidavit, election results, and MPLADS blocks remain pending with nulls until official, compliant source packs are available.
+  - Official MP portraits for Goa to be captured in a future portrait intake.
+
+
 ## 2026-11-01 — Remove Quick Jump Chips from Unified Search Bar
 
 - **Summary:**
