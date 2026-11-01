@@ -1416,3 +1416,19 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `python -m pytest tests -q`: 55 passed in 0.28s.
 - **Remaining caveat or next step:**
   - None. Both `/about` and `/about/data` are fully functional and tested.
+
+## 2026-11-01 - Stop tracking the database CA certificate
+
+- **Summary:** `certs/` is now git-ignored and `certs/root.crt` / `certs/README.md` are no longer tracked. Download the certificate from the Aeon console (Connect > Connect to your Application > Download CA Cert) and save it as `certs/root.crt`. The `db-load` workflow now writes the certificate from the repository secret `DATABASE_CA_CERT`.
+- **Files or areas changed:**
+  - `.gitignore`
+  - `.env.example`
+  - `.github/workflows/db-load.yml`
+  - `docs/deploy.md`
+  - `certs/` (untracked)
+  - `logs.md`
+- **Validation performed:**
+  - `git check-ignore` confirms `certs/root.crt` is ignored.
+- **Remaining caveat or next step:**
+  - The file stays in git history; it is the provider's public CA chain, not a secret.
+  - Add the repository secret `DATABASE_CA_CERT` before the next `db-load` run, or the load will fail certificate verification.

@@ -27,7 +27,7 @@ Set these in Project Settings → Environment Variables. `.env.example` lists th
 |----------|----------|--------------|
 | `NEXT_PUBLIC_SITE_URL` | **Yes** | The absolute site URL, e.g. `https://your-project.vercel.app` (no trailing slash). Used for canonical and Open Graph links, `sitemap.xml` and `robots.txt`. It is read at build time, so redeploy after you change it. Without it, these links point to `http://localhost:3000`. |
 | `DATABASE_URL` | No | YugabyteDB (YSQL) connection string. If it is unset, the site serves the JSON snapshot. If it is set but the database cannot be reached, the site still serves the JSON snapshot, and `/api/health` reports `degraded` with `database.status: unreachable`. |
-| `DATABASE_CA_CERT` | With a hosted database | The database's CA certificate as **text** (the content of `certs/root.crt`). Use it on Vercel, where there is no file to point to. See the next section. |
+| `DATABASE_CA_CERT` | With a hosted database | The database's CA certificate as **text** (the content of the `root.crt` you download from Aeon). Use it on Vercel, where there is no file to point to. See the next section. |
 | `GEMINI_API_KEY` | No | Server-side key for the optional "Explain simply" summary. It is never sent to the browser. |
 | `GEMINI_MODEL` | No | A current Gemini model id. You must set both `GEMINI_API_KEY` and `GEMINI_MODEL`, or `/api/summary` uses the fixed template summary. |
 
@@ -41,15 +41,17 @@ Set two variables in Vercel (Project Settings → Environment Variables), never 
 | Variable | Value |
 |----------|-------|
 | `DATABASE_URL` | `postgresql://<user>:<password>@<cluster-host>:5433/yugabyte`, with no `ssl…` parameters. Percent-encode special characters in the password (`@` is `%40`, `:` is `%3A`, `/` is `%2F`, `#` is `%23`). |
-| `DATABASE_CA_CERT` | The whole content of `certs/root.crt`, including the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines. Vercel accepts multi-line values. You can also paste it on one line, with a backslash followed by `n` between lines. |
+| `DATABASE_CA_CERT` | The whole content of `root.crt`, including the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines. Vercel accepts multi-line values. You can also paste it on one line, with a backslash followed by `n` between lines. |
 
 - **Why a variable and not a file:** a deployed function cannot read files from
   your computer, and `pg` treats `sslrootcert=` as a file path at runtime. With
   `DATABASE_CA_CERT` set, the app uses the certificate text and removes any
   `ssl…` parameters from the URL itself. The server certificate and host name
   are always verified.
-- **The certificate is not a secret.** It is the cluster provider's public CA
-  chain (`certs/root.crt`, committed). The password is the secret.
+- **Getting the certificate:** in the Aeon console open the cluster, **Connect →
+  Connect to your Application → Download CA Cert**. Save it as `certs/root.crt`.
+  The `certs/` folder is git-ignored, so the file is never committed. It is the
+  provider's public CA chain, not a secret; the password is the secret.
 - **IP allow list:** Vercel and GitHub Actions do not connect from fixed IP
   addresses, so in the Aeon console (Networking → IP Allow List) the list must
   allow `0.0.0.0/0`. The database stays protected by its password and verified
@@ -80,8 +82,8 @@ The repository has two workflows in `.github/workflows/`:
   loads the approved snapshot into YugabyteDB. Required setting: the repository
   secret **`DATABASE_URL`** (Settings → Secrets and variables → Actions), in the
   form `postgresql://<user>:<password>@<cluster-host>:5433/yugabyte?sslmode=verify-full&sslrootcert=certs/root.crt`.
-  The certificate path is relative to the repository root, where `certs/root.crt`
-  is checked out. Do not add `ssl=true`: the Python driver does not accept it.
+  The certificate is not in the repository: add its text as a second repository
+  secret, **`DATABASE_CA_CERT`**, and the job writes it to `certs/root.crt`. Do not add `ssl=true`: the Python driver does not accept it.
   Without the secret, the job's steps are skipped and the site keeps serving the
   JSON snapshot.
 
