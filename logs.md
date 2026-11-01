@@ -1,5 +1,39 @@
 # Project Change Log
 
+## 2026-11-01 — Goa follow-ups: independent data verification, small-state average note, data-driven state pages
+
+- **Summary:**
+  - **Goa data verified independently** (the Goa branch was merged by PR #14; its agent was cut off by the API limit before reporting):
+    - Identity: both MPs match the live Digital Sansad API (mpsno 273 and 5710, party, status Sitting).
+    - PRS activity: the cached pages parse to the same record as the live pages (South Goa 87% / 28 / 84 / 1; North Goa is a minister, so not applicable).
+    - 2024 affidavits: assets, liabilities, education and declared case counts match the live MyNeta pages (ids 3668 and 3876). Naik: ₹10,86,83,533, liabilities ₹5,08,675, no cases. Fernandes: ₹5,27,28,999, liabilities ₹3,79,840, 1 declared case.
+    - Delhi: the 7 records are identical to the previous `main` snapshot.
+    - ECI result and MPLADS remain "pending", correctly.
+  - **State average based on one or two MPs (PRD 5.6 / T6):** Goa's PRS average covers only South Goa (the other MP is a minister, excluded), so the card compared him with himself ("similar to the Goa average").
+    - The card now says "This average is based on this MP alone, so it is the same as their own figure" (1 MP) or "The Goa average is based on only 2 MPs".
+    - Both texts exist in English and Hindi.
+    - The "vs average" badge is neutral when the average is the MP's own value.
+    - The sample size is computed from the data (`lib/stateAverages.ts`).
+  - **State pages and map no longer assume Delhi is the only state with data:**
+    - `/state/goa` said "Report cards for Goa are not available yet" although both cards exist, because the seat list was built from a Delhi-only constant.
+    - The list now comes from the data (`lib/stateCoverage.ts`).
+    - The map's "7 / 7" and "0 / n" coverage labels (literal text) are computed.
+- **Files or areas changed:**
+  - `lib/stateAverages.ts`, `lib/stateCoverage.ts` (new)
+  - `components/mp/ComparisonSection.tsx`, `components/mp/MPReportCardClient.tsx`, `app/mp/[slug]/page.tsx`
+  - `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx`
+  - `lib/messages/card.ts`
+  - `__tests__/state-averages.test.ts`, `__tests__/state-coverage.test.ts` (new)
+- **Validation performed:**
+  - `tsc` passes. `eslint .` reports 0 errors.
+  - jest: 668 passed, 1 skipped. pytest: 55 passed. `07_validate.py`: 9 records, Delhi + Goa, 0 hard errors.
+  - `next build`: 68 pages.
+  - On the running production build: `/state/goa` lists both MPs with card links; `/state/delhi` unchanged; `/state/uttar-pradesh` still says not available yet; the South Goa card shows the one-MP note; Delhi cards show no such note.
+- **Remaining caveat or next step:**
+  - The reference-pack note for Fernandes (CSV only, not published) lists IPC sections 143, 149 and 341. MyNeta lists 143, 145, 341 and 149, with charges framed on 11 Aug 2023.
+  - The Goa affidavit review status says "cross_checked": MyNeta is a single source, with the ADR PDF page reference recorded. ADR/MyNeta reuse terms are still unconfirmed, as for Delhi.
+  - The map's Delhi-specific ward layer stays Delhi-only. Goa has no boundary polygons yet.
+
 ## 2026-11-01 — Goa 2024 Lok Sabha MP Election Affidavit Ingestion (branch feat/goa-mps)
 
 - **Summary:**

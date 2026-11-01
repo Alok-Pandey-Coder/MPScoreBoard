@@ -17,10 +17,13 @@ import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
 import { formatDate, formatNumber, formatPct } from '@/lib/formatters';
 import { compareWithAverage, describeAgainstAverage } from '@/lib/comparisons';
+import { isSmallSample } from '@/lib/stateAverages';
 import { localizeParty, localizeState, type Lang } from '@/lib/i18n';
 
 interface ComparisonSectionProps {
   mp: MPRecord;
+  /** How many MPs the state average is based on (see lib/stateAverages.ts). */
+  stateAverageN?: number;
 }
 
 // Neutral colour tokens (WCAG AA on both themes). Colour only tells the series
@@ -95,9 +98,12 @@ function useIsClient(): boolean {
 }
 
 /** Neutral "vs state average" badge; the wording comes from lib/comparisons. */
-function StateComparisonBadge({ m, stateName, lang, unavailable }: { m: MetricItem; stateName: string; lang: Lang; unavailable: string }) {
-  const relation = compareWithAverage(m.mpVal, m.stateVal, m.type, lang).relation;
-  const text = describeAgainstAverage(m.mpVal, m.stateVal, m.type, { kind: 'state', name: stateName }, lang) ?? unavailable;
+function StateComparisonBadge({ m, stateName, lang, unavailable, selfOnly, selfOnlyText }: { m: MetricItem; stateName: string; lang: Lang; unavailable: string; selfOnly: boolean; selfOnlyText: string }) {
+  // An average based on this MP alone is their own figure; comparing them with it says nothing.
+  const relation = selfOnly ? 'similar' : compareWithAverage(m.mpVal, m.stateVal, m.type, lang).relation;
+  const text = selfOnly
+    ? selfOnlyText
+    : describeAgainstAverage(m.mpVal, m.stateVal, m.type, { kind: 'state', name: stateName }, lang) ?? unavailable;
   const Icon = relation === 'higher' ? TrendingUp : relation === 'lower' ? TrendingDown : Minus;
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-stone-200/60 dark:bg-[#1A2536] text-stone-600 dark:text-stone-300 text-center">
@@ -107,7 +113,7 @@ function StateComparisonBadge({ m, stateName, lang, unavailable }: { m: MetricIt
   );
 }
 
-export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
+export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp, stateAverageN }) => {
   const t = useMessages(cardMessages);
   const { lang } = useLang();
   const [viewMode, setViewMode] = useState<ViewMode>('pie');
@@ -140,6 +146,8 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
   const stateShort = t.stateAverageShort(stateName);
   const stateRole = t.stateAverageLabel(stateName);
   const nationalShort = t.nationalAverageShort;
+  const smallSample = isSmallSample(stateAverageN);
+  const selfOnly = smallSample && stateAverageN === 1;
 
   const countMax = (floor: number, factor: number, ...values: Array<number | null | undefined>) =>
     Math.max(floor, ...values.filter(present)) * factor;
@@ -218,7 +226,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
   const legendRows = (m: MetricItem) => (
     <>
       <div className="my-2 flex items-center justify-center">
-        <StateComparisonBadge m={m} stateName={stateName} lang={lang} unavailable={t.comparisonUnavailable} />
+        <StateComparisonBadge m={m} stateName={stateName} lang={lang} unavailable={t.comparisonUnavailable} selfOnly={selfOnly} selfOnlyText={t.stateAverageSelfOnly} />
       </div>
       <dl className="pt-2.5 border-t border-stone-200/70 dark:border-[#1A2536] space-y-1.5 text-[11px] font-mono">
         <div className="flex items-center justify-between gap-2">
@@ -272,6 +280,11 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
             {t.comparisonSubtitle(stateName)}
             {perf.as_of ? t.comparisonAsOfSuffix(formatDate(perf.as_of, lang)) : ''}
           </p>
+          {smallSample && (
+            <p className="text-xs font-mono text-stone-600 dark:text-stone-300 mt-1">
+              {selfOnly ? t.stateAverageSelfOnly : t.stateAverageSmallSample(stateName, stateAverageN)}
+            </p>
+          )}
         </div>
 
         {/* View mode switcher */}
@@ -478,7 +491,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({ mp }) => {
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono mb-3">
                   <span className="font-bold text-stone-900 dark:text-stone-100">{m.title}</span>
-                  <StateComparisonBadge m={m} stateName={stateName} lang={lang} unavailable={t.comparisonUnavailable} />
+                  <StateComparisonBadge m={m} stateName={stateName} lang={lang} unavailable={t.comparisonUnavailable} selfOnly={selfOnly} selfOnlyText={t.stateAverageSelfOnly} />
                 </div>
                 <dl className="space-y-2 text-[11px] font-mono">
                   {rows.map((row) => (
