@@ -35,7 +35,7 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
             className="group bg-white dark:bg-[#0E1420] rounded-xl p-5 border border-stone-200/90 dark:border-[#1E2636] hover:border-amber-500/80 dark:hover:border-amber-500/60 shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer relative"
           >
             <div>
-              {/* Top Dossier Header: Seat + Category */}
+              {/* Top Report Card Header: Seat + Category */}
               <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-stone-100 dark:border-[#1A2333]">
                 <div className="flex items-center gap-1.5 text-[11px] font-mono font-medium text-stone-500 dark:text-stone-400">
                   <span className="text-stone-900 dark:text-stone-200 font-bold">{mp.constituency}</span>
@@ -128,9 +128,9 @@ export const QuickCardsGrid: React.FC<QuickCardsGridProps> = ({ mps }) => {
               </div>
             </div>
 
-            {/* Dossier Card Footer */}
+            {/* Report Card Footer */}
             <div className="pt-3 mt-2 border-t border-stone-100 dark:border-[#1A2333] flex items-center justify-between text-xs font-mono font-medium text-stone-600 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-              <span>{t.viewDossier}</span>
+              <span>{t.viewReportCardSources}</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </div>
           </Link>

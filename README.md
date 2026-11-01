@@ -23,13 +23,13 @@
 | 🎬 **Demo video** | `<add video URL>` |
 | 💻 **Source** | https://github.com/Alok-Pandey-Coder/MPScoreBoard |
 
-<!-- Add 2–3 screenshots here: homepage state picker, Delhi map with pincode / location lookup, an MP dossier -->
+<!-- Add 2–3 screenshots here: homepage state picker, Delhi map with pincode / location lookup, an MP report card -->
 
 ---
 
 ## ⚡ In 30 Seconds
 
-**Mera MP** ([live at mp-score-board.vercel.app](https://mp-score-board.vercel.app/)) gives any Indian citizen a **60-second, source-backed dossier** on their Lok Sabha MP: attendance, questions, debates, MPLADS spending, declared assets, and declared criminal cases. Pick your state, find your constituency on its map, and open the report card. Every figure links to its official source. There are **no scores, no rankings and no editorial spin.**
+**Mera MP** ([live at mp-score-board.vercel.app](https://mp-score-board.vercel.app/)) gives any Indian citizen a **60-second, source-backed report card** on their Lok Sabha MP: attendance, questions, debates, MPLADS spending, declared assets, and declared criminal cases. Pick your state, find your constituency on its map, and open the report card. Every figure links to its official source. There are **no scores, no rankings and no editorial spin.**
 
 | | |
 |---|---|
@@ -53,7 +53,7 @@
 
 ## 🚀 What We Built
 
-### 1. 📋 60-Second Neutral MP Dossier
+### 1. 📋 60-Second Neutral MP Report Card
 - **Parliamentary activity:** attendance, questions, debates, private member bills (Sansad API, PRS)
 - **Financials:** declared assets and liabilities (ECI Form 26, latest election)
 - **Criminal cases:** *declared* cases from the affidavit, never presented as convictions
@@ -151,7 +151,7 @@ The pipeline is **idempotent** and **database-optional**. By default it runs fro
 
 1. **Open the [live app](https://mp-score-board.vercel.app/)** and pick a state or union territory from the cards (**Delhi** and **Goa** have report cards), or click a state on the India map.
 2. **Find your seat.** Enter your **6-digit pincode** (Delhi) or tap **Use my location**, or click any ward or constituency on the map.
-3. **Open the MP card** in the sidebar, then **View Full Dossier**.
+3. **Open the MP card** in the sidebar, then **View Full Report Card**.
 4. **Verify anything.** Click the 🔗 icon beside any figure to open the original government source, with its retrieval date.
 5. **Compare MPs** on the Compare page, and **switch state** from the dropdown on any state page. Raw numbers only, no ranking.
 
@@ -207,7 +207,7 @@ npm run data:refresh    # fetch sources and rebuild (network)
 
 | Phase | Scope | Status |
 |---|---|---|
-| **1** | Delhi (7) + Goa (2) with full dossiers and GIS | ✅ Complete |
+| **1** | Delhi (7) + Goa (2) with full report cards and GIS | ✅ Complete |
 | **2** | Maharashtra (48), Karnataka (28), Uttar Pradesh (80) | 🔜 Next |
 | **3** | All remaining states and UTs, all 543 Lok Sabha seats | Planned |
 | **4** | Rajya Sabha, MPLADS deep-dive, project-level tracker | Planned |

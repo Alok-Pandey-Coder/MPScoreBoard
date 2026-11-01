@@ -476,7 +476,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
           </div>
         </div>
 
-        {/* Right Search & Browse Panel (4 Cols - Refined Editorial Dossier) */}
+        {/* Right Search & Browse Panel (4 Cols - Refined Editorial Panel) */}
         <div className="lg:col-span-4 bg-stone-50/90 dark:bg-[#0E1420] border-t lg:border-t-0 lg:border-l border-stone-200 dark:border-[#1E2636] p-5 flex flex-col justify-between">
           <div className="space-y-4">
             <LocateMySeat stateId="delhi" onResolved={(slug) => focusConstituency(slug)} />
@@ -605,7 +605,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                 href={`/mp/${activeSeat.slug}`}
                 className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 bg-stone-900 hover:bg-stone-800 text-white dark:bg-stone-100 dark:hover:bg-white dark:text-stone-950 font-bold text-xs font-mono uppercase tracking-wider rounded-lg shadow-sm transition-colors cursor-pointer"
               >
-                <span>{t.viewFullDossier}</span>
+                <span>{t.viewFullReportCard}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>

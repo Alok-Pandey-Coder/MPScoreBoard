@@ -14,7 +14,7 @@ export const compareMessages = defineMessages({
     memberA: 'Member A',
     memberB: 'Member B',
     minister: 'Minister',
-    viewFull: 'View Full Dossier',
+    viewFull: 'View Full Report Card',
     attendance: 'Parliamentary Attendance Rate',
     debates: 'Debates Participated',
     questions: 'Questions Submitted',
