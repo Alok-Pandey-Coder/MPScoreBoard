@@ -6,6 +6,98 @@ import { defineMessages } from '@/lib/i18n';
  */
 export const aboutMessages = defineMessages({
   en: {
+    // Tab Navigation
+    tabProduct: 'About the Product & UI Tour',
+    tabProductHint: 'Explore the vision, core features and interactive UI of Mera MP',
+    tabData: 'About the Data & Methodology',
+    tabDataHint: 'Sources, validation invariants, minister treatment and limits',
+
+    // Product Section Header
+    productBadge: 'Civic Technology for 1.4B Citizens',
+    productHeroTitle: 'Mera MP: Transparent, Neutral & Verified Civic Intelligence',
+    productHeroSubtitle:
+      'A non-partisan civic dashboard transforming complex parliamentary records, local development spending, and election affidavits into clear, accessible report cards for the 18th Lok Sabha.',
+
+    // Product Stats
+    statCoverageLabel: 'Active Coverage',
+    statCoverageValue: (seats: number, states: number) => `${seats} MPs across ${states} States/UTs`,
+    statZeroHallucinationLabel: 'Zero Hallucinations',
+    statZeroHallucinationValue: 'Deterministic Data Pipeline',
+    statNeutralityLabel: 'Strict Neutrality',
+    statNeutralityValue: 'No Ranks, No Grades',
+    statVerificationLabel: 'Source Provenance',
+    statVerificationValue: '100% Verified Citations',
+
+    // UI Showcase Section
+    showcaseHeading: 'Interactive Product UI Tour',
+    showcaseSubheading:
+      'Explore the user interfaces engineered to empower citizens with objective democratic oversight.',
+
+    // Feature 1: MP Report Card
+    featCardTitle: '1. Comprehensive MP Report Card',
+    featCardBadge: 'Core Experience',
+    featCardDesc:
+      'Every representative receives a clean, standardized report card bringing together floor attendance, parliamentary debate participation, legislative questions, local development (MPLADS) fund execution, and sworn election financial affidavits.',
+    featCardPoint1: 'Editorial Header with verified photo, party badge, and constituency tenure.',
+    featCardPoint2: 'Four-pillar parliamentary scorecard compared against state and national benchmarks.',
+    featCardPoint3: 'Union Minister civic protocol disclosure (shown as "Not Applicable", never zero).',
+    featCardPoint4: 'Direct citation drawer linking to primary government and watchdog URLs.',
+    featCardTryLink: 'Explore an MP Report Card',
+
+    // Feature 2: Side-by-Side Comparison
+    featCompareTitle: '2. Side-by-Side MP Comparison Tool',
+    featCompareBadge: 'Civic Analysis',
+    featCompareDesc:
+      'Allows citizens to place any two MPs side-by-side to understand relative floor participation and local project delivery across constituencies and political parties without partisan bias or arbitrary rankings.',
+    featComparePoint1: 'Direct comparison across attendance, questions, debates, and private bills.',
+    featComparePoint2: 'Aligned financial comparison of MPLADS allocations and declared assets.',
+    featComparePoint3: 'Neutral comparative labels ("Similar to average", "Higher than") without judgment colors.',
+    featCompareTryLink: 'Compare MPs Now',
+
+    // Feature 3: MPLADS Local Development Tracker
+    featMpladsTitle: '3. MPLADS Fund & 10-Item Paginated Works Tracker',
+    featMpladsBadge: 'Local Accountability',
+    featMpladsDesc:
+      'Tracks how public development funds are utilized on the ground. Includes interactive financial gauges (allocated vs spent) and an itemized project list with windowed pagination and expenditure amounts.',
+    featMpladsPoint1: 'Detailed expenditure and recommendation percentages computed from rupee totals.',
+    featMpladsPoint2: '10-item windowed pagination for local development works with quick page jumps.',
+    featMpladsPoint3: 'Status badges for Completed, In Progress, and Recommended projects with costs in ₹ Lakhs.',
+    featMpladsTryLink: 'View Sample Works',
+
+    // Feature 4: Interactive Atlas & Map Explorer
+    featMapTitle: '4. Interactive Geographic Atlas & State Explorer',
+    featMapBadge: 'Spatial Discovery',
+    featMapDesc:
+      'Enables citizens to discover MPs through an interactive geographic map of India. Select covered states (Delhi, Goa) to inspect constituency boundaries, sitting MPs, and regional delegation summaries.',
+    featMapPoint1: 'Interactive India Atlas highlighting active report card coverage.',
+    featMapPoint2: 'Constituency boundary polygons with instant hover and click inspection.',
+    featMapPoint3: 'State exploration hubs with aggregate delegation statistics and regional seat lists.',
+    featMapTryLink: 'Launch Map Explorer',
+
+    // Feature 5: JanSeva AI Civic Assistant
+    featChatTitle: '5. "Chat with AI" (JanSeva AI) Grounded Civic Assistant',
+    featChatBadge: 'AI for Civic Good',
+    featChatDesc:
+      'A natural-language conversational assistant grounded in Meko Data MCP and Google Gemini. Citizens can ask free-form questions about MP spending, constituency development, or civic jurisdictions without hallucinations.',
+    featChatPoint1: 'Strictly grounded in verified dossiers; zero made-up facts or hallucinations.',
+    featChatPoint2: 'One-click citizen prompt chips for common queries (MP vs MLA, MPLADS usage, etc.).',
+    featChatPoint3: 'Available as a dedicated /chat page and a sitewide floating drawer on every report card.',
+    featChatTryLink: 'Chat with JanSeva AI',
+
+    // Architecture & Principles
+    principlesHeading: 'Product Architecture & Civic Design Standards',
+    principle1Title: 'Radical Neutrality',
+    principle1Desc: 'We display objective facts and descriptive differences. We never grade, rank, or proclaim "best" or "worst" MPs.',
+    principle2Title: 'Zero Hallucination Guarantee',
+    principle2Desc: 'No LLM touches our stored data pipeline. Figures come solely from deterministic, unit-tested parsers over cached captures.',
+    principle3Title: 'Full Bilingual Accessibility',
+    principle3Desc: 'Available in English and Hindi with culturally accurate translations and zero layout shifts.',
+    principle4Title: 'Responsive & Dark Mode Native',
+    principle4Desc: 'Engineered for seamless accessibility across smartphones, tablets, and desktops with high-contrast dark mode.',
+
+    // Data-to-UI Mapping Section
+    dataMappingHeading: 'How Each Source Powers the Product UI',
+    dataMappingIntro: 'Every UI element on our report cards traces directly back to an authoritative public record:',
     badge: 'Documentation & Provenance',
     title: 'Methodology, Sources & Transparency',
     intro:
@@ -109,6 +201,98 @@ export const aboutMessages = defineMessages({
     feedbackLink: 'Submit a data feedback issue on GitHub',
   },
   hi: {
+    // Tab Navigation
+    tabProduct: 'उत्पाद और UI टूर',
+    tabProductHint: 'मेरा सांसद का दृष्टिकोण, मुख्य सुविधाएँ और इंटरएक्टिव UI देखें',
+    tabData: 'डेटा और कार्यप्रणाली',
+    tabDataHint: 'स्रोत, सत्यापन नियम, मंत्रियों के नियम और सीमाएँ',
+
+    // Product Section Header
+    productBadge: '140 करोड़ नागरिकों के लिए नागरिक तकनीक',
+    productHeroTitle: 'मेरा सांसद: पारदर्शी, निष्पक्ष और सत्यापित नागरिक मंच',
+    productHeroSubtitle:
+      'एक गैर-पक्षपाती नागरिक डैशबोर्ड जो 18वीं लोकसभा के जटिल संसदीय रिकॉर्ड, स्थानीय विकास खर्च और चुनावी हलफ़नामों को स्पष्ट और सुलभ रिपोर्ट कार्ड में बदलता है।',
+
+    // Product Stats
+    statCoverageLabel: 'सक्रिय कवरेज',
+    statCoverageValue: (seats: number, states: number) => `${states} राज्यों/UTs में ${seats} सांसद`,
+    statZeroHallucinationLabel: 'शून्य भ्रामकता',
+    statZeroHallucinationValue: 'तय नियमों वाली डेटा पाइपलाइन',
+    statNeutralityLabel: 'सख्त निष्पक्षता',
+    statNeutralityValue: 'कोई रैंकिंग या ग्रेड नहीं',
+    statVerificationLabel: 'सत्यापित स्रोत',
+    statVerificationValue: '100% सत्यापित संदर्भ',
+
+    // UI Showcase Section
+    showcaseHeading: 'इंटरएक्टिव उत्पाद UI टूर',
+    showcaseSubheading:
+      'नागरिकों को निष्पक्ष लोकतांत्रिक जानकारी देने के लिए बनाए गए हमारे मुख्य इंटरफेस देखें।',
+
+    // Feature 1: MP Report Card
+    featCardTitle: '1. संपूर्ण सांसद रिपोर्ट कार्ड',
+    featCardBadge: 'मुख्य अनुभव',
+    featCardDesc:
+      'हर सांसद का एक व्यवस्थित रिपोर्ट कार्ड, जिसमें सदन में उपस्थिति, बहस, प्रश्न, स्थानीय विकास निधि (MPLADS) और चुनावी हलफ़नामे का विवरण एक साथ मिलता है।',
+    featCardPoint1: 'सत्यापित तस्वीर, पार्टी बैज और निर्वाचन क्षेत्र के साथ मुख्य हेडर।',
+    featCardPoint2: 'संसदीय भागीदारी के 4 मुख्य स्तंभ, राज्य और राष्ट्रीय औसत से तुलना के साथ।',
+    featCardPoint3: 'केंद्रीय मंत्रियों के लिए संसदीय नियम ("लागू नहीं", कभी शून्य नहीं)।',
+    featCardPoint4: 'सीधे आधिकारिक और निगरानी संस्थाओं के लिंक के साथ स्रोत विवरण।',
+    featCardTryLink: 'सांसद रिपोर्ट कार्ड देखें',
+
+    // Feature 2: Side-by-Side Comparison
+    featCompareTitle: '2. दो सांसदों की आमने-सामने तुलना',
+    featCompareBadge: 'नागरिक विश्लेषण',
+    featCompareDesc:
+      'नागरिक किसी भी दो सांसदों की सदन में भागीदारी और स्थानीय विकास कार्यों की आमने-सामने तुलना कर सकते हैं, बिना किसी राजनीतिक पूर्वाग्रह या बनावटी रैंकिंग के।',
+    featComparePoint1: 'उपस्थिति, प्रश्न, बहस और विधेयकों की सीधी तुलना।',
+    featComparePoint2: 'MPLADS आवंटन और घोषित संपत्ति का व्यवस्थित मिलान।',
+    featComparePoint3: 'निष्पक्ष तुलनात्मक शब्द ("औसत के लगभग बराबर", "औसत से अधिक") बिना किसी फ़ैसले के।',
+    featCompareTryLink: 'सांसदों की तुलना करें',
+
+    // Feature 3: MPLADS Local Development Tracker
+    featMpladsTitle: '3. MPLADS फंड और 10-कार्यों वाली पेजिनेशन सूची',
+    featMpladsBadge: 'स्थानीय जवाबदेही',
+    featMpladsDesc:
+      'ज़मीनी स्तर पर विकास निधि के उपयोग की जानकारी। इसमें फंड गेज (आवंटन बनाम खर्च) और हर कार्य की लागत के साथ 10-10 कार्यों की पेजिनेशन सूची शामिल है।',
+    featMpladsPoint1: 'रुपयों की कुल राशि से निकाले गए खर्च और अनुशंसा के प्रतिशत।',
+    featMpladsPoint2: 'स्थानीय विकास कार्यों के लिए 10-कार्यों वाली आसान पेजिनेशन।',
+    featMpladsPoint3: 'पूरे हुए, प्रगति में और अनुशंसित कार्यों के बैज ₹ लाख में लागत के साथ।',
+    featMpladsTryLink: 'नमूना कार्य देखें',
+
+    // Feature 4: Interactive Atlas & Map Explorer
+    featMapTitle: '4. इंटरएक्टिव भौगोलिक एटलस और राज्य अन्वेषक',
+    featMapBadge: 'मानचित्र खोज',
+    featMapDesc:
+      'भारत के इंटरएक्टिव मानचित्र के माध्यम से सांसदों को खोजें। निर्वाचन क्षेत्र की सीमाओं, मौजूदा सांसदों और क्षेत्रीय आंकड़ों को देखने के लिए राज्यों (दिल्ली, गोवा) को चुनें।',
+    featMapPoint1: 'सक्रिय रिपोर्ट कार्ड कवरेज को दर्शाने वाला भारत का एटलस।',
+    featMapPoint2: 'माउस ले जाने और क्लिक करके देखने योग्य निर्वाचन क्षेत्र की सीमाएं।',
+    featMapPoint3: 'राज्य-स्तरीय हब जहाँ सामूहिक आंकड़े और सभी सीटों की सूची मिलती है।',
+    featMapTryLink: 'मानचित्र अन्वेषक खोलें',
+
+    // Feature 5: JanSeva AI Civic Assistant
+    featChatTitle: '5. "Chat with AI" (जनसेवा AI) नागरिक सहायक',
+    featChatBadge: 'नागरिक भलाई के लिए AI',
+    featChatDesc:
+      'Meko Data MCP और Google Gemini पर आधारित नागरिक सहायक। नागरिक सांसद के खर्च, क्षेत्र के विकास या नागरिक अधिकारों पर बिना किसी भ्रामक जानकारी के सवाल पूछ सकते हैं।',
+    featChatPoint1: 'सत्यापित जानकारी पर आधारित; कोई मनगढ़ंत या झूठा तथ्य नहीं।',
+    featChatPoint2: 'आम सवालों के लिए एक-क्लिक वाले नागरिक सुझाव चिप्स।',
+    featChatPoint3: 'समर्पित /chat पेज और हर रिपोर्ट कार्ड पर स्लाइड-आउट ड्रॉअर के रूप में उपलब्ध।',
+    featChatTryLink: 'जनसेवा AI से बात करें',
+
+    // Architecture & Principles
+    principlesHeading: 'उत्पाद की रूपरेखा और नागरिक डिज़ाइन मानक',
+    principle1Title: 'पूर्ण निष्पक्षता',
+    principle1Desc: 'हम केवल तथ्य और संख्यात्मक अंतर दिखाते हैं। हम सांसदों को रैंक या ग्रेड नहीं देते।',
+    principle2Title: 'शून्य भ्रामकता की गारंटी',
+    principle2Desc: 'हमारी डेटा पाइपलाइन में कोई AI नहीं है। सभी आंकड़े जांची-परखी स्क्रिप्ट से आते हैं।',
+    principle3Title: 'द्विभाषी सुलभता',
+    principle3Desc: 'अंग्रेजी और हिंदी दोनों में सटीक और सहज लेआउट के साथ उपलब्ध।',
+    principle4Title: 'मोबाइल और डार्क मोड के अनुकूल',
+    principle4Desc: 'स्मार्टफोन, टैबलेट और कंप्यूटर पर उच्च कंट्रास्ट डार्क मोड के साथ सहज।',
+
+    // Data-to-UI Mapping Section
+    dataMappingHeading: 'हर डेटा स्रोत कैसे उत्पाद UI को संचालित करता है',
+    dataMappingIntro: 'हमारे रिपोर्ट कार्ड पर दिखने वाला हर तत्व सीधे किसी आधिकारिक सार्वजनिक रिकॉर्ड से जुड़ा है:',
     badge: 'दस्तावेज़ और स्रोत की जानकारी',
     title: 'कार्यप्रणाली, स्रोत और पारदर्शिता',
     intro:

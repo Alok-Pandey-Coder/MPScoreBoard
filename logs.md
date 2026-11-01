@@ -1379,3 +1379,40 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - A teammate's local `certs/` folder is untracked. It must be deleted or moved before pulling this branch, or git will refuse to overwrite it.
 
 
+
+## 2026-11-01 — Refine "About the Product" & "About the Data" with Interactive UI Showcase
+
+- **Summary:**
+  - Designed and deployed a unified, two-tab About experience on `/about` and dedicated `/about/data` route:
+    1. **"About the Product & UI Tour" (`ProductShowcase.tsx`)**:
+       - Mission statement and civic technology vision for 1.4B citizens.
+       - Live interactive preview of the **MP Report Card UI** with toggles between standard member scores and Union Minister constitutional protocol disclosures.
+       - Interactive preview of **MPLADS Fund & 10-Item Paginated Works Tracker** with status pills (`Completed`, `In Progress`, `Recommended`) and project costs in ₹ Lakhs.
+       - Interactive preview of the **Side-by-Side MP Comparison Tool** (`/compare`) demonstrating non-judgmental, unbiased alignment across Delhi and Goa MPs.
+       - Interactive preview of the **Geographic Atlas & State Explorer** (`/explore` and `/state/[state]`).
+       - Interactive preview of **JanSeva AI (Chat with AI)** grounded civic assistant.
+       - Core civic principles: Radical Neutrality, Zero Hallucinations, Full Bilingual Parity, Dark Mode Native.
+    2. **"About the Data & Methodology" (`DataPipelineShowcase.tsx`)**:
+       - Visual flowchart of the 5-stage deterministic data pipeline (Ethical Fetching with robots.txt and 10s delay -> Immutable Raw Stores -> Deterministic Parsers -> Entity Resolution -> Invariant Validation).
+       - Interactive **"Data-to-UI Mapping Matrix"** explicitly connecting every raw government source (Digital Sansad, PRS, MoSPI eSAKSHI, ECI Form 26, Meko MCP) to its rendered UI component.
+       - Comprehensive sources table, Minister handling policy (`#minister-policy`), calculation thresholds, affidavit definitions (`#affidavit-data`), limitations, and AI guardrails.
+  - Added dedicated `/about/data` page route for direct navigation.
+  - Added link to "About & methodology" in `components/layout/Footer.tsx`.
+  - Added bilingual translations in `lib/messages/about.ts` with 100% English and Hindi parity.
+  - Updated `tests/test_refresh.py` to reflect that all 9 Lok Sabha MPs (Delhi + Goa) carry verified portraits.
+- **Files or areas changed:**
+  - `components/about/ProductShowcase.tsx` (new)
+  - `components/about/DataPipelineShowcase.tsx` (new)
+  - `app/about/AboutContent.tsx`
+  - `app/about/page.tsx`
+  - `app/about/data/page.tsx` (new)
+  - `components/layout/Footer.tsx`
+  - `lib/messages/about.ts`
+  - `tests/test_refresh.py`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest`: 746 passed across 15 test suites (including `i18n-pages.test.ts`).
+  - `python -m pytest tests -q`: 55 passed in 0.28s.
+- **Remaining caveat or next step:**
+  - None. Both `/about` and `/about/data` are fully functional and tested.

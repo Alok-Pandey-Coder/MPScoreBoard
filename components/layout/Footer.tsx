@@ -24,6 +24,7 @@ export const Footer: React.FC = () => {
     { href: '/compare', label: t.navCompare },
     { href: '/explore', label: t.navMap },
     { href: '/about', label: t.navAbout },
+    { href: '/about?tab=data', label: t.footerMethodology },
     { href: '/about#minister-policy', label: t.footerMinisters },
   ];
 

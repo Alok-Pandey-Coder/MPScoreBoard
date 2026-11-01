@@ -70,8 +70,7 @@ def test_removed_and_added_seats_need_review():
 
 def test_portraits_are_carried_by_the_pipeline():
     assert all(m.get("image_url") and m.get("image_source", {}).get("url") for m in MPS)
-    # No official portrait has been captured for other states: the field is absent, not invented.
-    assert all("image_url" not in m for m in ALL_MPS if m["state"] != "Delhi")
+    assert all(m.get("image_url") and m.get("image_source", {}).get("url") for m in ALL_MPS)
 
 
 # ── official checks ──────────────────────────────────────────────────────────
