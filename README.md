@@ -19,8 +19,8 @@
 
 | | |
 |---|---|
-| 🌐 **Live app** | [https://mp-score-board.vercel.app/](https://mp-score-board.vercel.app/) |
-| 🎬 **Demo video** | `<add video URL>` |
+| 🌐 **Live app** | https://mp-score-board.vercel.app/ |
+| 🎬 **Demo video** | `https://youtu.be/Jlo-mVshcBA` |
 | 💻 **Source** | https://github.com/Alok-Pandey-Coder/MPScoreBoard |
 
 <!-- Add 2–3 screenshots here: homepage state picker, Delhi map with pincode / location lookup, an MP report card -->
