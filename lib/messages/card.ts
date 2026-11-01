@@ -5,10 +5,26 @@ import { defineMessages } from '@/lib/i18n';
  * state, party, source names, work descriptions, agencies, education text —
  * is never translated and is passed in as-is.
  */
+/** Hindi for the PRS term-count labels ("First Term" …); unknown labels stay as published. */
+const HINDI_TERM_NUMBERS: Record<string, string> = {
+  'First Term': 'पहला कार्यकाल',
+  'Second Term': 'दूसरा कार्यकाल',
+  'Third Term': 'तीसरा कार्यकाल',
+  'Fourth Term': 'चौथा कार्यकाल',
+  'Fifth Term': 'पाँचवाँ कार्यकाल',
+  'Sixth Term': 'छठा कार्यकाल',
+  'Seventh Term': 'सातवाँ कार्यकाल',
+  'Eighth Term': 'आठवाँ कार्यकाल',
+  'Ninth Term': 'नौवाँ कार्यकाल',
+  'Tenth Term': 'दसवाँ कार्यकाल',
+};
+
 export const cardMessages = defineMessages({
   en: {
     // Page chrome (MPReportCardClient)
     breadcrumbHome: 'Home',
+    breadcrumbLabel: 'Breadcrumb',
+    jumpNavLabel: 'Jump to a section',
     printButton: 'Print / Save Dossier PDF',
     jumpIndicators: 'Indicators',
     jumpAverages: 'Averages',
@@ -42,7 +58,9 @@ export const cardMessages = defineMessages({
       `Check out the parliamentary record of ${name} (${constituency}) on Mera MP, Mera Report Card.`,
     ministerBadge: 'Minister',
     ministerBadgeTitle: 'Click to view minister explanation',
-    reservationCategory: (category: string) => `${category} Category`,
+    reservationCategory: (category: 'SC' | 'ST') => `${category} Category`,
+    termNumber: (raw: string) => raw,
+    termLabel: (raw: string) => raw,
     electedOn: (date: string) => `Elected ${date}`,
     shareButton: 'Share Dossier',
     copyLinkLabel: 'Copy direct dossier link',
@@ -84,6 +102,23 @@ export const cardMessages = defineMessages({
     stateAverageLabel: (state: string) => `PRS-published ${state} average`,
     nationalAverageLabel: 'PRS-published national average',
     barNotAvailable: 'Not available',
+    comparisonEyebrow: 'Benchmark',
+    viewModeLabel: 'Chart type',
+    viewPie: 'Pie chart',
+    viewRings: 'Rings',
+    viewBars: 'Bars',
+    viewPieTitle: 'Show as donut charts',
+    viewRingsTitle: 'Show as concentric rings',
+    viewBarsTitle: 'Show as horizontal bars',
+    subtitleAttendance: 'Sittings of the House attended',
+    subtitleDebates: 'Debates taken part in',
+    subtitleQuestions: 'Starred and unstarred questions',
+    subtitleBills: 'Bills introduced as an individual member',
+    stateAverageShort: (state: string) => `${state} avg`,
+    nationalAverageShort: 'National avg',
+    nationalRole: 'All 543 Lok Sabha seats',
+    chartGuide: 'Key:',
+    tooltipValue: 'Value:',
 
     // MPLADS block (MpladsSection)
     mpladsHeading: 'Local Area Development Funds (MPLADS)',
@@ -139,6 +174,16 @@ export const cardMessages = defineMessages({
     workPaid: 'Paid:',
     workId: 'eSAKSHI work ID:',
     workRetrievedSuffix: (date: string) => ` · retrieved ${date}`,
+    worksPaginationPrevious: 'Previous',
+    worksPaginationNext: 'Next',
+    worksPaginationPage: (current: number, total: number) => `Page ${current} of ${total}`,
+    worksPaginationAria: 'Works pagination',
+    worksPaginationPageAria: (page: number) => `Go to page ${page}`,
+    worksShowingWindow: (start: number, end: number, totalFiltered: number) =>
+      `Showing ${start}–${end} of ${totalFiltered} works`,
+    worksShowingWindowPartial: (start: number, end: number, totalFiltered: number, totalBySource: number | null) =>
+      `Showing ${start}–${end} of ${totalFiltered} works (${totalBySource ?? 'unknown'} total listed by source)`,
+    sanctionedNoteNotReported: 'Not reported by source',
 
     // Affidavit (AffidavitSection)
     affidavitHeading: 'Background',
@@ -233,6 +278,8 @@ export const cardMessages = defineMessages({
   },
   hi: {
     breadcrumbHome: 'होम',
+    breadcrumbLabel: 'आप यहाँ हैं',
+    jumpNavLabel: 'किसी हिस्से पर जाएँ',
     printButton: 'प्रिंट करें / PDF सेव करें',
     jumpIndicators: 'संकेतक',
     jumpAverages: 'औसत',
@@ -264,7 +311,10 @@ export const cardMessages = defineMessages({
       `मेरा सांसद, मेरा रिपोर्ट कार्ड पर ${name} (${constituency}) का संसदीय रिकॉर्ड देखें।`,
     ministerBadge: 'मंत्री',
     ministerBadgeTitle: 'मंत्रियों के बारे में जानकारी देखने के लिए क्लिक करें',
-    reservationCategory: (category: string) => `${category} आरक्षित`,
+    reservationCategory: (category: 'SC' | 'ST') =>
+      category === 'SC' ? 'अनुसूचित जाति (SC) के लिए आरक्षित' : 'अनुसूचित जनजाति (ST) के लिए आरक्षित',
+    termNumber: (raw: string) => HINDI_TERM_NUMBERS[raw] ?? raw,
+    termLabel: (raw: string) => (raw === '18th Lok Sabha' ? '18वीं लोकसभा' : raw),
     electedOn: (date: string) => `निर्वाचित: ${date}`,
     shareButton: 'शेयर करें',
     copyLinkLabel: 'रिपोर्ट कार्ड का लिंक कॉपी करें',
@@ -304,6 +354,23 @@ export const cardMessages = defineMessages({
     stateAverageLabel: (state: string) => `PRS द्वारा प्रकाशित ${state} का औसत`,
     nationalAverageLabel: 'PRS द्वारा प्रकाशित राष्ट्रीय औसत',
     barNotAvailable: 'उपलब्ध नहीं',
+    comparisonEyebrow: 'तुलना',
+    viewModeLabel: 'चार्ट का प्रकार',
+    viewPie: 'पाई चार्ट',
+    viewRings: 'वलय',
+    viewBars: 'बार',
+    viewPieTitle: 'डोनट चार्ट के रूप में दिखाएँ',
+    viewRingsTitle: 'वलयों के रूप में दिखाएँ',
+    viewBarsTitle: 'आड़ी पट्टियों (बार) के रूप में दिखाएँ',
+    subtitleAttendance: 'सदन की बैठकों में उपस्थिति',
+    subtitleDebates: 'जिन बहसों में हिस्सा लिया',
+    subtitleQuestions: 'तारांकित और अतारांकित प्रश्न',
+    subtitleBills: 'सदस्य के रूप में अपनी ओर से पेश विधेयक',
+    stateAverageShort: (state: string) => `${state} औसत`,
+    nationalAverageShort: 'राष्ट्रीय औसत',
+    nationalRole: 'लोकसभा की सभी 543 सीटें',
+    chartGuide: 'संकेत:',
+    tooltipValue: 'मान:',
 
     mpladsHeading: 'स्थानीय क्षेत्र विकास निधि (MPLADS)',
     mpladsSecondaryBadge: 'द्वितीयक स्रोत — आधिकारिक eSAKSHI से मिलान बाकी',
@@ -359,6 +426,16 @@ export const cardMessages = defineMessages({
     workPaid: 'भुगतान:',
     workId: 'eSAKSHI कार्य ID:',
     workRetrievedSuffix: (date: string) => ` · ${date} को लिया गया`,
+    worksPaginationPrevious: 'पिछला',
+    worksPaginationNext: 'अगला',
+    worksPaginationPage: (current: number, total: number) => `पृष्ठ ${current} / ${total}`,
+    worksPaginationAria: 'कार्य पृष्ठ संख्या',
+    worksPaginationPageAria: (page: number) => `पृष्ठ ${page} पर जाएँ`,
+    worksShowingWindow: (start: number, end: number, totalFiltered: number) =>
+      `${totalFiltered} में से ${start}–${end} कार्य दिखाए जा रहे हैं`,
+    worksShowingWindowPartial: (start: number, end: number, totalFiltered: number, totalBySource: number | null) =>
+      `दर्ज ${totalFiltered} में से ${start}–${end} कार्य दिखाए जा रहे हैं (स्रोत में कुल ${totalBySource ?? 'अज्ञात'} सूचीबद्ध)`,
+    sanctionedNoteNotReported: 'स्रोत द्वारा दर्ज नहीं',
 
     affidavitHeading: 'पृष्ठभूमि',
     affidavitDeclaredIn: (year: number | null) =>

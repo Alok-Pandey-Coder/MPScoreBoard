@@ -7,6 +7,7 @@ import { MPRecord, Source } from '@/types/mp';
 import { formatDate, formatReviewStatus } from '@/lib/formatters';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages, CardMessages } from '@/lib/messages/card';
+import { commonMessages } from '@/lib/messages/common';
 import snapshotJson from '@/data/processed/snapshot.json';
 
 interface SourcesFooterProps {
@@ -78,6 +79,7 @@ function collectSources(mp: MPRecord, t: CardMessages): SourceEntry[] {
 
 export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
   const t = useMessages(cardMessages);
+  const common = useMessages(commonMessages);
   const { lang } = useLang();
   const sources = collectSources(mp, t);
   const perf = mp.performance;
@@ -150,7 +152,7 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
                       </span>
                     )}
                   </p>
-                  <p className="text-stone-600 dark:text-stone-300 mt-1">{src.usedFor.join('; ')}</p>
+                  <p className="text-stone-600 dark:text-stone-300 mt-1">{src.usedFor.join(t.listSeparator)}</p>
                   <p className="text-[11px] font-mono text-stone-500 dark:text-stone-400 mt-0.5">
                     {roleLabel(src.role, t)} · {src.retrieved ? t.retrievedOn(formatDate(src.retrieved, lang)) : t.asOfMissing}
                   </p>
@@ -163,7 +165,7 @@ export const SourcesFooter: React.FC<SourcesFooterProps> = ({ mp }) => {
                 >
                   <span className="truncate max-w-[16rem]">{src.url.replace(/^https?:\/\//, '')}</span>
                   <ExternalLink className="w-3 h-3 shrink-0" aria-hidden="true" />
-                  <span className="sr-only">(opens in a new tab)</span>
+                  <span className="sr-only">{common.opensInNewTab}</span>
                 </a>
               </div>
             </li>

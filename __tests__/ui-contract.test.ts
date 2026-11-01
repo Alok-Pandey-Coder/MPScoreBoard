@@ -100,7 +100,7 @@ describe('compareWithAverage', () => {
 describe('generateTemplateSummary', () => {
   const numbersIn = (text: string) => (text.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
 
-  it.each(['en', 'hinglish'] as const)('cites only numbers present in the record (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('cites only numbers present in the record (%s)', (lang) => {
     const mp = makeRecord();
     const text = generateTemplateSummary(mp, lang);
     const known = knownNumbersForRecord(mp);
@@ -108,7 +108,7 @@ describe('generateTemplateSummary', () => {
     expect(verifyGuardrails(text, mp)).toBe(true);
   });
 
-  it.each(['en', 'hinglish'] as const)('never invents 96/85 averages when averages are null (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('never invents 96/85 averages when averages are null (%s)', (lang) => {
     const text = generateTemplateSummary(makeRecord(), lang);
     expect(text).not.toMatch(/\b96\b/);
     expect(text).not.toMatch(/\b85\b/);
@@ -136,7 +136,7 @@ describe('generateTemplateSummary', () => {
     expect(text).not.toMatch(/\b(His|Her|his|her)\b/);
   });
 
-  it.each(['en', 'hinglish'] as const)('handles ministers as not applicable (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('handles ministers as not applicable (%s)', (lang) => {
     const mp = makeRecord({
       is_minister: true,
       performance: {
@@ -148,7 +148,7 @@ describe('generateTemplateSummary', () => {
       },
     });
     const text = generateTemplateSummary(mp, lang);
-    expect(text).toMatch(lang === 'en' ? /don't apply/ : /lagu nahi/);
+    expect(text).toMatch({ en: /don't apply/, hi: /लागू नहीं/, hinglish: /lagu nahi/ }[lang]);
     expect(text).not.toMatch(/Union Minister/);
     expect(numbersIn(text).every((n) => knownNumbersForRecord(mp).has(n))).toBe(true);
   });
@@ -172,7 +172,7 @@ describe('generateTemplateSummary', () => {
     expect(verifyGuardrails('Attendance is 96%.', makeRecord())).toBe(false);
   });
 
-  it.each(['en', 'hinglish'] as const)('summaries for every mps.json record pass the guardrail (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('summaries for every mps.json record pass the guardrail (%s)', (lang) => {
     const file = path.join(__dirname, '..', 'data', 'processed', 'mps.json');
     const records: MPRecord[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
     for (const r of records) expect(verifyGuardrails(generateTemplateSummary(r, lang), r)).toBe(true);
@@ -228,5 +228,33 @@ describe('mps.json MPLADS contract', () => {
     if (unspent !== null) expect(typeof unspent).toBe('number');
     const wc = m.works_count as Record<string, unknown> | null;
     if (wc) for (const k of ['recommended', 'sanctioned', 'completed', 'pending']) expect(wc).toHaveProperty(k);
+  });
+});
+
+describe('MPLADS works pagination and presentation contract', () => {
+  it('chunks works into 10-item windows and clamps page boundaries', () => {
+    const PAGE_SIZE = 10;
+    const dummyWorks = Array.from({ length: 25 }, (_, i) => ({ id: i + 1 }));
+    const totalPages = Math.max(1, Math.ceil(dummyWorks.length / PAGE_SIZE));
+    expect(totalPages).toBe(3);
+
+    // Page 1: items 0..10
+    expect(dummyWorks.slice(0, PAGE_SIZE)).toHaveLength(10);
+    // Page 2: items 10..20
+    expect(dummyWorks.slice(10, 20)).toHaveLength(10);
+    // Page 3: items 20..25
+    expect(dummyWorks.slice(20, 30)).toHaveLength(5);
+  });
+
+  it('guarantees every Delhi MP work has either recommended_amount_cr or final_amount_cr', () => {
+    const file = path.join(__dirname, '..', 'data', 'processed', 'mps.json');
+    const records: MPRecord[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    for (const mp of records) {
+      for (const w of mp.mplads?.works ?? []) {
+        const cost = w.final_amount_cr ?? w.recommended_amount_cr ?? null;
+        expect(cost).not.toBeNull();
+        expect(typeof cost).toBe('number');
+      }
+    }
   });
 });

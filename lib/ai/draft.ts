@@ -14,6 +14,9 @@ export const DRAFT_MAX_FIELD = 60;
 /** Error message for an invalid /api/draft body. */
 export const DRAFT_REQUEST_SHAPE = `Expected { slug, intent: ${DRAFT_INTENTS.join(' | ')}, lang: ${AI_LANGS_TEXT}, citizenName?, locality? } (text ≤ ${DRAFT_MAX_FIELD} chars).`;
 
+/** "Subject" in each draft language, for the copied letter's first line. */
+export const DRAFT_SUBJECT_LABEL: Record<AiLang, string> = { en: 'Subject', hi: 'विषय', hinglish: 'Vishay' };
+
 export interface DraftRequest {
   slug: string;
   intent: CitizenIntent;
@@ -347,7 +350,7 @@ function hindiDraft(mp: MPRecord, options: DraftOptions): { subject: string; bod
           '',
           'इसके ज़रिए हमारे मोहल्ले के बारे में कुछ सुझाव साझा किए जा रहे हैं।',
           '',
-          'हमारा समुदाय इस स्थानीय प्राथमिकता की ओर आपका ध्यान दिलाना चाहता है:',
+          'हमारे समुदाय की ओर से इस स्थानीय प्राथमिकता की ओर आपका ध्यान दिलाया जा रहा है:',
           issueDisplay,
           '',
           'अनुरोध है कि आपके जनसंपर्क कार्यक्रमों की जानकारी मिलती रहे। इस विषय पर आपके सहयोग की आशा है।',

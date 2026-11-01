@@ -1,10 +1,30 @@
 import { notFound, permanentRedirect } from 'next/navigation';
 import type { Metadata } from 'next';
+import aliasesJson from '@/data/processed/aliases.json';
 import { getAllMPs, getMPBySlug, resolveCanonicalSlug } from '@/lib/data';
 import { MPReportCardClient } from '@/components/mp/MPReportCardClient';
 
+/**
+ * Only the slugs returned by generateStaticParams exist. Any other slug is
+ * answered by Next's own 404 handling, which renders app/not-found.tsx into
+ * the server HTML. With the default (`true`), an unknown slug is rendered on
+ * demand and notFound() from that render falls back to an empty error shell
+ * that is filled in only on the client.
+ * See node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/02-route-segment-config/dynamicParams.md
+ */
+export const dynamicParams = false;
+
+const slugRedirects =
+  (aliasesJson as { slug_redirects?: Record<string, string> }).slug_redirects ?? {};
+
 export async function generateStaticParams() {
-  return (await getAllMPs()).map((mp) => ({ slug: mp.slug }));
+  const canonical = (await getAllMPs()).map((mp) => mp.slug);
+  // PRD §5.7: old or short slugs are prerendered too, as permanent redirects.
+  const aliases: string[] = [];
+  for (const alias of Object.keys(slugRedirects)) {
+    if (!canonical.includes(alias) && (await resolveCanonicalSlug(alias))) aliases.push(alias);
+  }
+  return [...canonical, ...aliases].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
