@@ -1,536 +1,499 @@
 # Project Change Log
 
-## 2026-11-01 — Goa follow-ups: independent data verification, small-state average note, data-driven state pages
+## 2026-10-31
 
-- **Summary:**
-  - **Goa data verified independently** (the Goa branch was merged by PR #14; its agent was cut off by the API limit before reporting):
-    - Identity: both MPs match the live Digital Sansad API (mpsno 273 and 5710, party, status Sitting).
-    - PRS activity: the cached pages parse to the same record as the live pages (South Goa 87% / 28 / 84 / 1; North Goa is a minister, so not applicable).
-    - 2024 affidavits: assets, liabilities, education and declared case counts match the live MyNeta pages (ids 3668 and 3876). Naik: ₹10,86,83,533, liabilities ₹5,08,675, no cases. Fernandes: ₹5,27,28,999, liabilities ₹3,79,840, 1 declared case.
-    - Delhi: the 7 records are identical to the previous `main` snapshot.
-    - ECI result and MPLADS remain "pending", correctly.
-  - **State average based on one or two MPs (PRD 5.6 / T6):** Goa's PRS average covers only South Goa (the other MP is a minister, excluded), so the card compared him with himself ("similar to the Goa average").
-    - The card now says "This average is based on this MP alone, so it is the same as their own figure" (1 MP) or "The Goa average is based on only 2 MPs".
-    - Both texts exist in English and Hindi.
-    - The "vs average" badge is neutral when the average is the MP's own value.
-    - The sample size is computed from the data (`lib/stateAverages.ts`).
-  - **State pages and map no longer assume Delhi is the only state with data:**
-    - `/state/goa` said "Report cards for Goa are not available yet" although both cards exist, because the seat list was built from a Delhi-only constant.
-    - The list now comes from the data (`lib/stateCoverage.ts`).
-    - The map's "7 / 7" and "0 / n" coverage labels (literal text) are computed.
+- Summary: Resolved merge conflicts between `origin/main` (Next.js 16/React 19 report card UI & Jest suite) and `map-location-apis` (Next.js App Router spatial APIs, Point-in-Polygon resolution, Delhi Pincodes, and dark GIS ward map).
+- Areas: `.gitignore`, `package.json`, `tsconfig.json`, `app/layout.tsx`, `app/page.tsx`, `lib/types.ts`, `lib/data.ts`, `logs.md`.
+- Validation: TypeScript check (`npx tsc --noEmit`), Jest test suite (`npm test`), and Next.js production build (`npm run build`).
+- Caveat: Test snapshot and real snapshot both supported through `MP_DATA_MODE` and spatial APIs.
+
+- Summary: Transformed the constituency map into an exact visual recreation of the reference dark GIS screenshot:
+  1. Replaced crude PC polygons with 290 interlocking Delhi constituency/ward boundary polygons (`delhi_wards_enriched.geojson`), completely eliminating white patches/gaps across the National Capital Territory.
+  2. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted uppercase surrounding region labels (GURGAON, NOIDA, GHAZIABAD, KUNDLI, etc.).
+  3. Matched the reference screenshot's color harmony: Olive/Forest Green for North West, Kelly Green for West, Cyan/Teal for Chandni Chowk, Royal Blue for New Delhi, Deep Burgundy/Crimson for South, Amber for East, and Violet for North East.
+  4. Rendered bold white constituency numbers with subtle dark text shadows on every block polygon.
+  5. Added the exact orange target reticle marker (with crosshairs and centered number) for selected constituencies (e.g. Ward 20).
+  6. Added bottom-right 10km dark scale bar.
+  7. Retained all existing backend functionality: GPS auto-detect, Point-in-Polygon location resolution, and debounced autocomplete search.
+- Areas: `data/processed/delhi_wards_enriched.geojson`, `app/api/geojson/route.ts`, `app/test-frontend/page.tsx`, `test-frontend/index.html`, `app/layout.tsx`.
+- Validation: TypeScript compilation, dev server verification, screenshot visual alignment.
+
+- Summary: Fixed "Map container is already initialized" React StrictMode race condition caused by React / Next.js double mounting `useEffect` during development.
+- Areas: `app/test-frontend/page.tsx`.
+- Validation: Verified clean mount/unmount and leafet instance lifecycle.
+
+- Summary: Next.js TypeScript backend APIs, spatial location service (Point-in-Polygon Ray Casting & Delhi pincodes directory), and test harness.
+- Areas: `lib/spatial.ts`, `lib/delhi_pincodes.ts`, `app/api/locate/`, `app/api/constituencies/`, `app/api/search/`, `app/api/geojson/`, `app/test-frontend/`.
+- Validation: All API endpoints verified with automated integration tests.
+
+- Summary: Added Hindi interface labels, browser speech playback, snapshot-only MP chat, Gemini-ready summary integration, test-only pincode/contact endpoints and UI, and expanded offline cache.
+- Areas: `lib/actions.ts`, `app/api/chat/`, `app/api/pincode/`, `app/api/contact/`, `app/pincode.tsx`, MP actions/contact controls, `public/sw.js`.
+- Validation: TypeScript, ESLint, Jest, production build, and test-data API smoke tests pass.
+- Caveat: Set `GEMINI_API_KEY` to enable Gemini; without it the grounded template is used. Synthetic pincode/contact values are development-only and must be replaced with verified sources.
+
+- Summary: Added synthetic boundary map and browser-only location lookup, affidavit display, dark mode, PWA shell, public JSON/CSV downloads, and print reports.
+- Areas: `app/map.tsx`, `lib/boundaries.ts`, `app/manifest.ts`, `public/sw.js`, `app/api/data/`, MP detail components.
+- Validation: TypeScript, ESLint, Jest, production build, and synthetic runtime smoke tests pass.
+- Caveat: Real boundary data is not present; location/map are intentionally available only in test mode. Affidavit values remain pending in the real snapshot.
+
+- Summary: Implemented feature-catalogue discovery, trust, comparison, and detail surfaces.
+- Areas: state/constituency picker, typo-tolerant search, test banner, comparison bars, trends/history, MPLADS/works/bills, compare/state routes, search index, glossary, sharing, and issue reporting.
+- Validation: TypeScript, ESLint, Jest, and production build pass.
+- Caveat: GPS/location, boundary map, affidavit enrichment, MP chat, Meko trail, and external Gemini integration remain data/service dependent.
+
+- Summary: Added a `MP_DATA_MODE=test` switch and `dev:test` command for running the UI against the deterministic synthetic snapshot.
+- Areas: `lib/data.ts`, `package.json`, `data/processed/mps.test.json`.
+- Validation: Test snapshot regenerated; home, health, and a synthetic MP route returned HTTP 200.
+- Caveat: Test records are fictional and must never be published as real civic data.
+
+- Summary: Added template-grounded summary and action APIs with client controls.
+- Areas: `app/api/`, `app/mp/[slug]/actions.tsx`, `lib/actions.ts`.
+- Validation: API inputs use fixed language/intent enums; generated text uses only snapshot facts and keeps a template fallback.
+- Caveat: No external LLM is enabled yet; responses are intentionally marked `source: "template"`.
+
+- Summary: Added the first functional MP report-card UI for the reviewed Delhi snapshot.
+- Areas: `app/`, `lib/data.ts`, `package.json`, test scripts.
+- Validation: 58 Jest tests, TypeScript typecheck, and snapshot validation pass.
+- Caveat: MPLADS and affidavit enrichment remain pending in the source snapshot; AI summary and draft-letter routes are not yet implemented.
+
+## 2026-10-30 — Initial Delhi Pipeline Validation and Foundation Setup
+
+- **Summary:** Established initial Delhi-first data pipeline for all 7 parliamentary constituencies; extracted PRS profile and activity HTML captures into `data/raw/prs.delhi.2026-10-30/`; normalized and cross-checked identities with Digital Sansad API; parsed attendance, debates, and questions into `data/processed/mps.json`.
 - **Files or areas changed:**
-  - `lib/stateAverages.ts`, `lib/stateCoverage.ts` (new)
-  - `components/mp/ComparisonSection.tsx`, `components/mp/MPReportCardClient.tsx`, `app/mp/[slug]/page.tsx`
-  - `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx`
-  - `lib/messages/card.ts`
-  - `__tests__/state-averages.test.ts`, `__tests__/state-coverage.test.ts` (new)
+  - `data/raw/sansad.members.delhi.2026-10-30.json`
+  - `data/raw/masterlist.delhi.json`
+  - `scripts/01_fetch_sansad_members.py`
+  - `scripts/03_parse_prs.py`
+  - `scripts/05_normalise.py`
+  - `scripts/06_merge.py`
+  - `scripts/07_validate.py`
+  - `data/processed/mps.json`
+  - `data/processed/snapshot.json`
+  - `data/processed/validation_report.md`
 - **Validation performed:**
-  - `tsc` passes. `eslint .` reports 0 errors.
-  - jest: 668 passed, 1 skipped. pytest: 55 passed. `07_validate.py`: 9 records, Delhi + Goa, 0 hard errors.
-  - `next build`: 68 pages.
-  - On the running production build: `/state/goa` lists both MPs with card links; `/state/delhi` unchanged; `/state/uttar-pradesh` still says not available yet; the South Goa card shows the one-MP note; Delhi cards show no such note.
+  - Automated validation verified 7 unique seats, 1 minister excluded from averages, and 0 out-of-bounds percentage or activity metrics.
 - **Remaining caveat or next step:**
-  - The reference-pack note for Fernandes (CSV only, not published) lists IPC sections 143, 149 and 341. MyNeta lists 143, 145, 341 and 149, with charges framed on 11 Aug 2023.
-  - The Goa affidavit review status says "cross_checked": MyNeta is a single source, with the ADR PDF page reference recorded. ADR/MyNeta reuse terms are still unconfirmed, as for Delhi.
-  - The map's Delhi-specific ward layer stays Delhi-only. Goa has no boundary polygons yet.
+  - MPLADS, affidavit, and election result blocks remain pending for Delhi MPs.
 
-## 2026-11-01 — Goa 2024 Lok Sabha MP Election Affidavit Ingestion (branch feat/goa-mps)
+# Project history
 
-- **Summary:**
-  - Ingested verified 2024 Lok Sabha election affidavits (ECI Form 26 / ADR MyNeta compilation) for both Goa MPs:
-    - Shripad Yesso Naik (North Goa, BJP, candidate_id=3668): Total Assets Rs 10,86,83,533 (Movable Rs 2,05,67,671, Immovable Rs 8,81,15,862), Total Liabilities Rs 5,08,675, Declared Criminal Cases 0.
-    - Captain Viriato Fernandes (South Goa, INC, candidate_id=3876): Total Assets Rs 5,27,28,999 (Movable Rs 3,54,44,169, Immovable Rs 1,72,84,830), Total Liabilities Rs 3,79,840, Declared Criminal Cases 1 (IPC sections 143, 149, 341; 0 serious IPC counts as classified by ADR, 0 convictions).
-  - Created reference pack `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv` and linked it in `scripts/states.py` under Goa's `affidavit_pack`.
-  - Rebuilt canonical `mps.json`: Goa affidavit blocks transitioned from `pending` to `reported` with cross_checked provenance.
-  - Preserved rule that declared criminal cases are allegations/cases, not convictions.
+## 2026-10-31 — Data Directory Reorganization, Master Registry & Custom 7 MP Intake Setup
+
+- **Summary:** Reorganized 5 auxiliary and legacy civic data packs into `data/reference_packs/` to clean the repository root; authored the comprehensive master data registry `data.md`; created the plug-in intake template `data/raw/delhi_7mp_custom_enrichment.json` for manual 7 MP data addition.
 - **Files or areas changed:**
-  - `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`
-  - `scripts/states.py`
-  - `data/processed/mps.json`, `data/processed/snapshot.json`, `data/processed/validation_report.md`
-  - `tests/test_states.py`
-  - `data.md`, `logs.md`
+  - Created `data/reference_packs/` and moved:
+    - `JanDarpan_Delhi_Officials_Enriched_Pack` ➔ `data/reference_packs/officials_enriched_pack`
+    - `JanDarpan_Delhi_Officials_Data_Pack` ➔ `data/reference_packs/officials_data_pack`
+    - `JanDarpan_MCD_PMS_Expansion_2026-10-31` ➔ `data/reference_packs/mcd_pms_expansion_2026-10-31`
+    - `JanDarpan_MCD_Councillor_Collection_Workstream_2` ➔ `data/reference_packs/mcd_councillor_collection_ws2`
+    - `JanDarpan_Delhi_Jurisdiction_Collection_01` ➔ `data/reference_packs/delhi_jurisdiction_collection_01`
+  - Authored root master registry `data.md`.
+  - Created intake template `data/raw/delhi_7mp_custom_enrichment.json`.
 - **Validation performed:**
-  - `python scripts/build_data.py`: 0 hard errors, 12 warnings (Delhi MPLADS differences only; Goa affidavits reported).
-  - `python -m pytest tests -q`: 55/55 passed.
-  - `npx tsc --noEmit`: 0 TypeScript errors.
-  - `npx jest`: 643 passed (1 skipped).
-  - Field-by-field verification of Delhi records: 100% identical.
+  - Verified root directory is clean (zero stray JanDarpan directories in project root).
+  - Verified all files in `data/reference_packs/` are intact and accessible.
+  - Re-ran `python scripts/07_validate.py` against `data/processed/mps.json`; confirmed 0 hard errors, 0 warnings, and 100% computed vs PRS average reconciliation.
 - **Remaining caveat or next step:**
-  - Goa MPLADS and 2024 Election result blocks remain pending.
+  - Merge the ready ADR affidavit data from `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment.csv` into `mps.json`.
+  - Ingest the user-provided 7 MP enrichment file once values for MPLADS and Election results are supplied.
 
+---
 
-## 2026-11-01 - Multi-State Data Pipeline and Goa Lok Sabha MP Integration (branch feat/goa-mps)
+## 2026-10-31 — Affidavit Block Merged & Validation Rules Extended
 
-- **Summary:**
-  - Expanded the data foundation from Delhi-only (7 seats) to a generalised multi-state architecture supporting Delhi (7 seats) and Goa (2 seats: North Goa, South Goa) in the 18th Lok Sabha.
-  - Implemented scripts/states.py registry defining state configuration, identity master rules, Lok Sabha seat counts, and pending rationale.
-  - Generalised intake, normalisation, and merge scripts (01_fetch_sansad_members.py, 02_fetch_prs.py, 03_parse_prs.py, 05_normalise.py, 06_merge.py, 07_validate.py, 08_snapshot.py, 09_intake_mplads.py, build_data.py, refresh.py) to run per state or for all registered states.
-  - Captured official identity master for Goa from Digital Sansad member API (data/raw/sansad.members.goa.2026-11-01.json):
-    - north-goa-goa: Shripad Yesso Naik (BJP, Minister of State)
-    - south-goa-goa: Captain Viriato Fernandes (INC)
-  - Captured and parsed PRS MP Track profile pages (data/raw/prs.goa.2026-11-01/):
-    - Shripad Yesso Naik: marked is_minister = true, performance status not_applicable per repository rule.
-    - Captain Viriato Fernandes: attendance 87%, debates 28, questions 84, PMBs 1.
-  - Preserved exact data invariants: all pending blocks (affidavit, MPLADS, election results) retain null values, never coerced to 0; reasons documented in normalisation notes.
-  - Verified Delhi records in data/processed/mps.json are 100% identical field-by-field against baseline.
+- **Summary:** Integrated ADR/MyNeta election affidavit data from `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment.csv` into `data/processed/mps.json` via updated `scripts/06_merge.py`; updated `scripts/07_validate.py` with affidavit validation rules; updated `data.md` registry.
 - **Files or areas changed:**
-  - scripts/states.py, scripts/01_fetch_sansad_members.py, scripts/02_fetch_prs.py, scripts/03_parse_prs.py, scripts/05_normalise.py, scripts/06_merge.py, scripts/07_validate.py, scripts/08_snapshot.py, scripts/09_intake_mplads.py, scripts/build_data.py, scripts/refresh.py
-  - data/raw/sansad.members.goa.2026-11-01.json, data/raw/prs.goa.json, data/raw/prs.goa.2026-11-01/, data/raw/eci.results.goa.fetch_log.2026-11-01.json
-  - data/processed/mps.json, data/processed/snapshot.json, data/processed/normalised.goa.json, data/processed/prs.parsed.goa.json, data/processed/aliases.json, data/processed/validation_report.md, data/processed/refresh_report.md, data/processed/refresh_report.json
-  - tests/test_states.py, tests/test_refresh.py, tests/test_mplads.py, tests/test_prs_parser.py, __tests__/data-layer.test.ts
-  - data.md, logs.md
+  - `scripts/06_merge.py` (added affidavit loader, custom enrichment loader, and source provenance).
+  - `scripts/07_validate.py` (added validation for reported affidavits: non-negative assets/cases/liabilities and 2024 election year).
+  - `data/processed/mps.json` (all 7 Delhi MPs now show `affidavit: reported` with exact figures and MyNeta citations).
+  - `data/processed/validation_report.md` (block status updated: `affidavit: reported: 7`).
+  - `data/processed/snapshot.json` (regenerated snapshot with updated SHA-256).
+  - `data.md` (registry updated to show affidavit status 100% complete).
+  - `AGENTS.md` (added instruction requiring `data.md` updates whenever data/tables change).
 - **Validation performed:**
-  - python -m pytest tests -q: 55/55 passed.
-  - python scripts/07_validate.py: 0 hard errors, 12 warnings (MPLADS sample partials and differences for Delhi; Goa pending blocks valid).
-  - Field-by-field verification of Delhi records in mps.json against git show HEAD:data/processed/mps.json: 100% identical.
-  - npx tsc --noEmit: 0 TypeScript errors.
-  - npx jest: 312 unit tests passing (1 skipped: optional db parity).
+  - Ran `python scripts/build_data.py`. All 5 steps completed with 0 hard errors and 0 warnings.
+  - Verified `affidavit: reported: 7` in `validation_report.md`.
 - **Remaining caveat or next step:**
-  - Goa affidavit, election results, and MPLADS blocks remain pending with nulls until official, compliant source packs are available.
-  - Official MP portraits for Goa to be captured in a future portrait intake.
+  - Ingest the user-provided 7 MP enrichment file once values for MPLADS and Election results are supplied in `data/raw/delhi_7mp_custom_enrichment.json`.
 
+---
 
-## 2026-11-01 — MPLADS Works Section 10-Item Windowed Pagination and Prominent Cost Presentation
+## 2026-10-31 — GeoJSON Boundaries, Regional Hierarchy, ECI Raw Capture, New Pipeline Scripts
 
-- **Summary:**
-  - Implemented 10-item windowed pagination for the MPLADS individual works list (MpladsWorksSection.tsx), showing accessible pagination controls (Previous/Next buttons, numeric page indicators, aria-current/aria-disabled states) and updating the live showing counter.
-  - Reset pagination page to 1 automatically when toggling between filters (All, Completed, Not completed).
-  - Prominently surfaced project expenditure/cost badges on each work card (final_amount_cr for completed works, recommended_amount_cr for recommended works), matching the presentation on Empowered Indian.
-  - Cleaned up work metadata displays: omitted missing stages (no longer rendering Recommended amount: Not available on completed works or Completed on: Not available on recommended works).
-  - Clarified why SANCTIONED displays Not available by adding a subtle explanatory sub-label (Not reported by source): Empowered Indian aggregates MoSPI eSAKSHI data only at the Recommended (110) and Completed (41) milestones, omitting the intermediate Sanctioned count (which is cross-checked from JanWatchdog as 79).
-  - Added full English and Hindi i18n support in lib/messages/card.ts for all pagination and status strings.
-  - Added unit test coverage in __tests__/ui-contract.test.ts for pagination window chunking and work amount presence invariants.
+- **Summary:** Completed Delhi MVP data layer. Downloaded DataMeet 543-PC GeoJSON and extracted 7 Delhi boundaries with pc_slug fields. Populated 70-MLA regional hierarchy. Captured ECI 2024 GE results as immutable raw file. Added All-India Sansad fetch script (running), MPLADS manual intake helper, and ECI results script. Updated data.md registry and status table.
 - **Files or areas changed:**
-  - components/mp/MpladsWorksSection.tsx
-  - lib/messages/card.ts
-  - __tests__/ui-contract.test.ts
-  - logs.md
+  - data/processed/delhi_pc_boundaries.geojson - NEW: 7 Delhi Lok Sabha PC boundaries with pc_slug and source (DataMeet CC-BY-4.0, retrieved 2026-10-31).
+  - data/processed/delhi_regional_hierarchy.json - NEW: 7 PCs x 10 MLAs = 70 MLA entries with affidavit, party, and MyNeta data.
+  - data/raw/india_pc_2019_simplified.geojson - NEW: Immutable raw cache of DataMeet 543-PC boundary file (1.9 MB).
+  - data/raw/eci_ge2024_results_raw.json - NEW: ECI 2024 GE results raw capture (7 Delhi PCs, manual backup from ECI 2024-06-04).
+  - data/raw/delhi_7mp_custom_enrichment.json - Updated: election results populated for all 7 Delhi MPs.
+  - data/reference_packs/delhi_jurisdiction_collection_01/assembly_to_parliamentary_mapping.csv - Updated: all 70 AC to PC rows filled.
+  - scripts/download_delhi_geojson.py - NEW: GeoJSON download, filter, and slug-mapping script.
+  - scripts/01_fetch_sansad_india.py - NEW: All-India 543-seat Sansad API fetch script.
+  - scripts/09_intake_mplads.py - NEW: MPLADS manual intake helper with validation.
+  - scripts/10_fetch_eci_results.py - NEW: ECI results fetch script with live API + manual backup.
+  - data.md - Updated: directory tree, status table, block 6 now 100% complete.
 - **Validation performed:**
-  - npm run typecheck: 0 TypeScript errors.
-  - npm test: 8 passed, 643/643 tests passed across all suites.
-  - pytest tests: 36/36 passed.
+  - python scripts/build_data.py: 0 hard errors, 0 warnings.
+  - PRS averages match published values. GeoJSON: 7/7 Delhi features with correct pc_slug values.
+  - Block status: election: reported 7/7, affidavit: reported 7/7, mplads: pending 7/7.
 - **Remaining caveat or next step:**
-  - None. Works list is smoothly windowed at 10 items per page with clear financial values.
+  - MPLADS data pending: fill scripts/09_intake_mplads.py manually from empoweredindian.in/mplads.
+  - All-India Sansad fetch running in background.
+  - All-India scaling (PRS bulk, ECI all-India, MyNeta bulk) scripts not yet written.
 
-## 2026-11-01 — Fix main-branch bugs: 404 server render, lint, names as published, invented fallbacks, Hindi card, About/SEO
+---
 
-- **Summary:**
-  - **404 rendering:** an unknown `/mp/<slug>` was rendered on demand. When `notFound()` fired during that render, Next 16 fell back to an empty error shell, and the 404 page appeared only after client-side JavaScript ran.
-    - `dynamicParams = false` now pre-builds every valid path (7 cards plus 7 legacy aliases, which 308-redirect), so any other slug gets the server-rendered 404.
-    - The same applies to `/state/[state]`, where unknown states used to return 200.
-  - **Lint:** the 4 errors reintroduced by the Hindi work are fixed (React 19 set-state-in-effect in the comparison, summary and draft panels, plus one `any`). No rules were disabled.
-  - **Names as published (PRD 5.6):** Hindi display translation of MP names, constituencies, education, runner-ups and MPLADS works/agencies is removed. State and party names may still show in Hindi. Hindi-script search aliases remain, used for search only.
-  - **Invented fallbacks removed:**
-    - Party `|| 'BJP'` and reservation `|| 'GEN'` in the map panels.
-    - Ward label `|| '20'`.
-    - Missing values shown as 0 or "N/A" in the comparison section.
-    - A green "higher" badge (a judgement colour) in the comparison section.
-  - **Hindi report card completed:**
-    - All card text now comes from `lib/messages/card.ts` (en/hi). The comparison section was rewritten.
-    - The Hindi summary and all 4 Hindi drafts pass the number guardrail and the banned-word check, and are gender-neutral.
-    - The tooltip and toast screen-reader labels are now localised.
-  - **About:** added the PRD 7.3 sections "Affidavit data explained", "Limitations and known gaps" and "AI usage and safeguards" in English and Hindi. Coverage is computed from the data.
-  - **SEO:** added `app/sitemap.ts` and `app/robots.ts`.
-  - **Deployment:** new `docs/deploy.md`, a Vercel deployment guide.
-  - **Process:** AGENTS.md now has the git rules: branches/worktrees, `gh` for PRs, and confirmation before every push and merge.
+## 2026-10-31 — All-India Sansad Master List Fetched (544 MPs)
+
+- **Summary:** Completed All-India 18th Lok Sabha member list fetch via Digital Sansad API. 544 members across 36 states/UTs captured with identity fields and minister status.
 - **Files or areas changed:**
-  - Pages: `app/mp/[slug]/page.tsx`, `app/state/[state]/page.tsx`, `app/about/*`, new `app/sitemap.ts` and `app/robots.ts`.
-  - Components: `components/mp/*` (including the new `AiLangToggle.tsx`), `components/map/*`, `components/state/StateExplorationClient.tsx`, `components/common/{Tooltip,Toast}.tsx`.
-  - Libraries: `lib/i18n/localizeData.ts`, `lib/search.ts`, `lib/ai/{summary,draft,prompts}.ts`.
-  - Messages: `lib/messages/{card,about,common}.ts`.
-  - Tests: `__tests__/{i18n-card,i18n-data,seo}.test.ts`, `__tests__/ui-contract.test.ts`.
-  - Docs: `docs/deploy.md`, `AGENTS.md`.
+  - data/raw/sansad.members.india.2026-10-31.json - NEW: 544 MP records, 36 states/UTs, retrieved 2026-10-31.
+  - data.md - Updated: raw directory tree with actual filename replacing placeholder.
 - **Validation performed:**
-  - `tsc` passes. `eslint .` reports 0 errors (was 4).
-  - jest: 633 passed, 1 skipped (the database parity test, which needs `DATABASE_URL`). pytest: 36 passed. `07_validate.py`: 0 hard errors.
-  - `next build`: 66 pages.
-  - HTTP smoke test against `next start`: 51/51.
-    - `/mp/varanasi` returns 404 with its content in the server HTML; `/state/nowhere` returns 404.
-    - The sitemap lists 11 URLs, and `robots.txt` is served.
-    - The About page has its 3 new sections, and no "N/A" text remains on the cards.
+  - Verified 544 records loaded from JSON. State count matches Lok Sabha composition (UP: 80, Maharashtra: 49, Bihar: 40, WB: 42, Delhi: 7, etc.).
+  - Script: scripts/01_fetch_sansad_india.py at 1 req/sec rate limit (polite crawl).
 - **Remaining caveat or next step:**
-  - Mixed-case slugs (e.g. `/mp/New-Delhi`) now return 404 instead of resolving.
-  - With `DATABASE_URL` set, a new MP gets a card only after the next build.
-  - Hindi phrases flagged for native-speaker review are listed in the PR description.
-  - `sslrootcert` for YugabyteDB Aeon must be shipped with the deployment (see `docs/deploy.md`).
+  - Use this master list as the seed for all-India PRS/affidavit/election enrichment pipeline.
+  - Build 01_normalise_india.py to normalize all 544 records against PRS and ECI data.
 
+---
 
-## 2026-11-01 — Remove Quick Jump Chips from Unified Search Bar
+## 2026-10-31 — All-India PRS Manifest Crawled (553 Members)
 
-- **Summary:**
-  - Removed the quick filter tags ("Jump to: New Delhi, Chandni Chowk, East Delhi, etc.") located immediately below the search input in UnifiedSearchBar.
-  - Added an optional showQuickChips?: boolean prop (defaulting to false) to keep search clean across the home page and other views, eliminating clutter and preserving layout scalability as new regions and constituencies are integrated.
-  - Retained full search bar omnibar autocomplete, keyboard navigation, clear button, and result navigation.
+- **Summary:** Crawled all 62 directory pages (pages 0..61) of the PRS Legislative Research 18th Lok Sabha portal. Captured 553 MP records including constituency, state, party, age, questions, debates, private member bills, and profile URLs.
 - **Files or areas changed:**
-  - components/home/UnifiedSearchBar.tsx
-  - logs.md
+  - data/raw/prs.india.manifest.2026-10-31.json — NEW: All-India PRS directory manifest capture (553 records).
+  - scripts/02_crawl_prs_manifest_india.py — NEW: Crawl script covering pages 0..61 with rate-limiting.
+  - data.md — Updated: added PRS manifest to raw captures inventory.
 - **Validation performed:**
-  - npm run typecheck: 0 TypeScript errors.
-  - npm test: 312 passed.
-  - Dev server verified at http://localhost:3000.
+  - Verified 553 records parsed. Checked sample records from multiple states across early and late pages.
+  - Rate limiting kept at 0.8s per page.
 - **Remaining caveat or next step:**
-  - None.
+  - Match Sansad 544 members with PRS 553 records on (state, constituency, name) to generate national performance dataset.
 
-## 2026-11-01 — YugabyteDB data store (branch feat/yugabytedb)
+---
 
-- **Summary:**
-  - Approved snapshots are stored in **YugabyteDB** (YSQL, PostgreSQL-compatible). The Python pipeline stays the source of truth for fetching, parsing and validation.
-  - `scripts/load_db.py` loads `mps.json` + `snapshot.json`:
-    - It is idempotent: a sha256 already loaded is skipped.
-    - Each snapshot loads in one transaction.
-    - It refuses a snapshot whose hash does not match `mps.json`, and never deletes anything.
-  - Every load is a new snapshot, so per-seat values keep their history.
-  - Tables: `snapshots`, `constituencies`, `member_records`, `performance`, `mplads_summaries`, `mplads_works`, `affidavits`, `elections`, `member_sources`. Block tables carry typed columns plus the approved block; works and the source list are fully normalised. `is_minister` is nullable (unknown is never coerced to false).
-  - `lib/data.ts` is now async:
-    - It reads the most recently *loaded* snapshot from YugabyteDB when `DATABASE_URL` is set, otherwise the JSON snapshot.
-    - If the database is unreachable it serves the JSON snapshot, so the offline demo is unaffected.
-    - `/api/health` reports `dataSource` and the snapshot hash.
-  - New `.github/workflows/db-load.yml` loads each approved snapshot after it is merged to `main` (needs the `DATABASE_URL` secret). New `docker-compose.yml` pins `yugabytedb/yugabyte:2025.2.7.0-b107` for local use.
-  - Added dependencies: `pg@8.13.1`, `@types/pg@8.11.10`, `psycopg[binary]==3.2.3`.
+## 2026-10-31 — All-India Normalisation Completed (544 MPs, 100% PRS Match) & Main Sync
+
+- **Summary:** Built `scripts/05_normalise_india.py` to match the 544 Digital Sansad members with 553 PRS directory entries across all 36 States/UTs. Achieved 100.0% match rate using constituency alias dictionary. Exported canonical `mps.india.json` and `validation_report_india.md`. Synced canonical Delhi `mps.json` to `frontend/src/data/mps.json`. Merged `data-india-sansad-masterlist` into `main`.
 - **Files or areas changed:**
-  - New: `db/schema.sql`, `scripts/load_db.py`, `lib/db.ts`, `__tests__/db-parity.test.ts`, `__tests__/stubs/server-only.ts`, `.github/workflows/db-load.yml`, `docker-compose.yml`.
-  - Data layer: `lib/data.ts`.
-  - Pages and routes now awaiting the async data layer: home, compare, explore, `mp/[slug]`, `state/[state]`, not-found, and the APIs (summary, draft, locate, search-index, health).
-  - Tests and config: `__tests__/data-layer.test.ts`, `jest.config.ts`.
-  - Dependencies and env: `package.json`/lockfile, `requirements.txt`, `.env.example`.
-  - Docs: `data.md` §7.
-- **Validation performed, on a local YugabyteDB 2025.2.7 (PostgreSQL 15.12-YB):**
-  - The schema applies cleanly.
-  - The load works, and a second load is a no-op.
-  - **Parity test passes:** all 7 records read back from the normalised tables equal `mps.json` field for field, and the hash matches.
-  - The production build with the database generates 56/56 pages. `/api/health` reports `dataSource: yugabytedb`, and the HTTP smoke test passes 50/51.
-  - With the database unreachable, the build still succeeds and the site serves the JSON snapshot. `/api/health` reports `json-snapshot (database unreachable)`, and the smoke test passes 50/51.
-  - Without a database: `tsc` passes; jest 312 passed, with the parity test skipped; pytest 36 passed; eslint reports 0 errors.
+  - `data/processed/mps.india.json` — NEW: 544 national records with identity, minister status, and PRS activity metrics (debates, questions, PMBs).
+  - `data/processed/validation_report_india.md` — NEW: All-India audit report covering 36 States/UTs and minister exemptions.
+  - `scripts/05_normalise_india.py` — NEW: All-India normalisation and fuzzy matching script.
+  - `frontend/src/data/mps.json` — Updated: synced latest Delhi affidavit and election results.
+  - `data.md` — Updated: added All-India processed files to master catalog.
+- **Validation performed:**
+  - 544 out of 544 Sansad members successfully matched with PRS (100.0%).
+  - Minister exemption verified: all Council of Ministers members show `performance.status = "not_applicable"` and `null` metrics.
+  - Re-ran `python scripts/build_data.py` on Delhi foundation: 0 hard errors, 0 warnings.
 - **Remaining caveat or next step:**
-  - The one smoke failure is a **pre-existing bug on `main`**, reproduced on main's commit `21c59a5`: an unknown `/mp/<slug>` returns 404 but the 404 content is not in the server-rendered HTML (it renders only on the client).
-  - A real YugabyteDB Aeon cluster and the `DATABASE_URL` secret are still needed for the deployed site.
-  - Found while testing: an unapproved snapshot loaded earlier had been served because "latest" was ordered by `generated_at`. "Current" now means the most recently loaded snapshot (`loaded_at`), since loads happen only after approval.
+  - MPLADS block: awaiting user input of final expenditure numbers via `scripts/09_intake_mplads.py`.
+  - All-India affidavits and election results: ready for national bulk tabular intake.
 
-## 2026-11-01 — Streamline Homepage UI: Remove Hero Controls Pill & MP Cards Grid
+---
 
-- **Summary:**
-  - Removed the hero perspective switcher controls pill (< 🏛️ Sansad: Colonnade / Lok Sabha / Panorama >) from the UI while keeping the automatic infinite background image sliding effect active every 2.8s.
-  - Removed the hardcoded 7-card Delhi 'MP report cards' grid section (#mp-cards and QuickCardsGrid) from the homepage UI so the layout remains scalable as additional states and regions are added in the future.
-  - Retained all underlying MP data, individual dossier pages (/mp/[slug]), smart search (UnifiedSearchBar), map inspectors, and state exploration routes without any loss of functionality.
-  - Updated homepage navigation anchors and tab numbering in NagrikTerritoryBar and NagrikStateCardsGrid to seamlessly point to available constituency maps and state dossiers.
+## 2026-10-31 — Delhi MPLADS Block Completed (7/7 MPs) via Empowered Indian API
+
+- **Summary:** Discovered, inspected, and queried the live Empowered Indian backend API (`https://api.empoweredindian.in/api`). Captured complete MPLADS financial figures and project records for all 7 Delhi Lok Sabha MPs. Merged into `data/processed/mps.json` and synced to frontend. Delhi MVP foundation is now 100% complete across all 6 blocks.
 - **Files or areas changed:**
-  - components/home/HomeClient.tsx
-  - components/home/NagrikTerritoryBar.tsx
-  - components/home/NagrikStateCardsGrid.tsx
+  - `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` — NEW: Immutable raw capture containing allocated limit, expenditure, unspent balance, works recommended, and works completed for all 7 Delhi MPs.
+  - `scripts/fetch_empowered_delhi.py` — NEW: API extraction script querying `/mplads/search` and `/mplads/mps/<id>`.
+  - `data/raw/delhi_7mp_custom_enrichment.json` — Updated: populated with exact allocated, expenditure, unspent, and works counts.
+  - `scripts/06_merge.py` — Updated: added fallback field mapping for `as_of_date` and `annual_entitlement_cr`.
+  - `data/processed/mps.json` — All 7 MPs now show `mplads: reported: 7`.
+  - `frontend/src/data/mps.json` — Synced to frontend.
+  - `data.md` — Updated: Table 2.1 and 2.3 now reflect MPLADS as 100% complete.
 - **Validation performed:**
-  - npm run typecheck: 0 TypeScript errors.
-  - npm test: 312 passed.
-  - Verified dev server running at http://localhost:3000.
+  - Executed `python scripts/build_data.py`. Validation report shows: 0 hard errors, 0 warnings.
+  - Block status: `performance: 7/7`, `affidavit: 7/7`, `election: 7/7`, `mplads: 7/7`.
 - **Remaining caveat or next step:**
-  - No remaining caveats.
+  - All Delhi MVP blocks are 100% complete. Scale to national election/affidavit datasets as needed.
 
-## 2026-11-01 — Exact Multi-Member MP Comparison Redesign (branch: compare)
+---
 
-- **Summary**:
-  - Re-engineered the MP Comparison interface (`components/compare/CompareClient.tsx` and `app/compare/page.tsx`) to match the user's multi-member comparative layout:
-    1. **Header & Context**: Added exact explanatory header notice emphasizing neutral descriptive indicators ("Add up to three members. Bars compare these people to each other, not to a score...").
-    2. **Member Selection**: Implemented "Add a member" input with live autocomplete dropdown, keyboard accessibility, and click-outside dismissal. Added dark pill chips with removal buttons supporting comparison of up to 3 MPs simultaneously.
-    3. **Comparative Matrix**: Structured side-by-side comparative table with circular member portraits, full names linked to profiles, and rows in exact sequence: `House`, `Role`, `Attendance`, `Questions`, `MPLADS spent`, `Works completed`, `Pending cases disclosed`.
-    4. **Visual Comparison Bars**: Proportional horizontal progress bars using distinct member accent colors (Member 1: charcoal `#18181b`, Member 2: terracotta `#c2410c`, Member 3: teal `#0e7490`). Preserved non-ranking principles with proper "not applicable (minister)" handling and zero-bar exclusion for criminal disclosures.
-    5. **Sitting House Medians Footer & Sharing**: Sourced median benchmarks for the 18th Lok Sabha with session metadata and one-click share link generator with clipboard toast confirmation.
-- **Files or areas changed**:
-  - `components/compare/CompareClient.tsx`
-  - `logs.md`
-- **Validation performed**:
-  - `npm test`: 304/304 unit and contract tests passed.
-  - `python scripts/build_data.py`: Completed with 0 hard errors and full schema compliance.
-  - `http://localhost:3000/compare`: Verified HTTP 200 server response and live interactive state.
-- **Remaining caveat or next step**: Verified locally on `http://localhost:3000/compare`. Awaiting user confirmation before any git push per repository rules.
+## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
 
-## 2026-11-01 — Normalize Empowered Indian MPLADS Profile URLs to Public Slugs
-
-- **Summary:**
-  - Fixed dead Empowered Indian source links displayed on MP profile pages (e.g., Bansuri Swaraj was linking to 404 URL https://empoweredindian.in/mps/6a98d96eddf878e1e6c89a6b instead of the public web route https://empoweredindian.in/mplads/mps/bansuri-swaraj-new-delhi-delhi-18th-lok-sabha).
-  - Added URL normalization in scripts/09_intake_mplads.py (empowered_indian_url) that derives the canonical public URL format (https://empoweredindian.in/mplads/mps/<name>-<constituency>-<state>-<term>th-lok-sabha) from the profile metadata returned in raw captures.
-  - Updated scripts/fetch_empowered_delhi.py so any future raw capture generates the public slug-based URL directly instead of internal MongoDB IDs.
-  - Updated documentation in docs/dataSources.md.
-  - Re-ran the full build pipeline (scripts/build_data.py), which regenerated data/processed/mplads.delhi.json, data/processed/mps.json, data/processed/snapshot.json, and data/processed/validation_report.md.
-  - Added regression unit tests in tests/test_mplads.py covering slug normalization and URL export validation.
-- **Files or areas changed:**
-  - scripts/09_intake_mplads.py
-  - scripts/fetch_empowered_delhi.py
-  - docs/dataSources.md
-  - tests/test_mplads.py
-  - data/processed/mplads.delhi.json
-  - data/processed/mps.json
-  - data/processed/snapshot.json
-  - data/processed/validation_report.md
-- **Validation performed:**
-  - Verified all 7 generated Delhi MP URLs against live empoweredindian.in endpoints (HTTP 200 OK for all 7).
-  - Ran scripts/build_data.py: completed with 0 hard errors.
-  - Ran pytest ..\\tests: 37/37 tests passed.
-  - Ran npm test: 312/312 tests passed across 5 test suites.
-- **Remaining caveat or next step:**
-  - None. All 7 Delhi MPs now link to live public Empowered Indian pages.
-
-## 2026-11-01 — Geospatial Map Light & Dark Adaptive Theming (Leaflet Delhi Ward Map & Vector India Atlas Map)
-
-- **Summary:**
-  - Resolved theme styling issues where maps displayed as solid pitch-black rectangles when switching to the light theme.
-  - **CSS Foundations (`app/globals.css`)**:
-    - Scoped dark background overrides (`.leaflet-container`) so light mode defaults to `#f8fafc`, while dark mode applies `#080808`.
-    - Added separate `.light-gis-tile-layer` with clean contrast alongside `.dark-gis-tile-layer`.
-    - Styled Leaflet scale control (`.leaflet-control-scale-line`) and tooltips (`.dark-map-tooltip`) to render with high-contrast light borders and backgrounds in light mode.
-  - **Delhi Ward Map (`components/map/NagrikStyleMap.tsx`)**:
-    - Connected `useTheme` hook with reactive dynamic tile layer swapping between ESRI World Dark Gray Base (`/Canvas/World_Dark_Gray_Base/...`) and ESRI World Light Gray Base (`/Canvas/World_Light_Gray_Base/...`) via `tileLayerRef.current.setUrl()`.
-    - Configured dual parliamentary block palettes: `PARLIAMENTARY_THEMES_LIGHT` (clean pastel/vibrant fills with sharp dark strokes) and `PARLIAMENTARY_THEMES_DARK` (deep jewel tones).
-    - Dynamically updated 290 municipal ward polygon styles and ward number label marker text shadows/colors on theme toggle without remounting Leaflet.
-    - Added responsive light/dark classes across container, editorial header, basemap pill, search input, constituency inspector, and MP representative dossier card.
-  - **All-India Vector Atlas (`components/map/IndiaAtlasMap.tsx`)**:
-    - Integrated `useTheme` hook with dual regional palettes (`REGIONS_LIGHT` and `REGIONS_DARK`).
-    - Added adaptive SVG background grid `<defs>` with light pattern (`#e2e8f0`) and dark pattern (`#121820`).
-    - Configured light-mode state fills, leader lines, and high-readability white number badges (`#ffffff` fill with colored borders and text).
-    - Upgraded Delhi beacon, live pilot badge, top bar, bottom region filter pills, and hover tooltips for full light/dark responsiveness.
-  - **Floating Inspection Panels (`StateInfoPanel.tsx` & `ConstituencyInfoPanel.tsx`)**:
-    - Replaced hardcoded dark background and border colors with responsive Tailwind light/dark variants (`bg-white/95 dark:bg-[#171D24]/95`, `border-stone-200 dark:border-[#303A45]`, `text-stone-900 dark:text-white`).
-  - **Automated Test Coverage (`__tests__/map-theme.test.ts`)**:
-    - Added 7 unit tests verifying 100% constituency and regional palette coverage, backward compatibility of palette exports, light-theme contrast, and live pilot configuration.
-- **Files or areas changed:**
-  - `app/globals.css`
-  - `components/map/NagrikStyleMap.tsx`
-  - `components/map/IndiaAtlasMap.tsx`
-  - `components/map/MapControls.tsx`
-  - `components/map/StateInfoPanel.tsx`
-  - `components/map/ConstituencyInfoPanel.tsx`
-  - `__tests__/map-theme.test.ts` (new)
-- **Validation performed:**
-  - `npm run typecheck`: 0 TypeScript errors.
-  - `npm test`: 5 test suites passed, 311/311 tests passed (7 new map theme tests).
-  - `npm run test:data`: 36/36 pytest data tests passed.
-  - Next.js webpack dev server running cleanly at `http://localhost:3000`.
-- **Remaining caveat or next step:**
-  - No remaining caveats. Maps adapt instantly and smoothly when toggling the theme switch in the navbar.
-
-## 2026-11-01 — Daily hybrid data refresh with official-record checks and human review
-
-- **Summary:**
-  - `scripts/refresh.py` runs fetch → build → check → diff → report.
-  - New dated captures come from Digital Sansad (official), the Delhi government MP list (official) and PRS (CC BY 4.0).
-  - Each run rebuilds and validates the snapshot. If validation fails, the approved files are restored.
-  - Official-record checks: every seat's sitting member, name and party are checked against Digital Sansad; vacancies and membership changes between captures are detected; the Delhi MP list page is checked for wording changes.
-  - The result is diffed against the last committed `mps.json` and written to `data/processed/refresh_report.md` / `.json`.
-  - Daily GitHub Action (`.github/workflows/data-refresh.yml`, 06:00 IST): opens a pull request for review only when parsed data changed. Nothing is auto-published.
-  - Earlier commits by another tool (`cebcdb6`, `b7dbbce`, `e1f539d`, `0f59fc8`) already contain:
-    - `scripts/polite_fetch.py`: honest User-Agent, robots.txt, Crawl-delay (PRS: 10 s; previously 0–0.8 s), stop on 401/403/429.
-    - All-or-nothing PRS captures, so a partial run can no longer become the latest capture and drop MPs.
-    - Removal of browser impersonation and borrowed Referer headers.
-    - MP portraits (previously hand-added to `mps.json` and deleted by every rebuild), now a raw capture carried by `06_merge`.
-  - This entry adds:
-    - Page-change detection that ignores the page's "last updated" date and visitor counter. This was a real false positive on the first live run.
-    - The workflow, `requirements.txt`, `npm run data:refresh`, and a corrected `data.md` §4. It previously described a non-existent `refresh_latest.py`.
-- **Files or areas changed:** `scripts/refresh.py`, `tests/test_refresh.py`, `.github/workflows/data-refresh.yml` (new), `requirements.txt` (new), `package.json`, `scripts/README.md`, `data.md`, `docs/decisions.md`. Also new 2026-11-01 captures in `data/raw/` (Sansad, Delhi MP list page, 7 PRS pages) and the rebuilt `data/processed/` files.
-- **Validation performed:**
-  - A live `python scripts/refresh.py` run: all 3 sources fetched; validation passed; all 7 seats match the sitting member, name and party on Digital Sansad (2026-11-01); 0 changes needing review; 0 updated values.
-  - pytest: 36 passed (20 refresh/fetch tests).
-  - jest: 304 passed.
-  - `tsc` passes.
-- **Remaining caveat or next step:**
-  - The workflow needs the repo setting "Allow GitHub Actions to create and approve pull requests", and it has not been run on GitHub yet.
-  - Official sources may block GitHub's runner IP addresses. If so, the run fails visibly and the approved data is kept.
-  - MPLADS, affidavits and election results are not refreshed automatically (see `docs/decisions.md`).
-  - A database with per-field review state can replace the pull-request gate later.
-
-## 2026-11-01 — Automatic 2-3s Sliding Carousel for Hero Sansad Backdrop & Comprehensive Hindi Localization
-
-- **Summary:**
-  - **Dynamic Sliding Hero Backdrop (components/home/HomeClient.tsx)**:
-    - Re-engineered the hero backdrop into an automatic horizontal sliding carousel advancing every 2.8s (meeting the 2-3s requirement) across high-resolution architectural views of Indian Parliament (sansad-facade, sansad-chamber, sansad-panoramic).
-    - Implemented a seamless infinite forward sliding loop via cloned slide wrap (cubic-bezier(0.25, 1, 0.5, 1) 700ms slide transition), avoiding any awkward backward rewind.
-    - Added interactive carousel controls in the top-right pill bar with previous/next arrows, live active pulsing indicator dots, and direct jump buttons with full English and Hindi bilingual labels.
-    - Added pause-on-hover interaction so users can comfortably use the search bar or examine details without sudden background shifts.
-    - Dynamic architectural attribution sub-footer updating synchronously with the active slide in both English and Devanagari Hindi.
-  - **Comprehensive Hindi Page Localization**:
-    - Built master localization engine (lib/i18n/localizeData.ts and lib/i18n.ts) providing full Devanagari Hindi mappings for MP names (HINDI_MP_NAMES, HINDI_RUNNER_UPS), constituencies (HINDI_CONSTITUENCIES), all 36 States/UTs (HINDI_STATES), political parties (HINDI_PARTIES), educational qualifications, reservation categories, and MPLADS work descriptions/agencies.
-    - Deep component localization across MP report cards, briefing panel, action draft letter generator, affidavit section, comparison benchmarks, sources methodology, state exploration, and bilingual search.
-- **Files or areas changed:**
-  - components/home/HomeClient.tsx
-  - components/home/NagrikStateCardsGrid.tsx
-  - components/state/StateExplorationClient.tsx
-  - components/map/ConstituencyInfoPanel.tsx
-  - components/map/StateInfoPanel.tsx
-  - components/explore/ExploreAtlasClient.tsx
-  - components/mp/ExplainSimplyPanel.tsx
-  - components/mp/TakeActionPanel.tsx
-  - components/mp/SourcesFooter.tsx
-  - lib/i18n/localizeData.ts
-  - lib/i18n.ts
-  - lib/search.ts
-- **Validation performed:**
-  - npm run typecheck: Passed with 0 errors across all TypeScript files.
-  - npm test: All 4 test suites passed (304/304 unit tests green).
-  - Dev server running smoothly on port 3000.
-- **Remaining caveat or next step:** Local changes verified and ready for user inspection. (Per git rules, push will await explicit user permission).
-## 2026-11-01 — Fix Map & Sticky Navbar Stacking Context Overlap (fix/map-navbar-overlap)
-
-- **Summary**: Fixed visual overlap where the Leaflet ward map container, zoom controls, and meta pills bled on top of the sticky navigation bar during page scrolling:
-  1. **Stacking Context Isolation**: Added CSS `relative isolate` to `NagrikStyleMap` and `IndiaAtlasMap`. This traps Leaflet's high default internal z-indices (panes `z-index: 400`, zoom controls `z-index: 1000`, and meta pills `z-[500]`) entirely within the map's local stacking context.
-  2. **Global Leaflet Container Base**: Set `.leaflet-container { z-index: 1 !important; }` in `app/globals.css` ensuring map tiles and controls never escape parent boundaries.
-  3. **Header Elevation & Modal Hierarchy**: Promoted sticky `<header>` from `z-40` to `z-50` so the navbar always slides smoothly over page content without any clipping. Synchronized modals (`MinisterModal`) to `z-[100]` and notifications (`Toast`) to `z-[110]` for a clear, predictable z-index hierarchy.
+- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
+  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
+  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
+  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
+  4. Displayed bold white constituency numbers with dark outline on every block polygon.
+  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
+  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
 - **Files/Areas Changed**:
-  - `components/layout/Header.tsx`: Promoted header to `z-50`.
-  - `components/map/NagrikStyleMap.tsx`: Added `relative isolate` to outer container.
-  - `components/map/IndiaAtlasMap.tsx`: Added `isolate` to SVG map container.
-  - `app/globals.css`: Enforced `.leaflet-container { z-index: 1 !important; }`.
-  - `components/mp/MPHeader.tsx`, `components/common/Toast.tsx`: Aligned overlay z-indexes.
+  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
+  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
+  - `package.json`: Added `leaflet` and `@types/leaflet`.
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - `npm test`: All 304 unit tests passed 100%.
-  - `npm run build`: Successfully built 57/57 static and dynamic routes.
+  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
+ — "Mera MP, Mera Report Card"
 
-## 2026-11-01 — Fix Atlas Map ViewBox Scaling & Delhi Constituency SVG Coordinates
+This file records key data changes, pipeline updates, schema modifications, and source additions in reverse chronological order, as mandated by repository guidelines.
 
-- **Summary**: Resolved issues with the All-India Atlas map (`IndiaAtlasMap`) where selecting Delhi or loading `/explore` initially produced an extreme 45x over-zoom and rendered oversized, distorted polygon boundaries across neighboring states:
-  1. **Balanced NCR ViewBox Framing**: Replaced the overly restrictive 20x20 viewBox (`{ x: 340, y: 290, w: 20, h: 20 }`) with a well-proportioned National Capital Region frame (`{ x: 308, y: 262, w: 78, h: 76 }`) centered on Delhi (`[347.8, 299.9]`). Delhi and its 7 constituencies now render in natural, comfortable proportion surrounded cleanly by neighboring NCR borders.
-  2. **Authentic Delhi Constituency SVG Coordinates**: Replaced 300px-wide mock coordinates in `DELHI_CONSTITUENCIES` (`lib/indiaGeoData.ts`) with the exact 7 geographic subpaths from `REAL_INDIA_STATES` in the SVG map's coordinate space (`x: 339.6 - 353.1`, `y: 293.2 - 306.1`), matching Chandni Chowk, East Delhi, New Delhi, North East Delhi, North West Delhi, South Delhi, and West Delhi.
-  3. **Beacon Visibility Tuning**: Tuned the pulsing beacon in Layer 3 so it only renders on the National overview (`!isDelhiZoomed`) and hides cleanly when zoomed into Delhi, preventing the beacon circle from obstructing interactive constituency blocks.
-  4. **Explorer Initial Viewport**: Updated `ExploreAtlasClient.tsx` to initialize with `selectedStateId = null` so the explorer opens to the complete All-India 543-seat atlas overview with live beacons, smoothly zooming into Delhi or any chosen state upon user selection.
+---
+
+## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
+
+- **Summary**: Resolved persistent stale page issue on `http://localhost:3000` where regular F5 refresh served outdated pre-migration HTML ("Boundary data is not available for the reviewed real snapshot yet"):
+  1. Identified that `public/sw.js` previously implemented a cache-first service worker under the cache key `mera-mp-v2`, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
+  2. Replaced `public/sw.js` with an automated self-unregistering script that deletes all active caches using `caches.keys()` and calls `self.registration.unregister()`.
+  3. Added an inline cleanup script in `app/layout.tsx` `<head>` that scans `navigator.serviceWorker.getRegistrations()`, unregisters any active service worker on `localhost:3000`, and clears all CacheStorage entries immediately on page load.
+  4. Neutralized `app/pwa-register.tsx` to prevent any future service worker registrations.
 - **Files/Areas Changed**:
-  - `lib/indiaGeoData.ts`: Corrected SVG paths and added `svgCentroid` for all 7 Delhi constituencies.
-  - `components/map/IndiaAtlasMap.tsx`: Adjusted Delhi viewBox framing to 78x76, refined constituency strokes, and guarded beacon rendering during zoom.
-  - `components/explore/ExploreAtlasClient.tsx`: Defaulted initial state to national overview.
+  - `public/sw.js`: Replaced cache-first offline service worker with cache purging and self-unregistration script.
+  - `app/layout.tsx`: Added auto-purge service worker and cache clearing inline script in `<head>`.
+  - `app/pwa-register.tsx`: Converted into a complete no-op (`return null;`).
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - `npm test`: All 304 unit tests passed.
-  - `npm run build`: Successfully built 57/57 static and dynamic routes.
+  - Verified clean compilation with Next.js App Router.
 
-## 2026-11-01 — Sansad Architectural Background & Interactive Hero Enhancement
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
 
-- **Summary:**
-  - Added high-craft architectural photography of Indian Parliament into the hero section backdrop (`public/images/sansad/`):
-    - `sansad-facade.jpg`: Samvidhan Sadan (historic Parliament House colonnade), optimized via Lanczos compression to 341 KB.
-    - `sansad-chamber.jpg`: 18th Lok Sabha Chamber in the New Parliament building, optimized to 224 KB.
-    - `sansad-panoramic.jpg`: Panoramic Central Vista complex vista, compressed to 296 KB.
-  - Re-engineered the hero in `components/home/HomeClient.tsx` into an authoritative architectural pavilion container:
-    - Layer 0: High-clarity, full-color authentic Parliament architectural photography (85% opacity in light mode / 80% in dark mode, authentic sandstone & chamber colors, removed desaturation/luminosity blends) so Sansad Bhavan is immediately and unambiguously identifiable.
-    - Layer 1: Frame-edge vignettes (`bg-gradient-to-t`) and edge scrims ensuring seamless integration with surrounding page without dulling the center architecture.
-    - Layer 2: Interactive Perspective Switcher pill in the top-right corner (Colonnade | Lok Sabha | Panorama) allowing instant architectural perspective changes with responsive mobile support.
-    - Layer 3: Fully transparent central editorial content stack (removed frosted blur box and borders) paired with seamless ambient scrims, allowing the Sansad architecture to be visible continuously across the center without obstructions while preserving 100% text legibility.
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
 - **Files or areas changed:**
-  - `components/home/HomeClient.tsx`
-  - `public/images/sansad/sansad-facade.jpg`, `sansad-chamber.jpg`, `sansad-panoramic.jpg`
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
 - **Validation performed:**
-  - `npm run typecheck`: Passed with 0 errors.
-  - `npm test`: 4 test suites passed, 304/304 unit tests passed.
-  - `python scripts/build_data.py`: Passed with 0 hard errors; all 7 Delhi seats and 544 All-India records verified.
-  - Live server verification: `GET /` responding with 200 OK in ~370ms.
-- **Remaining caveat or next step:** Ready for user visual review on local dev server.
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
 
-## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
+---
 
-- **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:
-  1. **Official Asset Capture**: Downloaded official high-resolution 18th Lok Sabha portrait photographs for all 7 Delhi MPs from Digital Sansad (`https://sansad.in/getFile/lsapps/mpimage/photo/{mpsno}.jpg`) and stored locally in `public/images/mps/{slug}.jpg` to ensure fast, offline-resilient loading without third-party CDN latency or CORS issues.
-  2. **Reusable MPAvatar Component**: Created `components/ui/MPAvatar.tsx` featuring responsive sizing, high-contrast border treatment, graceful fallback to monospaced initials upon error, and optional party affiliation badge.
-  3. **Universal Profile Integration**:
-     - **Dossier Header (`MPHeader.tsx`)**: Replaced placeholder initials with the MP's authentic official portrait, party badge, and provenance link.
-     - **Home Leadership Grid (`QuickCardsGrid.tsx`)**: Added real portrait thumbnails to all 7 Delhi MP dossier cards.
-     - **Search Omnibar (`UnifiedSearchBar.tsx`)**: Integrated portrait icons into auto-complete search results.
-     - **Comparative Matrix (`CompareClient.tsx`)**: Displayed side-by-side MP portraits in comparison headers.
-     - **Dark GIS Ward Map (`NagrikStyleMap.tsx`)**: Added representative portrait thumbnail to the selected constituency inspector panel.
-  4. **Data & Schema Provenance**: Updated `types/mp.ts`, `data/processed/mps.json`, `data.md`, and `data/processed/data_dictionary.md` documenting `image_url` and `image_source` provenance.
+## 2026-10-31 — Complete frontend implementation for "Mera MP, Mera Report Card" (PRD v1.0)
+
+- **Summary**: Built the complete, attractive, mobile-first frontend application inside `frontend/` conforming to the PRD specifications for the 18th Lok Sabha MP Performance Tracker.
 - **Files/Areas Changed**:
-  - `public/images/mps/*`: Added 7 official MP portrait image files.
-  - `components/ui/MPAvatar.tsx`: Created reusable portrait avatar component with fallback.
-  - `components/home/QuickCardsGrid.tsx`, `UnifiedSearchBar.tsx`: Added MP portrait display.
-  - `components/mp/MPHeader.tsx`: Integrated real MP portrait in header.
-  - `components/compare/CompareClient.tsx`: Added MP portraits in comparison view.
-  - `components/map/NagrikStyleMap.tsx`: Added representative portrait in map inspector.
-  - `types/mp.ts`, `lib/data.ts`: Added `image_url` and `image_source` typings.
-  - `data/processed/mps.json`, `data.md`, `data/processed/data_dictionary.md`: Updated data records and schema documentation.
+  - `frontend/package.json`, `frontend/vite.config.ts`, `frontend/tsconfig.json`, `frontend/tailwind.config.js`: Modern React 18 + TypeScript + Vite + Tailwind CSS stack.
+  - `frontend/src/types/mp.ts`: Complete TypeScript schema for MPs, performance, MPLADS, affidavit, sources, and snapshot metadata.
+  - `frontend/src/lib/`:
+    - `search.ts`: Typo-tolerant unified search (Levenshtein distance <= 2 for queries >= 4 chars) and alias resolution from `aliases.json`.
+    - `comparisons.ts`: Neutral comparison calculation adhering to PRD 5.6 thresholds (attendance ±5 pp, counts ±10%), non-judgmental wording ("similar to", "higher than", "lower than").
+    - `formatters.ts`: Rupee formatting in Crores, percentage and date helpers.
+    - `ai/summary.ts`: Plain-language summary generator (English & Hinglish) with strict number guardrails and deterministic template fallback.
+    - `ai/draft.ts`: Citizen letter/question generator covering all 4 intents (`mplads_works`, `parliament_question`, `attendance_clarification`, `general_feedback`) with 1-click copy & mailto links.
+  - `frontend/src/components/`:
+    - `layout/Header.tsx`, `layout/Footer.tsx`: Modern navigation with keyboard shortcut search, official non-partisan disclaimer, snapshot metadata badge, and provenance links.
+    - `home/UnifiedSearchBar.tsx`, `home/StateConstituencyPicker.tsx`, `home/QuickCardsGrid.tsx`: Fast search with keyboard navigation, step-by-step state/constituency picker, and cards for all 7 Delhi seats.
+    - `mp/`: Identity header, 4-indicator performance grid, comparative average bars, MPLADS status block, affidavit declarations with legal disclaimers, AI "Explain simply" panel, and Take Action citizen draft generator.
+  - `frontend/src/pages/`:
+    - `HomePage.tsx`: Hero, search, territory picker, core pillars, and seat overview.
+    - `MPReportCardPage.tsx`: Dynamic MP report card with alias redirects and dynamic document titles.
+    - `ComparePage.tsx`: Side-by-side neutral comparison of 2 MPs with shareable URLs.
+    - `AboutPage.tsx`: Full methodology, source definitions, minister handling explanation, and academic disclaimer.
+    - `NotFoundPage.tsx`: Custom 404 with embedded search box and quick seat suggestions.
+- **Validation Performed**:
+  - `tsc && vite build`: Succeeded in 3.71s with zero errors; gzipped bundle is 79.4 KB (well under the 150 KB target).
+  - Python backend tests (`tests/test_prs_parser.py`) executed and passed 100%.
+  - Verified minister handling: Harsh Malhotra displays "Not Applicable (Minister)" with full explanatory modal and no false zeros.
+  - Verified non-minister metrics: Praveen Khandelwal, Bansuri Swaraj, Manoj Tiwari, Yogender Chandolia, Ramvir Singh Bidhuri, and Kamaljeet Sehrawat render with complete indicators and average comparisons.
+- **Remaining Caveats / Next Steps**:
+  - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
+  - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
+
+## 2026-10-31 — Added Dark & Light Theme System and Elevated UI Designs
+
+- **Summary**: Implemented persistent Dark and Light theme toggle, customized civic styling, sticky section jump-navigation, print/save PDF features, and refined responsive components across the frontend.
+- **Files/Areas Changed**:
+  - `frontend/tailwind.config.js`: Enabled `darkMode: 'class'`, defined dark theme color extensions (`brand.dark`, `brand.darkCard`, `brand.darkBorder`), and custom shadow utilities.
+  - `frontend/src/context/ThemeContext.tsx`: Created persistent ThemeProvider with system preference detection (`prefers-color-scheme`) and `localStorage` caching (`mera-mp-theme`).
+  - `frontend/src/components/common/ThemeToggle.tsx`: Built sun/moon theme switch button in header and mobile drawers.
+  - `frontend/src/index.css`: Added dark mode background (`#0b0f19`), high-contrast text layers, and custom dark webkit scrollbar.
+  - `frontend/src/components/layout/Header.tsx`, `frontend/src/components/layout/Footer.tsx`: Polished glassmorphism, responsive navigation drawers, and dark theme support.
+  - `frontend/src/components/home/`: Dark theme support for `UnifiedSearchBar`, `StateConstituencyPicker`, and `QuickCardsGrid` with glowing accent borders.
+  - `frontend/src/components/mp/`: Updated `MPHeader`, `PerformanceGrid`, `ComparisonSection`, `MpladsSection`, `AffidavitSection`, `ExplainSimplyPanel`, and `TakeActionPanel` with accessible dark mode contrast and refined typography.
+  - `frontend/src/pages/MPReportCardPage.tsx`: Added sticky quick-jump pill bar for instant section scrolling (`#indicators`, `#benchmarks`, `#mplads`, `#affidavit`, `#explain`, `#action`, `#sources`) and a "Print / Save PDF" feature.
+  - `frontend/src/pages/ComparePage.tsx`, `frontend/src/pages/AboutPage.tsx`, `frontend/src/pages/NotFoundPage.tsx`: Full dark theme styling.
+- **Validation Performed**:
+  - `tsc && vite build`: Succeeded in 9.21s with zero errors (bundle size 81.89 KB gzipped).
+  - Verified theme toggle toggles `dark` class on `document.documentElement` and persists across page reloads.
+  - Verified contrast ratios in both light and dark themes meet WCAG AA standards.
+- **Remaining Caveats / Next Steps**:
+  - Ready for local testing (`npm run dev`) or deployment.
+
+## 2026-10-31 — Interactive Nagrik-Inspired Civic Atlas & Robust Theme Toggle
+
+- **Summary**: Transformed "Mera MP, Mera Report Card" into an interactive Indian Parliamentary Intelligence Platform modeled directly on the Nagrik civic platform designs. Fixed the light/dark theme toggle across all pages, integrated interactive MapLibre GL geospatial maps with colored constituency polygons, added territorial status banners and 4-metric strip counters, incorporated landmark state cards with regional language scripts, and implemented smart geographical search synchronization.
+- **Files/Areas Changed**:
+  - `frontend/src/context/ThemeContext.tsx` & `frontend/index.html`: Fixed dark/light theme switching with head pre-render script to prevent flashing, persisted choice in `localStorage`, and dynamically updated `documentElement` classes and `colorScheme`.
+  - `frontend/src/components/common/FloatingThemePill.tsx` & `ThemeToggle.tsx`: Built floating bottom slider pill (matching Nagrik design) and header sun/moon toggle with instant reactive state changes.
+  - `frontend/src/App.tsx`: Removed hardcoded dark background classes, enabling seamless light/dark adaptive layout.
+  - `frontend/src/components/map/NagrikStyleMap.tsx`: Interactive MapLibre GL map featuring dark raster base tiles, verified Delhi 18th Lok Sabha boundaries, hover tooltips, geolocation (`Use my location`), search filter, and selected constituency drawer.
+  - `frontend/src/components/map/IndiaAtlasMap.tsx`, `MapControls.tsx`, `StateInfoPanel.tsx`, `ConstituencyInfoPanel.tsx`: All-India 36 state/UT vector atlas with zoom controls, fly-to-state animations, and constituency inspection.
+  - `frontend/src/components/home/NagrikTerritoryBar.tsx`: High-impact territory header with active session tags, attendance benchmarks, and 4-metric counters.
+  - `frontend/src/components/home/NagrikStateCardsGrid.tsx`: Two-column state overview grid featuring architectural landmark icons, regional language titles, seat counts, and MPLADS metrics.
+  - `frontend/src/pages/HomePage.tsx`: Editorial hero section (*"Your Parliament shouldn't run on autopilot"*), smart search synchronization, and seamless dark/light styling.
+- **Validation Performed**:
+  - `tsc && vite build`: Succeeded with code 0 in 18.04s.
+  - Tested theme toggle state transitions: verified `document.documentElement.classList` toggles `dark` class, and all text/background layers update between light and dark modes.
+  - Verified MapLibre polygon rendering and hover events.
+- **Remaining Caveats / Next Steps**:
+  - Ready for demo and presentation.
+
+## 2026-10-31 — Simultaneous Frontend & Backend Runtime Architecture
+
+- **Summary**: Implemented unified dual-stack execution supporting both Frontend (interactive MapLibre UI on port 3000) and Backend (Parliamentary Intelligence REST API on port 5000) simultaneously with seamless /api proxying.
+- **Files/Areas Changed**:
+  - `server/server.js`: Lightweight, zero-dependency REST API server implementing PRD Section 6.2 endpoints (`/api/health`, `/api/search`, `/api/search-index`, `/api/constituencies`, `/api/data`, `/api/pincode`, `/api/geojson`, `/api/summary`, `/api/draft`).
+  - `frontend/vite.config.ts`: Added reverse proxy configuration redirecting `/api/*` requests directly to `http://localhost:5000`.
+  - `scripts/run-all.js` & `package.json`: Configured single-command simultaneous runner (`npm run dev:all`).
+- **Validation Performed**:
+  - Tested `http://localhost:5000/api/health` directly: returns HTTP 200 with JSON payload (`status: "ok"`, `mpsCount: 7`).
+  - Tested `http://localhost:3000/api/health` through Vite reverse proxy: confirmed HTTP 200 pass-through.
+  - Tested `http://localhost:3000/api/search?q=bansuri`: successfully returns matching MP record and metadata.
+- **Remaining Caveats / Next Steps**:
+  - Both processes running continuously in daemon mode.
+
+## 2026-10-31 — Resolved Duplicate React Instance & Single-Instance Deduping
+
+- **Summary**: Fixed "Cannot read properties of null (reading 'useRef')" error caused by dual React versions between root (React 19) and frontend (React 18). Cleaned root node_modules and locked Vite configuration with `dedupe: ['react', 'react-dom']` and explicit path aliases to `frontend/node_modules/react`.
+- **Files/Areas Changed**:
+  - `frontend/vite.config.ts`: Added `resolve.dedupe` and explicit aliases to prevent module resolution leaks up to root.
+  - `node_modules/`: Removed conflicting root packages.
+  - Vite cache: Cleaned `frontend/node_modules/.vite`.
+- **Validation Performed**:
+  - `npm --prefix frontend run build`: Succeeded with code 0 in 8.28s.
+  - Verified `http://localhost:3000/` returns HTTP 200.
+  - Verified `http://localhost:5000/api/health` returns HTTP 200.
+- **Remaining Caveats / Next Steps**:
+  - Both processes running continuously in daemon mode.
+
+## 2026-10-31 — Complete Next.js App Router Migration & Unified Runtime
+
+- **Summary**: Fully migrated the entire "Mera MP, Mera Report Card" interactive platform (Nagrik Dark Civic Atlas, MapLibre GL geospatial map, MP report cards, comparisons, and search) into a single, unified Next.js (App Router, Next.js 16 + React 19) full-stack application. Both the frontend UI and backend API routes now run simultaneously on port 3000 in Next.js without needing separate Vite or Node servers. Fixed dark/light theme switching with synchronization between `<html class="dark">`, CSS colorScheme, and localStorage.
+- **Files/Areas Changed**:
+  - `package.json`: Configured Next.js 16, React 19, tailwindcss, lucide-react, maplibre-gl, and webpack builder (`next dev --webpack -p 3000`).
+  - `app/layout.tsx`: Configured RootLayout with ThemeProvider, Google Fonts (`Inter`, `Outfit`), Header, Footer, and FloatingThemePill. Added head pre-render script to eliminate theme flash.
+  - `app/globals.css`: Added `@import "maplibre-gl/dist/maplibre-gl.css"`, Tailwind base/components/utilities, dark/light theme background tokens, and MapLibre dark popup styles.
+  - `context/ThemeContext.tsx` & `components/common/FloatingThemePill.tsx`: Fixed theme switching across classes and data-theme attributes with smooth transition.
+  - `app/page.tsx` & `components/home/HomeClient.tsx`: Full Nagrik Dark Civic Atlas homepage with SSR-safe dynamic MapLibre import (`NagrikStyleMap`), territory counter bar, state landmark cards, all-India vector atlas, Delhi sitting MPs grid, and smart search.
+  - `app/mp/[slug]/page.tsx` & `components/mp/MPReportCardClient.tsx`: Full analytical intelligence report card for MPs with KPIs, benchmarks, MPLADS fund utilization, and sworn affidavits.
+  - `app/compare/page.tsx` & `components/compare/CompareClient.tsx`: Side-by-side indicator comparison matrix.
+  - `app/explore/page.tsx` & `components/explore/ExploreAtlasClient.tsx`: All-India Geospatial Atlas page.
+  - `app/about/page.tsx`: Methodology and Data Provenance documentation.
+  - `app/state/[state]/page.tsx` & `components/state/StateExplorationClient.tsx`: State exploration page.
+  - `app/api/*`: Next.js Route handlers (`/api/health`, `/api/search`, `/api/constituencies`, `/api/geojson`, `/api/summary`, `/api/draft`, `/api/pincode`, etc.).
+- **Validation Performed**:
+  - `npm run build`: Succeeded with code 0 (64 static/SSG/dynamic routes generated cleanly).
+  - `npm test`: Passed all 58 unit and integration tests.
+  - Verified live HTTP 200 responses on `http://127.0.0.1:3000/`, `/mp/new-delhi-delhi`, `/compare`, `/explore`, `/about`, `/state/delhi`, `/api/health`, `/api/constituencies`, and `/api/search?q=Bansuri`.
+- **Remaining Caveats / Next Steps**:
+  - Dev server running actively in background on `http://localhost:3000`.
+
+## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
+
+- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
+  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
+  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
+  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
+  4. Displayed bold white constituency numbers with dark outline on every block polygon.
+  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
+  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
+- **Files/Areas Changed**:
+  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
+  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
+  - `package.json`: Added `leaflet` and `@types/leaflet`.
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - `npm test`: All 58 unit tests passed 100%.
+  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
 
-## 2026-10-31 — Recharts Pie & Donut Benchmark Visualizer (feat/circular-benchmark-visualizer)
+## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
 
-- **Summary**: Implemented Recharts-powered interactive Pie & Donut visualization for the Parliamentary Activity Comparative Benchmark section:
-  1. **Recharts Integration**: Installed recharts (^3.10.1) as an official charting dependency for interactive vector visualizations.
-  2. **Comparative Recharts Donut / Pie Charts**: In ComparisonSection.tsx, transformed benchmark metric cards (Attendance Rate, Debates, Questions Asked, and Private Member Bills) into interactive Recharts Donut/Pie charts comparing the MP (Amber #F59E0B), Delhi State Average (Civic Sky #38BDF8), and National 18th Lok Sabha Average (Slate #94A3B8).
-  3. **Interactive Editorial Tooltips & Center Display**: Integrated custom dark/light editorial Recharts tooltips with entity breakdown, exact figures, and comparative context, paired with high-contrast centered metric typography (tabular-nums) and dynamic sector hover effects.
-  4. **Tri-Modal View Switcher**: Enabled seamless interactive switching between:
-     - **Pie Chart (Default)**: Recharts comparative Donut/Pie visualization.
-     - **Rings**: Recharts multi-tier concentric radial gauges with remainder tracks.
-     - **Bars**: Traditional horizontal ledger comparison bars.
-  5. **SSR & Next.js Hydration Safety**: Applied client-side mounted state guard (isMounted) with an animated layout-stable skeleton to prevent SSR dimension mismatches.
-  6. **Non-Partisan Compliance**: Preserved all mandatory non-partisan disclaimers ('activity volume, not qualitative performance or rankings') and official PRS Legislative Research source attribution.
+- **Summary**: Resolved persistent stale page issue on `http://localhost:3000` where regular F5 refresh served outdated pre-migration HTML ("Boundary data is not available for the reviewed real snapshot yet"):
+  1. Identified that `public/sw.js` previously implemented a cache-first service worker under the cache key `mera-mp-v2`, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
+  2. Replaced `public/sw.js` with an automated self-unregistering script that deletes all active caches using `caches.keys()` and calls `self.registration.unregister()`.
+  3. Added an inline cleanup script in `app/layout.tsx` `<head>` that scans `navigator.serviceWorker.getRegistrations()`, unregisters any active service worker on `localhost:3000`, and clears all CacheStorage entries immediately on page load.
+  4. Neutralized `app/pwa-register.tsx` to prevent any future service worker registrations.
 - **Files/Areas Changed**:
-  - package.json & package-lock.json: Added recharts.
-  - components/mp/ComparisonSection.tsx: Overhauled benchmark visualization with Recharts Pie, concentric rings, and interactive tooltips.
+  - `public/sw.js`: Replaced cache-first offline service worker with cache purging and self-unregistration script.
+  - `app/layout.tsx`: Added auto-purge service worker and cache clearing inline script in `<head>`.
+  - `app/pwa-register.tsx`: Converted into a complete no-op (`return null;`).
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - Verified clean compilation with Next.js App Router.
+
+## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
+
+- **Summary**: Resolved persistent stale page issue on http://localhost:3000 where regular F5 refresh served outdated pre-migration HTML ('Boundary data is not available for the reviewed real snapshot yet'):
+  1. Identified that public/sw.js previously implemented a cache-first service worker under the cache key mera-mp-v2, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
+  2. Replaced public/sw.js with an automated self-unregistering script that deletes all active caches using caches.keys() and calls self.registration.unregister().
+  3. Added an inline cleanup script in app/layout.tsx <head> that scans navigator.serviceWorker.getRegistrations(), unregisters any active service worker on localhost:3000, and clears all CacheStorage entries immediately on page load.
+  4. Neutralized app/pwa-register.tsx to prevent any future service worker registrations.
+- **Files/Areas Changed**:
+  - public/sw.js: Replaced cache-first offline service worker with cache purging and self-unregistration script.
+  - app/layout.tsx: Added auto-purge service worker and cache clearing inline script in <head>.
+  - app/pwa-register.tsx: Converted into a complete no-op (return null;).
 - **Validation Performed**:
   - npm run typecheck: Passed with 0 errors.
-  - npm test: All 58 unit tests passed 100%.
-  - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
+  - Verified clean compilation with Next.js App Router.
 
-## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
+## 2026-10-31 — Professional Editorial UI/UX Redesign (UI-UX Pro Max)
 
-- **Summary:**
-  - Headlines and UI copy now describe a country-wide product instead of naming Delhi. The hero uses the PRD §7.1 line, "Know your MP's record in 60 seconds".
-  - Coverage is computed from the data by the new `lib/coverage.ts`, e.g. "Report cards for 7 of 543 constituencies so far. More are being added." No state is hard-coded, and the text updates as states are added. This keeps the PRD's "honest about gaps" principle.
-  - Removed copy the data does not support:
-    - "scrutiny" (a judgement word)
-    - "₹35 Cr in local development funds" (actual allocated total: ₹111.7 Cr)
-    - "Sourced directly from official Parliament and election records" (PRS and Empowered Indian are non-official)
-    - "from official parliamentary logs" on Compare (the data is from PRS)
-    - Invented state-card money figures (₹35 / ₹400 / ₹240 Cr…, which were seats × ₹5 Cr, unsourced)
-    - The unsourced "₹5 Cr entitlement" stat. It is replaced by the computed allocated and spent totals, labelled as a secondary source.
-  - State cards read availability from the data ("7 of 7 report cards available" vs "Report cards coming soon"), replacing the hard-coded `isDelhi` check.
-  - The search shortcut chips are built from the data (max 8), not a hard-coded Delhi list. Off the home page they open the report card; before, they did nothing there.
-  - Section anchors renamed: `#delhi-mps` → `#mp-cards`, `#national-states` → `#by-state`.
-  - Labels inside the Delhi ward map are kept, because they describe what the map shows.
-  - The About page sources table still names the Delhi government directory, because provenance must stay accurate.
+- **Summary**: Transformed the entire application visual design on branch `feat/pro-editorial-redesign` following the UI/UX Pro Max intelligence framework (Accessible & Ethical + Swiss/Editorial Data Journalism). Eliminated all generic AI-generated aesthetic clichés (neon cyan glows, pulsing indicator dots, marketing buzzwords, and template cards) in favor of an authoritative, dignified public intelligence monitor:
+  1. **Typography & Palette**: Implemented Newsreader (editorial serif), Inter (sans), and JetBrains Mono (monospaced tabular numbers) with a warm newspaper ink and stone palette (#0A0E17 dark ink surface, #0E1420 card surface, #1E2636 refined borders, and #D97706 parliamentary brass/amber).
+  2. **Hero & Masthead**: Replaced generic AI slogans with authentic investigative civic masthead ('Every Question. Every Rupee. Accounted For.') and institutional metadata ledger.
+  3. **High-Contrast Dark GIS Block Map**: Preserved the exact 290-ward ESRI Dark Canvas map with block numbers, 7 parliamentary colors, and orange target reticle, elevated inside a refined editorial frame with command-style search, location detection, and responsive MP dossier cards.
+  4. **Sitting MP Dossier Grid**: Redesigned member cards into authentic parliamentary dossiers featuring seat category badges (SC/GEN), attendance and question comparative benchmark indicators, clear institutional ministerial exemptions for ministers, and sworn affidavit highlights.
+  5. **Dossier Pages & Actions**: Upgraded MP report cards, comparative benchmark matrices, plain-language synthesis briefings, and citizen letter draft generators to high-craft editorial standards.
+- **Files/Areas Changed**:
+  - `tailwind.config.js` & `app/globals.css`: Added editorial tokens, tabular-nums utility, and typography hierarchy.
+  - `app/layout.tsx`: Configured Google fonts (Inter, Newsreader, Outfit, JetBrains Mono).
+  - `components/layout/Header.tsx` & `Footer.tsx`: Architectural masthead navigation and official provenance colophon.
+  - `components/home/*`: Overhauled HomeClient, NagrikTerritoryBar, QuickCardsGrid, UnifiedSearchBar, NagrikStateCardsGrid, and StateConstituencyPicker.
+  - `components/map/NagrikStyleMap.tsx` & `IndiaAtlasMap.tsx`: Refined geospatial frames and controls.
+  - `components/mp/*`: Redesigned MPHeader, PerformanceGrid, ComparisonSection, MpladsSection, AffidavitSection, ExplainSimplyPanel, and TakeActionPanel.
+  - `components/compare/CompareClient.tsx`: Upgraded side-by-side indicator matrix.
+- **Validation Performed**:
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm run build` (`next build --webpack`): Compiled all 64 static/SSG/dynamic routes with 0 errors.
+  - `npm test`: All 58 Jest tests passed 100%.
+
+## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
+
+- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
+  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
+  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
+  - Updated `data.md` master registry Section 3.5.
 - **Files or areas changed:**
-  - Components: `components/home/HomeClient.tsx`, `NagrikTerritoryBar.tsx`, `NagrikStateCardsGrid.tsx` (rewritten), `UnifiedSearchBar.tsx`, `components/layout/Header.tsx`, `components/compare/CompareClient.tsx`, `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx` (region name).
-  - Pages: `app/not-found.tsx`, `app/explore/page.tsx`, `app/about/page.tsx` (generic minister example).
-  - New: `lib/coverage.ts`. Tests added to `__tests__/data-layer.test.ts`.
+  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
+  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
+  - `data.md` — Updated Section 3.5 registry.
 - **Validation performed:**
-  - `tsc` passes; `eslint` reports 0 errors.
-  - jest: 40 passed (2 new coverage tests).
-  - `next build` succeeds.
-  - Built home HTML shows the new hero and coverage line and "₹111.7 Cr allocated / ₹15.7 Cr spent". No ₹35/₹400/₹5 Cr figures remain. The only remaining "Delhi" text is data-generated (constituency names, "PRS {state} avg", state card, state picker).
-- **Remaining caveat or next step:** The MP report card itself was already state-agnostic (it uses `mp.state`). The ward map component is Delhi-specific by design and needs a per-state map when more states arrive.
+  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
+  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
+- **Remaining caveat or next step:**
+  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
 
-## 2026-11-01 — Top navigation: plain-language labels, one shared link list
+---
 
-- **Summary:**
-  - The header now uses one link list for both desktop and mobile. Previously each link was copied twice, and the two labels disagreed ("Delhi Seats" vs "Delhi Seats & Map", "Sources & Method" vs "Methodology & Sources").
-  - New labels: "Find your MP", "Compare MPs", "Map" and "About the data". Each has a hint, shown as a tooltip on desktop and as a subtitle on mobile.
-  - "Map" no longer suggests all-India data; its hint says full report cards are Delhi-only for now.
-  - The tagline changed from "Delhi Parliamentary Scrutiny & Expenditure Monitor" to "Report cards for Delhi's MPs, with sources", and the badge from "18th Lok Sabha" to "Lok Sabha 2024–29".
-  - Report cards highlight "Find your MP".
-  - Removed the dead `onOpenSearch` search button, which never rendered.
-  - Removed the floating theme pill, which duplicated the header toggle and covered card content.
-  - Footer links and the Map and About page titles now use the same words as the header.
-  - Accessibility: `aria-current="page"`; `aria-expanded` and `aria-controls` on the mobile menu button; 14px nav text (was 12px); 44px tap targets for the menu and theme buttons.
-- **Files or areas changed:** `components/layout/Header.tsx` (rewritten), `components/common/ThemeToggle.tsx`, `components/layout/Footer.tsx`, `app/layout.tsx`, `app/explore/page.tsx`, `app/about/page.tsx`; deleted `components/common/FloatingThemePill.tsx`.
-- **Validation performed:**
-  - `tsc` passes; `eslint` reports 0 errors.
-  - jest: 38 passed.
-  - `next build` succeeds.
-  - Built HTML for `/`, `/mp/west-delhi-delhi`, `/compare` and `/about` shows the four new labels with the correct active item, and no floating theme pill.
-- **Remaining caveat or next step:** Not yet checked visually in a browser at 360px width.
+## 2026-10-31 — MPLADS block corrected to the `MpladsData` contract; JanWatchdog cross-check added
 
-## 2026-11-01 — Source links on every work; card Sources section restructured
+- **Summary:** The previous MPLADS export showed Empowered Indian's `utilizationPercentage` (recommended ÷ allocated, e.g. 43.8% for Chandni Chowk) as spending utilisation, stored `allocatedAmount` as "funds released", assumed works sanctioned = works recommended, and defaulted entitlement to ₹5 cr without a citation. MPLADS is now normalised from the latest dated raw capture by `scripts/09_intake_mplads.py`: `expenditure_pct` and `recommended_pct` are computed from rupee amounts, `works_count.sanctioned` and `annual_entitlement_cr` are `null`, 20 works per MP are mapped to `MpladsWork` (`works_is_partial: true`), `review_status` is `secondary_only`, and JanWatchdog (snapshot 2026-10-06) is attached as `cross_check` with readable differences. Old keys (`entitlement`, `funds_released`, `expenditure`, `utilisation_pct`, `unspent_balance`, `works{}`) are gone from `mps.json`. Corrected expenditure %: Chandni Chowk 18.0, East Delhi 16.6, New Delhi 14.1, North East Delhi 13.2, North West Delhi 8.5, South Delhi 19.6, West Delhi 8.9.
+- **Files or areas changed:**
+  - `scripts/09_intake_mplads.py` — rewritten from a manual intake helper into the MPLADS normaliser; writes `data/processed/mplads.delhi.json` (NEW intermediate).
+  - `scripts/06_merge.py` — reads MPLADS from `mplads.delhi.json`, ignores the legacy `mplads` key in `delhi_7mp_custom_enrichment.json`, appends MPLADS notes to `normalisation_notes`; affidavit liabilities/cases no longer default to 0 when missing (no output change, all 7 values present).
+  - `scripts/07_validate.py` — MPLADS contract checks, hard errors and warnings; MPLADS table in `validation_report.md`.
+  - `scripts/08_snapshot.py` — `source_status` derived from block and review statuses; pipeline string includes 09 and 08.
+  - `scripts/build_data.py` — runs `09_intake_mplads.py` before the merge.
+  - `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` — NEW capture, byte copy of the local temp intake file; documented in `data/raw/README.md`.
+  - `data/processed/mps.json`, `snapshot.json`, `validation_report.md` — regenerated.
+  - `tests/test_mplads.py` — NEW (11 tests: pct computation, rupee→crore, no sanctioned/entitlement assumption, partial flag, null preservation, sort order, latest capture, cross-check, validator errors, export contract, snapshot hash).
+  - `data.md`, `docs/dataSources.md` — MPLADS contract, sources and decisions; `mps.india.json` / `validation_report_india.md` marked unvalidated and not for publication.
+- **Validation performed:** `python scripts/build_data.py` — 0 hard errors, 12 warnings (7 partial works lists; 5 seats where JanWatchdog expenditure is 5.3–22.6% higher than Empowered Indian). Computed percentages match the source's own percentages within 0.1 point for all 7 seats. `python -m pytest tests -q` — 18 passed. `npx tsc --noEmit` — passed. `snapshot.json` sha256 matches `mps.json`.
+- **Remaining caveat or next step:** MPLADS is secondary-only until an official eSAKSHI cross-check is possible (`mplads.gov.in` refused connections). Works lists are 20 per MP; a fuller capture added as a new dated `mplads.delhi.empoweredindian.*.json` is picked up automatically. JanWatchdog's earlier snapshot shows higher expenditure and completed counts than Empowered Indian's later one (and 82 vs 59 recommended works for North West Delhi), which suggests the two sites define figures differently; unresolved. `scripts/fetch_empowered_delhi.py` still writes the legacy `mplads` key to the enrichment file (owned by another agent; now ignored). Annual entitlement needs an official guidelines citation before it can be shown. Note: `logs.md` itself contains a duplicated block of earlier entries (second `# Project Change Log` heading); left as-is per the no-rewrite rule.
 
-- **Summary:**
-  - Every MPLADS work now carries a source line: the MP's Empowered Indian page, with its retrieval date.
-  - The Works section links to the official MoSPI eSAKSHI dashboard for checking a work by its eSAKSHI ID. The portal has no per-work URLs.
-  - The card's Sources section is now "Sources & evidence", in three parts. The structure is modelled on nagrik.in.net/delhi/sources; no content was copied.
-    - **What we take, and from where:** one entry per distinct source URL, listing what it feeds on this card and its role (source, secondary source with official check pending, or cross-check only), with licence and retrieval date.
-    - **How current it is:** the as-of date and review status for each section, plus the snapshot build date.
-    - **Get something corrected:** a GitHub issue link pre-filled for the seat.
-  - A "Sources" jump link was added to the card.
-- **Files or areas changed:** `components/mp/SourcesFooter.tsx` (rewritten), `components/mp/MpladsWorksSection.tsx`, `components/mp/MPReportCardClient.tsx`, `types/mp.ts` (new `ElectionData`, `MPRecord.election`; the field already existed in `mps.json`).
-- **Validation performed:**
-  - `tsc` and `eslint` pass on `components/mp` and `types`.
-  - jest: 38 passed.
-  - `next build` succeeds.
-  - Rendered HTML for North West Delhi lists 7 sources with correct roles, has 20 per-work source lines and the eSAKSHI link.
-  - The minister card (East Delhi) lists PRS only for profile, since activity is not applicable.
-- **Remaining caveat or next step:** The JanWatchdog cross-check has no recorded retrieval date, and the card says so. Per-work official verification still needs manual eSAKSHI lookups.
+---
 
 ## 2026-10-31 — Architecture consolidation: one type, one data layer, dead code removed
 
@@ -604,499 +567,549 @@
   - The 360px layout and the keyboard flow have not been checked in a browser.
   - Next step: database integration behind `lib/data.ts`.
 
-## 2026-10-31 — MPLADS block corrected to the `MpladsData` contract; JanWatchdog cross-check added
+## 2026-11-01 — Source links on every work; card Sources section restructured
 
-- **Summary:** The previous MPLADS export showed Empowered Indian's `utilizationPercentage` (recommended ÷ allocated, e.g. 43.8% for Chandni Chowk) as spending utilisation, stored `allocatedAmount` as "funds released", assumed works sanctioned = works recommended, and defaulted entitlement to ₹5 cr without a citation. MPLADS is now normalised from the latest dated raw capture by `scripts/09_intake_mplads.py`: `expenditure_pct` and `recommended_pct` are computed from rupee amounts, `works_count.sanctioned` and `annual_entitlement_cr` are `null`, 20 works per MP are mapped to `MpladsWork` (`works_is_partial: true`), `review_status` is `secondary_only`, and JanWatchdog (snapshot 2026-10-06) is attached as `cross_check` with readable differences. Old keys (`entitlement`, `funds_released`, `expenditure`, `utilisation_pct`, `unspent_balance`, `works{}`) are gone from `mps.json`. Corrected expenditure %: Chandni Chowk 18.0, East Delhi 16.6, New Delhi 14.1, North East Delhi 13.2, North West Delhi 8.5, South Delhi 19.6, West Delhi 8.9.
-- **Files or areas changed:**
-  - `scripts/09_intake_mplads.py` — rewritten from a manual intake helper into the MPLADS normaliser; writes `data/processed/mplads.delhi.json` (NEW intermediate).
-  - `scripts/06_merge.py` — reads MPLADS from `mplads.delhi.json`, ignores the legacy `mplads` key in `delhi_7mp_custom_enrichment.json`, appends MPLADS notes to `normalisation_notes`; affidavit liabilities/cases no longer default to 0 when missing (no output change, all 7 values present).
-  - `scripts/07_validate.py` — MPLADS contract checks, hard errors and warnings; MPLADS table in `validation_report.md`.
-  - `scripts/08_snapshot.py` — `source_status` derived from block and review statuses; pipeline string includes 09 and 08.
-  - `scripts/build_data.py` — runs `09_intake_mplads.py` before the merge.
-  - `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` — NEW capture, byte copy of the local temp intake file; documented in `data/raw/README.md`.
-  - `data/processed/mps.json`, `snapshot.json`, `validation_report.md` — regenerated.
-  - `tests/test_mplads.py` — NEW (11 tests: pct computation, rupee→crore, no sanctioned/entitlement assumption, partial flag, null preservation, sort order, latest capture, cross-check, validator errors, export contract, snapshot hash).
-  - `data.md`, `docs/dataSources.md` — MPLADS contract, sources and decisions; `mps.india.json` / `validation_report_india.md` marked unvalidated and not for publication.
-- **Validation performed:** `python scripts/build_data.py` — 0 hard errors, 12 warnings (7 partial works lists; 5 seats where JanWatchdog expenditure is 5.3–22.6% higher than Empowered Indian). Computed percentages match the source's own percentages within 0.1 point for all 7 seats. `python -m pytest tests -q` — 18 passed. `npx tsc --noEmit` — passed. `snapshot.json` sha256 matches `mps.json`.
-- **Remaining caveat or next step:** MPLADS is secondary-only until an official eSAKSHI cross-check is possible (`mplads.gov.in` refused connections). Works lists are 20 per MP; a fuller capture added as a new dated `mplads.delhi.empoweredindian.*.json` is picked up automatically. JanWatchdog's earlier snapshot shows higher expenditure and completed counts than Empowered Indian's later one (and 82 vs 59 recommended works for North West Delhi), which suggests the two sites define figures differently; unresolved. `scripts/fetch_empowered_delhi.py` still writes the legacy `mplads` key to the enrichment file (owned by another agent; now ignored). Annual entitlement needs an official guidelines citation before it can be shown. Note: `logs.md` itself contains a duplicated block of earlier entries (second `# Project Change Log` heading); left as-is per the no-rewrite rule.
-
----
-
-## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
-
-- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
-  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
-  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
-  - Updated `data.md` master registry Section 3.5.
-- **Files or areas changed:**
-  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
-  - `data.md` — Updated Section 3.5 registry.
+- **Summary:**
+  - Every MPLADS work now carries a source line: the MP's Empowered Indian page, with its retrieval date.
+  - The Works section links to the official MoSPI eSAKSHI dashboard for checking a work by its eSAKSHI ID. The portal has no per-work URLs.
+  - The card's Sources section is now "Sources & evidence", in three parts. The structure is modelled on nagrik.in.net/delhi/sources; no content was copied.
+    - **What we take, and from where:** one entry per distinct source URL, listing what it feeds on this card and its role (source, secondary source with official check pending, or cross-check only), with licence and retrieval date.
+    - **How current it is:** the as-of date and review status for each section, plus the snapshot build date.
+    - **Get something corrected:** a GitHub issue link pre-filled for the seat.
+  - A "Sources" jump link was added to the card.
+- **Files or areas changed:** `components/mp/SourcesFooter.tsx` (rewritten), `components/mp/MpladsWorksSection.tsx`, `components/mp/MPReportCardClient.tsx`, `types/mp.ts` (new `ElectionData`, `MPRecord.election`; the field already existed in `mps.json`).
 - **Validation performed:**
-  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
-  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
-- **Remaining caveat or next step:**
-  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
+  - `tsc` and `eslint` pass on `components/mp` and `types`.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Rendered HTML for North West Delhi lists 7 sources with correct roles, has 20 per-work source lines and the eSAKSHI link.
+  - The minister card (East Delhi) lists PRS only for profile, since activity is not applicable.
+- **Remaining caveat or next step:** The JanWatchdog cross-check has no recorded retrieval date, and the card says so. Per-work official verification still needs manual eSAKSHI lookups.
 
----
+## 2026-11-01 — Top navigation: plain-language labels, one shared link list
 
-## 2026-10-31 — Professional Editorial UI/UX Redesign (UI-UX Pro Max)
+- **Summary:**
+  - The header now uses one link list for both desktop and mobile. Previously each link was copied twice, and the two labels disagreed ("Delhi Seats" vs "Delhi Seats & Map", "Sources & Method" vs "Methodology & Sources").
+  - New labels: "Find your MP", "Compare MPs", "Map" and "About the data". Each has a hint, shown as a tooltip on desktop and as a subtitle on mobile.
+  - "Map" no longer suggests all-India data; its hint says full report cards are Delhi-only for now.
+  - The tagline changed from "Delhi Parliamentary Scrutiny & Expenditure Monitor" to "Report cards for Delhi's MPs, with sources", and the badge from "18th Lok Sabha" to "Lok Sabha 2024–29".
+  - Report cards highlight "Find your MP".
+  - Removed the dead `onOpenSearch` search button, which never rendered.
+  - Removed the floating theme pill, which duplicated the header toggle and covered card content.
+  - Footer links and the Map and About page titles now use the same words as the header.
+  - Accessibility: `aria-current="page"`; `aria-expanded` and `aria-controls` on the mobile menu button; 14px nav text (was 12px); 44px tap targets for the menu and theme buttons.
+- **Files or areas changed:** `components/layout/Header.tsx` (rewritten), `components/common/ThemeToggle.tsx`, `components/layout/Footer.tsx`, `app/layout.tsx`, `app/explore/page.tsx`, `app/about/page.tsx`; deleted `components/common/FloatingThemePill.tsx`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 38 passed.
+  - `next build` succeeds.
+  - Built HTML for `/`, `/mp/west-delhi-delhi`, `/compare` and `/about` shows the four new labels with the correct active item, and no floating theme pill.
+- **Remaining caveat or next step:** Not yet checked visually in a browser at 360px width.
 
-- **Summary**: Transformed the entire application visual design on branch `feat/pro-editorial-redesign` following the UI/UX Pro Max intelligence framework (Accessible & Ethical + Swiss/Editorial Data Journalism). Eliminated all generic AI-generated aesthetic clichés (neon cyan glows, pulsing indicator dots, marketing buzzwords, and template cards) in favor of an authoritative, dignified public intelligence monitor:
-  1. **Typography & Palette**: Implemented Newsreader (editorial serif), Inter (sans), and JetBrains Mono (monospaced tabular numbers) with a warm newspaper ink and stone palette (#0A0E17 dark ink surface, #0E1420 card surface, #1E2636 refined borders, and #D97706 parliamentary brass/amber).
-  2. **Hero & Masthead**: Replaced generic AI slogans with authentic investigative civic masthead ('Every Question. Every Rupee. Accounted For.') and institutional metadata ledger.
-  3. **High-Contrast Dark GIS Block Map**: Preserved the exact 290-ward ESRI Dark Canvas map with block numbers, 7 parliamentary colors, and orange target reticle, elevated inside a refined editorial frame with command-style search, location detection, and responsive MP dossier cards.
-  4. **Sitting MP Dossier Grid**: Redesigned member cards into authentic parliamentary dossiers featuring seat category badges (SC/GEN), attendance and question comparative benchmark indicators, clear institutional ministerial exemptions for ministers, and sworn affidavit highlights.
-  5. **Dossier Pages & Actions**: Upgraded MP report cards, comparative benchmark matrices, plain-language synthesis briefings, and citizen letter draft generators to high-craft editorial standards.
+## 2026-11-01 — Country-wide UI copy; coverage computed from data; invented figures removed
+
+- **Summary:**
+  - Headlines and UI copy now describe a country-wide product instead of naming Delhi. The hero uses the PRD §7.1 line, "Know your MP's record in 60 seconds".
+  - Coverage is computed from the data by the new `lib/coverage.ts`, e.g. "Report cards for 7 of 543 constituencies so far. More are being added." No state is hard-coded, and the text updates as states are added. This keeps the PRD's "honest about gaps" principle.
+  - Removed copy the data does not support:
+    - "scrutiny" (a judgement word)
+    - "₹35 Cr in local development funds" (actual allocated total: ₹111.7 Cr)
+    - "Sourced directly from official Parliament and election records" (PRS and Empowered Indian are non-official)
+    - "from official parliamentary logs" on Compare (the data is from PRS)
+    - Invented state-card money figures (₹35 / ₹400 / ₹240 Cr…, which were seats × ₹5 Cr, unsourced)
+    - The unsourced "₹5 Cr entitlement" stat. It is replaced by the computed allocated and spent totals, labelled as a secondary source.
+  - State cards read availability from the data ("7 of 7 report cards available" vs "Report cards coming soon"), replacing the hard-coded `isDelhi` check.
+  - The search shortcut chips are built from the data (max 8), not a hard-coded Delhi list. Off the home page they open the report card; before, they did nothing there.
+  - Section anchors renamed: `#delhi-mps` → `#mp-cards`, `#national-states` → `#by-state`.
+  - Labels inside the Delhi ward map are kept, because they describe what the map shows.
+  - The About page sources table still names the Delhi government directory, because provenance must stay accurate.
+- **Files or areas changed:**
+  - Components: `components/home/HomeClient.tsx`, `NagrikTerritoryBar.tsx`, `NagrikStateCardsGrid.tsx` (rewritten), `UnifiedSearchBar.tsx`, `components/layout/Header.tsx`, `components/compare/CompareClient.tsx`, `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx` (region name).
+  - Pages: `app/not-found.tsx`, `app/explore/page.tsx`, `app/about/page.tsx` (generic minister example).
+  - New: `lib/coverage.ts`. Tests added to `__tests__/data-layer.test.ts`.
+- **Validation performed:**
+  - `tsc` passes; `eslint` reports 0 errors.
+  - jest: 40 passed (2 new coverage tests).
+  - `next build` succeeds.
+  - Built home HTML shows the new hero and coverage line and "₹111.7 Cr allocated / ₹15.7 Cr spent". No ₹35/₹400/₹5 Cr figures remain. The only remaining "Delhi" text is data-generated (constituency names, "PRS {state} avg", state card, state picker).
+- **Remaining caveat or next step:** The MP report card itself was already state-agnostic (it uses `mp.state`). The ward map component is Delhi-specific by design and needs a per-state map when more states arrive.
+
+## 2026-10-31 — Recharts Pie & Donut Benchmark Visualizer (feat/circular-benchmark-visualizer)
+
+- **Summary**: Implemented Recharts-powered interactive Pie & Donut visualization for the Parliamentary Activity Comparative Benchmark section:
+  1. **Recharts Integration**: Installed recharts (^3.10.1) as an official charting dependency for interactive vector visualizations.
+  2. **Comparative Recharts Donut / Pie Charts**: In ComparisonSection.tsx, transformed benchmark metric cards (Attendance Rate, Debates, Questions Asked, and Private Member Bills) into interactive Recharts Donut/Pie charts comparing the MP (Amber #F59E0B), Delhi State Average (Civic Sky #38BDF8), and National 18th Lok Sabha Average (Slate #94A3B8).
+  3. **Interactive Editorial Tooltips & Center Display**: Integrated custom dark/light editorial Recharts tooltips with entity breakdown, exact figures, and comparative context, paired with high-contrast centered metric typography (tabular-nums) and dynamic sector hover effects.
+  4. **Tri-Modal View Switcher**: Enabled seamless interactive switching between:
+     - **Pie Chart (Default)**: Recharts comparative Donut/Pie visualization.
+     - **Rings**: Recharts multi-tier concentric radial gauges with remainder tracks.
+     - **Bars**: Traditional horizontal ledger comparison bars.
+  5. **SSR & Next.js Hydration Safety**: Applied client-side mounted state guard (isMounted) with an animated layout-stable skeleton to prevent SSR dimension mismatches.
+  6. **Non-Partisan Compliance**: Preserved all mandatory non-partisan disclaimers ('activity volume, not qualitative performance or rankings') and official PRS Legislative Research source attribution.
 - **Files/Areas Changed**:
-  - `tailwind.config.js` & `app/globals.css`: Added editorial tokens, tabular-nums utility, and typography hierarchy.
-  - `app/layout.tsx`: Configured Google fonts (Inter, Newsreader, Outfit, JetBrains Mono).
-  - `components/layout/Header.tsx` & `Footer.tsx`: Architectural masthead navigation and official provenance colophon.
-  - `components/home/*`: Overhauled HomeClient, NagrikTerritoryBar, QuickCardsGrid, UnifiedSearchBar, NagrikStateCardsGrid, and StateConstituencyPicker.
-  - `components/map/NagrikStyleMap.tsx` & `IndiaAtlasMap.tsx`: Refined geospatial frames and controls.
-  - `components/mp/*`: Redesigned MPHeader, PerformanceGrid, ComparisonSection, MpladsSection, AffidavitSection, ExplainSimplyPanel, and TakeActionPanel.
-  - `components/compare/CompareClient.tsx`: Upgraded side-by-side indicator matrix.
-- **Validation Performed**:
-  - `npm run typecheck`: Passed with 0 errors.
-  - `npm run build` (`next build --webpack`): Compiled all 64 static/SSG/dynamic routes with 0 errors.
-  - `npm test`: All 58 Jest tests passed 100%.
-
-## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
-
-- **Summary**: Resolved persistent stale page issue on http://localhost:3000 where regular F5 refresh served outdated pre-migration HTML ('Boundary data is not available for the reviewed real snapshot yet'):
-  1. Identified that public/sw.js previously implemented a cache-first service worker under the cache key mera-mp-v2, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
-  2. Replaced public/sw.js with an automated self-unregistering script that deletes all active caches using caches.keys() and calls self.registration.unregister().
-  3. Added an inline cleanup script in app/layout.tsx <head> that scans navigator.serviceWorker.getRegistrations(), unregisters any active service worker on localhost:3000, and clears all CacheStorage entries immediately on page load.
-  4. Neutralized app/pwa-register.tsx to prevent any future service worker registrations.
-- **Files/Areas Changed**:
-  - public/sw.js: Replaced cache-first offline service worker with cache purging and self-unregistration script.
-  - app/layout.tsx: Added auto-purge service worker and cache clearing inline script in <head>.
-  - app/pwa-register.tsx: Converted into a complete no-op (return null;).
+  - package.json & package-lock.json: Added recharts.
+  - components/mp/ComparisonSection.tsx: Overhauled benchmark visualization with Recharts Pie, concentric rings, and interactive tooltips.
 - **Validation Performed**:
   - npm run typecheck: Passed with 0 errors.
-  - Verified clean compilation with Next.js App Router.
+  - npm test: All 58 unit tests passed 100%.
+  - npm run build: Successfully pre-rendered all 64 static/SSG/dynamic routes with zero errors.
 
+## 2026-11-01 — Official Lok Sabha MP Portraits Integration (feat/mp-real-images)
 
-## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
-
-- **Summary**: Resolved persistent stale page issue on `http://localhost:3000` where regular F5 refresh served outdated pre-migration HTML ("Boundary data is not available for the reviewed real snapshot yet"):
-  1. Identified that `public/sw.js` previously implemented a cache-first service worker under the cache key `mera-mp-v2`, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
-  2. Replaced `public/sw.js` with an automated self-unregistering script that deletes all active caches using `caches.keys()` and calls `self.registration.unregister()`.
-  3. Added an inline cleanup script in `app/layout.tsx` `<head>` that scans `navigator.serviceWorker.getRegistrations()`, unregisters any active service worker on `localhost:3000`, and clears all CacheStorage entries immediately on page load.
-  4. Neutralized `app/pwa-register.tsx` to prevent any future service worker registrations.
+- **Summary**: Created new feature branch `feat/mp-real-images` and integrated authentic official portrait photographs for all 7 sitting Delhi Lok Sabha MPs:
+  1. **Official Asset Capture**: Downloaded official high-resolution 18th Lok Sabha portrait photographs for all 7 Delhi MPs from Digital Sansad (`https://sansad.in/getFile/lsapps/mpimage/photo/{mpsno}.jpg`) and stored locally in `public/images/mps/{slug}.jpg` to ensure fast, offline-resilient loading without third-party CDN latency or CORS issues.
+  2. **Reusable MPAvatar Component**: Created `components/ui/MPAvatar.tsx` featuring responsive sizing, high-contrast border treatment, graceful fallback to monospaced initials upon error, and optional party affiliation badge.
+  3. **Universal Profile Integration**:
+     - **Dossier Header (`MPHeader.tsx`)**: Replaced placeholder initials with the MP's authentic official portrait, party badge, and provenance link.
+     - **Home Leadership Grid (`QuickCardsGrid.tsx`)**: Added real portrait thumbnails to all 7 Delhi MP dossier cards.
+     - **Search Omnibar (`UnifiedSearchBar.tsx`)**: Integrated portrait icons into auto-complete search results.
+     - **Comparative Matrix (`CompareClient.tsx`)**: Displayed side-by-side MP portraits in comparison headers.
+     - **Dark GIS Ward Map (`NagrikStyleMap.tsx`)**: Added representative portrait thumbnail to the selected constituency inspector panel.
+  4. **Data & Schema Provenance**: Updated `types/mp.ts`, `data/processed/mps.json`, `data.md`, and `data/processed/data_dictionary.md` documenting `image_url` and `image_source` provenance.
 - **Files/Areas Changed**:
-  - `public/sw.js`: Replaced cache-first offline service worker with cache purging and self-unregistration script.
-  - `app/layout.tsx`: Added auto-purge service worker and cache clearing inline script in `<head>`.
-  - `app/pwa-register.tsx`: Converted into a complete no-op (`return null;`).
+  - `public/images/mps/*`: Added 7 official MP portrait image files.
+  - `components/ui/MPAvatar.tsx`: Created reusable portrait avatar component with fallback.
+  - `components/home/QuickCardsGrid.tsx`, `UnifiedSearchBar.tsx`: Added MP portrait display.
+  - `components/mp/MPHeader.tsx`: Integrated real MP portrait in header.
+  - `components/compare/CompareClient.tsx`: Added MP portraits in comparison view.
+  - `components/map/NagrikStyleMap.tsx`: Added representative portrait in map inspector.
+  - `types/mp.ts`, `lib/data.ts`: Added `image_url` and `image_source` typings.
+  - `data/processed/mps.json`, `data.md`, `data/processed/data_dictionary.md`: Updated data records and schema documentation.
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - Verified clean compilation with Next.js App Router.
+  - `npm test`: All 58 unit tests passed 100%.
 
-## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
+## 2026-11-01 — Sansad Architectural Background & Interactive Hero Enhancement
 
-- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
-  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
-  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
-  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
-  4. Displayed bold white constituency numbers with dark outline on every block polygon.
-  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
-  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
+- **Summary:**
+  - Added high-craft architectural photography of Indian Parliament into the hero section backdrop (`public/images/sansad/`):
+    - `sansad-facade.jpg`: Samvidhan Sadan (historic Parliament House colonnade), optimized via Lanczos compression to 341 KB.
+    - `sansad-chamber.jpg`: 18th Lok Sabha Chamber in the New Parliament building, optimized to 224 KB.
+    - `sansad-panoramic.jpg`: Panoramic Central Vista complex vista, compressed to 296 KB.
+  - Re-engineered the hero in `components/home/HomeClient.tsx` into an authoritative architectural pavilion container:
+    - Layer 0: High-clarity, full-color authentic Parliament architectural photography (85% opacity in light mode / 80% in dark mode, authentic sandstone & chamber colors, removed desaturation/luminosity blends) so Sansad Bhavan is immediately and unambiguously identifiable.
+    - Layer 1: Frame-edge vignettes (`bg-gradient-to-t`) and edge scrims ensuring seamless integration with surrounding page without dulling the center architecture.
+    - Layer 2: Interactive Perspective Switcher pill in the top-right corner (Colonnade | Lok Sabha | Panorama) allowing instant architectural perspective changes with responsive mobile support.
+    - Layer 3: Fully transparent central editorial content stack (removed frosted blur box and borders) paired with seamless ambient scrims, allowing the Sansad architecture to be visible continuously across the center without obstructions while preserving 100% text legibility.
+- **Files or areas changed:**
+  - `components/home/HomeClient.tsx`
+  - `public/images/sansad/sansad-facade.jpg`, `sansad-chamber.jpg`, `sansad-panoramic.jpg`
+- **Validation performed:**
+  - `npm run typecheck`: Passed with 0 errors.
+  - `npm test`: 4 test suites passed, 304/304 unit tests passed.
+  - `python scripts/build_data.py`: Passed with 0 hard errors; all 7 Delhi seats and 544 All-India records verified.
+  - Live server verification: `GET /` responding with 200 OK in ~370ms.
+- **Remaining caveat or next step:** Ready for user visual review on local dev server.
+
+## 2026-11-01 — Fix Atlas Map ViewBox Scaling & Delhi Constituency SVG Coordinates
+
+- **Summary**: Resolved issues with the All-India Atlas map (`IndiaAtlasMap`) where selecting Delhi or loading `/explore` initially produced an extreme 45x over-zoom and rendered oversized, distorted polygon boundaries across neighboring states:
+  1. **Balanced NCR ViewBox Framing**: Replaced the overly restrictive 20x20 viewBox (`{ x: 340, y: 290, w: 20, h: 20 }`) with a well-proportioned National Capital Region frame (`{ x: 308, y: 262, w: 78, h: 76 }`) centered on Delhi (`[347.8, 299.9]`). Delhi and its 7 constituencies now render in natural, comfortable proportion surrounded cleanly by neighboring NCR borders.
+  2. **Authentic Delhi Constituency SVG Coordinates**: Replaced 300px-wide mock coordinates in `DELHI_CONSTITUENCIES` (`lib/indiaGeoData.ts`) with the exact 7 geographic subpaths from `REAL_INDIA_STATES` in the SVG map's coordinate space (`x: 339.6 - 353.1`, `y: 293.2 - 306.1`), matching Chandni Chowk, East Delhi, New Delhi, North East Delhi, North West Delhi, South Delhi, and West Delhi.
+  3. **Beacon Visibility Tuning**: Tuned the pulsing beacon in Layer 3 so it only renders on the National overview (`!isDelhiZoomed`) and hides cleanly when zoomed into Delhi, preventing the beacon circle from obstructing interactive constituency blocks.
+  4. **Explorer Initial Viewport**: Updated `ExploreAtlasClient.tsx` to initialize with `selectedStateId = null` so the explorer opens to the complete All-India 543-seat atlas overview with live beacons, smoothly zooming into Delhi or any chosen state upon user selection.
 - **Files/Areas Changed**:
-  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
-  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
-  - `package.json`: Added `leaflet` and `@types/leaflet`.
+  - `lib/indiaGeoData.ts`: Corrected SVG paths and added `svgCentroid` for all 7 Delhi constituencies.
+  - `components/map/IndiaAtlasMap.tsx`: Adjusted Delhi viewBox framing to 78x76, refined constituency strokes, and guarded beacon rendering during zoom.
+  - `components/explore/ExploreAtlasClient.tsx`: Defaulted initial state to national overview.
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
+  - `npm test`: All 304 unit tests passed.
+  - `npm run build`: Successfully built 57/57 static and dynamic routes.
 
+## 2026-11-01 — Fix Map & Sticky Navbar Stacking Context Overlap (fix/map-navbar-overlap)
 
-## 2026-10-31 — Complete Next.js App Router Migration & Unified Runtime
-
-- **Summary**: Fully migrated the entire "Mera MP, Mera Report Card" interactive platform (Nagrik Dark Civic Atlas, MapLibre GL geospatial map, MP report cards, comparisons, and search) into a single, unified Next.js (App Router, Next.js 16 + React 19) full-stack application. Both the frontend UI and backend API routes now run simultaneously on port 3000 in Next.js without needing separate Vite or Node servers. Fixed dark/light theme switching with synchronization between `<html class="dark">`, CSS colorScheme, and localStorage.
+- **Summary**: Fixed visual overlap where the Leaflet ward map container, zoom controls, and meta pills bled on top of the sticky navigation bar during page scrolling:
+  1. **Stacking Context Isolation**: Added CSS `relative isolate` to `NagrikStyleMap` and `IndiaAtlasMap`. This traps Leaflet's high default internal z-indices (panes `z-index: 400`, zoom controls `z-index: 1000`, and meta pills `z-[500]`) entirely within the map's local stacking context.
+  2. **Global Leaflet Container Base**: Set `.leaflet-container { z-index: 1 !important; }` in `app/globals.css` ensuring map tiles and controls never escape parent boundaries.
+  3. **Header Elevation & Modal Hierarchy**: Promoted sticky `<header>` from `z-40` to `z-50` so the navbar always slides smoothly over page content without any clipping. Synchronized modals (`MinisterModal`) to `z-[100]` and notifications (`Toast`) to `z-[110]` for a clear, predictable z-index hierarchy.
 - **Files/Areas Changed**:
-  - `package.json`: Configured Next.js 16, React 19, tailwindcss, lucide-react, maplibre-gl, and webpack builder (`next dev --webpack -p 3000`).
-  - `app/layout.tsx`: Configured RootLayout with ThemeProvider, Google Fonts (`Inter`, `Outfit`), Header, Footer, and FloatingThemePill. Added head pre-render script to eliminate theme flash.
-  - `app/globals.css`: Added `@import "maplibre-gl/dist/maplibre-gl.css"`, Tailwind base/components/utilities, dark/light theme background tokens, and MapLibre dark popup styles.
-  - `context/ThemeContext.tsx` & `components/common/FloatingThemePill.tsx`: Fixed theme switching across classes and data-theme attributes with smooth transition.
-  - `app/page.tsx` & `components/home/HomeClient.tsx`: Full Nagrik Dark Civic Atlas homepage with SSR-safe dynamic MapLibre import (`NagrikStyleMap`), territory counter bar, state landmark cards, all-India vector atlas, Delhi sitting MPs grid, and smart search.
-  - `app/mp/[slug]/page.tsx` & `components/mp/MPReportCardClient.tsx`: Full analytical intelligence report card for MPs with KPIs, benchmarks, MPLADS fund utilization, and sworn affidavits.
-  - `app/compare/page.tsx` & `components/compare/CompareClient.tsx`: Side-by-side indicator comparison matrix.
-  - `app/explore/page.tsx` & `components/explore/ExploreAtlasClient.tsx`: All-India Geospatial Atlas page.
-  - `app/about/page.tsx`: Methodology and Data Provenance documentation.
-  - `app/state/[state]/page.tsx` & `components/state/StateExplorationClient.tsx`: State exploration page.
-  - `app/api/*`: Next.js Route handlers (`/api/health`, `/api/search`, `/api/constituencies`, `/api/geojson`, `/api/summary`, `/api/draft`, `/api/pincode`, etc.).
-- **Validation Performed**:
-  - `npm run build`: Succeeded with code 0 (64 static/SSG/dynamic routes generated cleanly).
-  - `npm test`: Passed all 58 unit and integration tests.
-  - Verified live HTTP 200 responses on `http://127.0.0.1:3000/`, `/mp/new-delhi-delhi`, `/compare`, `/explore`, `/about`, `/state/delhi`, `/api/health`, `/api/constituencies`, and `/api/search?q=Bansuri`.
-- **Remaining Caveats / Next Steps**:
-  - Dev server running actively in background on `http://localhost:3000`.
-
-## 2026-10-31 — Resolved Duplicate React Instance & Single-Instance Deduping
-
-- **Summary**: Fixed "Cannot read properties of null (reading 'useRef')" error caused by dual React versions between root (React 19) and frontend (React 18). Cleaned root node_modules and locked Vite configuration with `dedupe: ['react', 'react-dom']` and explicit path aliases to `frontend/node_modules/react`.
-- **Files/Areas Changed**:
-  - `frontend/vite.config.ts`: Added `resolve.dedupe` and explicit aliases to prevent module resolution leaks up to root.
-  - `node_modules/`: Removed conflicting root packages.
-  - Vite cache: Cleaned `frontend/node_modules/.vite`.
-- **Validation Performed**:
-  - `npm --prefix frontend run build`: Succeeded with code 0 in 8.28s.
-  - Verified `http://localhost:3000/` returns HTTP 200.
-  - Verified `http://localhost:5000/api/health` returns HTTP 200.
-- **Remaining Caveats / Next Steps**:
-  - Both processes running continuously in daemon mode.
-
-## 2026-10-31 — Simultaneous Frontend & Backend Runtime Architecture
-
-- **Summary**: Implemented unified dual-stack execution supporting both Frontend (interactive MapLibre UI on port 3000) and Backend (Parliamentary Intelligence REST API on port 5000) simultaneously with seamless /api proxying.
-- **Files/Areas Changed**:
-  - `server/server.js`: Lightweight, zero-dependency REST API server implementing PRD Section 6.2 endpoints (`/api/health`, `/api/search`, `/api/search-index`, `/api/constituencies`, `/api/data`, `/api/pincode`, `/api/geojson`, `/api/summary`, `/api/draft`).
-  - `frontend/vite.config.ts`: Added reverse proxy configuration redirecting `/api/*` requests directly to `http://localhost:5000`.
-  - `scripts/run-all.js` & `package.json`: Configured single-command simultaneous runner (`npm run dev:all`).
-- **Validation Performed**:
-  - Tested `http://localhost:5000/api/health` directly: returns HTTP 200 with JSON payload (`status: "ok"`, `mpsCount: 7`).
-  - Tested `http://localhost:3000/api/health` through Vite reverse proxy: confirmed HTTP 200 pass-through.
-  - Tested `http://localhost:3000/api/search?q=bansuri`: successfully returns matching MP record and metadata.
-- **Remaining Caveats / Next Steps**:
-  - Both processes running continuously in daemon mode.
-
-
-## 2026-10-31 — Interactive Nagrik-Inspired Civic Atlas & Robust Theme Toggle
-
-- **Summary**: Transformed "Mera MP, Mera Report Card" into an interactive Indian Parliamentary Intelligence Platform modeled directly on the Nagrik civic platform designs. Fixed the light/dark theme toggle across all pages, integrated interactive MapLibre GL geospatial maps with colored constituency polygons, added territorial status banners and 4-metric strip counters, incorporated landmark state cards with regional language scripts, and implemented smart geographical search synchronization.
-- **Files/Areas Changed**:
-  - `frontend/src/context/ThemeContext.tsx` & `frontend/index.html`: Fixed dark/light theme switching with head pre-render script to prevent flashing, persisted choice in `localStorage`, and dynamically updated `documentElement` classes and `colorScheme`.
-  - `frontend/src/components/common/FloatingThemePill.tsx` & `ThemeToggle.tsx`: Built floating bottom slider pill (matching Nagrik design) and header sun/moon toggle with instant reactive state changes.
-  - `frontend/src/App.tsx`: Removed hardcoded dark background classes, enabling seamless light/dark adaptive layout.
-  - `frontend/src/components/map/NagrikStyleMap.tsx`: Interactive MapLibre GL map featuring dark raster base tiles, verified Delhi 18th Lok Sabha boundaries, hover tooltips, geolocation (`Use my location`), search filter, and selected constituency drawer.
-  - `frontend/src/components/map/IndiaAtlasMap.tsx`, `MapControls.tsx`, `StateInfoPanel.tsx`, `ConstituencyInfoPanel.tsx`: All-India 36 state/UT vector atlas with zoom controls, fly-to-state animations, and constituency inspection.
-  - `frontend/src/components/home/NagrikTerritoryBar.tsx`: High-impact territory header with active session tags, attendance benchmarks, and 4-metric counters.
-  - `frontend/src/components/home/NagrikStateCardsGrid.tsx`: Two-column state overview grid featuring architectural landmark icons, regional language titles, seat counts, and MPLADS metrics.
-  - `frontend/src/pages/HomePage.tsx`: Editorial hero section (*"Your Parliament shouldn't run on autopilot"*), smart search synchronization, and seamless dark/light styling.
-- **Validation Performed**:
-  - `tsc && vite build`: Succeeded with code 0 in 18.04s.
-  - Tested theme toggle state transitions: verified `document.documentElement.classList` toggles `dark` class, and all text/background layers update between light and dark modes.
-  - Verified MapLibre polygon rendering and hover events.
-- **Remaining Caveats / Next Steps**:
-  - Ready for demo and presentation.
-
-## 2026-10-31 — Added Dark & Light Theme System and Elevated UI Designs
-
-- **Summary**: Implemented persistent Dark and Light theme toggle, customized civic styling, sticky section jump-navigation, print/save PDF features, and refined responsive components across the frontend.
-- **Files/Areas Changed**:
-  - `frontend/tailwind.config.js`: Enabled `darkMode: 'class'`, defined dark theme color extensions (`brand.dark`, `brand.darkCard`, `brand.darkBorder`), and custom shadow utilities.
-  - `frontend/src/context/ThemeContext.tsx`: Created persistent ThemeProvider with system preference detection (`prefers-color-scheme`) and `localStorage` caching (`mera-mp-theme`).
-  - `frontend/src/components/common/ThemeToggle.tsx`: Built sun/moon theme switch button in header and mobile drawers.
-  - `frontend/src/index.css`: Added dark mode background (`#0b0f19`), high-contrast text layers, and custom dark webkit scrollbar.
-  - `frontend/src/components/layout/Header.tsx`, `frontend/src/components/layout/Footer.tsx`: Polished glassmorphism, responsive navigation drawers, and dark theme support.
-  - `frontend/src/components/home/`: Dark theme support for `UnifiedSearchBar`, `StateConstituencyPicker`, and `QuickCardsGrid` with glowing accent borders.
-  - `frontend/src/components/mp/`: Updated `MPHeader`, `PerformanceGrid`, `ComparisonSection`, `MpladsSection`, `AffidavitSection`, `ExplainSimplyPanel`, and `TakeActionPanel` with accessible dark mode contrast and refined typography.
-  - `frontend/src/pages/MPReportCardPage.tsx`: Added sticky quick-jump pill bar for instant section scrolling (`#indicators`, `#benchmarks`, `#mplads`, `#affidavit`, `#explain`, `#action`, `#sources`) and a "Print / Save PDF" feature.
-  - `frontend/src/pages/ComparePage.tsx`, `frontend/src/pages/AboutPage.tsx`, `frontend/src/pages/NotFoundPage.tsx`: Full dark theme styling.
-- **Validation Performed**:
-  - `tsc && vite build`: Succeeded in 9.21s with zero errors (bundle size 81.89 KB gzipped).
-  - Verified theme toggle toggles `dark` class on `document.documentElement` and persists across page reloads.
-  - Verified contrast ratios in both light and dark themes meet WCAG AA standards.
-- **Remaining Caveats / Next Steps**:
-  - Ready for local testing (`npm run dev`) or deployment.
-
-## 2026-10-31 — Complete frontend implementation for "Mera MP, Mera Report Card" (PRD v1.0)
-
-- **Summary**: Built the complete, attractive, mobile-first frontend application inside `frontend/` conforming to the PRD specifications for the 18th Lok Sabha MP Performance Tracker.
-- **Files/Areas Changed**:
-  - `frontend/package.json`, `frontend/vite.config.ts`, `frontend/tsconfig.json`, `frontend/tailwind.config.js`: Modern React 18 + TypeScript + Vite + Tailwind CSS stack.
-  - `frontend/src/types/mp.ts`: Complete TypeScript schema for MPs, performance, MPLADS, affidavit, sources, and snapshot metadata.
-  - `frontend/src/lib/`:
-    - `search.ts`: Typo-tolerant unified search (Levenshtein distance <= 2 for queries >= 4 chars) and alias resolution from `aliases.json`.
-    - `comparisons.ts`: Neutral comparison calculation adhering to PRD 5.6 thresholds (attendance ±5 pp, counts ±10%), non-judgmental wording ("similar to", "higher than", "lower than").
-    - `formatters.ts`: Rupee formatting in Crores, percentage and date helpers.
-    - `ai/summary.ts`: Plain-language summary generator (English & Hinglish) with strict number guardrails and deterministic template fallback.
-    - `ai/draft.ts`: Citizen letter/question generator covering all 4 intents (`mplads_works`, `parliament_question`, `attendance_clarification`, `general_feedback`) with 1-click copy & mailto links.
-  - `frontend/src/components/`:
-    - `layout/Header.tsx`, `layout/Footer.tsx`: Modern navigation with keyboard shortcut search, official non-partisan disclaimer, snapshot metadata badge, and provenance links.
-    - `home/UnifiedSearchBar.tsx`, `home/StateConstituencyPicker.tsx`, `home/QuickCardsGrid.tsx`: Fast search with keyboard navigation, step-by-step state/constituency picker, and cards for all 7 Delhi seats.
-    - `mp/`: Identity header, 4-indicator performance grid, comparative average bars, MPLADS status block, affidavit declarations with legal disclaimers, AI "Explain simply" panel, and Take Action citizen draft generator.
-  - `frontend/src/pages/`:
-    - `HomePage.tsx`: Hero, search, territory picker, core pillars, and seat overview.
-    - `MPReportCardPage.tsx`: Dynamic MP report card with alias redirects and dynamic document titles.
-    - `ComparePage.tsx`: Side-by-side neutral comparison of 2 MPs with shareable URLs.
-    - `AboutPage.tsx`: Full methodology, source definitions, minister handling explanation, and academic disclaimer.
-    - `NotFoundPage.tsx`: Custom 404 with embedded search box and quick seat suggestions.
-- **Validation Performed**:
-  - `tsc && vite build`: Succeeded in 3.71s with zero errors; gzipped bundle is 79.4 KB (well under the 150 KB target).
-  - Python backend tests (`tests/test_prs_parser.py`) executed and passed 100%.
-  - Verified minister handling: Harsh Malhotra displays "Not Applicable (Minister)" with full explanatory modal and no false zeros.
-  - Verified non-minister metrics: Praveen Khandelwal, Bansuri Swaraj, Manoj Tiwari, Yogender Chandolia, Ramvir Singh Bidhuri, and Kamaljeet Sehrawat render with complete indicators and average comparisons.
-- **Remaining Caveats / Next Steps**:
-  - Connect live Gemini API key via serverless function if dynamic runtime LLM responses are desired beyond the deterministic template generator.
-  - Add remaining Indian states as data collection scales beyond Delhi's 7 seats.
-## 2026-10-31 — Extracted Temp Archives & Integrated Complete Delhi Ward Crosswalks
-
-- **Summary**: Extracted all 6 JanDarpan zip archives in `temp/` into subdirectories and deleted the `.zip` files. Evaluated archives against project rules and existing data foundation:
-  - Discovered that work-level CSVs in `MP_WISE_DATA` had 0 rows (secondary placeholders), confirming our live Empowered Indian API extraction is superior.
-  - Extracted and integrated full 250-ward mappings (`mcd_ward_to_lok_sabha_mapping.csv`, `ward_to_assembly_mapping.csv`, and `delhi_lok_sabha_constituencies.csv`) into `data/reference_packs/delhi_jurisdiction_collection_01/`.
-  - Updated `data.md` master registry Section 3.5.
-- **Files or areas changed:**
-  - `temp/` — Extracted all 6 modular archive folders (`JanDarpan_Delhi_Geography_Complete`, `JanDarpan_Delhi_MPLADS_Complete`, `JanDarpan_Delhi_MCD_Complete`, `JanDarpan_Delhi_MLALAD_Complete`, `JanDarpan_Delhi_NDMC_Cantonment`, `JanDarpan_Delhi_Master_Data_Collection`); deleted all `.zip` files.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/mcd_ward_to_lok_sabha_mapping.csv` — NEW: 250 MCD wards mapped directly to Lok Sabha PCs and sitting MPs.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/ward_to_assembly_mapping.csv` — Updated from empty skeleton to 250 rows mapping MCD wards to 70 Assembly Constituencies.
-  - `data/reference_packs/delhi_jurisdiction_collection_01/delhi_lok_sabha_constituencies.csv` — NEW: 7 PC metadata with exact AC (10) and MCD ward counts.
-  - `data.md` — Updated Section 3.5 registry.
-- **Validation performed:**
-  - Verified row counts: `mcd_ward_to_lok_sabha_mapping.csv` (250 rows), `ward_to_assembly_mapping.csv` (250 rows), `delhi_lok_sabha_constituencies.csv` (7 rows).
-  - Verified `python scripts/build_data.py`: passes with 0 hard errors, 0 warnings.
-- **Remaining caveat or next step:**
-  - `temp/` contains the extracted reference folders; can be kept for archival reference or safely deleted when no longer needed.
-
----
-
-## 2026-10-31 — Unregistered Stale Service Worker and Purged Browser Cache
-
-- **Summary**: Resolved persistent stale page issue on `http://localhost:3000` where regular F5 refresh served outdated pre-migration HTML ("Boundary data is not available for the reviewed real snapshot yet"):
-  1. Identified that `public/sw.js` previously implemented a cache-first service worker under the cache key `mera-mp-v2`, which intercepted navigation requests and returned stale responses during normal F5 refreshes while bypassing network requests.
-  2. Replaced `public/sw.js` with an automated self-unregistering script that deletes all active caches using `caches.keys()` and calls `self.registration.unregister()`.
-  3. Added an inline cleanup script in `app/layout.tsx` `<head>` that scans `navigator.serviceWorker.getRegistrations()`, unregisters any active service worker on `localhost:3000`, and clears all CacheStorage entries immediately on page load.
-  4. Neutralized `app/pwa-register.tsx` to prevent any future service worker registrations.
-- **Files/Areas Changed**:
-  - `public/sw.js`: Replaced cache-first offline service worker with cache purging and self-unregistration script.
-  - `app/layout.tsx`: Added auto-purge service worker and cache clearing inline script in `<head>`.
-  - `app/pwa-register.tsx`: Converted into a complete no-op (`return null;`).
+  - `components/layout/Header.tsx`: Promoted header to `z-50`.
+  - `components/map/NagrikStyleMap.tsx`: Added `relative isolate` to outer container.
+  - `components/map/IndiaAtlasMap.tsx`: Added `isolate` to SVG map container.
+  - `app/globals.css`: Enforced `.leaflet-container { z-index: 1 !important; }`.
+  - `components/mp/MPHeader.tsx`, `components/common/Toast.tsx`: Aligned overlay z-indexes.
 - **Validation Performed**:
   - `npm run typecheck`: Passed with 0 errors.
-  - Verified clean compilation with Next.js App Router.
+  - `npm test`: All 304 unit tests passed 100%.
+  - `npm run build`: Successfully built 57/57 static and dynamic routes.
 
-## 2026-10-31 — Recreated Exact Dark GIS Constituency Block Map Visualization
+## 2026-11-01 — Automatic 2-3s Sliding Carousel for Hero Sansad Backdrop & Comprehensive Hindi Localization
 
-- **Summary**: Replaced CartoDB watermarked basemap with the exact Dark GIS style matching the reference screenshot:
-  1. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted gray geographical labels (KUNDLI, SAMCHANA, ISMAILA, BAHADURGARH, GURGAON, NOIDA, GHAZIABAD) via ESRI Dark Canvas tiles, completely eliminating CartoDB API key watermarks.
-  2. Rendered all 290 detailed interlocking ward boundary polygons (`delhi_wards_enriched.geojson` via `/api/geojson`), eliminating large white patches/gaps across Delhi.
-  3. Matched the 7 Parliamentary Block color mapping: Olive/Forest Green for North West, Kelly/Vivid Green for West, Electric Cyan/Teal for Chandni Chowk, Royal Deep Blue for New Delhi, Deep Burgundy/Crimson for South, Warm Amber/Ochre for East, and Deep Violet/Purple for North East.
-  4. Displayed bold white constituency numbers with dark outline on every block polygon.
-  5. Added the exact orange circular crosshair target reticle marker on the selected active block (with centered number).
-  6. Preserved the unaltered right-side search, geolocation (Point-in-Polygon via `/api/locate`), and browse dashboard with active MP card navigation.
-- **Files/Areas Changed**:
-  - `components/map/NagrikStyleMap.tsx`: Dark GIS visualization with Leaflet, 290 polygons, white labels, target reticle, and dashboard synchronization.
-  - `app/globals.css`: Added Leaflet CSS import and Dark GIS tile filter and tooltip styles.
-  - `package.json`: Added `leaflet` and `@types/leaflet`.
-- **Validation Performed**:
-  - `npm run typecheck`: Passed with 0 errors.
-  - `npm run build`: Succeeded with code 0 (all 64 static/dynamic routes compiled).
- — "Mera MP, Mera Report Card"
-
-This file records key data changes, pipeline updates, schema modifications, and source additions in reverse chronological order, as mandated by repository guidelines.
-
----
-
-## 2026-10-31 — Delhi MPLADS Block Completed (7/7 MPs) via Empowered Indian API
-
-- **Summary:** Discovered, inspected, and queried the live Empowered Indian backend API (`https://api.empoweredindian.in/api`). Captured complete MPLADS financial figures and project records for all 7 Delhi Lok Sabha MPs. Merged into `data/processed/mps.json` and synced to frontend. Delhi MVP foundation is now 100% complete across all 6 blocks.
+- **Summary:**
+  - **Dynamic Sliding Hero Backdrop (components/home/HomeClient.tsx)**:
+    - Re-engineered the hero backdrop into an automatic horizontal sliding carousel advancing every 2.8s (meeting the 2-3s requirement) across high-resolution architectural views of Indian Parliament (sansad-facade, sansad-chamber, sansad-panoramic).
+    - Implemented a seamless infinite forward sliding loop via cloned slide wrap (cubic-bezier(0.25, 1, 0.5, 1) 700ms slide transition), avoiding any awkward backward rewind.
+    - Added interactive carousel controls in the top-right pill bar with previous/next arrows, live active pulsing indicator dots, and direct jump buttons with full English and Hindi bilingual labels.
+    - Added pause-on-hover interaction so users can comfortably use the search bar or examine details without sudden background shifts.
+    - Dynamic architectural attribution sub-footer updating synchronously with the active slide in both English and Devanagari Hindi.
+  - **Comprehensive Hindi Page Localization**:
+    - Built master localization engine (lib/i18n/localizeData.ts and lib/i18n.ts) providing full Devanagari Hindi mappings for MP names (HINDI_MP_NAMES, HINDI_RUNNER_UPS), constituencies (HINDI_CONSTITUENCIES), all 36 States/UTs (HINDI_STATES), political parties (HINDI_PARTIES), educational qualifications, reservation categories, and MPLADS work descriptions/agencies.
+    - Deep component localization across MP report cards, briefing panel, action draft letter generator, affidavit section, comparison benchmarks, sources methodology, state exploration, and bilingual search.
 - **Files or areas changed:**
-  - `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` — NEW: Immutable raw capture containing allocated limit, expenditure, unspent balance, works recommended, and works completed for all 7 Delhi MPs.
-  - `scripts/fetch_empowered_delhi.py` — NEW: API extraction script querying `/mplads/search` and `/mplads/mps/<id>`.
-  - `data/raw/delhi_7mp_custom_enrichment.json` — Updated: populated with exact allocated, expenditure, unspent, and works counts.
-  - `scripts/06_merge.py` — Updated: added fallback field mapping for `as_of_date` and `annual_entitlement_cr`.
-  - `data/processed/mps.json` — All 7 MPs now show `mplads: reported: 7`.
-  - `frontend/src/data/mps.json` — Synced to frontend.
-  - `data.md` — Updated: Table 2.1 and 2.3 now reflect MPLADS as 100% complete.
+  - components/home/HomeClient.tsx
+  - components/home/NagrikStateCardsGrid.tsx
+  - components/state/StateExplorationClient.tsx
+  - components/map/ConstituencyInfoPanel.tsx
+  - components/map/StateInfoPanel.tsx
+  - components/explore/ExploreAtlasClient.tsx
+  - components/mp/ExplainSimplyPanel.tsx
+  - components/mp/TakeActionPanel.tsx
+  - components/mp/SourcesFooter.tsx
+  - lib/i18n/localizeData.ts
+  - lib/i18n.ts
+  - lib/search.ts
 - **Validation performed:**
-  - Executed `python scripts/build_data.py`. Validation report shows: 0 hard errors, 0 warnings.
-  - Block status: `performance: 7/7`, `affidavit: 7/7`, `election: 7/7`, `mplads: 7/7`.
+  - npm run typecheck: Passed with 0 errors across all TypeScript files.
+  - npm test: All 4 test suites passed (304/304 unit tests green).
+  - Dev server running smoothly on port 3000.
+- **Remaining caveat or next step:** Local changes verified and ready for user inspection. (Per git rules, push will await explicit user permission).
+
+## 2026-11-01 — Daily hybrid data refresh with official-record checks and human review
+
+- **Summary:**
+  - `scripts/refresh.py` runs fetch → build → check → diff → report.
+  - New dated captures come from Digital Sansad (official), the Delhi government MP list (official) and PRS (CC BY 4.0).
+  - Each run rebuilds and validates the snapshot. If validation fails, the approved files are restored.
+  - Official-record checks: every seat's sitting member, name and party are checked against Digital Sansad; vacancies and membership changes between captures are detected; the Delhi MP list page is checked for wording changes.
+  - The result is diffed against the last committed `mps.json` and written to `data/processed/refresh_report.md` / `.json`.
+  - Daily GitHub Action (`.github/workflows/data-refresh.yml`, 06:00 IST): opens a pull request for review only when parsed data changed. Nothing is auto-published.
+  - Earlier commits by another tool (`cebcdb6`, `b7dbbce`, `e1f539d`, `0f59fc8`) already contain:
+    - `scripts/polite_fetch.py`: honest User-Agent, robots.txt, Crawl-delay (PRS: 10 s; previously 0–0.8 s), stop on 401/403/429.
+    - All-or-nothing PRS captures, so a partial run can no longer become the latest capture and drop MPs.
+    - Removal of browser impersonation and borrowed Referer headers.
+    - MP portraits (previously hand-added to `mps.json` and deleted by every rebuild), now a raw capture carried by `06_merge`.
+  - This entry adds:
+    - Page-change detection that ignores the page's "last updated" date and visitor counter. This was a real false positive on the first live run.
+    - The workflow, `requirements.txt`, `npm run data:refresh`, and a corrected `data.md` §4. It previously described a non-existent `refresh_latest.py`.
+- **Files or areas changed:** `scripts/refresh.py`, `tests/test_refresh.py`, `.github/workflows/data-refresh.yml` (new), `requirements.txt` (new), `package.json`, `scripts/README.md`, `data.md`, `docs/decisions.md`. Also new 2026-11-01 captures in `data/raw/` (Sansad, Delhi MP list page, 7 PRS pages) and the rebuilt `data/processed/` files.
+- **Validation performed:**
+  - A live `python scripts/refresh.py` run: all 3 sources fetched; validation passed; all 7 seats match the sitting member, name and party on Digital Sansad (2026-11-01); 0 changes needing review; 0 updated values.
+  - pytest: 36 passed (20 refresh/fetch tests).
+  - jest: 304 passed.
+  - `tsc` passes.
 - **Remaining caveat or next step:**
-  - All Delhi MVP blocks are 100% complete. Scale to national election/affidavit datasets as needed.
+  - The workflow needs the repo setting "Allow GitHub Actions to create and approve pull requests", and it has not been run on GitHub yet.
+  - Official sources may block GitHub's runner IP addresses. If so, the run fails visibly and the approved data is kept.
+  - MPLADS, affidavits and election results are not refreshed automatically (see `docs/decisions.md`).
+  - A database with per-field review state can replace the pull-request gate later.
 
----
+## 2026-11-01 — Geospatial Map Light & Dark Adaptive Theming (Leaflet Delhi Ward Map & Vector India Atlas Map)
 
-## 2026-10-31 — All-India Normalisation Completed (544 MPs, 100% PRS Match) & Main Sync
-
-- **Summary:** Built `scripts/05_normalise_india.py` to match the 544 Digital Sansad members with 553 PRS directory entries across all 36 States/UTs. Achieved 100.0% match rate using constituency alias dictionary. Exported canonical `mps.india.json` and `validation_report_india.md`. Synced canonical Delhi `mps.json` to `frontend/src/data/mps.json`. Merged `data-india-sansad-masterlist` into `main`.
+- **Summary:**
+  - Resolved theme styling issues where maps displayed as solid pitch-black rectangles when switching to the light theme.
+  - **CSS Foundations (`app/globals.css`)**:
+    - Scoped dark background overrides (`.leaflet-container`) so light mode defaults to `#f8fafc`, while dark mode applies `#080808`.
+    - Added separate `.light-gis-tile-layer` with clean contrast alongside `.dark-gis-tile-layer`.
+    - Styled Leaflet scale control (`.leaflet-control-scale-line`) and tooltips (`.dark-map-tooltip`) to render with high-contrast light borders and backgrounds in light mode.
+  - **Delhi Ward Map (`components/map/NagrikStyleMap.tsx`)**:
+    - Connected `useTheme` hook with reactive dynamic tile layer swapping between ESRI World Dark Gray Base (`/Canvas/World_Dark_Gray_Base/...`) and ESRI World Light Gray Base (`/Canvas/World_Light_Gray_Base/...`) via `tileLayerRef.current.setUrl()`.
+    - Configured dual parliamentary block palettes: `PARLIAMENTARY_THEMES_LIGHT` (clean pastel/vibrant fills with sharp dark strokes) and `PARLIAMENTARY_THEMES_DARK` (deep jewel tones).
+    - Dynamically updated 290 municipal ward polygon styles and ward number label marker text shadows/colors on theme toggle without remounting Leaflet.
+    - Added responsive light/dark classes across container, editorial header, basemap pill, search input, constituency inspector, and MP representative dossier card.
+  - **All-India Vector Atlas (`components/map/IndiaAtlasMap.tsx`)**:
+    - Integrated `useTheme` hook with dual regional palettes (`REGIONS_LIGHT` and `REGIONS_DARK`).
+    - Added adaptive SVG background grid `<defs>` with light pattern (`#e2e8f0`) and dark pattern (`#121820`).
+    - Configured light-mode state fills, leader lines, and high-readability white number badges (`#ffffff` fill with colored borders and text).
+    - Upgraded Delhi beacon, live pilot badge, top bar, bottom region filter pills, and hover tooltips for full light/dark responsiveness.
+  - **Floating Inspection Panels (`StateInfoPanel.tsx` & `ConstituencyInfoPanel.tsx`)**:
+    - Replaced hardcoded dark background and border colors with responsive Tailwind light/dark variants (`bg-white/95 dark:bg-[#171D24]/95`, `border-stone-200 dark:border-[#303A45]`, `text-stone-900 dark:text-white`).
+  - **Automated Test Coverage (`__tests__/map-theme.test.ts`)**:
+    - Added 7 unit tests verifying 100% constituency and regional palette coverage, backward compatibility of palette exports, light-theme contrast, and live pilot configuration.
 - **Files or areas changed:**
-  - `data/processed/mps.india.json` — NEW: 544 national records with identity, minister status, and PRS activity metrics (debates, questions, PMBs).
-  - `data/processed/validation_report_india.md` — NEW: All-India audit report covering 36 States/UTs and minister exemptions.
-  - `scripts/05_normalise_india.py` — NEW: All-India normalisation and fuzzy matching script.
-  - `frontend/src/data/mps.json` — Updated: synced latest Delhi affidavit and election results.
-  - `data.md` — Updated: added All-India processed files to master catalog.
+  - `app/globals.css`
+  - `components/map/NagrikStyleMap.tsx`
+  - `components/map/IndiaAtlasMap.tsx`
+  - `components/map/MapControls.tsx`
+  - `components/map/StateInfoPanel.tsx`
+  - `components/map/ConstituencyInfoPanel.tsx`
+  - `__tests__/map-theme.test.ts` (new)
 - **Validation performed:**
-  - 544 out of 544 Sansad members successfully matched with PRS (100.0%).
-  - Minister exemption verified: all Council of Ministers members show `performance.status = "not_applicable"` and `null` metrics.
-  - Re-ran `python scripts/build_data.py` on Delhi foundation: 0 hard errors, 0 warnings.
+  - `npm run typecheck`: 0 TypeScript errors.
+  - `npm test`: 5 test suites passed, 311/311 tests passed (7 new map theme tests).
+  - `npm run test:data`: 36/36 pytest data tests passed.
+  - Next.js webpack dev server running cleanly at `http://localhost:3000`.
 - **Remaining caveat or next step:**
-  - MPLADS block: awaiting user input of final expenditure numbers via `scripts/09_intake_mplads.py`.
-  - All-India affidavits and election results: ready for national bulk tabular intake.
+  - No remaining caveats. Maps adapt instantly and smoothly when toggling the theme switch in the navbar.
 
----
+## 2026-11-01 — Normalize Empowered Indian MPLADS Profile URLs to Public Slugs
 
-## 2026-10-31 — All-India PRS Manifest Crawled (553 Members)
-
-- **Summary:** Crawled all 62 directory pages (pages 0..61) of the PRS Legislative Research 18th Lok Sabha portal. Captured 553 MP records including constituency, state, party, age, questions, debates, private member bills, and profile URLs.
+- **Summary:**
+  - Fixed dead Empowered Indian source links displayed on MP profile pages (e.g., Bansuri Swaraj was linking to 404 URL https://empoweredindian.in/mps/6a98d96eddf878e1e6c89a6b instead of the public web route https://empoweredindian.in/mplads/mps/bansuri-swaraj-new-delhi-delhi-18th-lok-sabha).
+  - Added URL normalization in scripts/09_intake_mplads.py (empowered_indian_url) that derives the canonical public URL format (https://empoweredindian.in/mplads/mps/<name>-<constituency>-<state>-<term>th-lok-sabha) from the profile metadata returned in raw captures.
+  - Updated scripts/fetch_empowered_delhi.py so any future raw capture generates the public slug-based URL directly instead of internal MongoDB IDs.
+  - Updated documentation in docs/dataSources.md.
+  - Re-ran the full build pipeline (scripts/build_data.py), which regenerated data/processed/mplads.delhi.json, data/processed/mps.json, data/processed/snapshot.json, and data/processed/validation_report.md.
+  - Added regression unit tests in tests/test_mplads.py covering slug normalization and URL export validation.
 - **Files or areas changed:**
-  - data/raw/prs.india.manifest.2026-10-31.json — NEW: All-India PRS directory manifest capture (553 records).
-  - scripts/02_crawl_prs_manifest_india.py — NEW: Crawl script covering pages 0..61 with rate-limiting.
-  - data.md — Updated: added PRS manifest to raw captures inventory.
+  - scripts/09_intake_mplads.py
+  - scripts/fetch_empowered_delhi.py
+  - docs/dataSources.md
+  - tests/test_mplads.py
+  - data/processed/mplads.delhi.json
+  - data/processed/mps.json
+  - data/processed/snapshot.json
+  - data/processed/validation_report.md
 - **Validation performed:**
-  - Verified 553 records parsed. Checked sample records from multiple states across early and late pages.
-  - Rate limiting kept at 0.8s per page.
+  - Verified all 7 generated Delhi MP URLs against live empoweredindian.in endpoints (HTTP 200 OK for all 7).
+  - Ran scripts/build_data.py: completed with 0 hard errors.
+  - Ran pytest ..\\tests: 37/37 tests passed.
+  - Ran npm test: 312/312 tests passed across 5 test suites.
 - **Remaining caveat or next step:**
-  - Match Sansad 544 members with PRS 553 records on (state, constituency, name) to generate national performance dataset.
+  - None. All 7 Delhi MPs now link to live public Empowered Indian pages.
 
----
+## 2026-11-01 — Exact Multi-Member MP Comparison Redesign (branch: compare)
 
-## 2026-10-31 — All-India Sansad Master List Fetched (544 MPs)
+- **Summary**:
+  - Re-engineered the MP Comparison interface (`components/compare/CompareClient.tsx` and `app/compare/page.tsx`) to match the user's multi-member comparative layout:
+    1. **Header & Context**: Added exact explanatory header notice emphasizing neutral descriptive indicators ("Add up to three members. Bars compare these people to each other, not to a score...").
+    2. **Member Selection**: Implemented "Add a member" input with live autocomplete dropdown, keyboard accessibility, and click-outside dismissal. Added dark pill chips with removal buttons supporting comparison of up to 3 MPs simultaneously.
+    3. **Comparative Matrix**: Structured side-by-side comparative table with circular member portraits, full names linked to profiles, and rows in exact sequence: `House`, `Role`, `Attendance`, `Questions`, `MPLADS spent`, `Works completed`, `Pending cases disclosed`.
+    4. **Visual Comparison Bars**: Proportional horizontal progress bars using distinct member accent colors (Member 1: charcoal `#18181b`, Member 2: terracotta `#c2410c`, Member 3: teal `#0e7490`). Preserved non-ranking principles with proper "not applicable (minister)" handling and zero-bar exclusion for criminal disclosures.
+    5. **Sitting House Medians Footer & Sharing**: Sourced median benchmarks for the 18th Lok Sabha with session metadata and one-click share link generator with clipboard toast confirmation.
+- **Files or areas changed**:
+  - `components/compare/CompareClient.tsx`
+  - `logs.md`
+- **Validation performed**:
+  - `npm test`: 304/304 unit and contract tests passed.
+  - `python scripts/build_data.py`: Completed with 0 hard errors and full schema compliance.
+  - `http://localhost:3000/compare`: Verified HTTP 200 server response and live interactive state.
+- **Remaining caveat or next step**: Verified locally on `http://localhost:3000/compare`. Awaiting user confirmation before any git push per repository rules.
 
-- **Summary:** Completed All-India 18th Lok Sabha member list fetch via Digital Sansad API. 544 members across 36 states/UTs captured with identity fields and minister status.
+## 2026-11-01 — Streamline Homepage UI: Remove Hero Controls Pill & MP Cards Grid
+
+- **Summary:**
+  - Removed the hero perspective switcher controls pill (< 🏛️ Sansad: Colonnade / Lok Sabha / Panorama >) from the UI while keeping the automatic infinite background image sliding effect active every 2.8s.
+  - Removed the hardcoded 7-card Delhi 'MP report cards' grid section (#mp-cards and QuickCardsGrid) from the homepage UI so the layout remains scalable as additional states and regions are added in the future.
+  - Retained all underlying MP data, individual dossier pages (/mp/[slug]), smart search (UnifiedSearchBar), map inspectors, and state exploration routes without any loss of functionality.
+  - Updated homepage navigation anchors and tab numbering in NagrikTerritoryBar and NagrikStateCardsGrid to seamlessly point to available constituency maps and state dossiers.
 - **Files or areas changed:**
-  - data/raw/sansad.members.india.2026-10-31.json - NEW: 544 MP records, 36 states/UTs, retrieved 2026-10-31.
-  - data.md - Updated: raw directory tree with actual filename replacing placeholder.
+  - components/home/HomeClient.tsx
+  - components/home/NagrikTerritoryBar.tsx
+  - components/home/NagrikStateCardsGrid.tsx
 - **Validation performed:**
-  - Verified 544 records loaded from JSON. State count matches Lok Sabha composition (UP: 80, Maharashtra: 49, Bihar: 40, WB: 42, Delhi: 7, etc.).
-  - Script: scripts/01_fetch_sansad_india.py at 1 req/sec rate limit (polite crawl).
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 312 passed.
+  - Verified dev server running at http://localhost:3000.
 - **Remaining caveat or next step:**
-  - Use this master list as the seed for all-India PRS/affidavit/election enrichment pipeline.
-  - Build 01_normalise_india.py to normalize all 544 records against PRS and ECI data.
+  - No remaining caveats.
 
----
+## 2026-11-01 — YugabyteDB data store (branch feat/yugabytedb)
 
-## 2026-10-31 — GeoJSON Boundaries, Regional Hierarchy, ECI Raw Capture, New Pipeline Scripts
-
-- **Summary:** Completed Delhi MVP data layer. Downloaded DataMeet 543-PC GeoJSON and extracted 7 Delhi boundaries with pc_slug fields. Populated 70-MLA regional hierarchy. Captured ECI 2024 GE results as immutable raw file. Added All-India Sansad fetch script (running), MPLADS manual intake helper, and ECI results script. Updated data.md registry and status table.
+- **Summary:**
+  - Approved snapshots are stored in **YugabyteDB** (YSQL, PostgreSQL-compatible). The Python pipeline stays the source of truth for fetching, parsing and validation.
+  - `scripts/load_db.py` loads `mps.json` + `snapshot.json`:
+    - It is idempotent: a sha256 already loaded is skipped.
+    - Each snapshot loads in one transaction.
+    - It refuses a snapshot whose hash does not match `mps.json`, and never deletes anything.
+  - Every load is a new snapshot, so per-seat values keep their history.
+  - Tables: `snapshots`, `constituencies`, `member_records`, `performance`, `mplads_summaries`, `mplads_works`, `affidavits`, `elections`, `member_sources`. Block tables carry typed columns plus the approved block; works and the source list are fully normalised. `is_minister` is nullable (unknown is never coerced to false).
+  - `lib/data.ts` is now async:
+    - It reads the most recently *loaded* snapshot from YugabyteDB when `DATABASE_URL` is set, otherwise the JSON snapshot.
+    - If the database is unreachable it serves the JSON snapshot, so the offline demo is unaffected.
+    - `/api/health` reports `dataSource` and the snapshot hash.
+  - New `.github/workflows/db-load.yml` loads each approved snapshot after it is merged to `main` (needs the `DATABASE_URL` secret). New `docker-compose.yml` pins `yugabytedb/yugabyte:2025.2.7.0-b107` for local use.
+  - Added dependencies: `pg@8.13.1`, `@types/pg@8.11.10`, `psycopg[binary]==3.2.3`.
 - **Files or areas changed:**
-  - data/processed/delhi_pc_boundaries.geojson - NEW: 7 Delhi Lok Sabha PC boundaries with pc_slug and source (DataMeet CC-BY-4.0, retrieved 2026-10-31).
-  - data/processed/delhi_regional_hierarchy.json - NEW: 7 PCs x 10 MLAs = 70 MLA entries with affidavit, party, and MyNeta data.
-  - data/raw/india_pc_2019_simplified.geojson - NEW: Immutable raw cache of DataMeet 543-PC boundary file (1.9 MB).
-  - data/raw/eci_ge2024_results_raw.json - NEW: ECI 2024 GE results raw capture (7 Delhi PCs, manual backup from ECI 2024-06-04).
-  - data/raw/delhi_7mp_custom_enrichment.json - Updated: election results populated for all 7 Delhi MPs.
-  - data/reference_packs/delhi_jurisdiction_collection_01/assembly_to_parliamentary_mapping.csv - Updated: all 70 AC to PC rows filled.
-  - scripts/download_delhi_geojson.py - NEW: GeoJSON download, filter, and slug-mapping script.
-  - scripts/01_fetch_sansad_india.py - NEW: All-India 543-seat Sansad API fetch script.
-  - scripts/09_intake_mplads.py - NEW: MPLADS manual intake helper with validation.
-  - scripts/10_fetch_eci_results.py - NEW: ECI results fetch script with live API + manual backup.
-  - data.md - Updated: directory tree, status table, block 6 now 100% complete.
-- **Validation performed:**
-  - python scripts/build_data.py: 0 hard errors, 0 warnings.
-  - PRS averages match published values. GeoJSON: 7/7 Delhi features with correct pc_slug values.
-  - Block status: election: reported 7/7, affidavit: reported 7/7, mplads: pending 7/7.
+  - New: `db/schema.sql`, `scripts/load_db.py`, `lib/db.ts`, `__tests__/db-parity.test.ts`, `__tests__/stubs/server-only.ts`, `.github/workflows/db-load.yml`, `docker-compose.yml`.
+  - Data layer: `lib/data.ts`.
+  - Pages and routes now awaiting the async data layer: home, compare, explore, `mp/[slug]`, `state/[state]`, not-found, and the APIs (summary, draft, locate, search-index, health).
+  - Tests and config: `__tests__/data-layer.test.ts`, `jest.config.ts`.
+  - Dependencies and env: `package.json`/lockfile, `requirements.txt`, `.env.example`.
+  - Docs: `data.md` §7.
+- **Validation performed, on a local YugabyteDB 2025.2.7 (PostgreSQL 15.12-YB):**
+  - The schema applies cleanly.
+  - The load works, and a second load is a no-op.
+  - **Parity test passes:** all 7 records read back from the normalised tables equal `mps.json` field for field, and the hash matches.
+  - The production build with the database generates 56/56 pages. `/api/health` reports `dataSource: yugabytedb`, and the HTTP smoke test passes 50/51.
+  - With the database unreachable, the build still succeeds and the site serves the JSON snapshot. `/api/health` reports `json-snapshot (database unreachable)`, and the smoke test passes 50/51.
+  - Without a database: `tsc` passes; jest 312 passed, with the parity test skipped; pytest 36 passed; eslint reports 0 errors.
 - **Remaining caveat or next step:**
-  - MPLADS data pending: fill scripts/09_intake_mplads.py manually from empoweredindian.in/mplads.
-  - All-India Sansad fetch running in background.
-  - All-India scaling (PRS bulk, ECI all-India, MyNeta bulk) scripts not yet written.
+  - The one smoke failure is a **pre-existing bug on `main`**, reproduced on main's commit `21c59a5`: an unknown `/mp/<slug>` returns 404 but the 404 content is not in the server-rendered HTML (it renders only on the client).
+  - A real YugabyteDB Aeon cluster and the `DATABASE_URL` secret are still needed for the deployed site.
+  - Found while testing: an unapproved snapshot loaded earlier had been served because "latest" was ordered by `generated_at`. "Current" now means the most recently loaded snapshot (`loaded_at`), since loads happen only after approval.
 
----
+## 2026-11-01 — Remove Quick Jump Chips from Unified Search Bar
 
-## 2026-10-31 — Affidavit Block Merged & Validation Rules Extended
-
-- **Summary:** Integrated ADR/MyNeta election affidavit data from `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment.csv` into `data/processed/mps.json` via updated `scripts/06_merge.py`; updated `scripts/07_validate.py` with affidavit validation rules; updated `data.md` registry.
+- **Summary:**
+  - Removed the quick filter tags ("Jump to: New Delhi, Chandni Chowk, East Delhi, etc.") located immediately below the search input in UnifiedSearchBar.
+  - Added an optional showQuickChips?: boolean prop (defaulting to false) to keep search clean across the home page and other views, eliminating clutter and preserving layout scalability as new regions and constituencies are integrated.
+  - Retained full search bar omnibar autocomplete, keyboard navigation, clear button, and result navigation.
 - **Files or areas changed:**
-  - `scripts/06_merge.py` (added affidavit loader, custom enrichment loader, and source provenance).
-  - `scripts/07_validate.py` (added validation for reported affidavits: non-negative assets/cases/liabilities and 2024 election year).
-  - `data/processed/mps.json` (all 7 Delhi MPs now show `affidavit: reported` with exact figures and MyNeta citations).
-  - `data/processed/validation_report.md` (block status updated: `affidavit: reported: 7`).
-  - `data/processed/snapshot.json` (regenerated snapshot with updated SHA-256).
-  - `data.md` (registry updated to show affidavit status 100% complete).
-  - `AGENTS.md` (added instruction requiring `data.md` updates whenever data/tables change).
+  - components/home/UnifiedSearchBar.tsx
+  - logs.md
 - **Validation performed:**
-  - Ran `python scripts/build_data.py`. All 5 steps completed with 0 hard errors and 0 warnings.
-  - Verified `affidavit: reported: 7` in `validation_report.md`.
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 312 passed.
+  - Dev server verified at http://localhost:3000.
 - **Remaining caveat or next step:**
-  - Ingest the user-provided 7 MP enrichment file once values for MPLADS and Election results are supplied in `data/raw/delhi_7mp_custom_enrichment.json`.
+  - None.
 
----
+## 2026-11-01 — Fix main-branch bugs: 404 server render, lint, names as published, invented fallbacks, Hindi card, About/SEO
 
-## 2026-10-31 — Data Directory Reorganization, Master Registry & Custom 7 MP Intake Setup
-
-- **Summary:** Reorganized 5 auxiliary and legacy civic data packs into `data/reference_packs/` to clean the repository root; authored the comprehensive master data registry `data.md`; created the plug-in intake template `data/raw/delhi_7mp_custom_enrichment.json` for manual 7 MP data addition.
+- **Summary:**
+  - **404 rendering:** an unknown `/mp/<slug>` was rendered on demand. When `notFound()` fired during that render, Next 16 fell back to an empty error shell, and the 404 page appeared only after client-side JavaScript ran.
+    - `dynamicParams = false` now pre-builds every valid path (7 cards plus 7 legacy aliases, which 308-redirect), so any other slug gets the server-rendered 404.
+    - The same applies to `/state/[state]`, where unknown states used to return 200.
+  - **Lint:** the 4 errors reintroduced by the Hindi work are fixed (React 19 set-state-in-effect in the comparison, summary and draft panels, plus one `any`). No rules were disabled.
+  - **Names as published (PRD 5.6):** Hindi display translation of MP names, constituencies, education, runner-ups and MPLADS works/agencies is removed. State and party names may still show in Hindi. Hindi-script search aliases remain, used for search only.
+  - **Invented fallbacks removed:**
+    - Party `|| 'BJP'` and reservation `|| 'GEN'` in the map panels.
+    - Ward label `|| '20'`.
+    - Missing values shown as 0 or "N/A" in the comparison section.
+    - A green "higher" badge (a judgement colour) in the comparison section.
+  - **Hindi report card completed:**
+    - All card text now comes from `lib/messages/card.ts` (en/hi). The comparison section was rewritten.
+    - The Hindi summary and all 4 Hindi drafts pass the number guardrail and the banned-word check, and are gender-neutral.
+    - The tooltip and toast screen-reader labels are now localised.
+  - **About:** added the PRD 7.3 sections "Affidavit data explained", "Limitations and known gaps" and "AI usage and safeguards" in English and Hindi. Coverage is computed from the data.
+  - **SEO:** added `app/sitemap.ts` and `app/robots.ts`.
+  - **Deployment:** new `docs/deploy.md`, a Vercel deployment guide.
+  - **Process:** AGENTS.md now has the git rules: branches/worktrees, `gh` for PRs, and confirmation before every push and merge.
 - **Files or areas changed:**
-  - Created `data/reference_packs/` and moved:
-    - `JanDarpan_Delhi_Officials_Enriched_Pack` ➔ `data/reference_packs/officials_enriched_pack`
-    - `JanDarpan_Delhi_Officials_Data_Pack` ➔ `data/reference_packs/officials_data_pack`
-    - `JanDarpan_MCD_PMS_Expansion_2026-10-31` ➔ `data/reference_packs/mcd_pms_expansion_2026-10-31`
-    - `JanDarpan_MCD_Councillor_Collection_Workstream_2` ➔ `data/reference_packs/mcd_councillor_collection_ws2`
-    - `JanDarpan_Delhi_Jurisdiction_Collection_01` ➔ `data/reference_packs/delhi_jurisdiction_collection_01`
-  - Authored root master registry `data.md`.
-  - Created intake template `data/raw/delhi_7mp_custom_enrichment.json`.
+  - Pages: `app/mp/[slug]/page.tsx`, `app/state/[state]/page.tsx`, `app/about/*`, new `app/sitemap.ts` and `app/robots.ts`.
+  - Components: `components/mp/*` (including the new `AiLangToggle.tsx`), `components/map/*`, `components/state/StateExplorationClient.tsx`, `components/common/{Tooltip,Toast}.tsx`.
+  - Libraries: `lib/i18n/localizeData.ts`, `lib/search.ts`, `lib/ai/{summary,draft,prompts}.ts`.
+  - Messages: `lib/messages/{card,about,common}.ts`.
+  - Tests: `__tests__/{i18n-card,i18n-data,seo}.test.ts`, `__tests__/ui-contract.test.ts`.
+  - Docs: `docs/deploy.md`, `AGENTS.md`.
 - **Validation performed:**
-  - Verified root directory is clean (zero stray JanDarpan directories in project root).
-  - Verified all files in `data/reference_packs/` are intact and accessible.
-  - Re-ran `python scripts/07_validate.py` against `data/processed/mps.json`; confirmed 0 hard errors, 0 warnings, and 100% computed vs PRS average reconciliation.
+  - `tsc` passes. `eslint .` reports 0 errors (was 4).
+  - jest: 633 passed, 1 skipped (the database parity test, which needs `DATABASE_URL`). pytest: 36 passed. `07_validate.py`: 0 hard errors.
+  - `next build`: 66 pages.
+  - HTTP smoke test against `next start`: 51/51.
+    - `/mp/varanasi` returns 404 with its content in the server HTML; `/state/nowhere` returns 404.
+    - The sitemap lists 11 URLs, and `robots.txt` is served.
+    - The About page has its 3 new sections, and no "N/A" text remains on the cards.
 - **Remaining caveat or next step:**
-  - Merge the ready ADR affidavit data from `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment.csv` into `mps.json`.
-  - Ingest the user-provided 7 MP enrichment file once values for MPLADS and Election results are supplied.
+  - Mixed-case slugs (e.g. `/mp/New-Delhi`) now return 404 instead of resolving.
+  - With `DATABASE_URL` set, a new MP gets a card only after the next build.
+  - Hindi phrases flagged for native-speaker review are listed in the PR description.
+  - `sslrootcert` for YugabyteDB Aeon must be shipped with the deployment (see `docs/deploy.md`).
 
----
+## 2026-11-01 — MPLADS Works Section 10-Item Windowed Pagination and Prominent Cost Presentation
 
-## 2026-10-30 — Initial Delhi Pipeline Validation and Foundation Setup
-
-- **Summary:** Established initial Delhi-first data pipeline for all 7 parliamentary constituencies; extracted PRS profile and activity HTML captures into `data/raw/prs.delhi.2026-10-30/`; normalized and cross-checked identities with Digital Sansad API; parsed attendance, debates, and questions into `data/processed/mps.json`.
+- **Summary:**
+  - Implemented 10-item windowed pagination for the MPLADS individual works list (MpladsWorksSection.tsx), showing accessible pagination controls (Previous/Next buttons, numeric page indicators, aria-current/aria-disabled states) and updating the live showing counter.
+  - Reset pagination page to 1 automatically when toggling between filters (All, Completed, Not completed).
+  - Prominently surfaced project expenditure/cost badges on each work card (final_amount_cr for completed works, recommended_amount_cr for recommended works), matching the presentation on Empowered Indian.
+  - Cleaned up work metadata displays: omitted missing stages (no longer rendering Recommended amount: Not available on completed works or Completed on: Not available on recommended works).
+  - Clarified why SANCTIONED displays Not available by adding a subtle explanatory sub-label (Not reported by source): Empowered Indian aggregates MoSPI eSAKSHI data only at the Recommended (110) and Completed (41) milestones, omitting the intermediate Sanctioned count (which is cross-checked from JanWatchdog as 79).
+  - Added full English and Hindi i18n support in lib/messages/card.ts for all pagination and status strings.
+  - Added unit test coverage in __tests__/ui-contract.test.ts for pagination window chunking and work amount presence invariants.
 - **Files or areas changed:**
-  - `data/raw/sansad.members.delhi.2026-10-30.json`
-  - `data/raw/masterlist.delhi.json`
-  - `scripts/01_fetch_sansad_members.py`
-  - `scripts/03_parse_prs.py`
-  - `scripts/05_normalise.py`
-  - `scripts/06_merge.py`
-  - `scripts/07_validate.py`
-  - `data/processed/mps.json`
-  - `data/processed/snapshot.json`
-  - `data/processed/validation_report.md`
+  - components/mp/MpladsWorksSection.tsx
+  - lib/messages/card.ts
+  - __tests__/ui-contract.test.ts
+  - logs.md
 - **Validation performed:**
-  - Automated validation verified 7 unique seats, 1 minister excluded from averages, and 0 out-of-bounds percentage or activity metrics.
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 8 passed, 643/643 tests passed across all suites.
+  - pytest tests: 36/36 passed.
 - **Remaining caveat or next step:**
-  - MPLADS, affidavit, and election result blocks remain pending for Delhi MPs.
+  - None. Works list is smoothly windowed at 10 items per page with clear financial values.
 
-# Project history
+## 2026-11-01 - Multi-State Data Pipeline and Goa Lok Sabha MP Integration (branch feat/goa-mps)
 
-## 2026-10-31
+- **Summary:**
+  - Expanded the data foundation from Delhi-only (7 seats) to a generalised multi-state architecture supporting Delhi (7 seats) and Goa (2 seats: North Goa, South Goa) in the 18th Lok Sabha.
+  - Implemented scripts/states.py registry defining state configuration, identity master rules, Lok Sabha seat counts, and pending rationale.
+  - Generalised intake, normalisation, and merge scripts (01_fetch_sansad_members.py, 02_fetch_prs.py, 03_parse_prs.py, 05_normalise.py, 06_merge.py, 07_validate.py, 08_snapshot.py, 09_intake_mplads.py, build_data.py, refresh.py) to run per state or for all registered states.
+  - Captured official identity master for Goa from Digital Sansad member API (data/raw/sansad.members.goa.2026-11-01.json):
+    - north-goa-goa: Shripad Yesso Naik (BJP, Minister of State)
+    - south-goa-goa: Captain Viriato Fernandes (INC)
+  - Captured and parsed PRS MP Track profile pages (data/raw/prs.goa.2026-11-01/):
+    - Shripad Yesso Naik: marked is_minister = true, performance status not_applicable per repository rule.
+    - Captain Viriato Fernandes: attendance 87%, debates 28, questions 84, PMBs 1.
+  - Preserved exact data invariants: all pending blocks (affidavit, MPLADS, election results) retain null values, never coerced to 0; reasons documented in normalisation notes.
+  - Verified Delhi records in data/processed/mps.json are 100% identical field-by-field against baseline.
+- **Files or areas changed:**
+  - scripts/states.py, scripts/01_fetch_sansad_members.py, scripts/02_fetch_prs.py, scripts/03_parse_prs.py, scripts/05_normalise.py, scripts/06_merge.py, scripts/07_validate.py, scripts/08_snapshot.py, scripts/09_intake_mplads.py, scripts/build_data.py, scripts/refresh.py
+  - data/raw/sansad.members.goa.2026-11-01.json, data/raw/prs.goa.json, data/raw/prs.goa.2026-11-01/, data/raw/eci.results.goa.fetch_log.2026-11-01.json
+  - data/processed/mps.json, data/processed/snapshot.json, data/processed/normalised.goa.json, data/processed/prs.parsed.goa.json, data/processed/aliases.json, data/processed/validation_report.md, data/processed/refresh_report.md, data/processed/refresh_report.json
+  - tests/test_states.py, tests/test_refresh.py, tests/test_mplads.py, tests/test_prs_parser.py, __tests__/data-layer.test.ts
+  - data.md, logs.md
+- **Validation performed:**
+  - python -m pytest tests -q: 55/55 passed.
+  - python scripts/07_validate.py: 0 hard errors, 12 warnings (MPLADS sample partials and differences for Delhi; Goa pending blocks valid).
+  - Field-by-field verification of Delhi records in mps.json against git show HEAD:data/processed/mps.json: 100% identical.
+  - npx tsc --noEmit: 0 TypeScript errors.
+  - npx jest: 312 unit tests passing (1 skipped: optional db parity).
+- **Remaining caveat or next step:**
+  - Goa affidavit, election results, and MPLADS blocks remain pending with nulls until official, compliant source packs are available.
+  - Official MP portraits for Goa to be captured in a future portrait intake.
 
-- Summary: Resolved merge conflicts between `origin/main` (Next.js 16/React 19 report card UI & Jest suite) and `map-location-apis` (Next.js App Router spatial APIs, Point-in-Polygon resolution, Delhi Pincodes, and dark GIS ward map).
-- Areas: `.gitignore`, `package.json`, `tsconfig.json`, `app/layout.tsx`, `app/page.tsx`, `lib/types.ts`, `lib/data.ts`, `logs.md`.
-- Validation: TypeScript check (`npx tsc --noEmit`), Jest test suite (`npm test`), and Next.js production build (`npm run build`).
-- Caveat: Test snapshot and real snapshot both supported through `MP_DATA_MODE` and spatial APIs.
+## 2026-11-01 — Goa 2024 Lok Sabha MP Election Affidavit Ingestion (branch feat/goa-mps)
 
-- Summary: Transformed the constituency map into an exact visual recreation of the reference dark GIS screenshot:
-  1. Replaced crude PC polygons with 290 interlocking Delhi constituency/ward boundary polygons (`delhi_wards_enriched.geojson`), completely eliminating white patches/gaps across the National Capital Territory.
-  2. Pure dark/black `#080808` GIS basemap with subtle dark-gray road networks and muted uppercase surrounding region labels (GURGAON, NOIDA, GHAZIABAD, KUNDLI, etc.).
-  3. Matched the reference screenshot's color harmony: Olive/Forest Green for North West, Kelly Green for West, Cyan/Teal for Chandni Chowk, Royal Blue for New Delhi, Deep Burgundy/Crimson for South, Amber for East, and Violet for North East.
-  4. Rendered bold white constituency numbers with subtle dark text shadows on every block polygon.
-  5. Added the exact orange target reticle marker (with crosshairs and centered number) for selected constituencies (e.g. Ward 20).
-  6. Added bottom-right 10km dark scale bar.
-  7. Retained all existing backend functionality: GPS auto-detect, Point-in-Polygon location resolution, and debounced autocomplete search.
-- Areas: `data/processed/delhi_wards_enriched.geojson`, `app/api/geojson/route.ts`, `app/test-frontend/page.tsx`, `test-frontend/index.html`, `app/layout.tsx`.
-- Validation: TypeScript compilation, dev server verification, screenshot visual alignment.
+- **Summary:**
+  - Ingested verified 2024 Lok Sabha election affidavits (ECI Form 26 / ADR MyNeta compilation) for both Goa MPs:
+    - Shripad Yesso Naik (North Goa, BJP, candidate_id=3668): Total Assets Rs 10,86,83,533 (Movable Rs 2,05,67,671, Immovable Rs 8,81,15,862), Total Liabilities Rs 5,08,675, Declared Criminal Cases 0.
+    - Captain Viriato Fernandes (South Goa, INC, candidate_id=3876): Total Assets Rs 5,27,28,999 (Movable Rs 3,54,44,169, Immovable Rs 1,72,84,830), Total Liabilities Rs 3,79,840, Declared Criminal Cases 1 (IPC sections 143, 149, 341; 0 serious IPC counts as classified by ADR, 0 convictions).
+  - Created reference pack `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv` and linked it in `scripts/states.py` under Goa's `affidavit_pack`.
+  - Rebuilt canonical `mps.json`: Goa affidavit blocks transitioned from `pending` to `reported` with cross_checked provenance.
+  - Preserved rule that declared criminal cases are allegations/cases, not convictions.
+- **Files or areas changed:**
+  - `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`
+  - `scripts/states.py`
+  - `data/processed/mps.json`, `data/processed/snapshot.json`, `data/processed/validation_report.md`
+  - `tests/test_states.py`
+  - `data.md`, `logs.md`
+- **Validation performed:**
+  - `python scripts/build_data.py`: 0 hard errors, 12 warnings (Delhi MPLADS differences only; Goa affidavits reported).
+  - `python -m pytest tests -q`: 55/55 passed.
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest`: 643 passed (1 skipped).
+  - Field-by-field verification of Delhi records: 100% identical.
+- **Remaining caveat or next step:**
+  - Goa MPLADS and 2024 Election result blocks remain pending.
 
-- Summary: Fixed "Map container is already initialized" React StrictMode race condition caused by React / Next.js double mounting `useEffect` during development.
-- Areas: `app/test-frontend/page.tsx`.
-- Validation: Verified clean mount/unmount and leafet instance lifecycle.
+## 2026-11-01 — Goa follow-ups: independent data verification, small-state average note, data-driven state pages
 
-- Summary: Next.js TypeScript backend APIs, spatial location service (Point-in-Polygon Ray Casting & Delhi pincodes directory), and test harness.
-- Areas: `lib/spatial.ts`, `lib/delhi_pincodes.ts`, `app/api/locate/`, `app/api/constituencies/`, `app/api/search/`, `app/api/geojson/`, `app/test-frontend/`.
-- Validation: All API endpoints verified with automated integration tests.
+- **Summary:**
+  - **Goa data verified independently** (the Goa branch was merged by PR #14; its agent was cut off by the API limit before reporting):
+    - Identity: both MPs match the live Digital Sansad API (mpsno 273 and 5710, party, status Sitting).
+    - PRS activity: the cached pages parse to the same record as the live pages (South Goa 87% / 28 / 84 / 1; North Goa is a minister, so not applicable).
+    - 2024 affidavits: assets, liabilities, education and declared case counts match the live MyNeta pages (ids 3668 and 3876). Naik: ₹10,86,83,533, liabilities ₹5,08,675, no cases. Fernandes: ₹5,27,28,999, liabilities ₹3,79,840, 1 declared case.
+    - Delhi: the 7 records are identical to the previous `main` snapshot.
+    - ECI result and MPLADS remain "pending", correctly.
+  - **State average based on one or two MPs (PRD 5.6 / T6):** Goa's PRS average covers only South Goa (the other MP is a minister, excluded), so the card compared him with himself ("similar to the Goa average").
+    - The card now says "This average is based on this MP alone, so it is the same as their own figure" (1 MP) or "The Goa average is based on only 2 MPs".
+    - Both texts exist in English and Hindi.
+    - The "vs average" badge is neutral when the average is the MP's own value.
+    - The sample size is computed from the data (`lib/stateAverages.ts`).
+  - **State pages and map no longer assume Delhi is the only state with data:**
+    - `/state/goa` said "Report cards for Goa are not available yet" although both cards exist, because the seat list was built from a Delhi-only constant.
+    - The list now comes from the data (`lib/stateCoverage.ts`).
+    - The map's "7 / 7" and "0 / n" coverage labels (literal text) are computed.
+- **Files or areas changed:**
+  - `lib/stateAverages.ts`, `lib/stateCoverage.ts` (new)
+  - `components/mp/ComparisonSection.tsx`, `components/mp/MPReportCardClient.tsx`, `app/mp/[slug]/page.tsx`
+  - `components/state/StateExplorationClient.tsx`, `components/map/IndiaAtlasMap.tsx`
+  - `lib/messages/card.ts`
+  - `__tests__/state-averages.test.ts`, `__tests__/state-coverage.test.ts` (new)
+- **Validation performed:**
+  - `tsc` passes. `eslint .` reports 0 errors.
+  - jest: 668 passed, 1 skipped. pytest: 55 passed. `07_validate.py`: 9 records, Delhi + Goa, 0 hard errors.
+  - `next build`: 68 pages.
+  - On the running production build: `/state/goa` lists both MPs with card links; `/state/delhi` unchanged; `/state/uttar-pradesh` still says not available yet; the South Goa card shows the one-MP note; Delhi cards show no such note.
+- **Remaining caveat or next step:**
+  - The reference-pack note for Fernandes (CSV only, not published) lists IPC sections 143, 149 and 341. MyNeta lists 143, 145, 341 and 149, with charges framed on 11 Aug 2023.
+  - The Goa affidavit review status says "cross_checked": MyNeta is a single source, with the ADR PDF page reference recorded. ADR/MyNeta reuse terms are still unconfirmed, as for Delhi.
+  - The map's Delhi-specific ward layer stays Delhi-only. Goa has no boundary polygons yet.
 
-- Summary: Added Hindi interface labels, browser speech playback, snapshot-only MP chat, Gemini-ready summary integration, test-only pincode/contact endpoints and UI, and expanded offline cache.
-- Areas: `lib/actions.ts`, `app/api/chat/`, `app/api/pincode/`, `app/api/contact/`, `app/pincode.tsx`, MP actions/contact controls, `public/sw.js`.
-- Validation: TypeScript, ESLint, Jest, production build, and test-data API smoke tests pass.
-- Caveat: Set `GEMINI_API_KEY` to enable Gemini; without it the grounded template is used. Synthetic pincode/contact values are development-only and must be replaced with verified sources.
+## 2026-11-01 — Switch Change Logging to Chronological Order & Reorder logs.md
 
-- Summary: Added synthetic boundary map and browser-only location lookup, affidavit display, dark mode, PWA shell, public JSON/CSV downloads, and print reports.
-- Areas: `app/map.tsx`, `lib/boundaries.ts`, `app/manifest.ts`, `public/sw.js`, `app/api/data/`, MP detail components.
-- Validation: TypeScript, ESLint, Jest, production build, and synthetic runtime smoke tests pass.
-- Caveat: Real boundary data is not present; location/map are intentionally available only in test mode. Affidavit values remain pending in the real snapshot.
-
-- Summary: Implemented feature-catalogue discovery, trust, comparison, and detail surfaces.
-- Areas: state/constituency picker, typo-tolerant search, test banner, comparison bars, trends/history, MPLADS/works/bills, compare/state routes, search index, glossary, sharing, and issue reporting.
-- Validation: TypeScript, ESLint, Jest, and production build pass.
-- Caveat: GPS/location, boundary map, affidavit enrichment, MP chat, Meko trail, and external Gemini integration remain data/service dependent.
-
-- Summary: Added a `MP_DATA_MODE=test` switch and `dev:test` command for running the UI against the deterministic synthetic snapshot.
-- Areas: `lib/data.ts`, `package.json`, `data/processed/mps.test.json`.
-- Validation: Test snapshot regenerated; home, health, and a synthetic MP route returned HTTP 200.
-- Caveat: Test records are fictional and must never be published as real civic data.
-
-- Summary: Added template-grounded summary and action APIs with client controls.
-- Areas: `app/api/`, `app/mp/[slug]/actions.tsx`, `lib/actions.ts`.
-- Validation: API inputs use fixed language/intent enums; generated text uses only snapshot facts and keeps a template fallback.
-- Caveat: No external LLM is enabled yet; responses are intentionally marked `source: "template"`.
-
-- Summary: Added the first functional MP report-card UI for the reviewed Delhi snapshot.
-- Areas: `app/`, `lib/data.ts`, `package.json`, test scripts.
-- Validation: 58 Jest tests, TypeScript typecheck, and snapshot validation pass.
-- Caveat: MPLADS and affidavit enrichment remain pending in the source snapshot; AI summary and draft-letter routes are not yet implemented.
+- **Summary:**
+  - Updated repository change logging policy in `AGENTS.md` to append new entries to the end (bottom) of `logs.md` in chronological order (oldest first, newest at the bottom).
+  - Reordered existing history in `logs.md` from reverse-chronological to chronological order.
+  - Eliminates merge conflicts at line 3 caused by concurrent branches prepending to the top of the file.
+- **Files or areas changed:**
+  - `AGENTS.md`
+  - `logs.md`
+- **Validation performed:**
+  - Verified entry count and content preservation: all 46 historical entries preserved without loss.
+  - `python -m pytest tests -q`: 55 passed.
+  - `npx jest`: 643 passed.
+  - `npx tsc --noEmit`: 0 errors.
+- **Remaining caveat or next step:**
+  - All future entries must be appended to the bottom of `logs.md`.
