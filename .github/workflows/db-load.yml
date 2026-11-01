@@ -5,8 +5,12 @@
 # snapshot is skipped, and every load is one transaction.
 #
 # Requires the repository secret DATABASE_URL (YugabyteDB Aeon connection
-# string). Without it the job is skipped and the site keeps serving the JSON
-# snapshot.
+# string), in the form
+#   postgresql://<user>:<password>@<host>:5433/yugabyte?sslmode=verify-full&sslrootcert=certs/root.crt
+# The certificate path is relative to the repository root, where certs/root.crt is checked out.
+# Do not add ssl=true: the Python driver (libpq) rejects it. The Aeon IP allow list must allow
+# GitHub's runners (no fixed IPs, so 0.0.0.0/0). Without the secret the job is skipped and
+# the site keeps serving the JSON snapshot.
 
 name: Load snapshot into YugabyteDB
 

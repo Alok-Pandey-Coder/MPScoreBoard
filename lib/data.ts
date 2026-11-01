@@ -32,39 +32,48 @@ import {
 import { lookupPincode } from './delhi_pincodes';
 import { getStatePcCollection } from './state_pc';
 
-export type DataSource = 'yugabytedb' | 'json-snapshot' | 'json-snapshot (database unreachable)';
+export type DataSource =
+  | 'yugabytedb'
+  | 'json-snapshot'
+  | 'json-snapshot (database unreachable)'
+  | 'json-snapshot (database empty)';
+
+/** Why the database is or is not the source: not set up, serving, has no snapshot loaded, or cannot be reached. */
+export type DatabaseStatus = 'not_configured' | 'ok' | 'empty' | 'unreachable';
 
 interface Dataset {
   mps: MPRecord[];
   bySlug: Map<string, MPRecord>;
   snapshot: SnapshotMetadata;
   source: DataSource;
+  databaseStatus: DatabaseStatus;
 }
 
 const slugRedirects = (aliasesJson as { slug_redirects?: Record<string, string> }).slug_redirects ?? {};
 const constituencies = delhiPcJson as unknown as ConstituencyCollection;
 
-function dataset(mps: MPRecord[], snapshot: SnapshotMetadata, source: DataSource): Dataset {
-  return { mps, bySlug: new Map(mps.map((mp) => [mp.slug, mp])), snapshot, source };
+function dataset(mps: MPRecord[], snapshot: SnapshotMetadata, source: DataSource, databaseStatus: DatabaseStatus): Dataset {
+  return { mps, bySlug: new Map(mps.map((mp) => [mp.slug, mp])), snapshot, source, databaseStatus };
 }
 
 // JSON imports are typed structurally by TS; the pipeline validates the shape
 // against types/mp.ts (scripts/07_validate.py), so the cast is checked there.
-const jsonDataset = (source: DataSource) =>
-  dataset(mpsJson as unknown as MPRecord[], snapshotJson as unknown as SnapshotMetadata, source);
+const jsonDataset = (source: DataSource, databaseStatus: DatabaseStatus) =>
+  dataset(mpsJson as unknown as MPRecord[], snapshotJson as unknown as SnapshotMetadata, source, databaseStatus);
 
 async function loadDataset(): Promise<Dataset> {
   // Imported lazily so the JSON path (tests, offline demo) never loads the pg driver.
   const db = await import('./db');
-  if (!db.isDatabaseConfigured()) return jsonDataset('json-snapshot');
+  if (!db.isDatabaseConfigured()) return jsonDataset('json-snapshot', 'not_configured');
   try {
     const latest = await db.readLatestSnapshot();
-    if (latest && latest.records.length > 0) return dataset(latest.records, latest.meta, 'yugabytedb');
+    if (latest && latest.records.length > 0) return dataset(latest.records, latest.meta, 'yugabytedb', 'ok');
     console.warn('[data] YugabyteDB has no snapshot loaded yet; serving the JSON snapshot. Run scripts/load_db.py.');
+    return jsonDataset('json-snapshot (database empty)', 'empty');
   } catch (error) {
     console.warn('[data] YugabyteDB unreachable; serving the JSON snapshot.', error instanceof Error ? error.message : error);
+    return jsonDataset('json-snapshot (database unreachable)', 'unreachable');
   }
-  return jsonDataset('json-snapshot (database unreachable)');
 }
 
 // One load per server process (and per build), shared by every caller.
@@ -112,6 +121,11 @@ export async function getSnapshotDate(): Promise<string> {
 /** Where the records currently served come from (shown by /api/health). */
 export async function getDataSource(): Promise<DataSource> {
   return (await getDataset()).source;
+}
+
+/** Why the database is or is not in use (shown by /api/health). */
+export async function getDatabaseStatus(): Promise<DatabaseStatus> {
+  return (await getDataset()).databaseStatus;
 }
 
 // ── Constituency geometry and location lookup ───────────────────────────────
