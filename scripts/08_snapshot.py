@@ -1,16 +1,22 @@
-"""Write snapshot metadata and a content hash for the processed Delhi export.
+"""Write snapshot metadata and a content hash for the processed multi-state export.
 
 `source_status` is derived from the block statuses and review statuses actually
-present in `mps.json`, never hard-coded.
+present in `mps.json`, never hard-coded. `coverage` and `states` list every
+registered state (scripts/states.py) with its record count.
 """
 
 import hashlib
 import json
+import sys
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
+SNAPSHOT_VERSION = "18ls-v3"
 INPUT = ROOT / "data" / "processed" / "mps.json"
 OUTPUT = ROOT / "data" / "processed" / "snapshot.json"
 PIPELINE = (
@@ -48,13 +54,18 @@ def build_metadata(content: bytes) -> dict:
     records = json.loads(content)
     status = {"identity": f"{_counts(r.get('identity_review_status') for r in records)}"}
     status.update({key: block_status(records, block) for key, block in BLOCKS.items()})
+    covered = [
+        {"key": state.key, "name": state.name, "records": sum(1 for r in records if r.get("state") == state.name), "seats": state.seats}
+        for state in states.STATES
+    ]
     return {
-        "snapshot_version": "delhi-18ls-v2",
+        "snapshot_version": SNAPSHOT_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "record_count": len(records),
         "sha256": hashlib.sha256(content).hexdigest(),
         "pipeline": PIPELINE,
-        "coverage": "Delhi, seven Lok Sabha constituencies",
+        "coverage": "18th Lok Sabha: " + "; ".join(f"{s['name']} ({s['records']} of {s['seats']} seats)" for s in covered),
+        "states": covered,
         "source_status": status,
     }
 

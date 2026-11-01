@@ -1,14 +1,21 @@
 """Validate the processed export and write an auditable report.
 
-Hard errors fail the build; soft warnings are reported only. The expected seat
-count and states come from the master list, not from constants in this file.
+Hard errors fail the build; soft warnings are reported only. The expected states
+come from the state registry (scripts/states.py) and the expected seats of each
+state from its identity master (reviewed roster or Digital Sansad capture), not
+from constants in this file. The report has per-state tables.
 """
 
 import importlib.util
 import json
+import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+import states  # noqa: E402
+
 INPUT = ROOT / "data" / "processed" / "mps.json"
 MASTER = ROOT / "data" / "raw" / "masterlist.delhi.json"
 REPORT = ROOT / "data" / "processed" / "validation_report.md"
@@ -38,11 +45,33 @@ PERFORMANCE_STATUSES = {"reported", "not_applicable", "not_available"}
 AVERAGE_TOLERANCE = {"attendance_pct": 0.5, "debates": 0.05, "questions": 0.05, "private_member_bills": 0.05}
 
 
-def load_parser():
-    spec = importlib.util.spec_from_file_location("parse_prs", ROOT / "scripts" / "03_parse_prs.py")
+def _load(name: str, script: str):
+    spec = importlib.util.spec_from_file_location(name, ROOT / "scripts" / script)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def load_parser():
+    return _load("parse_prs", "03_parse_prs.py")
+
+
+def identity_masters() -> dict[str, list[dict]]:
+    """Identity-master records per state name, from each state's reviewed roster or Sansad capture."""
+    normalise = _load("normalise", "05_normalise.py")
+    return {
+        state.name: normalise.identity_master(state, normalise.latest_sansad_capture(state.key))["records"]
+        for state in states.STATES
+    }
+
+
+def load_mplads_seats() -> dict[str, dict]:
+    seats: dict[str, dict] = {}
+    for state in states.STATES:
+        path = ROOT / "data" / "processed" / f"mplads.{state.key}.json"
+        if state.mplads_source and path.exists():
+            seats.update(json.loads(path.read_text(encoding="utf-8"))["seats"])
+    return seats
 
 
 def mean(values: list) -> float | None:
@@ -150,16 +179,30 @@ def mplads_table(records: list, seats: dict) -> list[str]:
 
 def main() -> None:
     records = json.loads(INPUT.read_text(encoding="utf-8"))
-    master = json.loads(MASTER.read_text(encoding="utf-8"))["records"]
-    expected_states = {row["state"] for row in master}
+    masters = identity_masters()
+    master = [row for rows in masters.values() for row in rows]
+    expected_states = set(masters)
     errors: list[str] = []
     warnings: list[str] = []
-    mplads_seats = json.loads(MPLADS_NORMALISED.read_text(encoding="utf-8"))["seats"] if MPLADS_NORMALISED.exists() else {}
+    mplads_seats = load_mplads_seats()
 
     slugs = [row["slug"] for row in records]
     seats = [(row["state"], row["constituency"]) for row in records]
     if len(records) != len(master):
-        errors.append(f"Expected {len(master)} records from the master list, found {len(records)}.")
+        errors.append(f"Expected {len(master)} records from the identity masters, found {len(records)}.")
+    for state in states.STATES:
+        count = sum(1 for r in records if r["state"] == state.name)
+        if count != len(masters[state.name]):
+            errors.append(f"{state.name}: expected {len(masters[state.name])} records from the identity master, found {count}.")
+        if count != state.seats:
+            errors.append(f"{state.name}: {count} records but the state has {state.seats} Lok Sabha seats.")
+        for r in records:
+            if r["state"] == state.name and not r["slug"].endswith(f"-{state.key}"):
+                errors.append(f"{r['slug']}: slug does not end with the state key '-{state.key}'.")
+    if slugs != sorted(slugs):
+        errors.append("Records are not sorted by slug.")
+    if any(not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", s) for s in slugs):
+        errors.append("A slug is not lowercase ASCII words joined by hyphens.")
     if len(set(slugs)) != len(slugs):
         errors.append("Duplicate slugs.")
     if len(set(seats)) != len(seats):
@@ -230,6 +273,8 @@ def main() -> None:
             if aff.get("election_year") != 2024:
                 errors.append(f"{who}: affidavit election year is '{aff.get('election_year')}'.")
 
+        errors.extend(pending_block_errors(who, row))
+
     # Reconcile computed state averages (excluding ministers and nulls) with PRS-published ones.
     reconciliation = []
     for state in sorted(expected_states):
@@ -251,12 +296,39 @@ def main() -> None:
         f"| {block} | " + ", ".join(f"{s}: {n}" for s, n in sorted(_count(records, block).items())) + " |"
         for block in blocks
     ]
+    per_state = []
+    for state in states.STATES:
+        rows = [r for r in records if r["state"] == state.name]
+        per_state += [
+            f"### {state.name}",
+            "",
+            f"- Records: {len(rows)} (identity master: {len(masters[state.name])}, Lok Sabha seats: {state.seats})",
+            f"- Identity master: {'reviewed state government roster' if state.identity_master == 'masterlist' else 'Digital Sansad member API (official)'}",
+            f"- Ministers (performance not applicable): {sum(1 for r in rows if r['is_minister'])}",
+            "",
+            "| Seat | MP | Party | Identity | Performance | MPLADS | Affidavit | Election |",
+            "|---|---|---|---|---|---|---|---|",
+            *(
+                f"| {r['constituency']} | {r['name']} | {r['party']} | {r['identity_review_status']} | "
+                + " | ".join(r[b]["status"] for b in blocks)
+                + " |"
+                for r in rows
+            ),
+            "",
+            "| Block | Status counts |",
+            "|---|---|",
+            *(
+                f"| {block} | " + ", ".join(f"{s}: {n}" for s, n in sorted(_count(rows, block).items())) + " |"
+                for block in blocks
+            ),
+            "",
+        ]
     lines = [
         "# Pipeline validation",
         "",
         "Generated by `scripts/07_validate.py` from `data/processed/mps.json`.",
         "",
-        f"- Records: {len(records)} (master list: {len(master)})",
+        f"- Records: {len(records)} (identity masters: {len(master)})",
         f"- States: {', '.join(sorted(expected_states))}",
         f"- Unique slugs: {len(set(slugs))}",
         f"- Unique seats: {len(set(seats))}",
@@ -270,6 +342,11 @@ def main() -> None:
         "|---|---|",
         *status_lines,
         "",
+        "## Per state",
+        "",
+        "Activity figures are descriptive, not a ranking. Pending blocks hold nulls only, never zeros.",
+        "",
+        *per_state,
         "## State averages vs PRS published",
         "",
         "Computed over reported, non-minister records with non-null values.",
@@ -304,6 +381,24 @@ def main() -> None:
     print("\n".join(lines))
     if errors:
         raise SystemExit(f"validation failed with {len(errors)} hard error(s)")
+
+
+PENDING_META_KEYS = {"status", "works", "works_is_partial", "cross_check"}
+
+
+def pending_block_errors(who: str, row: dict) -> list[str]:
+    """A pending block must carry no values: every field null, no works, no cross-checks (never zeros)."""
+    errors = []
+    for block in ("mplads", "affidavit", "election"):
+        data = row.get(block) or {}
+        if data.get("status") != "pending":
+            continue
+        filled = sorted(k for k, v in data.items() if k not in PENDING_META_KEYS and v is not None)
+        if filled:
+            errors.append(f"{who}: pending {block} block has values in {filled}; unavailable data must stay null.")
+        if data.get("works") or data.get("cross_check") or data.get("works_is_partial"):
+            errors.append(f"{who}: pending {block} block lists works or cross-checks.")
+    return errors
 
 
 def _count(records: list, block: str) -> dict:

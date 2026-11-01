@@ -1,4 +1,4 @@
-"""Run the reviewed Delhi data pipeline without deleting approved outputs."""
+"""Run the reviewed multi-state data pipeline (every state in scripts/states.py) without deleting approved outputs."""
 
 import subprocess
 import sys
@@ -20,7 +20,7 @@ def main() -> None:
         result = subprocess.run([sys.executable, str(ROOT / "scripts" / step)], cwd=ROOT)
         if result.returncode:
             raise SystemExit(result.returncode)
-    print("Delhi data build completed")
+    print("Data build completed for all registered states")
 
 
 if __name__ == "__main__":
