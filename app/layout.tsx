@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { FloatingChatButton } from '@/components/chat/FloatingChatButton';
 
 const SITE_DESCRIPTION =
   'A neutral, source-backed report card for your Lok Sabha MP: attendance, debates, questions, MPLADS funds and declared affidavit details, each with its source and date.';
@@ -88,6 +89,7 @@ export default function RootLayout({
           <LanguageProvider>
             <Header />
             <div className="flex-1 w-full">{children}</div>
+            <FloatingChatButton />
             <Footer />
           </LanguageProvider>
         </ThemeProvider>

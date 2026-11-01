@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+meko_datapack
+meko_datapack_mps
 /.pnp
 .pnp.*
 .yarn/*

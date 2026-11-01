@@ -1113,3 +1113,38 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `npx tsc --noEmit`: 0 errors.
 - **Remaining caveat or next step:**
   - All future entries must be appended to the bottom of `logs.md`.
+
+## 2026-11-01 — Add "Chat with AI" (JanSeva AI) Grounded Civic Feature via Meko Data MCP & Google Gemini
+
+- **Summary:**
+  - Designed and deployed **"Chat with AI"** (जनसेवा AI), an interactive civic assistant enabling citizens to ask natural-language questions regarding Delhi MPs, MPLADS fund utilization, election affidavit declarations, and civic jurisdictions (MP vs MLA vs MCD).
+  - Integrated **Meko Data MCP** (https://mcp.mekodata.ai/mcp) connected to the `janseva` datapack (`0200f6e7-2f14-4e60-91e9-717da105bcc7`) for hybrid semantic vector + keyword search over verified dossiers.
+  - Connected **Google Gemini** (`gemini-3.5-flash-lite`, with multi-tier fallback to `gemini-flash-latest`) for strictly grounded, factual responses with zero hallucination.
+  - Implemented non-partisan guardrails: strict neutrality, prohibition of ranking words ("best", "worst", "lazy", "criminal MP"), clarification of affidavit allegations vs convictions, and explanation of Union Minister parliamentary attendance protocols.
+  - Built dedicated page at `/chat` (`ChatClient.tsx`) with preset citizen questions, MP focus filters, verified source pill badges (PRS, MoSPI eSAKSHI, ECI Form 26), and bilingual English/Hindi/Hinglish support.
+  - Built site-wide floating drawer widget (`FloatingChatButton.tsx`) embedded in `RootLayout`, allowing users to open a slide-out civic chat on any MP report card or map view without leaving their page.
+  - Added "Chat with AI" navigation links in desktop/mobile header navigation (`Header.tsx`) and the homepage hero quick-nav strip (`HomeClient.tsx`).
+  - Added full unit test coverage in `__tests__/ai-chat.test.ts`.
+- **Files or areas changed:**
+  - `lib/ai/meko.ts` (new)
+  - `lib/ai/chat.ts` (new)
+  - `lib/ai/localSearch.ts` (new)
+  - `app/api/chat/route.ts` (new)
+  - `app/chat/page.tsx` (new)
+  - `components/chat/ChatClient.tsx` (new)
+  - `components/chat/FloatingChatButton.tsx` (new)
+  - `app/layout.tsx`
+  - `components/layout/Header.tsx`
+  - `components/home/HomeClient.tsx`
+  - `lib/messages/common.ts`
+  - `__tests__/ai-chat.test.ts` (new)
+  - `logs.md`
+- **Validation performed:**
+  - `npm run typecheck`: 0 TypeScript errors.
+  - `npm test`: 9 passed, 650/650 tests passed across all suites.
+  - `npm run build`: Production Next.js build succeeded; static pages and `/api/chat` route generated.
+  - `pytest tests`: 36/36 passed.
+  - End-to-end integration test against live Meko MCP server and Google Gemini.
+- **Remaining caveat or next step:**
+  - None. Both the standalone `/chat` page and the sitewide floating drawer are fully operational.
+

@@ -55,8 +55,8 @@ function summaryFacts(mp: MPRecord) {
  * caller then uses the deterministic template.
  */
 export async function generateLlmSummary(mp: MPRecord, lang: AiLang): Promise<string | null> {
-  const apiKey = process.env.GEMINI_API_KEY;
-  const model = process.env.GEMINI_MODEL;
+  const apiKey = process.env.GEMINI_API_KEY || process.env.AI_API_KEY;
+  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
   if (!apiKey || !model) return null;
 
   const language = LANGUAGE_INSTRUCTION[lang];
