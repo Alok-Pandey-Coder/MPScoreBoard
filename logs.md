@@ -1316,3 +1316,30 @@ This file records key data changes, pipeline updates, schema modifications, and 
 - **Validation performed:** `npx tsc --noEmit` clean; `npx jest` 670 passed (the one failure is the existing `ai-chat` Rohini test, which fails on `origin/main` too); no "dossier" left outside history/reference data.
 - **Remaining caveat or next step:** The deployed site updates after this is pushed.
 
+
+## 2026-11-01 — Production database loaded: YugabyteDB Aeon (approved snapshot 18ls-v3)
+
+- **Summary:**
+  - The approved snapshot (`data/processed/mps.json` + `snapshot.json`, version `18ls-v3`, sha256 `4dfeb878153a…`) was loaded into the YugabyteDB Aeon Sandbox cluster (AWS ap-south-1, Mumbai), database `yugabyte`.
+  - `db/schema.sql` was applied, then `scripts/load_db.py` loaded all 9 seats (Delhi 7, Goa 2) in one transaction, as snapshot id 1.
+  - The connection used `sslmode=verify-full` with the cluster's CA certificate (`certs/root.crt`). The credentials live only in the git-ignored `.env`.
+- **Files or areas changed:**
+  - No repository files; this changes the database only.
+  - The connection helper was kept outside the repository so that no secret can be committed.
+  - `.env` and the cluster's IP allow list were configured by the user.
+- **Validation performed:**
+  - **Row counts match `mps.json`:** 9 constituencies, 9 member records, 9 performance rows, 9 MPLADS summaries, 9 affidavits, 9 election rows, 140 MPLADS works and 50 source links.
+  - **Per-seat values:** activity (attendance, questions, status) and affidavit (assets, declared cases) match for all 9 seats.
+  - **Ministers:** the two ministers (East Delhi, North Goa) have `not_applicable` status and NULL attendance (never zero).
+  - **Parity test:** `__tests__/db-parity.test.ts` passes against the cloud database. Records read back through `lib/db.ts` equal `mps.json` field for field, and the hash matches.
+  - **TLS:** a control connection with an unrelated public CA bundle was rejected ("certificate verify failed"), so certificate verification is active.
+  - **Secret scan:** the database password does not appear in any tracked file, on `origin/main`, or anywhere in git history.
+- **Remaining caveat or next step:**
+  - The IP allow list must cover every network that connects. Several different egress IPs were seen on the development network, and one connection test dropped 8 of 10 before the right addresses were added.
+  - Vercel and GitHub Actions have no fixed IPs. The Aeon allow list will need to allow `0.0.0.0/0` for either to reach the database.
+  - A deployed function needs the CA certificate. A file path (`sslrootcert`) must be bundled with the deployment, or the certificate must be supplied another way. See `docs/deploy.md`.
+  - The site reads the database only when `DATABASE_URL` is set; otherwise it serves the JSON snapshot. Check `/api/health` (`dataSource`) after every deploy.
+  - The database stores the MP report-card records. Constituency boundaries, slug aliases, UI text and portraits stay as bundled static files by design. MLA data is not modelled yet.
+  - The MPLADS works lists remain partial (20 per MP, flagged).
+
+
