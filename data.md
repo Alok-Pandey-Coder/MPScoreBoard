@@ -435,3 +435,22 @@ $env:DATABASE_URL = "postgresql://yugabyte:yugabyte@localhost:5433/yugabyte"
 python scripts\load_db.py --schema
 npx jest __tests__/db-parity.test.ts
 ```
+
+---
+
+## 8. Meko Data MCP & Google Gemini Civic Intelligence Stack
+
+The application incorporates a verified conversational RAG architecture enabling natural-language civic exploration across all 7 Delhi Lok Sabha seats, MPLADS expenditures, and multi-tier jurisdictions (MP, MLA, MCD).
+
+| Component | Role | Details |
+|---|---|---|
+| **Meko Datapack** | Knowledge Base (`janseva`) | Datapack ID: `0200f6e7-2f14-4e60-91e9-717da105bcc7` |
+| **Meko MCP Server** | FastMCP JSON-RPC Endpoint | `https://mcp.mekodata.ai/mcp` using `tools/call` (`knowledgebase_search`) |
+| **Source Datapack** | Ingestion directory | `meko_datapack/` (`.md`, `.csv`, `.jsonl` files) |
+| **Gemini Reasoning** | LLM Inference | `gemini-3.5-flash-lite` / `gemini-flash-latest` via Google Gemini API |
+| **Client Connector** | `lib/ai/meko.ts` | Server-only MCP client with automatic graceful fallback |
+| **Civic Chat Core** | `lib/ai/chat.ts` | Grounded prompt constructor with PRD non-partisan guardrails |
+| **API Endpoint** | `app/api/chat/route.ts` | POST `/api/chat` accepting `{ message, history, lang, mpContext }` |
+| **Interactive UI** | `components/chat/ChatClient.tsx` | Full-page chat with source badges, language switcher, and follow-ups |
+| **Floating Drawer** | `components/chat/FloatingChatButton.tsx` | Sitewide floating widget accessible on any report card |
+

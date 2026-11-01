@@ -56,8 +56,9 @@ the current product documentation in `docs/context.md`, `docs/plan.md`, and
   pipeline change, validation-rule change, or product feature addition.
 - Each entry must include the date, a short summary, files or areas changed,
   validation performed, and any remaining caveat or next step.
-- Do not rewrite or delete earlier entries; append new entries in reverse
-  chronological order.
+- Do not rewrite or delete earlier entries; append new entries to the end
+  (bottom) of the file in chronological order (oldest first, newest at the
+  bottom) to prevent merge conflicts caused by concurrent branches editing line 3.
 - Routine formatting-only changes do not require a log entry.
 
 ## Git and permissions

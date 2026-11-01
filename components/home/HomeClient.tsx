@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
 import { MPRecord } from '@/types/mp';
 import { StateMapExplorer } from '@/components/map/StateMapExplorer';
 import { REAL_INDIA_STATES } from '@/lib/realIndiaMapData';
@@ -8,7 +9,7 @@ import { NagrikTerritoryBar } from '@/components/home/NagrikTerritoryBar';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { UnifiedSearchBar } from '@/components/home/UnifiedSearchBar';
 import { StateConstituencyPicker } from '@/components/home/StateConstituencyPicker';
-import { ArrowRight, Compass, Landmark } from 'lucide-react';
+import { ArrowRight, Compass, Landmark, Sparkles } from 'lucide-react';
 import { localizeMP } from '@/lib/i18n';
 import { coverageNote, getCoverage, TOTAL_LOK_SABHA_SEATS } from '@/lib/coverage';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -196,6 +197,13 @@ export const HomeClient: React.FC<HomeClientProps> = ({ mps }) => {
 
           {/* Quick Nav Anchors */}
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-mono mb-6">
+            <Link
+              href="/chat"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold rounded-lg transition-all shadow-sm cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>{lang === 'hi' ? 'AI से पूछें' : 'Chat with AI'}</span>
+            </Link>
             <a
               href="#find-constituency"
               className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 font-bold rounded-lg transition-all shadow-sm cursor-pointer"

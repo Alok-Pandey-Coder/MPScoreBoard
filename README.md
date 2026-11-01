@@ -1,51 +1,252 @@
-# MPScoreBoard — Mera MP, Mera Report Card
+# 🏛️ Mera MP: Parliamentary Scrutiny & Expenditure Monitor
 
-A neutral, source-backed report card for Lok Sabha MPs. Every figure links to its public
-source and date. See `PRD.md` for the product, `data.md` for the data, and `logs.md` for history.
+> **Know your representative. Track every rupee. Hold power accountable.**
 
-## Running locally
+[![Status](https://img.shields.io/badge/Status-Live%20Pilot-22c55e?style=flat-square)](#-live-demo)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tests](https://img.shields.io/badge/Tests-668%20Passing-22c55e?style=flat-square)](./__tests__)
+[![License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)](./LICENSE)
+[![Data](https://img.shields.io/badge/Data-Open%20%26%20Sourced-6366f1?style=flat-square)](./data.md)
 
-```bash
-npm ci
-npm run dev        # http://localhost:3000
+**Team CubeAce** · Ayush Maurya (Lead) · Yash Gupta · Alok Kumar Pandey · Kishan Kumar
+
+---
+
+## 🔗 Live Demo
+
+| | |
+|---|---|
+| 🌐 **Live app** | `<add deployed URL>` |
+| 🎬 **Demo video** | `<add video URL>` |
+| 💻 **Source** | https://github.com/Alok-Pandey-Coder/MPScoreBoard |
+
+<!-- Add 2–3 screenshots here: homepage, Delhi map with GPS detect, an MP dossier -->
+
+---
+
+## ⚡ In 30 Seconds
+
+**Mera MP** gives any Indian citizen a **60-second, source-backed dossier** on their Lok Sabha MP: attendance, questions, debates, MPLADS spending, declared assets, and declared criminal cases. Every figure links to its official government source. There are **no scores, no rankings and no editorial spin.**
+
+| | |
+|---|---|
+| **Delhi** | 7 / 7 MPs audited, interactive ward-level map, GPS "Find my MP" |
+| **Goa** | 2 / 2 MPs audited, proving the pipeline works across states |
+| **Quality** | 668 automated tests, 7-step idempotent data pipeline |
+| **Access** | Bilingual (English / हिन्दी), mobile-first, WCAG 2.2 AA-oriented |
+
+---
+
+## 🔥 The Problem
+
+**1. Fragmented data.** Understanding one MP means visiting at least five portals (Sansad, PRS, MyNeta/ADR, ECI affidavits, MPLADS). None cross-reference each other, and most are hard to use on a phone or in Hindi.
+
+**2. Misleading scorecards.** Many "MP report cards" use opaque scoring formulas that penalise ministers for low floor attendance, blur *declared cases* with *convictions*, and are often tied to political groups. Citizens end up distrusting all data.
+
+**3. "Which constituency am I even in?"** Delhi's municipal wards and assembly segments map to 7 parliamentary seats in ways that are not obvious. No simple public tool answers *"I live in Ward X, so who is my MP?"*
+
+---
+
+## 🚀 What We Built
+
+### 1. 📋 60-Second Neutral MP Dossier
+- **Parliamentary activity:** attendance, questions, debates, private member bills (Sansad API, PRS)
+- **Financials:** declared assets and liabilities (ECI Form 26, latest election)
+- **Criminal cases:** *declared* cases from the affidavit, never presented as convictions
+- **MPLADS:** constituency development fund allocation and spend
+- **Provenance:** every figure carries its **source link and retrieval date**
+
+### 2. 🗺️ Hyperlocal Delhi Map and GPS Auto-Detect
+- Interactive map of Delhi's municipal wards and 7 Lok Sabha constituencies (Leaflet + ESRI tiles)
+- **One tap on "Auto-Detect My Seat":** browser geolocation → constituency → MP card
+- Click any ward to see its constituency and open the MP card
+- Colour-coded constituencies, seat badges, touch targets of at least 44×44 px
+
+### 3. 🏖️ Multi-State Proof: Goa
+The same GIS and data architecture was extended to North Goa and South Goa with no code redesign, which shows the platform scales state by state.
+
+### 4. 🔗 Multi-Source Data Unification Pipeline
+Combines 6+ official and open-licensed sources into one validated dataset with cross-source checks (for example, Sansad vs PRS attendance must agree within ±2 percentage points). Details below.
+
+### 5. 🤖 Constrained AI Summary
+A Gemini-generated plain-language summary per MP. The model receives **only the structured fields already in the record**, and the prompt forbids inference beyond them. Summaries are labelled as AI-generated and sit next to the underlying sources.
+
+### 6. 🌐 Bilingual Interface
+Full English and Hindi UI with a font stack tuned for Devanagari on mobile.
+
+---
+
+## ⚖️ Neutrality by Design
+
+These rules are **enforced in the pipeline and validation tests**, not just stated as policy.
+
+| Principle | How we enforce it |
+|---|---|
+| **No scores or rankings** | We never compute an "MP score". Metrics are shown as raw descriptive numbers. |
+| **Ministers get N/A, not zero** | An `is_minister` flag switches attendance and activity metrics to "Not Applicable", because ministers are excused from ordinary floor attendance. |
+| **Allegations ≠ convictions** | Criminal data is labelled "declared cases" everywhere. A validation audit checks the labelling. |
+| **`null` is never `0`** | Missing data is stored as `null` and shown as "—". |
+| **Source or it doesn't ship** | No fact is published without a source URL, retrieval date and review status. |
+| **Failure-safe refresh** | If a source fetch fails, the last approved record is preserved, never deleted or zeroed. |
+| **Constrained AI** | The summariser sees only sourced fields and may not infer beyond them. |
+| **Non-partisan** | No political funding or affiliation. Every party is covered with the same sources and the same method. |
+
+---
+
+## ⚙️ Data Pipeline
+
+```
+fetch raw → parse → normalize → merge → validate → export → serve
 ```
 
-That is all you need. **No database or Docker is required.** By default the site reads the
-reviewed JSON snapshot in `data/processed/mps.json`.
+| Step | What happens | Where |
+|---|---|---|
+| 1. Fetch | Pull from Sansad, PRS, ECI, MPLADS. Store immutable captures with source URL and date | `scripts/fetch_*.py` → `data/raw/` |
+| 2. Parse | Extract fields from JSON, HTML and PDF | `scripts/parse_*.py` |
+| 3. Normalize | Standardise MP names, constituency slugs, party names, number formats | `scripts/normalize.py` |
+| 4. Merge | Join on `(state, constituency_slug)`; names used only as secondary confirmation | `scripts/merge.py` |
+| 5. Validate | Cross-source invariants, null-vs-zero audit, minister N/A check, criminal-label audit | `scripts/validate.py` |
+| 6. Export | Write `mps.json` and constituency GeoJSON | `scripts/export.py` → `data/processed/` |
+| 7. Serve | Next.js API routes and React components | `app/api/`, `components/` |
 
-### Optional: YugabyteDB
+The pipeline is **idempotent** and **database-optional**. By default it runs from a flat JSON snapshot, with optional YugabyteDB/PostgreSQL.
 
-The site can read the same approved snapshot from YugabyteDB (PostgreSQL-compatible) instead:
+---
+
+## 📊 Data Sources
+
+| Source | Provides | Licence / status |
+|---|---|---|
+| [Digital Sansad Member API](https://sansad.in/api_ls/member) | Attendance, questions, debates, bills | Government open data |
+| [PRS Legislative Research](https://prsindia.org) | Bill participation, committees, debates (cross-check) | CC BY 4.0 |
+| [ECI Form 26 Affidavits](https://affidavit.eci.gov.in) | Assets, liabilities, declared cases | Public record |
+| [ADR / MyNeta](https://myneta.info) | Affidavit **discovery only**; figures published from ECI primary source | Discovery only |
+| [MPLADS Portal](https://mplads.gov.in) | Fund allocation and expenditure | Government open data |
+| [DataMeet](https://datameet.org) | Delhi PC and ward boundaries | CC BY 4.0 |
+| Goa PC boundary | North / South Goa polygons (from delimitation order) | Public domain |
+| [ECI Delimitation Orders](https://eci.gov.in) | Ward/segment → constituency mapping | Public domain |
+| ESRI / OpenStreetMap | Basemap tiles | Per provider terms |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript 5, Tailwind CSS 3 |
+| Maps / GIS | Leaflet 1.9 + ESRI tiles, custom Python GeoJSON processing |
+| Data pipeline | Python 3 scripts, flat-JSON snapshot, optional YugabyteDB / PostgreSQL |
+| AI | Gemini API (input-constrained summaries) |
+| Testing | Vitest + Testing Library (668 tests, 10 suites) |
+| Deployment | Vercel / Node.js |
+
+---
+
+## 📱 How to Use
+
+1. **Open the homepage** and pick **Delhi** or **Goa**.
+2. **Find your seat.** Tap **⚡ Auto-Detect My Seat** (allow location), or click any ward or constituency on the map.
+3. **Open the MP card** in the sidebar, then **View Full Dossier**.
+4. **Verify anything.** Click the 🔗 icon beside any figure to open the original government source, with its retrieval date.
+5. **Compare MPs** in the Directory on the state page. Raw numbers only, no ranking.
+
+> ℹ️ For ministers, attendance, questions and debates show **"Not Applicable"**, never zero.
+
+---
+
+## 💻 Run It Locally
+
+**Requirements:** Node.js 20+, npm 10+, Git. Python 3.10+ is needed only for the data pipeline.
 
 ```bash
-docker compose up -d yugabyte                     # local YugabyteDB on port 5433
+git clone https://github.com/Alok-Pandey-Coder/MPScoreBoard.git
+cd MPScoreBoard
+npm ci
+npm run dev        # → http://localhost:3000
+```
+
+No database or Docker is required. The app reads `data/processed/mps.json` by default.
+
+<details>
+<summary><b>Optional: YugabyteDB / PostgreSQL</b></summary>
+
+```bash
+docker compose up -d yugabyte
 pip install -r requirements.txt
 export DATABASE_URL=postgresql://yugabyte:yugabyte@localhost:5433/yugabyte
-python scripts/load_db.py --schema                # load the approved snapshot
+python scripts/load_db.py --schema
 npm run dev
 ```
 
-| `DATABASE_URL` | What the site uses |
+| `DATABASE_URL` state | Data source used |
 |---|---|
-| not set (default) | JSON snapshot (`data/processed/mps.json`) |
-| set, database running | YugabyteDB (latest loaded snapshot) |
-| set, database not reachable | JSON snapshot, with a warning in the server log |
+| Not set | JSON snapshot |
+| Set, DB reachable | YugabyteDB |
+| Set, DB unreachable | JSON snapshot (warning logged) |
 
-`/api/health` shows which source is in use (`dataSource`). Both sources hold the same approved
-data; `__tests__/db-parity.test.ts` checks they match field for field.
+`/api/health` reports the active source in the `dataSource` field.
+</details>
 
-## Data
-
-```bash
-npm run data:build     # rebuild the snapshot from cached source captures (no network)
-npm run data:refresh   # fetch sources politely, rebuild, check against official records, report
-npm run test:data      # pipeline tests
-```
-
-Details: `scripts/README.md` and `data.md`.
-
-## Checks
+### Tests and Data Commands
 
 ```bash
-npm run typecheck && npm run lint && npm test && npm run build
+npm run typecheck && npm run lint && npm test && npm run build   # full CI check
+npm run test:data       # data pipeline tests
+npm run data:build      # rebuild snapshot from cached raw captures (offline)
+npm run data:refresh    # fetch sources and rebuild (network)
 ```
+
+---
+
+## 🗺️ Coverage and Roadmap
+
+| Phase | Scope | Status |
+|---|---|---|
+| **1** | Delhi (7) + Goa (2) with full dossiers and GIS | ✅ Complete |
+| **2** | Maharashtra (48), Karnataka (28), Uttar Pradesh (80) | 🔜 Next |
+| **3** | All remaining states and UTs, all 543 Lok Sabha seats | Planned |
+| **4** | Rajya Sabha, MPLADS deep-dive, project-level tracker | Planned |
+
+---
+
+## 🏆 Why This Deserves to Win
+
+| Criterion | Our answer |
+|---|---|
+| **Innovation** | A neutral MP report card with an input-constrained AI summariser and GPS-based constituency detection. |
+| **Impact** | Helps first-time and non-technical voters find and verify their MP in seconds. Delhi alone has over 14M voters. |
+| **Technical depth** | 7-step idempotent pipeline, cross-source validation, 668 tests, GIS with hundreds of polygons. |
+| **Social value** | Strict neutrality rules, bilingual, accessible, and no scores or rankings that could mislead. |
+| **Scalability** | Proven on 2 states with no redesign, and architected for all 543 seats. |
+| **Data quality** | Every fact has a primary-source URL and retrieval date. |
+
+---
+
+## 📁 Repository Structure
+
+```
+MPScoreBoard/
+├── app/            # Next.js pages and API routes (mp/[slug], state/[state], api/)
+├── components/     # home/, map/, mp/, state/
+├── data/
+│   ├── raw/        # Immutable source captures (never edit)
+│   └── processed/  # mps.json, delhi_wards.json, goa_pc.json
+├── lib/            # Data access and utilities
+├── scripts/        # Python pipeline
+├── __tests__/      # Test suites
+├── docs/           # context.md, plan.md, dataSources.md
+├── data.md         # Data catalog and dictionary
+├── logs.md         # Append-only changelog
+└── PRD.md          # Product requirements
+```
+
+---
+
+## 🙏 Acknowledgements
+
+Digital Sansad / Lok Sabha Secretariat · PRS Legislative Research · ADR / MyNeta · Election Commission of India · MoSPI (MPLADS) · DataMeet India · ESRI and OpenStreetMap contributors.
+
+## 📄 License
+
+MIT. See [LICENSE](./LICENSE). Data comes from public government records and open-licensed datasets; per-dataset licensing is in [data.md](./data.md).

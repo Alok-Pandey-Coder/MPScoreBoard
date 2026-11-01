@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import aliasesJson from '@/data/processed/aliases.json';
 import { getAllMPs, getMPBySlug, resolveCanonicalSlug } from '@/lib/data';
 import { MPReportCardClient } from '@/components/mp/MPReportCardClient';
+import { stateAverageSampleSize } from '@/lib/stateAverages';
 
 /**
  * Only the slugs returned by generateStaticParams exist. Any other slug is
@@ -62,5 +63,6 @@ export default async function MPPage({
     notFound();
   }
 
-  return <MPReportCardClient mp={mp} />;
+  const stateAverageN = stateAverageSampleSize(await getAllMPs(), mp.state);
+  return <MPReportCardClient mp={mp} stateAverageN={stateAverageN} />;
 }

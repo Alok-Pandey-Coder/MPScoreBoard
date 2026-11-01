@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Building, ChevronRight, Award } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { INDIA_STATES, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
+import { INDIA_STATES } from '@/lib/indiaGeoData';
+import { recordsForState } from '@/lib/stateCoverage';
 import { StateSwitcher } from '@/components/state/StateSwitcher';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { useLang, useMessages } from '@/context/LanguageContext';
@@ -34,8 +35,9 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
       (s) => s.id === stateId || s.name.toLowerCase().includes(stateId)
     ) || INDIA_STATES[0];
 
-  const isDelhi = state.id === 'delhi';
   const localizedStateName = localizeState(state.name, lang);
+  // The seat list comes from the data, so any state with report cards is listed (not only Delhi).
+  const stateMps = useMemo(() => recordsForState(localizedMps, state.id), [localizedMps, state.id]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -84,31 +86,31 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
             <span>{t.constituenciesIn(localizedStateName)}</span>
           </h2>
 
-          {isDelhi ? (
+          {stateMps.length > 0 ? (
             <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
-              {DELHI_CONSTITUENCIES.map((c) => (
+              {stateMps.map((mp) => (
                 <Link
-                  key={c.slug}
-                  href={`/mp/${c.slug}`}
+                  key={mp.slug}
+                  href={`/mp/${mp.slug}`}
                   className="block p-4 rounded-2xl bg-slate-50 dark:bg-[#1a222d] hover:bg-slate-100 dark:hover:bg-[#1f2937] border border-slate-200 dark:border-[#27323f] hover:border-cyan-500/60 transition-all group"
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-slate-900 dark:text-white font-['Outfit'] group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                          {c.name}
+                          {mp.constituency.replace(/\s*\((SC|ST)\)\s*$/, '')}
                         </span>
-                        {c.reservation && c.reservation !== 'GEN' && (
+                        {mp.reservation && mp.reservation !== 'GEN' && (
                           <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                            {lang === 'hi' ? `${localizeReservation(c.reservation, lang)} (${c.reservation})` : c.reservation}
+                            {lang === 'hi' ? `${localizeReservation(mp.reservation, lang)} (${mp.reservation})` : mp.reservation}
                           </span>
                         )}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                        <span className="text-slate-800 dark:text-slate-200 font-medium">{c.sittingMP || NOT_AVAILABLE_TEXT[lang]}</span>
+                        <span className="text-slate-800 dark:text-slate-200 font-medium">{mp.name || NOT_AVAILABLE_TEXT[lang]}</span>
                         <span>•</span>
-                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{c.party ? localizeParty(c.party, lang) : NOT_AVAILABLE_TEXT[lang]}</span>
-                        {c.isMinister && (
+                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{mp.party ? localizeParty(mp.party, lang) : NOT_AVAILABLE_TEXT[lang]}</span>
+                        {mp.is_minister && (
                           <span className="text-[10px] text-amber-500 font-semibold flex items-center gap-0.5">
                             <Award className="w-3 h-3" />
                             {t.minister}

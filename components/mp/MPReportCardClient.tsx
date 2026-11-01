@@ -19,6 +19,8 @@ import { localizeState } from '@/lib/i18n';
 
 interface MPReportCardClientProps {
   mp: MPRecord;
+  /** How many MPs the state's PRS average is based on. */
+  stateAverageN?: number;
 }
 
 const pillClass =
@@ -29,7 +31,7 @@ const pillClass =
  * exactly as published in both languages (PRD 5.6); only the state and party
  * may be shown in Hindi, and each section does that at display time.
  */
-export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) => {
+export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp, stateAverageN }) => {
   const t = useMessages(cardMessages);
   const { lang } = useLang();
   const [toastMessage, setToastMessage] = useState('');
@@ -119,7 +121,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) =>
 
       {/* 3. Compared to Averages (Neutral Bars) */}
       <div id="benchmarks" className="scroll-mt-24">
-        <ComparisonSection mp={mp} />
+        <ComparisonSection mp={mp} stateAverageN={stateAverageN} />
       </div>
 
       {/* 4. Local Area Development (MPLADS) */}

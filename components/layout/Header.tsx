@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GitCompare, Info, Map, Menu, Search, X, type LucideIcon } from 'lucide-react';
+import { GitCompare, Info, Map, Menu, Search, Sparkles, X, type LucideIcon } from 'lucide-react';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { LanguageToggle } from '../common/LanguageToggle';
 import { useMessages } from '@/context/LanguageContext';
@@ -23,6 +23,7 @@ interface NavItem {
 const NAV: NavItem[] = [
   { href: '/', label: 'navFind', icon: Search, hint: 'navFindHint' },
   { href: '/compare', label: 'navCompare', icon: GitCompare, hint: 'navCompareHint' },
+  { href: '/chat', label: 'navChat', icon: Sparkles, hint: 'navChatHint' },
   { href: '/explore', label: 'navMap', icon: Map, hint: 'navMapHint' },
   { href: '/about', label: 'navAbout', icon: Info, hint: 'navAboutHint' },
 ];
