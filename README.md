@@ -11,6 +11,8 @@
 
 **Team CubeAce** · Ayush Maurya (Lead) · Yash Gupta · Alok Kumar Pandey · Kishan Kumar
 
+<img width="1917" height="1030" alt="image" src="https://github.com/user-attachments/assets/72ba1fbb-65bd-4db4-b898-3ec404e92497" />
+
 ---
 
 ## 🔗 Live Demo
@@ -47,6 +49,7 @@
 **3. "Which constituency am I even in?"** Delhi's municipal wards and assembly segments map to 7 parliamentary seats in ways that are not obvious. No simple public tool answers *"I live in Ward X, so who is my MP?"*
 
 ---
+
 
 ## 🚀 What We Built
 
