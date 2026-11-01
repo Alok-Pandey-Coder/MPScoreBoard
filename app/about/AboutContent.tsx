@@ -1,13 +1,20 @@
 'use client';
 
 import React from 'react';
-import { ExternalLink, Database, ShieldCheck, HelpCircle, Scale, Award } from 'lucide-react';
+import { ExternalLink, Database, ShieldCheck, HelpCircle, Scale, Award, FileText, AlertTriangle, Sparkles } from 'lucide-react';
 import { GitHubIcon } from '@/components/common/GitHubIcon';
 import { useMessages } from '@/context/LanguageContext';
 import { aboutMessages } from '@/lib/messages/about';
 
+/** Coverage figures computed on the server from the dataset (lib/coverage.ts). */
+export interface AboutCoverage {
+  seatCount: number;
+  totalSeats: number;
+  stateCount: number;
+}
+
 /** Client half of /about: methodology text in the chosen UI language. */
-export function AboutContent({ snapshotVersion }: { snapshotVersion: string }) {
+export function AboutContent({ snapshotVersion, coverage }: { snapshotVersion: string; coverage: AboutCoverage }) {
   const t = useMessages(aboutMessages);
 
   return (
@@ -194,7 +201,53 @@ export function AboutContent({ snapshotVersion }: { snapshotVersion: string }) {
         </div>
       </section>
 
-      {/* Section 5: Unofficial Project Disclaimer */}
+      {/* Section 5: Affidavit data */}
+      <section id="affidavit-data" className="space-y-4 scroll-mt-24">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
+          <FileText className="w-5 h-5 text-cyan-500" />
+          <span>{t.affidavitHeading}</span>
+        </h2>
+        <div className="bg-white dark:bg-[#171D24] p-6 rounded-3xl border border-slate-200 dark:border-[#303A45] text-sm text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed shadow-sm">
+          <p>{t.affidavitSelfDeclared}</p>
+          <p>{t.affidavitYear}</p>
+          <p>{t.affidavitCases}</p>
+          <p>{t.affidavitAssets}</p>
+        </div>
+      </section>
+
+      {/* Section 6: Limitations and known gaps */}
+      <section id="limitations" className="space-y-4 scroll-mt-24">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-cyan-500" />
+          <span>{t.limitationsHeading}</span>
+        </h2>
+        <div className="bg-white dark:bg-[#171D24] p-6 rounded-3xl border border-slate-200 dark:border-[#303A45] text-sm text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed shadow-sm">
+          <ul className="list-disc pl-5 space-y-2">
+            <li>{t.limitCoverage(coverage.seatCount, coverage.totalSeats, coverage.stateCount)}</li>
+            <li>{t.limitWorks}</li>
+            <li>{t.limitSecondary}</li>
+            <li>{t.limitActivity}</li>
+            <li>{t.limitMinisters}</li>
+            <li>{t.limitSnapshot}</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Section 7: AI usage and safeguards */}
+      <section id="ai-safeguards" className="space-y-4 scroll-mt-24">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-cyan-500" />
+          <span>{t.aiHeading}</span>
+        </h2>
+        <div className="bg-white dark:bg-[#171D24] p-6 rounded-3xl border border-slate-200 dark:border-[#303A45] text-sm text-slate-600 dark:text-slate-300 space-y-3 leading-relaxed shadow-sm">
+          <p>{t.aiScope}</p>
+          <p>{t.aiChecks}</p>
+          <p>{t.aiPipeline}</p>
+          <p>{t.aiDrafts}</p>
+        </div>
+      </section>
+
+      {/* Section 8: Unofficial Project Disclaimer */}
       <section className="bg-[#171D24] text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-[#303A45] space-y-4">
         <h2 className="text-xl font-bold font-['Outfit']">
           {t.disclaimerHeading}

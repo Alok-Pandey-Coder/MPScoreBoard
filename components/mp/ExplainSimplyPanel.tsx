@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Copy, Check, Languages, ShieldCheck, RefreshCw, FileText } from 'lucide-react';
+import { Copy, Check, ShieldCheck, RefreshCw, FileText } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
-import { getMPSummary, SummaryResult, AiLang } from '@/lib/ai/summary';
-import { useLang, useMessages } from '@/context/LanguageContext';
+import { getMPSummary, SummaryResult, AI_LANG_HTML } from '@/lib/ai/summary';
+import { useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
+import { AiLangToggle, useAiLang } from '@/components/mp/AiLangToggle';
 
 interface ExplainSimplyPanelProps {
   mp: MPRecord;
@@ -13,15 +14,10 @@ interface ExplainSimplyPanelProps {
 }
 
 export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCopyToast }) => {
-  const { lang: globalLang } = useLang();
   const t = useMessages(cardMessages);
-  const [lang, setLang] = useState<AiLang>(() => (globalLang === 'hi' ? 'hi' : 'en'));
+  const [lang, setLang] = useAiLang();
   const [summary, setSummary] = useState<(SummaryResult & { slug: string }) | null>(null);
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    setLang(globalLang === 'hi' ? 'hi' : 'en');
-  }, [globalLang]);
 
   // Loading until a summary for the current MP and language has arrived.
   const isLoading = summary?.slug !== mp.slug || summary.lang !== lang;
@@ -38,7 +34,7 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
   }, [mp, lang]);
 
   const handleCopy = () => {
-    if (!summary) return;
+    if (!summary || isLoading) return;
     navigator.clipboard.writeText(summary.text);
     setCopied(true);
     onCopyToast(t.toastSummaryCopied);
@@ -51,7 +47,7 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center border border-amber-500/20">
-            <FileText className="w-4 h-4" />
+            <FileText className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -68,40 +64,8 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
           </div>
         </div>
 
-        {/* Language selector toggle */}
-        <div className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C29] p-1 rounded-lg border border-stone-200 dark:border-[#222F42] self-start sm:self-auto text-xs font-mono">
-          <Languages className="w-3.5 h-3.5 text-stone-400 ml-1.5 mr-0.5" />
-          <button
-            onClick={() => setLang('hi')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'hi'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
-            }`}
-          >
-            हिन्दी
-          </button>
-          <button
-            onClick={() => setLang('en')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'en'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => setLang('hinglish')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'hinglish'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
-            }`}
-          >
-            Hinglish
-          </button>
-        </div>
+        {/* Summary language */}
+        <AiLangToggle value={lang} onChange={setLang} label={t.briefingLanguageLabel} showIcon />
       </div>
 
       {/* Content Area */}
@@ -112,7 +76,7 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
             <span>{t.briefingLoading}</span>
           </div>
         ) : (
-          <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
+          <p lang={AI_LANG_HTML[lang]} className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
             {summary?.text}
           </p>
         )}
@@ -125,17 +89,18 @@ export const ExplainSimplyPanel: React.FC<ExplainSimplyPanelProps> = ({ mp, onCo
           </div>
 
           <button
+            type="button"
             onClick={handleCopy}
             className="flex items-center gap-1.5 text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white self-start sm:self-auto bg-stone-100 dark:bg-[#141C29] px-2.5 py-1 rounded border border-stone-200 dark:border-[#222F42] transition-colors cursor-pointer text-xs"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <Check className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 <span className="text-emerald-600 dark:text-emerald-400">{t.copied}</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-stone-400" />
+                <Copy className="w-3.5 h-3.5 text-stone-400" aria-hidden="true" />
                 <span>{t.copyBriefing}</span>
               </>
             )}

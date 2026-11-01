@@ -8,7 +8,8 @@ import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
-import { localizeConstituency } from '@/lib/i18n';
+import { localizeParty } from '@/lib/i18n';
+import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
 import { mapMessages } from '@/lib/messages/map';
 
 /** Properties of ward features (delhi_wards_enriched.geojson) or PC features (delhi_pc.json). */
@@ -174,7 +175,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
 
     const seat = DELHI_SEATS.find((s) => s.slug === slug);
     const center = centerCoords || seat?.center || [28.6350, 77.1600];
-    const wardNum = wardLabel || seat?.defaultWard || '20';
+    const wardNum = wardLabel || seat?.defaultWard || '';
 
     if (mapInstanceRef.current) {
       mapInstanceRef.current.flyTo([center[0], center[1]], 11.5, {
@@ -256,7 +257,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
             // Tooltip on hover
             layer.bindTooltip(
               () =>
-                `<div style="font-family:sans-serif;"><div style="font-weight:700; font-size:12px; color:${isDarkRef.current ? '#f8fafc' : '#0f172a'};">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:${isDarkRef.current ? '#94a3b8' : '#475569'};">${localizeConstituency(props.pc_name || '', lang)} · ${messagesRef.current.wardTooltip(wardNum)}</div></div>`,
+                `<div style="font-family:sans-serif;"><div style="font-weight:700; font-size:12px; color:${isDarkRef.current ? '#f8fafc' : '#0f172a'};">${props.Ward_Name || props.pc_name}</div><div style="font-size:11px; color:${isDarkRef.current ? '#94a3b8' : '#475569'};">${props.pc_name || ''} · ${messagesRef.current.wardTooltip(wardNum)}</div></div>`,
               { direction: 'center', className: 'dark-map-tooltip' }
             );
 
@@ -585,7 +586,7 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                         />
                         <div>
                           <div className="font-semibold text-xs text-stone-900 dark:text-white">
-                            {localizeConstituency(s.name, lang)}
+                            {s.name}
                           </div>
                           <div className="text-[10px] font-mono text-stone-500 dark:text-stone-400">
                             {mp ? `${mp.name} (${mp.party})` : t.mpRecordFallback}
@@ -613,11 +614,11 @@ export const NagrikStyleMap: React.FC<NagrikStyleMapProps> = ({
                     {t.selectedSeat}
                   </div>
                   <h4 className="text-base font-bold text-stone-900 dark:text-white font-sans">
-                    {localizeConstituency(activeSeat.name, lang)}
+                    {activeSeat.name}
                   </h4>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-50 dark:bg-[#1A2536] text-amber-700 dark:text-amber-300 border border-amber-500/30 font-bold">
-                  {activeMP?.party || 'BJP'}
+                  {activeMP?.party ? localizeParty(activeMP.party, lang) : NOT_AVAILABLE_TEXT[lang]}
                 </span>
               </div>
 

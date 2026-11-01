@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Send, Copy, Mail, Check, AlertCircle } from 'lucide-react';
 import { CitizenIntent, MPRecord } from '@/types/mp';
-import { generateCitizenDraft } from '@/lib/ai/draft';
-import { AiLang } from '@/lib/ai/summary';
-import { useLang, useMessages } from '@/context/LanguageContext';
+import { DRAFT_SUBJECT_LABEL, generateCitizenDraft } from '@/lib/ai/draft';
+import { AI_LANG_HTML } from '@/lib/ai/summary';
+import { useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
+import { AiLangToggle, useAiLang } from '@/components/mp/AiLangToggle';
 
 interface TakeActionPanelProps {
   mp: MPRecord;
@@ -14,18 +15,13 @@ interface TakeActionPanelProps {
 }
 
 export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToast }) => {
-  const { lang: globalLang } = useLang();
   const t = useMessages(cardMessages);
   const [intent, setIntent] = useState<CitizenIntent>('mplads_works');
-  const [lang, setLang] = useState<AiLang>(() => (globalLang === 'hi' ? 'hi' : 'en'));
+  const [lang, setLang] = useAiLang();
   const [citizenName, setCitizenName] = useState('');
   const [locality, setLocality] = useState('');
   const [specificIssue, setSpecificIssue] = useState('');
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    setLang(globalLang === 'hi' ? 'hi' : 'en');
-  }, [globalLang]);
 
   // The draft is derived from the inputs. Manual edits are kept only while the
   // inputs they were made against are unchanged; changing an input regenerates.
@@ -41,7 +37,7 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
   const setEditedBody = (value: string) => setEdits({ ...activeEdits, for: draft, body: value });
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`Subject: ${subject}\n\n${editedBody}`);
+    navigator.clipboard.writeText(`${DRAFT_SUBJECT_LABEL[lang]}: ${subject}\n\n${editedBody}`);
     setCopied(true);
     onCopyToast(t.toastDraftCopied);
     setTimeout(() => setCopied(false), 2000);
@@ -73,11 +69,11 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
   ];
 
   return (
-    <div id="action" className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm scroll-mt-24 transition-colors">
+    <div className="bg-white dark:bg-[#0E1420] rounded-xl p-5 sm:p-7 border border-stone-200/90 dark:border-[#1E2636] shadow-sm scroll-mt-24 transition-colors">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-stone-100 dark:border-[#1A2333]">
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 font-sans tracking-tight flex items-center gap-2">
-            <Send className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <Send className="w-5 h-5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
             <span>{t.actionHeading}</span>
           </h2>
           <p className="text-xs font-mono text-stone-500 dark:text-stone-400 mt-0.5">
@@ -85,39 +81,8 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
           </p>
         </div>
 
-        {/* Language selector */}
-        <div className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C29] p-1 rounded-lg self-start sm:self-auto border border-stone-200 dark:border-[#222F42] text-xs font-mono">
-          <button
-            onClick={() => setLang('hi')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'hi'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400'
-            }`}
-          >
-            हिन्दी
-          </button>
-          <button
-            onClick={() => setLang('en')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'en'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400'
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => setLang('hinglish')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
-              lang === 'hinglish'
-                ? 'bg-white dark:bg-stone-100 text-stone-900 dark:text-stone-950 shadow-xs'
-                : 'text-stone-600 dark:text-stone-400'
-            }`}
-          >
-            Hinglish
-          </button>
-        </div>
+        {/* Draft language */}
+        <AiLangToggle value={lang} onChange={setLang} label={t.draftLanguageLabel} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
@@ -125,14 +90,16 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
         <div className="lg:col-span-5 space-y-4">
           {/* Intent Selector */}
           <div>
-            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
+            <p id="draft-intent-label" className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
               {t.intentStep}
-            </label>
-            <div className="space-y-1.5">
+            </p>
+            <div role="group" aria-labelledby="draft-intent-label" className="space-y-1.5">
               {intents.map((item) => (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => setIntent(item.id)}
+                  aria-pressed={intent === item.id}
                   className={`w-full text-left p-3 rounded-lg border transition-all cursor-pointer ${
                     intent === item.id
                       ? 'bg-amber-500/10 dark:bg-[#1A2536] border-amber-500 dark:border-amber-400'
@@ -152,9 +119,9 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
 
           {/* Citizen Inputs */}
           <div>
-            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
+            <p className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-1.5">
               {t.detailsStep}
-            </label>
+            </p>
             <div className="space-y-2">
               <div>
                 <input
@@ -203,10 +170,12 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
             </div>
 
             <div className="mb-2.5">
-              <label className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
+              <label htmlFor="draft-subject" className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
                 {t.subjectLabel}
               </label>
               <input
+                id="draft-subject"
+                lang={AI_LANG_HTML[lang]}
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -215,10 +184,12 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
             </div>
 
             <div>
-              <label className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
+              <label htmlFor="draft-body" className="text-[10px] font-mono font-semibold text-stone-500 dark:text-stone-400 uppercase block mb-1">
                 {t.bodyLabel}
               </label>
               <textarea
+                id="draft-body"
+                lang={AI_LANG_HTML[lang]}
                 rows={11}
                 value={editedBody}
                 onChange={(e) => setEditedBody(e.target.value)}
@@ -231,17 +202,18 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
           <div className="mt-4 pt-3.5 border-t border-stone-200 dark:border-[#1E293B]">
             <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
               <button
+                type="button"
                 onClick={handleCopy}
                 className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-mono font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm transition-all cursor-pointer"
               >
                 {copied ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-stone-950" />
+                    <Check className="w-3.5 h-3.5 text-stone-950" aria-hidden="true" />
                     <span>{t.copiedToClipboard}</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5" />
+                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>{t.copyLetter}</span>
                   </>
                 )}
@@ -251,13 +223,13 @@ export const TakeActionPanel: React.FC<TakeActionPanelProps> = ({ mp, onCopyToas
                 href={mailtoUrl}
                 className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-950 font-mono font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm transition-all cursor-pointer"
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>{t.openInEmail}</span>
               </a>
             </div>
 
             <div className="flex items-start gap-2 text-[10px] font-mono text-stone-500 dark:text-stone-400 leading-relaxed bg-white dark:bg-[#0E1420] p-2.5 rounded border border-stone-200 dark:border-[#1E2636]">
-              <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+              <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" aria-hidden="true" />
               <span>
                 <strong>{t.reviewBeforeSendingStrong}</strong>{t.reviewBeforeSendingRest}
               </span>
