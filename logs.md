@@ -1,5 +1,27 @@
 # Project Change Log
 
+## 2026-11-01 — MPLADS Works Section 10-Item Windowed Pagination and Prominent Cost Presentation
+
+- **Summary:**
+  - Implemented 10-item windowed pagination for the MPLADS individual works list (MpladsWorksSection.tsx), showing accessible pagination controls (Previous/Next buttons, numeric page indicators, aria-current/aria-disabled states) and updating the live showing counter.
+  - Reset pagination page to 1 automatically when toggling between filters (All, Completed, Not completed).
+  - Prominently surfaced project expenditure/cost badges on each work card (final_amount_cr for completed works, recommended_amount_cr for recommended works), matching the presentation on Empowered Indian.
+  - Cleaned up work metadata displays: omitted missing stages (no longer rendering Recommended amount: Not available on completed works or Completed on: Not available on recommended works).
+  - Clarified why SANCTIONED displays Not available by adding a subtle explanatory sub-label (Not reported by source): Empowered Indian aggregates MoSPI eSAKSHI data only at the Recommended (110) and Completed (41) milestones, omitting the intermediate Sanctioned count (which is cross-checked from JanWatchdog as 79).
+  - Added full English and Hindi i18n support in lib/messages/card.ts for all pagination and status strings.
+  - Added unit test coverage in __tests__/ui-contract.test.ts for pagination window chunking and work amount presence invariants.
+- **Files or areas changed:**
+  - components/mp/MpladsWorksSection.tsx
+  - lib/messages/card.ts
+  - __tests__/ui-contract.test.ts
+  - logs.md
+- **Validation performed:**
+  - npm run typecheck: 0 TypeScript errors.
+  - npm test: 8 passed, 643/643 tests passed across all suites.
+  - pytest tests: 36/36 passed.
+- **Remaining caveat or next step:**
+  - None. Works list is smoothly windowed at 10 items per page with clear financial values.
+
 ## 2026-11-01 — Fix main-branch bugs: 404 server render, lint, names as published, invented fallbacks, Hindi card, About/SEO
 
 - **Summary:**

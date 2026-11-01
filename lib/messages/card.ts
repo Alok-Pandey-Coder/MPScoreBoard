@@ -174,6 +174,16 @@ export const cardMessages = defineMessages({
     workPaid: 'Paid:',
     workId: 'eSAKSHI work ID:',
     workRetrievedSuffix: (date: string) => ` · retrieved ${date}`,
+    worksPaginationPrevious: 'Previous',
+    worksPaginationNext: 'Next',
+    worksPaginationPage: (current: number, total: number) => `Page ${current} of ${total}`,
+    worksPaginationAria: 'Works pagination',
+    worksPaginationPageAria: (page: number) => `Go to page ${page}`,
+    worksShowingWindow: (start: number, end: number, totalFiltered: number) =>
+      `Showing ${start}–${end} of ${totalFiltered} works`,
+    worksShowingWindowPartial: (start: number, end: number, totalFiltered: number, totalBySource: number | null) =>
+      `Showing ${start}–${end} of ${totalFiltered} works (${totalBySource ?? 'unknown'} total listed by source)`,
+    sanctionedNoteNotReported: 'Not reported by source',
 
     // Affidavit (AffidavitSection)
     affidavitHeading: 'Background',
@@ -416,6 +426,16 @@ export const cardMessages = defineMessages({
     workPaid: 'भुगतान:',
     workId: 'eSAKSHI कार्य ID:',
     workRetrievedSuffix: (date: string) => ` · ${date} को लिया गया`,
+    worksPaginationPrevious: 'पिछला',
+    worksPaginationNext: 'अगला',
+    worksPaginationPage: (current: number, total: number) => `पृष्ठ ${current} / ${total}`,
+    worksPaginationAria: 'कार्य पृष्ठ संख्या',
+    worksPaginationPageAria: (page: number) => `पृष्ठ ${page} पर जाएँ`,
+    worksShowingWindow: (start: number, end: number, totalFiltered: number) =>
+      `${totalFiltered} में से ${start}–${end} कार्य दिखाए जा रहे हैं`,
+    worksShowingWindowPartial: (start: number, end: number, totalFiltered: number, totalBySource: number | null) =>
+      `दर्ज ${totalFiltered} में से ${start}–${end} कार्य दिखाए जा रहे हैं (स्रोत में कुल ${totalBySource ?? 'अज्ञात'} सूचीबद्ध)`,
+    sanctionedNoteNotReported: 'स्रोत द्वारा दर्ज नहीं',
 
     affidavitHeading: 'पृष्ठभूमि',
     affidavitDeclaredIn: (year: number | null) =>

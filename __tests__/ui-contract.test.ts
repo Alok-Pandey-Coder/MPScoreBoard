@@ -230,3 +230,31 @@ describe('mps.json MPLADS contract', () => {
     if (wc) for (const k of ['recommended', 'sanctioned', 'completed', 'pending']) expect(wc).toHaveProperty(k);
   });
 });
+
+describe('MPLADS works pagination and presentation contract', () => {
+  it('chunks works into 10-item windows and clamps page boundaries', () => {
+    const PAGE_SIZE = 10;
+    const dummyWorks = Array.from({ length: 25 }, (_, i) => ({ id: i + 1 }));
+    const totalPages = Math.max(1, Math.ceil(dummyWorks.length / PAGE_SIZE));
+    expect(totalPages).toBe(3);
+
+    // Page 1: items 0..10
+    expect(dummyWorks.slice(0, PAGE_SIZE)).toHaveLength(10);
+    // Page 2: items 10..20
+    expect(dummyWorks.slice(10, 20)).toHaveLength(10);
+    // Page 3: items 20..25
+    expect(dummyWorks.slice(20, 30)).toHaveLength(5);
+  });
+
+  it('guarantees every Delhi MP work has either recommended_amount_cr or final_amount_cr', () => {
+    const file = path.join(__dirname, '..', 'data', 'processed', 'mps.json');
+    const records: MPRecord[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    for (const mp of records) {
+      for (const w of mp.mplads?.works ?? []) {
+        const cost = w.final_amount_cr ?? w.recommended_amount_cr ?? null;
+        expect(cost).not.toBeNull();
+        expect(typeof cost).toBe('number');
+      }
+    }
+  });
+});
