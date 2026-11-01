@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { REAL_INDIA_STATES, RealStateData } from '@/lib/realIndiaMapData';
+import { coveredCount, coverageText } from '@/lib/stateCoverage';
 import { DELHI_CONSTITUENCIES, ConstituencyGeoData } from '@/lib/indiaGeoData';
 import { MPRecord } from '@/types/mp';
 import { MapControls } from './MapControls';
@@ -417,7 +418,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
               code: selectedStateObj.code,
               type: selectedStateObj.id === 'delhi' || selectedStateObj.seats <= 1 ? 'ut' : 'state',
               seats: selectedStateObj.seats,
-              coveredRecords: selectedStateObj.id === 'delhi' ? 7 : 0,
+              coveredRecords: coveredCount(mps, selectedStateObj.id),
               capital: selectedStateObj.name,
               centroid: selectedStateObj.centroid,
               bounds: [[68, 6], [97, 37]],
@@ -903,7 +904,7 @@ export const IndiaAtlasMap: React.FC<IndiaAtlasMapProps> = ({
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="text-stone-500 dark:text-slate-400">{t.tooltipRecords}</span>
-              <strong className="text-cyan-600 dark:text-cyan-400">{hoveredState.id === 'delhi' ? '7 / 7 (100%)' : `0 / ${hoveredState.seats}`}</strong>
+              <strong className="text-cyan-600 dark:text-cyan-400">{coverageText(coveredCount(mps, hoveredState.id), hoveredState.seats)}</strong>
             </div>
           </div>
 
