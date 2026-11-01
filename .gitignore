@@ -53,3 +53,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 !.env.example
+
+# Database CA certificate (downloaded from the Aeon console; see docs/deploy.md)
+certs/

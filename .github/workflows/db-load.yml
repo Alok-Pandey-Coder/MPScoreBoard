@@ -7,7 +7,8 @@
 # Requires the repository secret DATABASE_URL (YugabyteDB Aeon connection
 # string), in the form
 #   postgresql://<user>:<password>@<host>:5433/yugabyte?sslmode=verify-full&sslrootcert=certs/root.crt
-# The certificate path is relative to the repository root, where certs/root.crt is checked out.
+# The certificate is not in the repository (certs/ is git-ignored). Add its text as the repository
+# secret DATABASE_CA_CERT; the job writes it to certs/root.crt before loading.
 # Do not add ssl=true: the Python driver (libpq) rejects it. The Aeon IP allow list must allow
 # GitHub's runners (no fixed IPs, so 0.0.0.0/0). Without the secret the job is skipped and
 # the site keeps serving the JSON snapshot.
@@ -35,6 +36,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         if: env.DATABASE_URL != ''
+
+      - name: Write the CA certificate
+        if: env.DATABASE_URL != ''
+        env:
+          CA_CERT: ${{ secrets.DATABASE_CA_CERT }}
+        run: |
+          mkdir -p certs
+          printf '%s\n' "$CA_CERT" > certs/root.crt
 
       - uses: actions/setup-python@v5
         if: env.DATABASE_URL != ''
