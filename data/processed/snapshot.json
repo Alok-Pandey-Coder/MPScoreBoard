@@ -1,15 +1,29 @@
 {
-  "snapshot_version": "delhi-18ls-v2",
-  "generated_at": "2026-10-31T22:18:17.173393+00:00",
-  "record_count": 7,
-  "sha256": "a6161bed600f0bdaffc44a9de3c3d4bbd05c06140b28986d14e9ce3e6233a0b8",
+  "snapshot_version": "18ls-v3",
+  "generated_at": "2026-11-01T01:06:08.668162+00:00",
+  "record_count": 9,
+  "sha256": "e0af30d9f65bcd77518606da9613350dfd1797734ab49de3393b18645ce7cf1c",
   "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/09_intake_mplads.py -> scripts/06_merge.py -> scripts/07_validate.py -> scripts/08_snapshot.py",
-  "coverage": "Delhi, seven Lok Sabha constituencies",
+  "coverage": "18th Lok Sabha: Delhi (7 of 7 seats); Goa (2 of 2 seats)",
+  "states": [
+    {
+      "key": "delhi",
+      "name": "Delhi",
+      "records": 7,
+      "seats": 7
+    },
+    {
+      "key": "goa",
+      "name": "Goa",
+      "records": 2,
+      "seats": 2
+    }
+  ],
   "source_status": {
-    "identity": "cross_checked: 7",
-    "prs": "parsed (PRS Legislative Research 2026-08-13) [not_applicable: 1, reported: 6]",
-    "mplads": "secondary_only (Empowered Indian (aggregating MoSPI eSAKSHI) 2026-10-31; cross-check: JanWatchdog 2026-10-06) [reported: 7]",
-    "affidavit": "cross_checked (Association for Democratic Reforms (ADR) / MyNeta 2026-10-31) [reported: 7]",
-    "eci": "user_verified (Election Commission of India 2024-06-04) [reported: 7]"
+    "identity": "cross_checked: 9",
+    "prs": "parsed (PRS Legislative Research 2026-08-13) [not_applicable: 2, reported: 7]",
+    "mplads": "secondary_only (Empowered Indian (aggregating MoSPI eSAKSHI) 2026-10-31; cross-check: JanWatchdog 2026-10-06) [pending: 2, reported: 7]",
+    "affidavit": "cross_checked (Association for Democratic Reforms (ADR) / MyNeta 2026-10-31) [pending: 2, reported: 7]",
+    "eci": "user_verified (Election Commission of India 2024-06-04) [pending: 2, reported: 7]"
   }
 }

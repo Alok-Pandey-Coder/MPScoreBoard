@@ -1,0 +1,196 @@
+{
+  "records": [
+    {
+      "slug": "south-goa-goa",
+      "state_key": "goa",
+      "constituency_key": "south-goa",
+      "name_key": "captain-viriato-fernandes",
+      "name": "Captain Viriato Fernandes",
+      "constituency": "South Goa",
+      "state": "Goa",
+      "party": "INC",
+      "identity_source": {
+        "name": "Lok Sabha, Digital Sansad member API",
+        "url": "https://sansad.in/api_ls/member?loksabha=18&page=1&size=100&state=Goa",
+        "retrieved_at": "2026-11-01"
+      },
+      "prs": {
+        "file": "data/raw/prs.goa.2026-11-01/viriato-fernandes.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
+        "name": "Viriato Fernandes",
+        "state": "Goa",
+        "constituency": "South Goa",
+        "party": "Indian National Congress",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "First Term",
+        "age": "57",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": false,
+        "performance_status": "reported",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "87",
+              "national_average": "85",
+              "state_average": "87"
+            },
+            "mp": 87,
+            "national_average": 85,
+            "state_average": 87
+          },
+          "debates": {
+            "raw": {
+              "mp": "28",
+              "national_average": "21.5",
+              "state_average": "28"
+            },
+            "mp": 28,
+            "national_average": 21.5,
+            "state_average": 28
+          },
+          "questions": {
+            "raw": {
+              "mp": "84",
+              "national_average": "120",
+              "state_average": "84"
+            },
+            "mp": 84,
+            "national_average": 120,
+            "state_average": 84
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "1",
+              "national_average": "0.4",
+              "state_average": "1"
+            },
+            "mp": 1,
+            "national_average": 0.4,
+            "state_average": 1
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-11-01"
+      },
+      "sansad": {
+        "mpsno": 5710,
+        "name": "Captain Viriato Fernandes",
+        "party": "INC",
+        "status": "Sitting",
+        "no_of_terms": 1,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/5710",
+        "retrieved_at": "2026-11-01"
+      },
+      "normalisation_notes": [
+        "Identity (name, seat, party) from the official Digital Sansad member API, the identity master for Goa (no reviewed state government roster).",
+        "PRS name 'Viriato Fernandes' matched 'Captain Viriato Fernandes' via aliases.json.",
+        "Education: PRS shows 'Graduate', Digital Sansad shows 'Post Graduate'; the profile shows the PRS value."
+      ]
+    },
+    {
+      "slug": "north-goa-goa",
+      "state_key": "goa",
+      "constituency_key": "north-goa",
+      "name_key": "shripad-yesso-naik",
+      "name": "Shripad Yesso Naik",
+      "constituency": "North Goa",
+      "state": "Goa",
+      "party": "BJP",
+      "identity_source": {
+        "name": "Lok Sabha, Digital Sansad member API",
+        "url": "https://sansad.in/api_ls/member?loksabha=18&page=1&size=100&state=Goa",
+        "retrieved_at": "2026-11-01"
+      },
+      "prs": {
+        "file": "data/raw/prs.goa.2026-11-01/shripad-yesso-naik.html",
+        "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
+        "name": "Shripad Yesso Naik",
+        "state": "Goa",
+        "constituency": "North Goa",
+        "party": "Bharatiya Janata Party",
+        "nature_of_membership": "Elected",
+        "term_start": "09-06-2024",
+        "term_end": "In Office",
+        "term_number": "Sixth Term",
+        "age": "73",
+        "gender": "Male",
+        "education": "Graduate",
+        "is_minister": true,
+        "performance_status": "not_applicable",
+        "coverage_from": "24-06-2024",
+        "coverage_to": "13-08-2026",
+        "metrics": {
+          "attendance_pct": {
+            "raw": {
+              "mp": "N/A",
+              "national_average": "N/A",
+              "state_average": "N/A"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "debates": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "questions": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          },
+          "private_member_bills": {
+            "raw": {
+              "mp": "0",
+              "national_average": "NA",
+              "state_average": "NA"
+            },
+            "mp": null,
+            "national_average": null,
+            "state_average": null
+          }
+        },
+        "licence": "CC BY 4.0",
+        "term_start_iso": "2024-06-09",
+        "coverage_from_iso": "2024-06-24",
+        "coverage_to_iso": "2026-08-13",
+        "retrieved_at": "2026-11-01"
+      },
+      "sansad": {
+        "mpsno": 273,
+        "name": "Shripad Yesso Naik",
+        "party": "BJP",
+        "status": "Sitting",
+        "no_of_terms": 6,
+        "reservation": "GEN",
+        "url": "https://sansad.in/api_ls/member/273",
+        "retrieved_at": "2026-11-01"
+      },
+      "normalisation_notes": [
+        "Identity (name, seat, party) from the official Digital Sansad member API, the identity master for Goa (no reviewed state government roster)."
+      ]
+    }
+  ],
+  "unmatched_prs": [],
+  "unmatched_sansad": []
+}

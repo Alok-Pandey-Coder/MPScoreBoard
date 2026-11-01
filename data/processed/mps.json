@@ -1910,6 +1910,132 @@
     }
   },
   {
+    "slug": "north-goa-goa",
+    "name": "Shripad Yesso Naik",
+    "constituency": "North Goa",
+    "state": "Goa",
+    "party": "BJP",
+    "party_full": "Bharatiya Janata Party",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": true,
+    "special_role": null,
+    "sansad_mpsno": 273,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 73,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "Sixth Term",
+      "as_of": "2026-11-01",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
+        "retrieved_at": "2026-11-01",
+        "raw_file": "data/raw/prs.goa.2026-11-01/shripad-yesso-naik.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "not_applicable",
+      "attendance_pct": null,
+      "debates": null,
+      "questions": null,
+      "private_member_bills": null,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": null,
+          "debates": null,
+          "questions": null,
+          "private_member_bills": null
+        },
+        "state": {
+          "attendance_pct": null,
+          "debates": null,
+          "questions": null,
+          "private_member_bills": null
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
+        "retrieved_at": "2026-11-01",
+        "raw_file": "data/raw/prs.goa.2026-11-01/shripad-yesso-naik.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "annual_entitlement_cr": null,
+      "allocated_cr": null,
+      "recommended_amount_cr": null,
+      "expenditure_cr": null,
+      "unspent_cr": null,
+      "expenditure_pct": null,
+      "recommended_pct": null,
+      "works_count": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null,
+      "works": [],
+      "works_is_partial": false,
+      "cross_check": []
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Lok Sabha, Digital Sansad member API",
+        "url": "https://sansad.in/api_ls/member?loksabha=18&page=1&size=100&state=Goa",
+        "retrieved_at": "2026-11-01"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/273",
+        "retrieved_at": "2026-11-01"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
+        "retrieved_at": "2026-11-01",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": [
+      "Identity (name, seat, party) from the official Digital Sansad member API, the identity master for Goa (no reviewed state government roster).",
+      "MPLADS pending: the only work-level source (Empowered Indian) is not cleared for automated access (docs/decisions.md); no Goa MPLADS figures were fetched.",
+      "Affidavit pending: no compliant source has been captured for Goa. ADR/MyNeta reuse terms for publication are not confirmed and no official ECI affidavit capture exists yet; no values were guessed.",
+      "Election result pending: the official ECI 2024 results pages for Goa returned HTTP 404 on 2026-11-01 (data/raw/eci.results.goa.fetch_log.2026-11-01.json); no values were guessed."
+    ]
+  },
+  {
     "slug": "north-west-delhi-delhi",
     "name": "Yogender Chandolia",
     "constituency": "North West Delhi (SC)",
@@ -2864,6 +2990,134 @@
       "url": "https://sansad.in/getFile/lsapps/mpimage/photo/5543.jpg?source=lsapps",
       "retrieved_at": "2026-11-01"
     }
+  },
+  {
+    "slug": "south-goa-goa",
+    "name": "Captain Viriato Fernandes",
+    "constituency": "South Goa",
+    "state": "Goa",
+    "party": "INC",
+    "party_full": "Indian National Congress",
+    "reservation": "GEN",
+    "term": "18th Lok Sabha",
+    "since_date": "2024-06-09",
+    "is_minister": false,
+    "special_role": null,
+    "sansad_mpsno": 5710,
+    "sansad_status": "Sitting",
+    "identity_review_status": "cross_checked",
+    "profile": {
+      "age": 57,
+      "gender": "Male",
+      "education": "Graduate",
+      "term_number": "First Term",
+      "as_of": "2026-11-01",
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
+        "retrieved_at": "2026-11-01",
+        "raw_file": "data/raw/prs.goa.2026-11-01/viriato-fernandes.html",
+        "licence": "CC BY 4.0"
+      }
+    },
+    "performance": {
+      "status": "reported",
+      "attendance_pct": 87,
+      "debates": 28,
+      "questions": 84,
+      "private_member_bills": 1,
+      "period": {
+        "from": "2024-06-24",
+        "to": "2026-08-13"
+      },
+      "as_of": "2026-08-13",
+      "prs_averages": {
+        "national": {
+          "attendance_pct": 85,
+          "debates": 21.5,
+          "questions": 120,
+          "private_member_bills": 0.4
+        },
+        "state": {
+          "attendance_pct": 87,
+          "debates": 28,
+          "questions": 84,
+          "private_member_bills": 1
+        }
+      },
+      "source": {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
+        "retrieved_at": "2026-11-01",
+        "raw_file": "data/raw/prs.goa.2026-11-01/viriato-fernandes.html",
+        "licence": "CC BY 4.0"
+      },
+      "review_status": "parsed"
+    },
+    "mplads": {
+      "status": "pending",
+      "annual_entitlement_cr": null,
+      "allocated_cr": null,
+      "recommended_amount_cr": null,
+      "expenditure_cr": null,
+      "unspent_cr": null,
+      "expenditure_pct": null,
+      "recommended_pct": null,
+      "works_count": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null,
+      "works": [],
+      "works_is_partial": false,
+      "cross_check": []
+    },
+    "affidavit": {
+      "status": "pending",
+      "election_year": null,
+      "assets": null,
+      "liabilities": null,
+      "declared_criminal_cases": null,
+      "education": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "election": {
+      "status": "pending",
+      "election_year": null,
+      "votes": null,
+      "runner_up": null,
+      "margin": null,
+      "as_of": null,
+      "source": null,
+      "review_status": null
+    },
+    "sources": [
+      {
+        "name": "Lok Sabha, Digital Sansad member API",
+        "url": "https://sansad.in/api_ls/member?loksabha=18&page=1&size=100&state=Goa",
+        "retrieved_at": "2026-11-01"
+      },
+      {
+        "name": "Lok Sabha, Digital Sansad",
+        "url": "https://sansad.in/api_ls/member/5710",
+        "retrieved_at": "2026-11-01"
+      },
+      {
+        "name": "PRS Legislative Research",
+        "url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
+        "retrieved_at": "2026-11-01",
+        "licence": "CC BY 4.0"
+      }
+    ],
+    "normalisation_notes": [
+      "Identity (name, seat, party) from the official Digital Sansad member API, the identity master for Goa (no reviewed state government roster).",
+      "PRS name 'Viriato Fernandes' matched 'Captain Viriato Fernandes' via aliases.json.",
+      "Education: PRS shows 'Graduate', Digital Sansad shows 'Post Graduate'; the profile shows the PRS value.",
+      "MPLADS pending: the only work-level source (Empowered Indian) is not cleared for automated access (docs/decisions.md); no Goa MPLADS figures were fetched.",
+      "Affidavit pending: no compliant source has been captured for Goa. ADR/MyNeta reuse terms for publication are not confirmed and no official ECI affidavit capture exists yet; no values were guessed.",
+      "Election result pending: the official ECI 2024 results pages for Goa returned HTTP 404 on 2026-11-01 (data/raw/eci.results.goa.fetch_log.2026-11-01.json); no values were guessed."
+    ]
   },
   {
     "slug": "west-delhi-delhi",
