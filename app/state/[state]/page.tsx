@@ -4,6 +4,9 @@ import { getAllMPs } from '@/lib/data';
 import { INDIA_STATES } from '@/lib/indiaGeoData';
 import { StateExplorationClient } from '@/components/state/StateExplorationClient';
 
+// Only known states are pages; anything else is a server-rendered 404 (see app/mp/[slug]/page.tsx).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return INDIA_STATES.map((s) => ({ state: s.id }));
 }

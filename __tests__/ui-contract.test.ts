@@ -100,7 +100,7 @@ describe('compareWithAverage', () => {
 describe('generateTemplateSummary', () => {
   const numbersIn = (text: string) => (text.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
 
-  it.each(['en', 'hinglish'] as const)('cites only numbers present in the record (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('cites only numbers present in the record (%s)', (lang) => {
     const mp = makeRecord();
     const text = generateTemplateSummary(mp, lang);
     const known = knownNumbersForRecord(mp);
@@ -108,7 +108,7 @@ describe('generateTemplateSummary', () => {
     expect(verifyGuardrails(text, mp)).toBe(true);
   });
 
-  it.each(['en', 'hinglish'] as const)('never invents 96/85 averages when averages are null (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('never invents 96/85 averages when averages are null (%s)', (lang) => {
     const text = generateTemplateSummary(makeRecord(), lang);
     expect(text).not.toMatch(/\b96\b/);
     expect(text).not.toMatch(/\b85\b/);
@@ -136,7 +136,7 @@ describe('generateTemplateSummary', () => {
     expect(text).not.toMatch(/\b(His|Her|his|her)\b/);
   });
 
-  it.each(['en', 'hinglish'] as const)('handles ministers as not applicable (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('handles ministers as not applicable (%s)', (lang) => {
     const mp = makeRecord({
       is_minister: true,
       performance: {
@@ -148,7 +148,7 @@ describe('generateTemplateSummary', () => {
       },
     });
     const text = generateTemplateSummary(mp, lang);
-    expect(text).toMatch(lang === 'en' ? /don't apply/ : /lagu nahi/);
+    expect(text).toMatch({ en: /don't apply/, hi: /लागू नहीं/, hinglish: /lagu nahi/ }[lang]);
     expect(text).not.toMatch(/Union Minister/);
     expect(numbersIn(text).every((n) => knownNumbersForRecord(mp).has(n))).toBe(true);
   });
@@ -172,7 +172,7 @@ describe('generateTemplateSummary', () => {
     expect(verifyGuardrails('Attendance is 96%.', makeRecord())).toBe(false);
   });
 
-  it.each(['en', 'hinglish'] as const)('summaries for every mps.json record pass the guardrail (%s)', (lang) => {
+  it.each(['en', 'hi', 'hinglish'] as const)('summaries for every mps.json record pass the guardrail (%s)', (lang) => {
     const file = path.join(__dirname, '..', 'data', 'processed', 'mps.json');
     const records: MPRecord[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
     for (const r of records) expect(verifyGuardrails(generateTemplateSummary(r, lang), r)).toBe(true);

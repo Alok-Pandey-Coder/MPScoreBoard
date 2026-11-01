@@ -8,7 +8,8 @@ import { INDIA_STATES, DELHI_CONSTITUENCIES } from '@/lib/indiaGeoData';
 import { IndiaAtlasMap } from '@/components/map/IndiaAtlasMap';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { stateMessages } from '@/lib/messages/state';
-import { localizeConstituency, localizeMP, localizeName, localizeParty, localizeState } from '@/lib/i18n';
+import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
+import { localizeMP, localizeParty, localizeReservation, localizeState } from '@/lib/i18n';
 
 interface StateExplorationClientProps {
   mps: MPRecord[];
@@ -87,18 +88,18 @@ export const StateExplorationClient: React.FC<StateExplorationClientProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-slate-900 dark:text-white font-['Outfit'] group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                          {localizeConstituency(c.name, lang)}
+                          {c.name}
                         </span>
                         {c.reservation && c.reservation !== 'GEN' && (
                           <span className="text-[10px] px-1.5 py-0.2 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                            {lang === 'hi' ? 'अनुसूचित जाति (SC)' : c.reservation}
+                            {lang === 'hi' ? `${localizeReservation(c.reservation, lang)} (${c.reservation})` : c.reservation}
                           </span>
                         )}
                       </div>
                       <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                        <span className="text-slate-800 dark:text-slate-200 font-medium">{localizeName(c.sittingMP, lang)}</span>
+                        <span className="text-slate-800 dark:text-slate-200 font-medium">{c.sittingMP || NOT_AVAILABLE_TEXT[lang]}</span>
                         <span>•</span>
-                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{localizeParty(c.party, lang)}</span>
+                        <span className="text-cyan-600 dark:text-cyan-400 font-bold">{c.party ? localizeParty(c.party, lang) : NOT_AVAILABLE_TEXT[lang]}</span>
                         {c.isMinister && (
                           <span className="text-[10px] text-amber-500 font-semibold flex items-center gap-0.5">
                             <Award className="w-3 h-3" />

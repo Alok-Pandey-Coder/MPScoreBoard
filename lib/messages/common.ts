@@ -38,6 +38,8 @@ export const commonMessages = defineMessages({
     footerReportIssue: 'Report a data issue',
     footerMethodology: 'About & methodology',
     opensInNewTab: '(opens in a new tab)',
+    moreInfo: 'More information',
+    closeNotification: 'Close notification',
   },
   hi: {
     brandName: 'मेरा सांसद',
@@ -75,5 +77,7 @@ export const commonMessages = defineMessages({
     footerReportIssue: 'डेटा में गलती बताएँ',
     footerMethodology: 'परिचय और कार्यप्रणाली',
     opensInNewTab: '(नए टैब में खुलता है)',
+    moreInfo: 'और जानकारी',
+    closeNotification: 'सूचना बंद करें',
   },
 });

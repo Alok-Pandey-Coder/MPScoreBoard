@@ -2,6 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { CheckCircle2, X } from 'lucide-react';
+import { useMessages } from '@/context/LanguageContext';
+import { commonMessages } from '@/lib/messages/common';
 
 interface ToastProps {
   message: string;
@@ -16,6 +18,7 @@ export const Toast: React.FC<ToastProps> = ({
   onClose,
   duration = 3000,
 }) => {
+  const t = useMessages(commonMessages);
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
@@ -34,7 +37,7 @@ export const Toast: React.FC<ToastProps> = ({
       <button
         onClick={onClose}
         className="text-slate-400 hover:text-white p-1 rounded-lg ml-2"
-        aria-label="Close notification"
+        aria-label={t.closeNotification}
       >
         <X className="w-4 h-4" />
       </button>

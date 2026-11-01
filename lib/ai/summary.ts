@@ -1,5 +1,6 @@
 import { MPRecord } from '../../types/mp';
 import { formatDate } from '../formatters';
+import { localizeState } from '../i18n';
 
 /**
  * Languages for generated text (summary and draft): English, Hindi in
@@ -12,6 +13,9 @@ export type AiLang = (typeof AI_LANGS)[number];
 export function isAiLang(value: unknown): value is AiLang {
   return typeof value === 'string' && (AI_LANGS as readonly string[]).includes(value);
 }
+
+/** BCP 47 tag for marking generated text, e.g. `<p lang>`. */
+export const AI_LANG_HTML: Record<AiLang, string> = { en: 'en', hi: 'hi', hinglish: 'hi-Latn' };
 
 /** Human-readable list for API error messages: "en" | "hi" | "hinglish". */
 export const AI_LANGS_TEXT = AI_LANGS.map((l) => `"${l}"`).join(' | ');
@@ -227,7 +231,9 @@ function hindiTemplateSummary(mp: MPRecord): string {
   const natAtt = perf.prs_averages?.national?.attendance_pct;
   const mpladsLine = mpladsSentence(mp, 'hi');
   const sentences: string[] = [];
-  const intro = `${mp.name} 18वीं लोकसभा में ${mp.state} के ${mp.constituency} निर्वाचन क्षेत्र से सांसद`;
+  // Name and constituency exactly as published (PRD 5.6); the state may be in Hindi.
+  const state = localizeState(mp.state, 'hi');
+  const intro = `${mp.name} 18वीं लोकसभा में ${state} के ${mp.constituency} निर्वाचन क्षेत्र से सांसद`;
 
   if (isMinister) {
     sentences.push(`${intro} और मंत्री हैं।`);
@@ -242,7 +248,7 @@ function hindiTemplateSummary(mp: MPRecord): string {
   const prefix = asOf ? `${asOf} तक` : 'स्रोत के अनुसार';
   if (isPresent(perf.attendance_pct)) {
     const avgParts: string[] = [];
-    if (isPresent(stAtt)) avgParts.push(`PRS द्वारा प्रकाशित ${mp.state} का औसत ${stAtt}%`);
+    if (isPresent(stAtt)) avgParts.push(`PRS द्वारा प्रकाशित ${state} का औसत ${stAtt}%`);
     if (isPresent(natAtt)) avgParts.push(`राष्ट्रीय औसत ${natAtt}%`);
     sentences.push(
       `${prefix} दर्ज उपस्थिति ${perf.attendance_pct}% है${avgParts.length ? `, जबकि ${avgParts.join(' और ')} है` : ''}।`

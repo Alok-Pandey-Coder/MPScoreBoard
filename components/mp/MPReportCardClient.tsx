@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Home, Printer, Send, FileText } from 'lucide-react';
 import { MPRecord } from '@/types/mp';
@@ -16,7 +16,7 @@ import { SourcesFooter } from '@/components/mp/SourcesFooter';
 import { Toast } from '@/components/common/Toast';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
-import { localizeMP } from '@/lib/i18n';
+import { localizeState } from '@/lib/i18n';
 
 interface MPReportCardClientProps {
   mp: MPRecord;
@@ -25,10 +25,14 @@ interface MPReportCardClientProps {
 const pillClass =
   'px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-[#141C28] text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-[#1A2536] transition-colors border border-stone-200 dark:border-[#222E42] shrink-0 font-medium';
 
-export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp: rawMp }) => {
+/**
+ * Names, constituency, work descriptions, agencies and education text are shown
+ * exactly as published in both languages (PRD 5.6); only the state and party
+ * may be shown in Hindi, and each section does that at display time.
+ */
+export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp }) => {
   const t = useMessages(cardMessages);
   const { lang } = useLang();
-  const mp = useMemo(() => localizeMP(rawMp, lang), [rawMp, lang]);
   const [toastMessage, setToastMessage] = useState('');
   const [toastOpen, setToastOpen] = useState(false);
 
@@ -54,16 +58,16 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp: rawM
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-7 transition-colors">
       {/* Breadcrumb & Utilities Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
-        <nav className="flex items-center gap-1.5 text-stone-500 dark:text-stone-400">
+        <nav aria-label={t.breadcrumbLabel} className="flex items-center gap-1.5 text-stone-500 dark:text-stone-400">
           <Link
             href="/"
             className="hover:text-stone-900 dark:hover:text-white flex items-center gap-1 transition-colors"
           >
-            <Home className="w-3.5 h-3.5" />
+            <Home className="w-3.5 h-3.5" aria-hidden="true" />
             <span>{t.breadcrumbHome}</span>
           </Link>
           <ChevronRight className="w-3 h-3 text-stone-400" />
-          <span>{mp.state}</span>
+          <span>{localizeState(mp.state, lang)}</span>
           <ChevronRight className="w-3 h-3 text-stone-400" />
           <span className="text-stone-900 dark:text-white font-bold">{mp.constituency}</span>
         </nav>
@@ -78,7 +82,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp: rawM
       </div>
 
       {/* Quick Jump Navigation Pill Bar */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono no-scrollbar">
+      <nav aria-label={t.jumpNavLabel} className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-mono no-scrollbar">
         <a href="#indicators" className={pillClass}>
           {t.jumpIndicators}
         </a>
@@ -111,7 +115,7 @@ export const MPReportCardClient: React.FC<MPReportCardClientProps> = ({ mp: rawM
           <Send className="w-3 h-3" />
           <span>{t.jumpDraft}</span>
         </a>
-      </div>
+      </nav>
 
       {/* 1. Identity Header */}
       <MPHeader mp={mp} onCopyLink={handleCopyLink} />

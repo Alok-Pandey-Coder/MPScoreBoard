@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/formatters';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { cardMessages } from '@/lib/messages/card';
 import { MPAvatar } from '@/components/ui/MPAvatar';
+import { localizeState } from '@/lib/i18n';
 
 interface MPHeaderProps {
   mp: MPRecord;
@@ -18,12 +19,14 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
   const t = useMessages(cardMessages);
   const { lang } = useLang();
   const isMinister = mp.is_minister || mp.performance.status === 'not_applicable';
+  // Name and constituency stay as published; the state may show its Hindi form.
+  const stateName = localizeState(mp.state, lang);
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: t.shareTitle(mp.name, mp.constituency, mp.state),
+          title: t.shareTitle(mp.name, mp.constituency, stateName),
           text: t.shareText(mp.name, mp.constituency),
           url: window.location.href,
         });
@@ -61,9 +64,9 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                   className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-mono font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition-colors cursor-pointer"
                   title={t.ministerBadgeTitle}
                 >
-                  <Award className="w-3.5 h-3.5" />
+                  <Award className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>{t.ministerBadge}</span>
-                  <Info className="w-3 h-3 text-amber-500 ml-0.5" />
+                  <Info className="w-3 h-3 text-amber-500 ml-0.5" aria-hidden="true" />
                 </button>
               )}
             </div>
@@ -74,10 +77,10 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
                 {mp.constituency}
               </span>
               <span>·</span>
-              <span>{mp.state}</span>
+              <span>{stateName}</span>
               <span>·</span>
-              <span className="text-stone-700 dark:text-stone-300">{mp.term}</span>
-              {mp.reservation && mp.reservation !== 'GEN' && (
+              <span className="text-stone-700 dark:text-stone-300">{t.termLabel(mp.term)}</span>
+              {(mp.reservation === 'SC' || mp.reservation === 'ST') && (
                 <>
                   <span>·</span>
                   <span className="px-1.5 py-0.2 rounded text-[10px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30 font-bold">
@@ -103,7 +106,7 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
               {mp.profile?.term_number && (
                 <span className="flex items-center gap-1 bg-stone-100 dark:bg-[#141C28] px-2 py-0.5 rounded border border-stone-200 dark:border-[#202B3B]">
                   <Clock className="w-3 h-3 text-stone-400" />
-                  {mp.profile.term_number}
+                  {t.termNumber(mp.profile.term_number)}
                 </span>
               )}
             </div>
@@ -133,13 +136,18 @@ export const MPHeader: React.FC<MPHeaderProps> = ({ mp, onCopyLink }) => {
       {/* Minister Explanation Modal */}
       {showMinisterModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-[#0E1420] rounded-xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-[#1E2636] animate-in zoom-in-95 duration-100">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="minister-modal-title"
+            className="bg-white dark:bg-[#0E1420] rounded-xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 dark:border-[#1E2636] animate-in zoom-in-95 duration-100"
+          >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30">
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-stone-900 dark:text-white font-sans">
+                <h3 id="minister-modal-title" className="text-base font-bold text-stone-900 dark:text-white font-sans">
                   {t.ministerModalTitle}
                 </h3>
                 <p className="text-xs font-mono text-stone-500 dark:text-stone-400">{t.ministerModalSubtitle}</p>

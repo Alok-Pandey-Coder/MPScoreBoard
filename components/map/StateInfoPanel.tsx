@@ -7,7 +7,8 @@ import { MPRecord } from '@/types/mp';
 import Link from 'next/link';
 import { useLang, useMessages } from '@/context/LanguageContext';
 import { mapMessages } from '@/lib/messages/map';
-import { localizeConstituency, localizeName, localizeParty, localizeState } from '@/lib/i18n';
+import { localizeParty, localizeState } from '@/lib/i18n';
+import { NOT_AVAILABLE_TEXT } from '@/lib/formatters';
 
 export interface StateInfoPanelProps {
   state: StateGeoData;
@@ -99,13 +100,13 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
             <div>
               <div className="text-[10px] text-stone-500 dark:text-[#9BAABD]">{t.avgDebates}</div>
               <div className="font-semibold text-stone-900 dark:text-white font-mono">
-                {state.avgDebates ?? '—'}
+                {state.avgDebates ?? NOT_AVAILABLE_TEXT[lang]}
               </div>
             </div>
             <div>
               <div className="text-[10px] text-stone-500 dark:text-[#9BAABD]">{t.avgQuestions}</div>
               <div className="font-semibold text-stone-900 dark:text-white font-mono">
-                {state.avgQuestions ?? '—'}
+                {state.avgQuestions ?? NOT_AVAILABLE_TEXT[lang]}
               </div>
             </div>
           </div>
@@ -136,14 +137,16 @@ export const StateInfoPanel: React.FC<StateInfoPanelProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-xs text-stone-900 dark:text-white">
-                    {localizeConstituency(c.name, lang)}
+                    {c.name}
                   </span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-medium">
-                    {localizeParty(c.party || 'BJP', lang)}
-                  </span>
+                  {c.party && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-medium">
+                      {localizeParty(c.party, lang)}
+                    </span>
+                  )}
                 </div>
                 <div className="text-[11px] text-stone-500 dark:text-[#9BAABD] mt-0.5 flex items-center justify-between">
-                  <span>{t.mpLabel(localizeName(c.sittingMP ?? '', lang))}</span>
+                  <span>{t.mpLabel(c.sittingMP || NOT_AVAILABLE_TEXT[lang])}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-stone-400 dark:text-[#9BAABD]" />
                 </div>
               </div>

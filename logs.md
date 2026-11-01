@@ -1,5 +1,47 @@
 # Project Change Log
 
+## 2026-11-01 — Fix main-branch bugs: 404 server render, lint, names as published, invented fallbacks, Hindi card, About/SEO
+
+- **Summary:**
+  - **404 rendering:** an unknown `/mp/<slug>` was rendered on demand. When `notFound()` fired during that render, Next 16 fell back to an empty error shell, and the 404 page appeared only after client-side JavaScript ran.
+    - `dynamicParams = false` now pre-builds every valid path (7 cards plus 7 legacy aliases, which 308-redirect), so any other slug gets the server-rendered 404.
+    - The same applies to `/state/[state]`, where unknown states used to return 200.
+  - **Lint:** the 4 errors reintroduced by the Hindi work are fixed (React 19 set-state-in-effect in the comparison, summary and draft panels, plus one `any`). No rules were disabled.
+  - **Names as published (PRD 5.6):** Hindi display translation of MP names, constituencies, education, runner-ups and MPLADS works/agencies is removed. State and party names may still show in Hindi. Hindi-script search aliases remain, used for search only.
+  - **Invented fallbacks removed:**
+    - Party `|| 'BJP'` and reservation `|| 'GEN'` in the map panels.
+    - Ward label `|| '20'`.
+    - Missing values shown as 0 or "N/A" in the comparison section.
+    - A green "higher" badge (a judgement colour) in the comparison section.
+  - **Hindi report card completed:**
+    - All card text now comes from `lib/messages/card.ts` (en/hi). The comparison section was rewritten.
+    - The Hindi summary and all 4 Hindi drafts pass the number guardrail and the banned-word check, and are gender-neutral.
+    - The tooltip and toast screen-reader labels are now localised.
+  - **About:** added the PRD 7.3 sections "Affidavit data explained", "Limitations and known gaps" and "AI usage and safeguards" in English and Hindi. Coverage is computed from the data.
+  - **SEO:** added `app/sitemap.ts` and `app/robots.ts`.
+  - **Deployment:** new `docs/deploy.md`, a Vercel deployment guide.
+  - **Process:** AGENTS.md now has the git rules: branches/worktrees, `gh` for PRs, and confirmation before every push and merge.
+- **Files or areas changed:**
+  - Pages: `app/mp/[slug]/page.tsx`, `app/state/[state]/page.tsx`, `app/about/*`, new `app/sitemap.ts` and `app/robots.ts`.
+  - Components: `components/mp/*` (including the new `AiLangToggle.tsx`), `components/map/*`, `components/state/StateExplorationClient.tsx`, `components/common/{Tooltip,Toast}.tsx`.
+  - Libraries: `lib/i18n/localizeData.ts`, `lib/search.ts`, `lib/ai/{summary,draft,prompts}.ts`.
+  - Messages: `lib/messages/{card,about,common}.ts`.
+  - Tests: `__tests__/{i18n-card,i18n-data,seo}.test.ts`, `__tests__/ui-contract.test.ts`.
+  - Docs: `docs/deploy.md`, `AGENTS.md`.
+- **Validation performed:**
+  - `tsc` passes. `eslint .` reports 0 errors (was 4).
+  - jest: 633 passed, 1 skipped (the database parity test, which needs `DATABASE_URL`). pytest: 36 passed. `07_validate.py`: 0 hard errors.
+  - `next build`: 66 pages.
+  - HTTP smoke test against `next start`: 51/51.
+    - `/mp/varanasi` returns 404 with its content in the server HTML; `/state/nowhere` returns 404.
+    - The sitemap lists 11 URLs, and `robots.txt` is served.
+    - The About page has its 3 new sections, and no "N/A" text remains on the cards.
+- **Remaining caveat or next step:**
+  - Mixed-case slugs (e.g. `/mp/New-Delhi`) now return 404 instead of resolving.
+  - With `DATABASE_URL` set, a new MP gets a card only after the next build.
+  - Hindi phrases flagged for native-speaker review are listed in the PR description.
+  - `sslrootcert` for YugabyteDB Aeon must be shipped with the deployment (see `docs/deploy.md`).
+
 ## 2026-11-01 — Remove Quick Jump Chips from Unified Search Bar
 
 - **Summary:**

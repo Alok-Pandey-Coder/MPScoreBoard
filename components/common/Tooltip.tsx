@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { HelpCircle } from 'lucide-react';
+import { useMessages } from '@/context/LanguageContext';
+import { commonMessages } from '@/lib/messages/common';
 
 interface TooltipProps {
   content: string;
@@ -10,6 +12,7 @@ interface TooltipProps {
 
 export const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const t = useMessages(commonMessages);
 
   return (
     <span className="relative inline-flex items-center group">
@@ -21,7 +24,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
         onFocus={() => setIsVisible(true)}
         onBlur={() => setIsVisible(false)}
         className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors ml-1 p-0.5 rounded"
-        aria-label="More information"
+        aria-label={t.moreInfo}
       >
         {children || <HelpCircle className="w-3.5 h-3.5" />}
       </button>

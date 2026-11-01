@@ -67,7 +67,41 @@ export const aboutMessages = defineMessages({
     thrCounts1: 'Debates & Questions: within ±10% of the average is described as ',
     thrCounts2: '.',
 
-    disclaimerHeading: '5. Legal & Academic Disclaimer',
+    affidavitHeading: '5. Affidavit data explained',
+    affidavitSelfDeclared:
+      'Assets, liabilities, education and declared cases are shown as declared in the election affidavit (Form 26) that the candidate filed at nomination. They are self-declared and are not independently verified by this project.',
+    affidavitYear:
+      'The card shows the election year of the affidavit. Figures describe the position on that date and may have changed since.',
+    affidavitCases:
+      'Declared criminal cases are pending cases or allegations as declared by the candidate. They are not convictions, and they are shown without any judgement.',
+    affidavitAssets:
+      'Declared assets are not the current net worth. They are the values stated in the affidavit, which may use different valuation methods and do not reflect later changes.',
+
+    limitationsHeading: '6. Limitations and known gaps',
+    limitCoverage: (seats: number, total: number, states: number) =>
+      `Coverage so far: report cards for ${seats} of ${total} Lok Sabha constituencies, across ${states} ${states === 1 ? 'state or union territory' : 'states and union territories'}. More are being added.`,
+    limitWorks:
+      'MPLADS works lists can be partial. When only some works are available, the card says how many are shown out of the reported total.',
+    limitSecondary:
+      'Some MPLADS figures come from a secondary source. The card labels them, and they are pending verification against the official MoSPI eSAKSHI portal.',
+    limitActivity:
+      "PRS indicators (attendance, debates, questions, private member bills) measure recorded activity in the House, not the quality of an MP's work.",
+    limitMinisters:
+      'For ministers, these activity indicators are shown as not applicable, because the source does not record them for ministers.',
+    limitSnapshot:
+      'The site shows a dated snapshot, not live data. Each figure carries the date it was captured or reported; check the linked source for the latest position.',
+
+    aiHeading: '7. AI usage and safeguards',
+    aiScope:
+      "AI is used only to write the optional plain-language summary on a card, from that card's structured data. It does not add facts, sources or opinions.",
+    aiChecks:
+      'Every number in an AI summary is checked against the record. If any check fails, or the AI service is unavailable, the summary is replaced by a fixed template written from the same data.',
+    aiPipeline:
+      'No AI is used in the data pipeline: collecting, normalising, merging and validating the data is done by deterministic scripts.',
+    aiDrafts:
+      'Message drafts are templates filled with the card data. Please review and edit a draft before you send it.',
+
+    disclaimerHeading: '8. Legal & Academic Disclaimer',
     disclaimer:
       '"Mera MP, Mera Report Card" is an independent civic project developed for citizen empowerment at hackCBS 9.0. It is not affiliated with, approved by, or representing the Parliament of India, the Election Commission of India, or any political party.',
     snapshotVersion: (version: string) => `Active snapshot version: ${version}`,
@@ -137,7 +171,41 @@ export const aboutMessages = defineMessages({
     thrCounts1: 'बहस और प्रश्न: औसत से ±10% के भीतर हो तो ',
     thrCounts2: ' कहा जाता है।',
 
-    disclaimerHeading: '5. कानूनी और शैक्षणिक अस्वीकरण',
+    affidavitHeading: '5. हलफ़नामे का डेटा क्या बताता है',
+    affidavitSelfDeclared:
+      'संपत्ति, देनदारियाँ, शिक्षा और घोषित मामले उसी रूप में दिखाए जाते हैं जैसे उम्मीदवार ने नामांकन के समय चुनावी हलफ़नामे (फ़ॉर्म 26) में घोषित किए। यह जानकारी उम्मीदवार ने ख़ुद दी है; यह परियोजना इसकी अलग से जाँच नहीं करती।',
+    affidavitYear:
+      'कार्ड पर हलफ़नामे का चुनाव वर्ष दिखाया जाता है। आँकड़े उस समय की स्थिति बताते हैं और बाद में बदल चुके हो सकते हैं।',
+    affidavitCases:
+      'घोषित आपराधिक मामले उम्मीदवार द्वारा घोषित लंबित मामले या आरोप हैं। ये दोषसिद्धि नहीं हैं, और इन्हें बिना किसी टिप्पणी के दिखाया जाता है।',
+    affidavitAssets:
+      'घोषित संपत्ति मौजूदा कुल संपत्ति (नेट वर्थ) नहीं है। ये हलफ़नामे में बताए गए मूल्य हैं, जिनके आकलन के तरीके अलग हो सकते हैं और जिनमें बाद के बदलाव शामिल नहीं हैं।',
+
+    limitationsHeading: '6. सीमाएँ और ज्ञात कमियाँ',
+    limitCoverage: (seats: number, total: number, states: number) =>
+      `अब तक की कवरेज: ${total} में से ${seats} लोकसभा निर्वाचन क्षेत्रों के रिपोर्ट कार्ड, ${states} ${states === 1 ? 'राज्य या केंद्र शासित प्रदेश' : 'राज्यों और केंद्र शासित प्रदेशों'} में। और जोड़े जा रहे हैं।`,
+    limitWorks:
+      'MPLADS कार्यों की सूची अधूरी हो सकती है। जब केवल कुछ कार्य उपलब्ध हों, तो कार्ड बताता है कि कुल दर्ज कार्यों में से कितने दिखाए गए हैं।',
+    limitSecondary:
+      'MPLADS के कुछ आँकड़े द्वितीयक स्रोत से लिए गए हैं। कार्ड पर इन्हें अलग से चिह्नित किया जाता है, और MoSPI के आधिकारिक eSAKSHI पोर्टल से इनका मिलान अभी बाकी है।',
+    limitActivity:
+      'PRS के संकेतक (उपस्थिति, बहस, प्रश्न, निजी सदस्य विधेयक) सदन में दर्ज गतिविधि बताते हैं, सांसद के काम की गुणवत्ता नहीं।',
+    limitMinisters:
+      'मंत्रियों के लिए ये गतिविधि संकेतक "लागू नहीं" दिखाए जाते हैं, क्योंकि स्रोत इन्हें मंत्रियों के लिए दर्ज नहीं करता।',
+    limitSnapshot:
+      'साइट एक तय तारीख का स्नैपशॉट दिखाती है, लाइव डेटा नहीं। हर आँकड़े के साथ वह तारीख दी जाती है जब उसे लिया या प्रकाशित किया गया; ताज़ा स्थिति के लिए दिया गया स्रोत देखें।',
+
+    aiHeading: '7. AI का उपयोग और सुरक्षा उपाय',
+    aiScope:
+      'AI का उपयोग केवल कार्ड पर वैकल्पिक सरल भाषा का सारांश लिखने के लिए होता है, और वह भी उसी कार्ड के व्यवस्थित डेटा से। यह कोई नया तथ्य, स्रोत या राय नहीं जोड़ता।',
+    aiChecks:
+      'AI सारांश की हर संख्या का रिकॉर्ड से मिलान किया जाता है। अगर कोई जाँच विफल हो या AI सेवा उपलब्ध न हो, तो सारांश की जगह उसी डेटा से बना एक तय टेम्पलेट दिखाया जाता है।',
+    aiPipeline:
+      'डेटा पाइपलाइन में AI का उपयोग नहीं होता: डेटा इकट्ठा करना, एक जैसे रूप में लाना, जोड़ना और जाँचना तय नियमों वाली स्क्रिप्ट से होता है।',
+    aiDrafts:
+      'संदेश के ड्राफ़्ट कार्ड के डेटा से भरे गए टेम्पलेट हैं। भेजने से पहले ड्राफ़्ट को ज़रूर पढ़ें और ज़रूरत हो तो बदलें।',
+
+    disclaimerHeading: '8. कानूनी और शैक्षणिक अस्वीकरण',
     disclaimer:
       '"मेरा सांसद, मेरा रिपोर्ट कार्ड" एक स्वतंत्र नागरिक परियोजना है, जिसे नागरिकों को सशक्त बनाने के लिए hackCBS 9.0 में बनाया गया है। यह भारत की संसद, भारत निर्वाचन आयोग या किसी भी राजनीतिक दल से जुड़ी नहीं है, उनके द्वारा स्वीकृत नहीं है, और उनका प्रतिनिधित्व नहीं करती।',
     snapshotVersion: (version: string) => `मौजूदा स्नैपशॉट संस्करण: ${version}`,

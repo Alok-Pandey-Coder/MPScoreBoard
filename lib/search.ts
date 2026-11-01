@@ -1,6 +1,39 @@
 import { MPRecord } from '../types/mp';
 import aliasesData from '@/data/processed/aliases.json';
-import { HINDI_MP_NAMES, HINDI_CONSTITUENCIES, HINDI_STATES, HINDI_PARTIES } from './i18n/localizeData';
+import { HINDI_STATES, HINDI_PARTIES } from './i18n/localizeData';
+
+/**
+ * SEARCH-ONLY Hindi-script aliases for MP names, keyed by the official
+ * (published) English spelling. They let a Hindi user typing "बांसुरी" find
+ * the MP. Never render these: names are displayed exactly as published
+ * (PRD 5.6).
+ */
+export const HINDI_SEARCH_ALIASES_MP_NAMES: Record<string, string> = {
+  'Praveen Khandelwal': 'प्रवीन खंडेलवाल',
+  'Harsh Malhotra': 'हर्ष मल्होत्रा',
+  'Bansuri Swaraj': 'बांसुरी स्वराज',
+  'Manoj Kumar Tiwari': 'मनोज कुमार तिवारी',
+  'Manoj Tiwari': 'मनोज तिवारी',
+  'Yogender Chandolia': 'योगेंद्र चंदोलिया',
+  'Yogendra Chandoliya': 'योगेंद्र चंदोलिया',
+  'Ramvir Singh Bidhuri': 'रामवीर सिंह बिधूड़ी',
+  'Kamaljeet Sehrawat': 'कमलजीत सहरावत',
+};
+
+/**
+ * SEARCH-ONLY Hindi-script aliases for constituency names, keyed by the
+ * official English name. Never render these (PRD 5.6).
+ */
+export const HINDI_SEARCH_ALIASES_CONSTITUENCIES: Record<string, string> = {
+  'Chandni Chowk': 'चांदनी चौक',
+  'East Delhi': 'पूर्वी दिल्ली',
+  'New Delhi': 'नई दिल्ली',
+  'North East Delhi': 'उत्तर पूर्व दिल्ली',
+  'North West Delhi (SC)': 'उत्तर पश्चिम दिल्ली (अ.जा.)',
+  'North West Delhi': 'उत्तर पश्चिम दिल्ली',
+  'South Delhi': 'दक्षिण दिल्ली',
+  'West Delhi': 'पश्चिम दिल्ली',
+};
 
 // Simple Levenshtein distance implementation
 export function levenshteinDistance(a: string, b: string): number {
@@ -49,8 +82,8 @@ export function searchMPs(query: string, mps: MPRecord[]): MPRecord[] {
     const slugMatch = mp.slug.toLowerCase().includes(resolvedQuery);
 
     const q = query.trim();
-    const hiName = HINDI_MP_NAMES[mp.name] || '';
-    const hiConst = HINDI_CONSTITUENCIES[mp.constituency] || '';
+    const hiName = HINDI_SEARCH_ALIASES_MP_NAMES[mp.name] || '';
+    const hiConst = HINDI_SEARCH_ALIASES_CONSTITUENCIES[mp.constituency] || '';
     const hiState = HINDI_STATES[mp.state] || '';
     const hiParty = HINDI_PARTIES[mp.party]?.short || '';
     const hiPartyFull = HINDI_PARTIES[mp.party]?.full || '';
