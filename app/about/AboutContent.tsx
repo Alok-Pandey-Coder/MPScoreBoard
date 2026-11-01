@@ -376,20 +376,25 @@ export function AboutContent({
       )}
 
       {/* Universal Footer: Disclaimer, Snapshot & Feedback */}
-      <section className="bg-stone-900 text-white dark:bg-[#0E1520] p-6 sm:p-8 rounded-3xl shadow-xl border border-stone-800 dark:border-[#202C3F] space-y-4">
-        <h2 className="text-xl font-bold font-sans">
-          {t.disclaimerHeading}
+      <section className="bg-white dark:bg-[#121A26] text-stone-900 dark:text-white p-6 sm:p-8 rounded-3xl shadow-sm border border-stone-200 dark:border-[#202C3F] space-y-4">
+        <h2 className="text-xl font-bold font-sans text-stone-900 dark:text-white flex items-center gap-2">
+          <ShieldCheck className="w-5 h-5 text-amber-500" />
+          <span>
+            {activeTab === 'product'
+              ? t.disclaimerHeading.replace(/^\d+\.\s*/, '')
+              : t.disclaimerHeading}
+          </span>
         </h2>
-        <p className="text-sm text-stone-300 leading-relaxed">
+        <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
           {t.disclaimer}
         </p>
-        <div className="pt-4 border-t border-stone-800 dark:border-[#202C3F] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-stone-400">
+        <div className="pt-4 border-t border-stone-100 dark:border-[#1E293B] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-stone-500 dark:text-stone-400">
           <span className="font-mono">{t.snapshotVersion(snapshotVersion)}</span>
           <a
             href="https://github.com/Alok-Pandey-Coder/MPScoreBoard/issues"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
+            className="inline-flex items-center gap-1.5 text-cyan-700 dark:text-cyan-400 hover:text-cyan-800 dark:hover:text-cyan-300 transition-colors font-mono font-medium"
           >
             <GitHubIcon className="w-4 h-4" />
             <span>{t.feedbackLink}</span>
