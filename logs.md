@@ -1343,3 +1343,39 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - The MPLADS works lists remain partial (20 per MP, flagged).
 
 
+
+## 2026-11-01 — App connected to the cloud database: certificate from the environment, fuller /api/health
+
+- **Summary:**
+  - The app reads the approved snapshot from the YugabyteDB Aeon cluster when `DATABASE_URL` is set. No change to the data layer's single entry point (`lib/data.ts`) was needed for that; the work was configuration plus three hardening changes.
+  - **Certificate as text:** `DATABASE_CA_CERT` (PEM text) is now accepted next to the file-path form (`sslrootcert=certs/root.crt`). A deployed function (Vercel) has no file to point to, and `pg` reads `sslrootcert` as a file path at runtime. With the text form the app strips any `ssl*` URL parameters and always verifies the server certificate and host name (`lib/db.ts` `buildPoolConfig`).
+  - **Idle-connection errors are handled:** a pooled connection reset by the network no longer crashes the server (`pool.on('error')`).
+  - **`/api/health`** now reports `database.status` (`not_configured`, `ok`, `empty`, `unreachable`) and `status: degraded` when a configured database is not in use. The HTTP code stays 200, because the site keeps serving the JSON snapshot. `?deep=1` also pings the database (`SELECT 1`) and reports latency; it is rate-limited to 10 per minute per IP. Nothing in the response reveals the host, user or credentials.
+  - `certs/root.crt` (the cluster's public CA chain, no private key) is committed, with `certs/README.md`. It lives at the project root, not in `public/`.
+  - `.env` belongs at the project root (next to `package.json`); `DATABASE_URL` was added to the local, git-ignored `.env`.
+- **Files or areas changed:**
+  - `lib/db.ts`, `lib/data.ts`, `app/api/health/route.ts`
+  - `__tests__/db-config.test.ts`, `__tests__/health-route.test.ts` (new)
+  - `docs/deploy.md`, `.env.example`, `.github/workflows/db-load.yml` (comments)
+  - `certs/root.crt`, `certs/README.md` (new)
+- **Validation performed:**
+  - **Unit tests:** 24 passed across the new config and health tests and the data-layer tests, covering:
+    - URL passthrough and password special characters;
+    - the explicit CA taking effect in the real `pg` client with verification on;
+    - the health route with no database, with an unreachable one, with rate limiting, and without leaking credentials.
+  - **End-to-end against the real cloud database:** a production build plus server, in three configurations.
+    - Certificate as text (Vercel style): `dataSource: yugabytedb`, database `ok`, reachable, about 80–130 ms. The build used the database (no fallback).
+    - Certificate as file path (local style): same result.
+    - Wrong certificate (negative control): rejected as expected; the site reported `degraded` / `unreachable` and kept serving all 9 MPs from the JSON snapshot.
+  - **Secret scan:** the password and the database host appear in no built file and in no HTTP response.
+  - **Whole suite:** `tsc` passes; jest 681 passed; pytest 54 passed.
+- **Remaining caveat or next step:**
+  - Three failures already exist on `origin/main`, are unrelated to this change, and make the daily workflows fail until fixed:
+    - `__tests__/ai-chat.test.ts` needs the git-ignored `meko_datapack`, so it fails in any clean checkout.
+    - `tests/test_refresh.py::test_portraits_are_carried_by_the_pipeline` asserts that non-Delhi records have no `image_url`, but the Goa records now have portraits.
+    - `npm run lint` reports 2 errors in `app/api/chat/route.ts` and `components/chat/ChatClient.tsx`.
+  - Vercel and GitHub Actions have no fixed IPs, so the Aeon allow list must allow `0.0.0.0/0` for them. The Vercel build also reads the database.
+  - Pages are generated at build time. After loading a new snapshot into the database, redeploy for the cards to change.
+  - A teammate's local `certs/` folder is untracked. It must be deleted or moved before pulling this branch, or git will refuse to overwrite it.
+
+

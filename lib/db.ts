@@ -1,5 +1,5 @@
 import 'server-only';
-import { Pool, types } from 'pg';
+import { Pool, types, type PoolConfig } from 'pg';
 import type { MPRecord, MpladsWork, SnapshotMetadata, Source } from '@/types/mp';
 
 /**
@@ -16,17 +16,55 @@ types.setTypeParser(1082, (v) => v);
 let pool: Pool | null = null;
 
 export function isDatabaseConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL);
+  return Boolean(process.env.DATABASE_URL?.trim());
+}
+
+/** Connection-URL parameters that configure TLS; removed when the CA is supplied as text so they cannot override it. */
+const URL_TLS_PARAMS = ['ssl', 'sslmode', 'sslrootcert', 'sslcert', 'sslkey', 'uselibpqcompat'];
+
+/**
+ * Pool settings from the environment, or null when no database is configured.
+ *
+ * - DATABASE_URL: postgresql://user:password@host:5433/db. For a local file
+ *   certificate add ?sslmode=verify-full&sslrootcert=certs/root.crt (path relative to the project root).
+ * - DATABASE_CA_CERT (optional): the CA certificate as PEM text, for hosts that cannot ship a
+ *   file such as Vercel. A literal backslash-n sequence is accepted as a line break, so the PEM
+ *   can be pasted as one line. The server certificate and host name are always verified.
+ *
+ * Pure (no connection is made), so it is unit-tested.
+ */
+export function buildPoolConfig(env: Record<string, string | undefined>): PoolConfig | null {
+  const url = env.DATABASE_URL?.trim();
+  if (!url) return null;
+  const base = { max: 3, connectionTimeoutMillis: 5_000, idleTimeoutMillis: 10_000 };
+  const ca = env.DATABASE_CA_CERT?.replace(/\\n/g, '\n').trim();
+  if (!ca) return { connectionString: url, ...base };
+
+  const parsed = new URL(url);
+  for (const key of URL_TLS_PARAMS) parsed.searchParams.delete(key);
+  return { connectionString: parsed.toString(), ssl: { ca, rejectUnauthorized: true }, ...base };
 }
 
 function getPool(): Pool {
-  pool ??= new Pool({
-    connectionString: process.env.DATABASE_URL,
-    max: 3,
-    connectionTimeoutMillis: 5_000,
-    idleTimeoutMillis: 10_000,
-  });
+  if (!pool) {
+    const config = buildPoolConfig(process.env);
+    if (!config) throw new Error('DATABASE_URL is not set');
+    pool = new Pool(config);
+    // An idle pooled connection can be reset by the network; without a handler that would crash the server.
+    pool.on('error', (error) => console.warn('[db] idle connection error:', error.message));
+  }
   return pool;
+}
+
+/** One cheap round trip (SELECT 1), for /api/health?deep=1. Never throws; the error text is not exposed. */
+export async function pingDatabase(): Promise<{ ok: boolean; ms: number }> {
+  const started = Date.now();
+  try {
+    await getPool().query('SELECT 1');
+    return { ok: true, ms: Date.now() - started };
+  } catch {
+    return { ok: false, ms: Date.now() - started };
+  }
 }
 
 interface MemberRow {

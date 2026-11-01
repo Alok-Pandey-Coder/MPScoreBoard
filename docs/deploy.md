@@ -26,7 +26,8 @@ Set these in Project Settings → Environment Variables. `.env.example` lists th
 | Variable | Required | What it does |
 |----------|----------|--------------|
 | `NEXT_PUBLIC_SITE_URL` | **Yes** | The absolute site URL, e.g. `https://your-project.vercel.app` (no trailing slash). Used for canonical and Open Graph links, `sitemap.xml` and `robots.txt`. It is read at build time, so redeploy after you change it. Without it, these links point to `http://localhost:3000`. |
-| `DATABASE_URL` | No | YugabyteDB (YSQL) connection string. If it is unset, the site serves the JSON snapshot. If it is set but the database cannot be reached, the site still serves the JSON snapshot, and `/api/health` reports `json-snapshot (database unreachable)`. |
+| `DATABASE_URL` | No | YugabyteDB (YSQL) connection string. If it is unset, the site serves the JSON snapshot. If it is set but the database cannot be reached, the site still serves the JSON snapshot, and `/api/health` reports `degraded` with `database.status: unreachable`. |
+| `DATABASE_CA_CERT` | With a hosted database | The database's CA certificate as **text** (the content of `certs/root.crt`). Use it on Vercel, where there is no file to point to. See the next section. |
 | `GEMINI_API_KEY` | No | Server-side key for the optional "Explain simply" summary. It is never sent to the browser. |
 | `GEMINI_MODEL` | No | A current Gemini model id. You must set both `GEMINI_API_KEY` and `GEMINI_MODEL`, or `/api/summary` uses the fixed template summary. |
 
@@ -35,18 +36,30 @@ the JSON snapshot and summaries use the template.
 
 ### YugabyteDB Aeon (optional)
 
-Use a connection string of this form:
+Set two variables in Vercel (Project Settings → Environment Variables), never in a file in the repository:
 
-```
-postgresql://admin:<password>@<host>:5433/yugabyte?sslmode=verify-full&sslrootcert=./root.crt
-```
+| Variable | Value |
+|----------|-------|
+| `DATABASE_URL` | `postgresql://<user>:<password>@<cluster-host>:5433/yugabyte`, with no `ssl…` parameters. Percent-encode special characters in the password (`@` is `%40`, `:` is `%3A`, `/` is `%2F`, `#` is `%23`). |
+| `DATABASE_CA_CERT` | The whole content of `certs/root.crt`, including the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines. Vercel accepts multi-line values. You can also paste it on one line, with a backslash followed by `n` between lines. |
 
-- Get `root.crt` from the cluster's connection page in Aeon.
-- `pg` reads `sslrootcert` as a **file path at runtime**. That file must exist at
-  that path inside the deployed server function. If it does not, the connection
-  fails and the site falls back to the JSON snapshot. Check `/api/health` after
-  you deploy. `.gitignore` excludes `.env*` and `*.pem` files. Never commit the
-  password.
+- **Why a variable and not a file:** a deployed function cannot read files from
+  your computer, and `pg` treats `sslrootcert=` as a file path at runtime. With
+  `DATABASE_CA_CERT` set, the app uses the certificate text and removes any
+  `ssl…` parameters from the URL itself. The server certificate and host name
+  are always verified.
+- **The certificate is not a secret.** It is the cluster provider's public CA
+  chain (`certs/root.crt`, committed). The password is the secret.
+- **IP allow list:** Vercel and GitHub Actions do not connect from fixed IP
+  addresses, so in the Aeon console (Networking → IP Allow List) the list must
+  allow `0.0.0.0/0`. The database stays protected by its password and verified
+  TLS. The Vercel **build** reads the database too (pages are generated at build
+  time), so the build machine needs access as well.
+- **Local development:** in `.env` at the **project root** (next to
+  `package.json`) set
+  `DATABASE_URL=postgresql://<user>:<password>@<cluster-host>:5433/yugabyte?sslmode=verify-full&sslrootcert=certs/root.crt`.
+  The path is relative to the project root. Never put `.env` or the certificate
+  in `public/`: everything in `public/` is served to the internet.
 - Load each approved snapshot with `python scripts/load_db.py --schema`. After
   setup, the `db-load` workflow does this for you (see below).
 - Report-card pages are generated at build time. A snapshot loaded into the
@@ -65,19 +78,28 @@ The repository has two workflows in `.github/workflows/`:
 - **`db-load.yml`** runs on pushes to `main` that change
   `data/processed/mps.json` or `data/processed/snapshot.json`, or by hand. It
   loads the approved snapshot into YugabyteDB. Required setting: the repository
-  secret **`DATABASE_URL`** (Settings → Secrets and variables → Actions). Without
-  the secret, the job's steps are skipped and the site keeps serving the JSON
-  snapshot.
+  secret **`DATABASE_URL`** (Settings → Secrets and variables → Actions), in the
+  form `postgresql://<user>:<password>@<cluster-host>:5433/yugabyte?sslmode=verify-full&sslrootcert=certs/root.crt`.
+  The certificate path is relative to the repository root, where `certs/root.crt`
+  is checked out. Do not add `ssl=true`: the Python driver does not accept it.
+  Without the secret, the job's steps are skipped and the site keeps serving the
+  JSON snapshot.
 
 ## 4. Post-deploy checklist
 
 Replace `$SITE` with the deployed URL.
 
 - [ ] `curl $SITE/api/health` returns `"status":"ok"`, the expected `mpCount`
-      and `snapshotDate`, and a `dataSource` that matches your setup:
-      `json-snapshot` with no database, `yugabytedb` with one.
-      `json-snapshot (database unreachable)` means `DATABASE_URL` or the
-      certificate path is wrong.
+      and `snapshotDate`, and a `dataSource` and `database.status` that match
+      your setup: `json-snapshot` / `not_configured` with no database,
+      `yugabytedb` / `ok` with one. A `"status":"degraded"` response means the
+      database is configured but not in use: `unreachable` points to a wrong
+      `DATABASE_URL` or `DATABASE_CA_CERT`, or an IP allow list that blocks the
+      server; `empty` means no snapshot is loaded yet (run
+      `python scripts/load_db.py --schema`). The site keeps working on the JSON
+      snapshot in both cases, so always read this line.
+- [ ] `curl "$SITE/api/health?deep=1"` also pings the database: expect
+      `"database":{"configured":true,"status":"ok","reachable":true,"latencyMs":…}`.
 - [ ] A report card loads, e.g. `$SITE/mp/new-delhi-delhi`, with its sources and dates shown.
 - [ ] An old slug redirects: `curl -I $SITE/mp/new-delhi` returns `308` with
       `location: /mp/new-delhi-delhi`.
