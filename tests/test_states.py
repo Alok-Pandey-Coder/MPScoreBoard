@@ -148,7 +148,7 @@ def test_goa_activity_matches_fresh_parse():
     assert south["performance"]["source"]["licence"] == "CC BY 4.0"
 
 
-@pytest.mark.parametrize("block", ["mplads", "affidavit", "election"])
+@pytest.mark.parametrize("block", ["mplads", "election"])
 def test_goa_pending_blocks_stay_pending_with_nulls(block):
     for mp in GOA:
         data = mp[block]
@@ -158,12 +158,26 @@ def test_goa_pending_blocks_stay_pending_with_nulls(block):
     assert validate.pending_block_errors("x", GOA[0]) == []
 
 
+def test_goa_affidavit_reported_values():
+    north = next(m for m in GOA if m["slug"] == "north-goa-goa")
+    south = next(m for m in GOA if m["slug"] == "south-goa-goa")
+    assert north["affidavit"]["status"] == "reported"
+    assert north["affidavit"]["assets"] == 108683533
+    assert north["affidavit"]["liabilities"] == 508675
+    assert north["affidavit"]["declared_criminal_cases"] == 0
+    assert "Dempo College" in north["affidavit"]["education"]
+    assert south["affidavit"]["status"] == "reported"
+    assert south["affidavit"]["assets"] == 52728999
+    assert south["affidavit"]["liabilities"] == 379840
+    assert south["affidavit"]["declared_criminal_cases"] == 1
+    assert "Goa University" in south["affidavit"]["education"]
+
+
 def test_zero_in_a_pending_block_is_a_hard_error():
     mp = copy.deepcopy(GOA[0])
-    mp["affidavit"]["declared_criminal_cases"] = 0
     mp["election"]["votes"] = 0
     errors = validate.pending_block_errors("x", mp)
-    assert len(errors) == 2 and all("must stay null" in e for e in errors)
+    assert len(errors) == 1 and all("must stay null" in e for e in errors)
 
 
 # ── refresh official checks ──────────────────────────────────────────────────

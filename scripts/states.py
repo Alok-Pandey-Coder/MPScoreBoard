@@ -61,11 +61,10 @@ STATES: tuple[State, ...] = (
         sansad_state="Goa",
         identity_master="sansad",
         seats=2,
+        affidavit_pack="data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv",
         pending_notes={
             "mplads": "MPLADS pending: the only work-level source (Empowered Indian) is not cleared for automated access "
             "(docs/decisions.md); no Goa MPLADS figures were fetched.",
-            "affidavit": "Affidavit pending: no compliant source has been captured for Goa. ADR/MyNeta reuse terms for "
-            "publication are not confirmed and no official ECI affidavit capture exists yet; no values were guessed.",
             "election": "Election result pending: the official ECI 2024 results pages for Goa returned HTTP 404 on "
             "2026-11-01 (data/raw/eci.results.goa.fetch_log.2026-11-01.json); no values were guessed.",
         },

@@ -1,8 +1,8 @@
 {
   "snapshot_version": "18ls-v3",
-  "generated_at": "2026-11-01T01:25:27.456896+00:00",
+  "generated_at": "2026-11-01T02:12:29.854964+00:00",
   "record_count": 9,
-  "sha256": "e0af30d9f65bcd77518606da9613350dfd1797734ab49de3393b18645ce7cf1c",
+  "sha256": "4dfeb878153a2e124f920bc97717b6befdbe2c891b8bfa1e956899811bdd521c",
   "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/09_intake_mplads.py -> scripts/06_merge.py -> scripts/07_validate.py -> scripts/08_snapshot.py",
   "coverage": "18th Lok Sabha: Delhi (7 of 7 seats); Goa (2 of 2 seats)",
   "states": [
@@ -23,7 +23,7 @@
     "identity": "cross_checked: 9",
     "prs": "parsed (PRS Legislative Research 2026-08-13) [not_applicable: 2, reported: 7]",
     "mplads": "secondary_only (Empowered Indian (aggregating MoSPI eSAKSHI) 2026-10-31; cross-check: JanWatchdog 2026-10-06) [pending: 2, reported: 7]",
-    "affidavit": "cross_checked (Association for Democratic Reforms (ADR) / MyNeta 2026-10-31) [pending: 2, reported: 7]",
+    "affidavit": "cross_checked (Association for Democratic Reforms (ADR) / MyNeta 2026-10-31; Association for Democratic Reforms (ADR) / MyNeta 2026-11-01) [reported: 9]",
     "eci": "user_verified (Election Commission of India 2024-06-04) [pending: 2, reported: 7]"
   }
 }

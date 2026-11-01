@@ -1,5 +1,30 @@
 # Project Change Log
 
+## 2026-11-01 — Goa 2024 Lok Sabha MP Election Affidavit Ingestion (branch feat/goa-mps)
+
+- **Summary:**
+  - Ingested verified 2024 Lok Sabha election affidavits (ECI Form 26 / ADR MyNeta compilation) for both Goa MPs:
+    - Shripad Yesso Naik (North Goa, BJP, candidate_id=3668): Total Assets Rs 10,86,83,533 (Movable Rs 2,05,67,671, Immovable Rs 8,81,15,862), Total Liabilities Rs 5,08,675, Declared Criminal Cases 0.
+    - Captain Viriato Fernandes (South Goa, INC, candidate_id=3876): Total Assets Rs 5,27,28,999 (Movable Rs 3,54,44,169, Immovable Rs 1,72,84,830), Total Liabilities Rs 3,79,840, Declared Criminal Cases 1 (IPC sections 143, 149, 341; 0 serious IPC counts as classified by ADR, 0 convictions).
+  - Created reference pack `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv` and linked it in `scripts/states.py` under Goa's `affidavit_pack`.
+  - Rebuilt canonical `mps.json`: Goa affidavit blocks transitioned from `pending` to `reported` with cross_checked provenance.
+  - Preserved rule that declared criminal cases are allegations/cases, not convictions.
+- **Files or areas changed:**
+  - `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`
+  - `scripts/states.py`
+  - `data/processed/mps.json`, `data/processed/snapshot.json`, `data/processed/validation_report.md`
+  - `tests/test_states.py`
+  - `data.md`, `logs.md`
+- **Validation performed:**
+  - `python scripts/build_data.py`: 0 hard errors, 12 warnings (Delhi MPLADS differences only; Goa affidavits reported).
+  - `python -m pytest tests -q`: 55/55 passed.
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest`: 643 passed (1 skipped).
+  - Field-by-field verification of Delhi records: 100% identical.
+- **Remaining caveat or next step:**
+  - Goa MPLADS and 2024 Election result blocks remain pending.
+
+
 ## 2026-11-01 - Multi-State Data Pipeline and Goa Lok Sabha MP Integration (branch feat/goa-mps)
 
 - **Summary:**

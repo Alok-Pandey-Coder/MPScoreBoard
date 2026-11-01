@@ -187,16 +187,17 @@ interface MPRecord {
 | `south-delhi-delhi` | Ramvir Singh Bidhuri | BJP | No | 100% | 30 | 169 | 0 | **Reported** (1 case / ₹52.64 Cr) | **Secondary** (₹2.88 / ₹14.76 Cr, 19.6%; recommended 87.6%) | **Reported** (692,773 votes, margin 124,333) |
 | `west-delhi-delhi` | Kamaljeet Sehrawat | BJP | No | 96% | 21 | 235 | 0 | **Reported** (0 cases / ₹14.74 Cr) | **Secondary** (₹1.31 / ₹14.70 Cr, 8.9%; recommended 60.2%) | **Reported** (842,658 votes, margin 199,013) |
 
-### 2.3a Status of the 2 Goa MP records (added 2026-11-01)
+### 2.3a Status of the 2 Goa MP records (added 2026-11-01, enriched 2026-11-01)
 
 | Constituency Slug | MP Name | Party | Minister | Performance Attendance | Debates | Questions | Bills | Affidavit | MPLADS | Election |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| `north-goa-goa` | Shripad Yesso Naik | BJP | **Yes** (PRS minister banner) | **N/A** | **N/A** | **N/A** | **N/A** | **Pending** | **Pending** | **Pending** |
-| `south-goa-goa` | Captain Viriato Fernandes | INC | No | 87% | 28 | 84 | 1 | **Pending** | **Pending** | **Pending** |
+| `north-goa-goa` | Shripad Yesso Naik | BJP | **Yes** (PRS minister banner) | **N/A** | **N/A** | **N/A** | **N/A** | **Reported** (0 cases / ₹10.87 Cr assets / ₹5.09 L liabilities) | **Pending** | **Pending** |
+| `south-goa-goa` | Captain Viriato Fernandes | INC | No | 87% | 28 | 84 | 1 | **Reported** (1 case / ₹5.27 Cr assets / ₹3.80 L liabilities) | **Pending** | **Pending** |
 
 - Identity: Digital Sansad member API (official), retrieved 2026-11-01; PRS agrees on seat, name (via the alias `viriato fernandes` → `Captain Viriato Fernandes`) and party, so `identity_review_status` is `cross_checked`.
 - Activity: PRS MP Track profile pages (CC BY 4.0), retrieved 2026-11-01, period 2024-06-24 to 2026-08-13. State averages are PRS's published Goa averages.
-- Pending blocks hold `null` in every field (never `0`); each record's `normalisation_notes` says why: MPLADS source not cleared, no compliant affidavit source captured, ECI 2024 results pages returned 404.
+- Affidavit: Self-declared 2024 Lok Sabha nomination affidavits (ECI Form 26 / ADR MyNeta candidate profiles: Shripad Naik candidate_id=3668; Captain Viriato Fernandes candidate_id=3876). Ingested via `data/reference_packs/officials_enriched_pack/data/mp_affidavit_enrichment_goa.csv`. Declared cases are allegations, not convictions.
+- Pending blocks (MPLADS, Election) hold `null` in every field (never `0`); each record's `normalisation_notes` records why: MPLADS source not cleared, ECI 2024 results pages returned 404.
 - No portrait: `image_url`/`image_source` are absent for Goa (no official portrait captured).
 - Sansad lists South Goa's education as "Post Graduate", PRS as "Graduate"; the profile shows PRS's value and the difference is a normalisation note.
 

@@ -1990,15 +1990,22 @@
       "cross_check": []
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 108683533,
+      "liabilities": 508675,
+      "declared_criminal_cases": 0,
+      "education": "B.A. from Dempo College of Arts and Science, Bombay University (1978)",
+      "as_of": "2026-11-01",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=3668",
+        "retrieved_at": "2026-11-01",
+        "candidate_id": 3668,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_III_English.pdf",
+        "adr_pdf_page": 1
+      },
+      "review_status": "cross_checked"
     },
     "election": {
       "status": "pending",
@@ -2026,12 +2033,16 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
         "retrieved_at": "2026-11-01",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=3668",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
       "Identity (name, seat, party) from the official Digital Sansad member API, the identity master for Goa (no reviewed state government roster).",
       "MPLADS pending: the only work-level source (Empowered Indian) is not cleared for automated access (docs/decisions.md); no Goa MPLADS figures were fetched.",
-      "Affidavit pending: no compliant source has been captured for Goa. ADR/MyNeta reuse terms for publication are not confirmed and no official ECI affidavit capture exists yet; no values were guessed.",
       "Election result pending: the official ECI 2024 results pages for Goa returned HTTP 404 on 2026-11-01 (data/raw/eci.results.goa.fetch_log.2026-11-01.json); no values were guessed."
     ]
   },
@@ -3072,15 +3083,22 @@
       "cross_check": []
     },
     "affidavit": {
-      "status": "pending",
-      "election_year": null,
-      "assets": null,
-      "liabilities": null,
-      "declared_criminal_cases": null,
-      "education": null,
-      "as_of": null,
-      "source": null,
-      "review_status": null
+      "status": "reported",
+      "election_year": 2024,
+      "assets": 52728999,
+      "liabilities": 379840,
+      "declared_criminal_cases": 1,
+      "education": "Bachelor of Engineering from Goa University (1992); Post Graduate Diploma in Business Administration in Supply Chain Management (2017)",
+      "as_of": "2026-11-01",
+      "source": {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=3876",
+        "retrieved_at": "2026-11-01",
+        "candidate_id": 3876,
+        "adr_report_url": "https://adrindia.org/sites/default/files/Analysis_of_Criminal_Financial_and_other_Details_of_Candidates_Lok_Sabha_Elections_2024_Phase_III_English.pdf",
+        "adr_pdf_page": 1
+      },
+      "review_status": "cross_checked"
     },
     "election": {
       "status": "pending",
@@ -3108,6 +3126,11 @@
         "url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
         "retrieved_at": "2026-11-01",
         "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Association for Democratic Reforms (ADR) / MyNeta",
+        "url": "https://www.myneta.info/LokSabha2024/candidate.php?candidate_id=3876",
+        "retrieved_at": "2026-11-01"
       }
     ],
     "normalisation_notes": [
@@ -3115,7 +3138,6 @@
       "PRS name 'Viriato Fernandes' matched 'Captain Viriato Fernandes' via aliases.json.",
       "Education: PRS shows 'Graduate', Digital Sansad shows 'Post Graduate'; the profile shows the PRS value.",
       "MPLADS pending: the only work-level source (Empowered Indian) is not cleared for automated access (docs/decisions.md); no Goa MPLADS figures were fetched.",
-      "Affidavit pending: no compliant source has been captured for Goa. ADR/MyNeta reuse terms for publication are not confirmed and no official ECI affidavit capture exists yet; no values were guessed.",
       "Election result pending: the official ECI 2024 results pages for Goa returned HTTP 404 on 2026-11-01 (data/raw/eci.results.goa.fetch_log.2026-11-01.json); no values were guessed."
     ]
   },
