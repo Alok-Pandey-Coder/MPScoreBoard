@@ -1148,3 +1148,28 @@ This file records key data changes, pipeline updates, schema modifications, and 
 - **Remaining caveat or next step:**
   - None. Both the standalone `/chat` page and the sitewide floating drawer are fully operational.
 
+
+## 2026-11-01 — Hackathon README overhaul
+
+**Summary:** Replaced placeholder README.md with comprehensive hackathon-ready documentation on main branch.
+
+**Files changed:** README.md`n
+**Sections added:**
+- Team info (CubeAce: Ayush Maurya, Yash Gupta, Alok Kumar Pandey, Kishan Kumar)
+- Detailed problem statement (3 civic breakdowns: data fragmentation, partisan scoring, delimitation blindspot)
+- Full feature descriptions (7 features with sub-bullets)
+- Data sources table (10 sources with URL, retrieval method, license, fields)
+- 7-step data pipeline table
+- Tech stack table
+- Step-by-step user guide (finding MP, GPS auto-detect, reading dossier, comparing MPs)
+- Local development setup (quick-start + optional YugabyteDB)
+- Test commands reference
+- Ethical/neutrality guardrails list (9 rules)
+- Coverage table (Delhi 7/7, Goa 2/2) + roadmap (Phase 1-4)
+- Repository structure tree
+- Hackathon judging criteria alignment table
+- Acknowledgements
+
+**Validation:** File committed cleanly on main branch at a7c38f8.
+
+**Caveats:** None.
