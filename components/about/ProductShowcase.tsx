@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   Sparkles,
+  User,
   GitCompare,
   MapPin,
   TrendingUp,
@@ -26,7 +27,7 @@ import { aboutMessages } from '@/lib/messages/about';
 
 export function ProductShowcase() {
   const t = useMessages(aboutMessages);
-  const lang = useLang();
+  const { lang } = useLang();
   const [activeCardTab, setActiveCardTab] = useState<'regular' | 'minister' | 'mplads' | 'affidavit'>('regular');
   const [activeCompareMetric, setActiveCompareMetric] = useState<'attendance' | 'questions' | 'debates' | 'mplads'>('attendance');
 
@@ -76,9 +77,15 @@ export function ProductShowcase() {
         <div className="bg-white dark:bg-[#121A26] rounded-3xl border border-stone-200 dark:border-[#202C3F] p-5 sm:p-7 shadow-lg space-y-6">
           {/* Mockup Header Controls */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-stone-100 dark:border-[#1E293B]">
-            <div className="flex items-center gap-2 text-xs font-mono text-stone-500">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>LIVE UI PREVIEW · REPORT CARD COMPONENT</span>
+              <span className="font-bold text-stone-700 dark:text-stone-300">
+                {lang === 'hi' ? 'काल्पनिक सांसद पूर्वावलोकन' : 'ILLUSTRATIVE MOCK MP PREVIEW'}
+              </span>
+              <span className="text-stone-300 dark:text-stone-600">·</span>
+              <span className="px-2 py-0.5 rounded bg-amber-500/10 text-[11px] text-amber-700 dark:text-amber-300 border border-amber-500/20 font-sans font-semibold">
+                {lang === 'hi' ? 'नमूना डेटा (लीडर 1)' : 'Sample Data (Leader 1)'}
+              </span>
             </div>
             {/* Interactive Tab Toggle */}
             <div className="flex items-center p-1 bg-stone-100 dark:bg-[#0E1520] rounded-xl border border-stone-200 dark:border-[#222E42] text-xs font-medium">
@@ -132,40 +139,40 @@ export function ProductShowcase() {
           {/* Member Banner Mockup */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145]">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-stone-200 dark:bg-[#202C3F] relative shrink-0 border border-stone-300 dark:border-[#283850]">
-                <Image
-                  src={activeCardTab === 'minister' ? '/images/mps/north-goa-goa.jpg' : '/images/mps/new-delhi-delhi.jpg'}
-                  alt="MP Preview Portrait"
-                  fill
-                  className="object-cover"
-                />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500 relative">
+                <User className="w-8 h-8 sm:w-10 sm:h-10" />
+                <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[9px] font-mono font-bold rounded bg-amber-500 text-white">
+                  MOCK
+                </span>
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <h4 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-white">
-                    {activeCardTab === 'minister' ? 'Shripad Yesso Naik' : 'Bansuri Swaraj'}
+                    {activeCardTab === 'minister'
+                      ? (lang === 'hi' ? 'लीडर 1 (काल्पनिक मंत्री)' : 'Leader 1 (Sample Minister)')
+                      : (lang === 'hi' ? 'लीडर 1 (काल्पनिक सांसद)' : 'Leader 1 (Sample MP)')}
                   </h4>
                   <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
-                    BJP
+                    {lang === 'hi' ? 'नमूना दल' : 'Sample Party'}
                   </span>
                 </div>
                 <p className="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-stone-400" />
-                  <span>{activeCardTab === 'minister' ? 'North Goa, Goa' : 'New Delhi, Delhi'}</span>
+                  <span>{lang === 'hi' ? 'काल्पनिक संसदीय क्षेत्र (जोन ए)' : 'Sample Parliamentary Constituency (Zone A)'}</span>
                   <span>·</span>
                   <span>18th Lok Sabha (2024–29)</span>
                 </p>
                 {activeCardTab === 'minister' && (
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-300 text-[11px] font-bold border border-purple-500/20">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Union Minister of State (Power & NRE)</span>
+                    <span>{lang === 'hi' ? 'केंद्रीय मंत्री (काल्पनिक प्रभार)' : 'Union Minister of State (Illustrative Portfolio)'}</span>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="text-xs font-mono text-stone-500 bg-white dark:bg-[#121A26] px-3 py-2 rounded-xl border border-stone-200 dark:border-[#222E42]">
-              Source: Digital Sansad · Verified
+              {lang === 'hi' ? 'इलस्ट्रेटिव नमूना डेटा · केवल पूर्वावलोकन हेतु' : 'Illustrative Mock Data · For UI Preview Only'}
             </div>
           </div>
 
@@ -395,23 +402,31 @@ export function ProductShowcase() {
           <div className="grid grid-cols-2 gap-4 pb-4 border-b border-stone-100 dark:border-[#1E293B]">
             {/* MP 1 */}
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-stone-200 dark:bg-[#202C3F] relative shrink-0">
-                <Image src="/images/mps/new-delhi-delhi.jpg" alt="Bansuri Swaraj" fill className="object-cover" />
+              <div className="w-12 h-12 rounded-xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500">
+                <User className="w-6 h-6" />
               </div>
               <div>
-                <h5 className="font-bold text-stone-900 dark:text-white text-sm">Bansuri Swaraj</h5>
-                <p className="text-xs text-stone-500">New Delhi (Delhi) · BJP</p>
+                <h5 className="font-bold text-stone-900 dark:text-white text-sm">
+                  {lang === 'hi' ? 'लीडर 1' : 'Leader 1'}
+                </h5>
+                <p className="text-xs text-stone-500">
+                  {lang === 'hi' ? 'काल्पनिक क्षेत्र ए · दल 1' : 'Sample Constituency A · Party 1'}
+                </p>
               </div>
             </div>
 
             {/* MP 2 */}
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-stone-200 dark:bg-[#202C3F] relative shrink-0">
-                <Image src="/images/mps/south-goa-goa.jpg" alt="Captain Viriato Fernandes" fill className="object-cover" />
+              <div className="w-12 h-12 rounded-xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500">
+                <User className="w-6 h-6" />
               </div>
               <div>
-                <h5 className="font-bold text-stone-900 dark:text-white text-sm">Capt. Viriato Fernandes</h5>
-                <p className="text-xs text-stone-500">South Goa (Goa) · INC</p>
+                <h5 className="font-bold text-stone-900 dark:text-white text-sm">
+                  {lang === 'hi' ? 'लीडर 2' : 'Leader 2'}
+                </h5>
+                <p className="text-xs text-stone-500">
+                  {lang === 'hi' ? 'काल्पनिक क्षेत्र बी · दल 2' : 'Sample Constituency B · Party 2'}
+                </p>
               </div>
             </div>
           </div>
@@ -444,7 +459,9 @@ export function ProductShowcase() {
           </div>
 
           <p className="text-[11px] text-stone-500 font-mono text-center">
-            ✓ Strictly neutral alignment: No winner badges, ranking stars, or subjective color judgments.
+            {lang === 'hi'
+              ? '✓ पूर्णतः निष्पक्ष प्रस्तुति: लीडर 1 और लीडर 2 के बीच बिना किसी रैंकिंग या विजेता बैज का वर्णनात्मक तुलनात्मक मॉडल।'
+              : '✓ Strictly neutral alignment: Illustrative comparison between Leader 1 and Leader 2 with no winner badges, ranking stars, or subjective scoring.'}
           </p>
         </div>
       </section>
