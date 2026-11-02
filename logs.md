@@ -1502,3 +1502,20 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `python -m pytest tests -q`: 56 passed.
 - **Remaining caveat or next step:**
   - Ready for commit and push to PR #23.
+
+## 2026-11-02 — Align About page Live UI Preview metrics with verified snapshot
+
+- **Summary:**
+  - Resolved figure inconsistencies on the About page's interactive showcase where hardcoded sample values (96% attendance, 201 questions, 24 debates, ₹10.87 Cr assets) conflicted with Bansuri Swaraj's actual verified profile (95% attendance, 41 questions, 17 debates, ₹19.29 Cr assets as of 13 August 2026).
+  - Explicitly labelled both the report card and comparison showcases with an "ILLUSTRATIVE UI PREVIEW" badge noting that sample data is populated directly from the live 18ls-v3 snapshot.
+  - Aligned all showcased metrics across Attendance (95%), Questions (41), Debates (17), MPLADS (₹15.43 Cr allocated, ₹6.55 Cr recommended, ₹2.18 Cr spent with real completed works), and Affidavit (₹19.29 Cr assets, Nil liabilities, Oxford/Inns education) with official data.
+  - Added bilingual labels for Hindi and English across all preview metric cards.
+- **Files or areas changed:**
+  - `components/about/ProductShowcase.tsx`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest`: 746 passed across 15 test suites.
+  - `python -m pytest tests -q`: 56 passed.
+- **Remaining caveat or next step:**
+  - Committed on feature branch `fix/about-page-preview-data-consistency`.

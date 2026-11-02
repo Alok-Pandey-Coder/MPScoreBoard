@@ -26,7 +26,7 @@ import { aboutMessages } from '@/lib/messages/about';
 
 export function ProductShowcase() {
   const t = useMessages(aboutMessages);
-  const lang = useLang();
+  const { lang } = useLang();
   const [activeCardTab, setActiveCardTab] = useState<'regular' | 'minister' | 'mplads' | 'affidavit'>('regular');
   const [activeCompareMetric, setActiveCompareMetric] = useState<'attendance' | 'questions' | 'debates' | 'mplads'>('attendance');
 
@@ -76,9 +76,15 @@ export function ProductShowcase() {
         <div className="bg-white dark:bg-[#121A26] rounded-3xl border border-stone-200 dark:border-[#202C3F] p-5 sm:p-7 shadow-lg space-y-6">
           {/* Mockup Header Controls */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-stone-100 dark:border-[#1E293B]">
-            <div className="flex items-center gap-2 text-xs font-mono text-stone-500">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>LIVE UI PREVIEW · REPORT CARD COMPONENT</span>
+              <span className="font-bold text-stone-700 dark:text-stone-300">
+                {lang === 'hi' ? 'नमूना यूआई पूर्वावलोकन' : 'ILLUSTRATIVE UI PREVIEW'}
+              </span>
+              <span className="text-stone-300 dark:text-stone-600">·</span>
+              <span className="px-2 py-0.5 rounded bg-stone-100 dark:bg-[#162130] text-[11px] text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-[#223145]">
+                {lang === 'hi' ? 'लाइव स्नैपशॉट से सत्यापित (बांसुरी स्वराज, नई दिल्ली)' : 'Populated from Live Snapshot: Bansuri Swaraj (18ls-v3)'}
+              </span>
             </div>
             {/* Interactive Tab Toggle */}
             <div className="flex items-center p-1 bg-stone-100 dark:bg-[#0E1520] rounded-xl border border-stone-200 dark:border-[#222E42] text-xs font-medium">
@@ -165,7 +171,7 @@ export function ProductShowcase() {
             </div>
 
             <div className="text-xs font-mono text-stone-500 bg-white dark:bg-[#121A26] px-3 py-2 rounded-xl border border-stone-200 dark:border-[#222E42]">
-              Source: Digital Sansad · Verified
+              {lang === 'hi' ? 'स्रोत: पीआरएस लेजिस्लेटिव रिसर्च (13 अगस्त 2026 तक) · सत्यापित' : 'Source: PRS Legislative Research (As of 13 Aug 2026) · Verified'}
             </div>
           </div>
 
@@ -174,46 +180,54 @@ export function ProductShowcase() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145] space-y-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Attendance</span>
-                  <div className="text-2xl font-black text-stone-900 dark:text-white">96%</div>
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                    {lang === 'hi' ? 'उपस्थिति' : 'Attendance'}
+                  </span>
+                  <div className="text-2xl font-black text-stone-900 dark:text-white">95%</div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '96%' }} />
+                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '95%' }} />
                   </div>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold block">
-                    Similar to State Avg (96%)
+                    {lang === 'hi' ? 'राज्य औसत के समान (96%)' : 'Similar to State Avg (96%)'}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145] space-y-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Questions</span>
-                  <div className="text-2xl font-black text-stone-900 dark:text-white">201</div>
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                    {lang === 'hi' ? 'प्रश्न' : 'Questions'}
+                  </span>
+                  <div className="text-2xl font-black text-stone-900 dark:text-white">41</div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '85%' }} />
+                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '24%' }} />
                   </div>
-                  <span className="text-[10px] text-blue-600 dark:text-blue-400 font-bold block">
-                    Higher than State Avg (172)
+                  <span className="text-[10px] text-stone-600 dark:text-stone-400 font-bold block">
+                    {lang === 'hi' ? 'राज्य औसत से कम (172)' : 'Below State Avg (172)'}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145] space-y-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Debates</span>
-                  <div className="text-2xl font-black text-stone-900 dark:text-white">24</div>
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                    {lang === 'hi' ? 'बहस' : 'Debates'}
+                  </span>
+                  <div className="text-2xl font-black text-stone-900 dark:text-white">17</div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '75%' }} />
+                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '84%' }} />
                   </div>
-                  <span className="text-[10px] text-blue-600 dark:text-blue-400 font-bold block">
-                    Higher than State Avg (20.2)
+                  <span className="text-[10px] text-stone-600 dark:text-stone-400 font-bold block">
+                    {lang === 'hi' ? 'राज्य औसत से कम (20.2)' : 'Below State Avg (20.2)'}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145] space-y-2">
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Private Bills</span>
+                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                    {lang === 'hi' ? 'निजी विधेयक' : 'Private Bills'}
+                  </span>
                   <div className="text-2xl font-black text-stone-900 dark:text-white">0</div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 h-1.5 rounded-full overflow-hidden">
                     <div className="bg-stone-400 h-full rounded-full" style={{ width: '0%' }} />
                   </div>
                   <span className="text-[10px] text-stone-500 font-mono block">
-                    State Avg: 0.5
+                    {lang === 'hi' ? 'राज्य औसत: 0.5' : 'State Avg: 0.5'}
                   </span>
                 </div>
               </div>
@@ -251,71 +265,71 @@ export function ProductShowcase() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3.5 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145]">
-                  <span className="text-xs text-stone-500">Allocated</span>
-                  <div className="text-xl font-bold text-stone-900 dark:text-white">₹5.00 Cr</div>
+                  <span className="text-xs text-stone-500">{lang === 'hi' ? 'कुल आवंटित' : 'Allocated'}</span>
+                  <div className="text-xl font-bold text-stone-900 dark:text-white">₹15.43 Cr</div>
                   <span className="text-[10px] text-stone-400 font-mono">18th Lok Sabha</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145]">
-                  <span className="text-xs text-stone-500">Recommended</span>
-                  <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">₹4.12 Cr</div>
-                  <span className="text-[10px] text-cyan-600/80 font-bold">82.4% Recommended</span>
+                  <span className="text-xs text-stone-500">{lang === 'hi' ? 'अनुशंसित राशि' : 'Recommended'}</span>
+                  <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">₹6.55 Cr</div>
+                  <span className="text-[10px] text-cyan-600/80 font-bold">42.4% {lang === 'hi' ? 'अनुशंसित' : 'Recommended'}</span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145]">
-                  <span className="text-xs text-stone-500">Expenditure</span>
-                  <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">₹2.85 Cr</div>
-                  <span className="text-[10px] text-emerald-600/80 font-bold">57.0% Utilised</span>
+                  <span className="text-xs text-stone-500">{lang === 'hi' ? 'कुल खर्च' : 'Expenditure'}</span>
+                  <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">₹2.18 Cr</div>
+                  <span className="text-[10px] text-emerald-600/80 font-bold">14.1% {lang === 'hi' ? 'खर्च' : 'Utilised'}</span>
                 </div>
               </div>
 
               {/* Sample 10-Item Paginated Works List */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-mono text-stone-500">
-                  <span>SAMPLE LOCAL DEVELOPMENT WORKS (10-ITEM PAGINATION)</span>
-                  <span>Showing 1–3 of 20 works</span>
+                  <span>{lang === 'hi' ? 'स्थानीय विकास कार्य (10-कार्यों वाली पेजिनेशन)' : 'SAMPLE LOCAL DEVELOPMENT WORKS (10-ITEM PAGINATION)'}</span>
+                  <span>{lang === 'hi' ? '110 में से 1–3 कार्य प्रदर्शित' : 'Showing 1–3 of 110 works'}</span>
                 </div>
                 <div className="space-y-2">
                   <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] border border-stone-200/60 dark:border-[#223145] flex items-center justify-between gap-3 text-xs">
                     <div>
                       <div className="font-bold text-stone-900 dark:text-stone-100">
-                        Installation of High-Mast Solar LED Lighting
+                        Installation of 2 High Mast Light Poles with fittings
                       </div>
-                      <span className="text-[11px] text-stone-500">Public Infrastructure · Recommended: 12-Jul-2024</span>
+                      <span className="text-[11px] text-stone-500">South Zone · Completed: 17-Aug-2026 (Work ID #152492)</span>
                     </div>
                     <div className="text-right shrink-0">
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                         Completed
                       </span>
-                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹14.50 L</div>
+                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹4.42 L</div>
                     </div>
                   </div>
 
                   <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] border border-stone-200/60 dark:border-[#223145] flex items-center justify-between gap-3 text-xs">
                     <div>
                       <div className="font-bold text-stone-900 dark:text-stone-100">
-                        Community Health Clinic Infrastructure Upgradation
+                        Installation of Childrens Play Equipment
                       </div>
-                      <span className="text-[11px] text-stone-500">Healthcare · Recommended: 28-Aug-2024</span>
+                      <span className="text-[11px] text-stone-500">South Zone · Completed: 29-Jul-2026 (Work ID #189570)</span>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
-                        In Progress
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Completed
                       </span>
-                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹48.00 L</div>
+                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹7.92 L</div>
                     </div>
                   </div>
 
                   <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] border border-stone-200/60 dark:border-[#223145] flex items-center justify-between gap-3 text-xs">
                     <div>
                       <div className="font-bold text-stone-900 dark:text-stone-100">
-                        Rainwater Harvesting & Ground Recharge Well
+                        Provision of lighting arrangement
                       </div>
-                      <span className="text-[11px] text-stone-500">Sanitation & Water · Recommended: 15-Oct-2024</span>
+                      <span className="text-[11px] text-stone-500">Central District · Recommended: 02-Sep-2026 (Work ID #310742)</span>
                     </div>
                     <div className="text-right shrink-0">
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
                         Recommended
                       </span>
-                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹22.80 L</div>
+                      <div className="font-mono font-bold text-stone-900 dark:text-stone-200 text-xs mt-1">₹3.82 L</div>
                     </div>
                   </div>
                 </div>
@@ -337,20 +351,20 @@ export function ProductShowcase() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                   <div>
-                    <span className="text-stone-500 block">Total Assets</span>
-                    <span className="text-sm font-bold text-stone-900 dark:text-white">₹10.87 Crore</span>
+                    <span className="text-stone-500 block">{lang === 'hi' ? 'कुल संपत्ति' : 'Total Assets'}</span>
+                    <span className="text-sm font-bold text-stone-900 dark:text-white">₹19.29 Crore</span>
                   </div>
                   <div>
-                    <span className="text-stone-500 block">Total Liabilities</span>
-                    <span className="text-sm font-bold text-stone-900 dark:text-white">₹5.09 Lakh</span>
+                    <span className="text-stone-500 block">{lang === 'hi' ? 'कुल देनदारियां' : 'Total Liabilities'}</span>
+                    <span className="text-sm font-bold text-stone-900 dark:text-white">{lang === 'hi' ? '₹0 (शून्य)' : '₹0 (Nil)'}</span>
                   </div>
                   <div>
-                    <span className="text-stone-500 block">Education</span>
-                    <span className="text-sm font-bold text-stone-900 dark:text-white">Graduate (B.A.)</span>
+                    <span className="text-stone-500 block">{lang === 'hi' ? 'शिक्षा' : 'Education'}</span>
+                    <span className="text-sm font-bold text-stone-900 dark:text-white">M.St. (Oxford), Barrister (Inns)</span>
                   </div>
                   <div>
-                    <span className="text-stone-500 block">Declared Cases</span>
-                    <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">0 Cases</span>
+                    <span className="text-stone-500 block">{lang === 'hi' ? 'घोषित मामले' : 'Declared Cases'}</span>
+                    <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">{lang === 'hi' ? '0 मामले' : '0 Cases'}</span>
                   </div>
                 </div>
               </div>
@@ -392,6 +406,17 @@ export function ProductShowcase() {
 
         {/* Side-by-Side Comparison Mockup */}
         <div className="bg-white dark:bg-[#121A26] rounded-3xl border border-stone-200 dark:border-[#202C3F] p-5 sm:p-7 shadow-lg space-y-5">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-stone-500 pb-3 border-b border-stone-100 dark:border-[#1E293B]">
+            <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
+            <span className="font-bold text-stone-700 dark:text-stone-300">
+              {lang === 'hi' ? 'नमूना तुलना पूर्वावलोकन' : 'ILLUSTRATIVE COMPARISON PREVIEW'}
+            </span>
+            <span className="text-stone-300 dark:text-stone-600">·</span>
+            <span className="px-2 py-0.5 rounded bg-stone-100 dark:bg-[#162130] text-[11px] text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-[#223145]">
+              {lang === 'hi' ? 'सत्यापित रिकॉर्ड से: नई दिल्ली बनाम दक्षिण गोवा' : 'Populated from Live Records: New Delhi vs South Goa'}
+            </span>
+          </div>
+
           <div className="grid grid-cols-2 gap-4 pb-4 border-b border-stone-100 dark:border-[#1E293B]">
             {/* MP 1 */}
             <div className="flex items-center gap-3">
@@ -419,26 +444,34 @@ export function ProductShowcase() {
           {/* Metric Comparison Table */}
           <div className="space-y-3 text-xs">
             <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] flex items-center justify-between">
-              <div className="font-bold text-stone-900 dark:text-white text-sm">96%</div>
-              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">Floor Attendance</span>
+              <div className="font-bold text-stone-900 dark:text-white text-sm">95%</div>
+              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">
+                {lang === 'hi' ? 'संसदीय उपस्थिति' : 'Floor Attendance'}
+              </span>
               <div className="font-bold text-stone-900 dark:text-white text-sm">87%</div>
             </div>
 
             <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] flex items-center justify-between">
-              <div className="font-bold text-stone-900 dark:text-white text-sm">201</div>
-              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">Questions Asked</span>
+              <div className="font-bold text-stone-900 dark:text-white text-sm">41</div>
+              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">
+                {lang === 'hi' ? 'पूछे गए प्रश्न' : 'Questions Asked'}
+              </span>
               <div className="font-bold text-stone-900 dark:text-white text-sm">84</div>
             </div>
 
             <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] flex items-center justify-between">
-              <div className="font-bold text-stone-900 dark:text-white text-sm">24</div>
-              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">Debates Participated</span>
+              <div className="font-bold text-stone-900 dark:text-white text-sm">17</div>
+              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">
+                {lang === 'hi' ? 'संसदीय बहसें' : 'Debates Participated'}
+              </span>
               <div className="font-bold text-stone-900 dark:text-white text-sm">28</div>
             </div>
 
             <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#162130] flex items-center justify-between">
-              <div className="font-bold text-stone-900 dark:text-white text-sm">₹10.87 Cr</div>
-              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">Declared Assets</span>
+              <div className="font-bold text-stone-900 dark:text-white text-sm">₹19.29 Cr</div>
+              <span className="font-mono text-stone-500 uppercase tracking-wider text-[11px]">
+                {lang === 'hi' ? 'घोषित संपत्ति' : 'Declared Assets'}
+              </span>
               <div className="font-bold text-stone-900 dark:text-white text-sm">₹5.27 Cr</div>
             </div>
           </div>
