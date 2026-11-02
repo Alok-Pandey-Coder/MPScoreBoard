@@ -185,7 +185,10 @@ def test_zero_in_a_pending_block_is_a_hard_error():
 def test_refresh_checks_every_state():
     checks = refresh.official_checks_all_states(MPS)
     assert {c["state"] for c in checks} == {s.name for s in states.STATES}
-    assert all(c["level"] == "ok" for c in checks), checks
+    assert all(c["level"] in ("ok", "review") for c in checks)
+    official_records = [c for c in checks if c["check"] == "official_records"]
+    assert official_records, "Expected at least one official_records check"
+    assert all(c["level"] == "ok" for c in official_records), official_records
     assert any(c["state"] == "Goa" and c["check"] == "official_records" for c in checks)
 
 

@@ -1464,3 +1464,22 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `python -m pytest tests -q`: 55 passed.
 - **Remaining caveat or next step:**
   - Merged via PR #22.
+
+## 2026-11-02 — Fix refresh cronjob contract tests and page text hashing
+
+- **Summary:**
+  - Resolved failure in the daily data refresh GitHub Actions cronjob where advisory `level: "review"` on the Delhi roster page caused `test_real_delhi_captures_compare_as_unchanged` and `test_refresh_checks_every_state` to throw assertion errors, aborting the workflow before a review PR could be created.
+  - Replaced the brittle assertion on real dynamic disk captures with `test_baseline_delhi_captures_compare_as_unchanged` (which guarantees the checked-in baseline fixtures compare cleanly) and `test_real_delhi_captures_check_contract` (which verifies schema contract without failing on expected advisory review flags).
+  - Updated `test_refresh_checks_every_state` to assert strict `ok` status specifically on official Digital Sansad member records while allowing state roster page change monitors to report advisory `review` levels.
+  - Enhanced `page_text_hash` in `scripts/refresh.py` to strip timestamps (`hh:mm:ss am/pm`) and comma-formatted integers (`1,234,567`) to eliminate false-positive page-change reviews triggered by daily visitor count formatting.
+- **Files or areas changed:**
+  - `scripts/refresh.py`
+  - `tests/test_refresh.py`
+  - `tests/test_states.py`
+  - `logs.md`
+- **Validation performed:**
+  - `python -m pytest tests -q`: 56 passed.
+  - `npx jest`: 746 passed across 15 test suites.
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+- **Remaining caveat or next step:**
+  - Branch ready for review and pull request.
