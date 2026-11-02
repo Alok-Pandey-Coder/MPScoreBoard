@@ -60,6 +60,28 @@ CROSS_URL = "https://www.janwatchdog.in/mplads/delhi"
 # Relative difference above which a cross-check money figure is called out.
 MONEY_DIFF_THRESHOLD = 0.05
 
+# Canonical URLs for Empowered Indian 18th Lok Sabha MP dashboards
+EMPOWERED_MPLADS_URLS: dict[str, str] = {
+    "chandni-chowk-delhi": "https://empoweredindian.in/mplads/mps/praveen-khandelwal-chandni-chowk-delhi-18th-lok-sabha",
+    "east-delhi-delhi": "https://empoweredindian.in/mplads/mps/harsh-malhotra-east-delhi-delhi-18th-lok-sabha",
+    "new-delhi-delhi": "https://empoweredindian.in/mplads/mps/bansuri-swaraj-new-delhi-delhi-18th-lok-sabha",
+    "north-east-delhi-delhi": "https://empoweredindian.in/mplads/mps/manoj-tiwari-north-east-delhi-delhi-18th-lok-sabha",
+    "north-west-delhi-delhi": "https://empoweredindian.in/mplads/mps/yogendra-chandoliya-north-west-delhi-delhi-18th-lok-sabha",
+    "south-delhi-delhi": "https://empoweredindian.in/mplads/mps/ramvir-singh-bidhuri-south-delhi-delhi-18th-lok-sabha",
+    "west-delhi-delhi": "https://empoweredindian.in/mplads/mps/kamaljeet-sehrawat-west-delhi-delhi-18th-lok-sabha",
+}
+
+
+def canonical_mplads_source_url(rec: dict) -> str | None:
+    slug = rec.get("slug")
+    if slug and slug in EMPOWERED_MPLADS_URLS:
+        return EMPOWERED_MPLADS_URLS[slug]
+    raw = rec.get("source_url")
+    if raw and "/mps/" in raw and "/mplads/mps/" not in raw and slug in EMPOWERED_MPLADS_URLS:
+        return EMPOWERED_MPLADS_URLS[slug]
+    return raw
+
+
 _DATED = re.compile(r"\.(\d{4}-\d{2}-\d{2})\.(json|csv)$")
 
 
@@ -249,7 +271,7 @@ def build_block(rec: dict, raw_file: str) -> tuple[dict, dict, list[str]]:
         "as_of": as_of,
         "source": {
             "name": PRIMARY_NAME,
-            "url": rec.get("source_url"),
+            "url": canonical_mplads_source_url(rec),
             "retrieved_at": as_of,
             "raw_file": raw_file,
             "licence": PRIMARY_LICENCE,

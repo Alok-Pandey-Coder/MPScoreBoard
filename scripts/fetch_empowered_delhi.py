@@ -33,6 +33,17 @@ HEADERS = {
 }
 REQUEST_GAP_SECONDS = 1.5
 
+EMPOWERED_MPLADS_URLS = {
+    "chandni-chowk-delhi": "https://empoweredindian.in/mplads/mps/praveen-khandelwal-chandni-chowk-delhi-18th-lok-sabha",
+    "east-delhi-delhi": "https://empoweredindian.in/mplads/mps/harsh-malhotra-east-delhi-delhi-18th-lok-sabha",
+    "new-delhi-delhi": "https://empoweredindian.in/mplads/mps/bansuri-swaraj-new-delhi-delhi-18th-lok-sabha",
+    "north-east-delhi-delhi": "https://empoweredindian.in/mplads/mps/manoj-tiwari-north-east-delhi-delhi-18th-lok-sabha",
+    "north-west-delhi-delhi": "https://empoweredindian.in/mplads/mps/yogendra-chandoliya-north-west-delhi-delhi-18th-lok-sabha",
+    "south-delhi-delhi": "https://empoweredindian.in/mplads/mps/ramvir-singh-bidhuri-south-delhi-delhi-18th-lok-sabha",
+    "west-delhi-delhi": "https://empoweredindian.in/mplads/mps/kamaljeet-sehrawat-west-delhi-delhi-18th-lok-sabha",
+}
+
+
 DELHI_MPS = [
     ("chandni-chowk-delhi", "Praveen Khandelwal", "Chandni Chowk", "Khandelwal"),
     ("east-delhi-delhi", "Harsh Malhotra", "East Delhi", "Malhotra"),
@@ -87,7 +98,7 @@ def main() -> None:
                 # Every row the API returned is kept; nothing is sampled.
                 "works_sample_count": len(works),
                 "works": works,
-                "source_url": f"https://empoweredindian.in/mps/{mp_id}",
+                "source_url": EMPOWERED_MPLADS_URLS.get(slug, f"https://empoweredindian.in/mplads/mps/{slug}"),
                 "retrieved_at": today,
             })
     except urllib.error.HTTPError as err:

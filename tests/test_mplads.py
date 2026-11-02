@@ -154,6 +154,8 @@ def test_export_matches_contract():
         assert all(isinstance(w["work_id"], str) for w in m["works"])
         # Never the recommended share shown as spending.
         assert m["expenditure_pct"] != m["recommended_pct"]
+        assert m["source"]["url"].startswith("https://empoweredindian.in/mplads/mps/")
+        assert "/mps/6a98" not in m["source"]["url"]
 
 
 def test_snapshot_hash_matches_export():
