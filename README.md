@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)](./LICENSE)
 [![Data](https://img.shields.io/badge/Data-Open%20%26%20Sourced-6366f1?style=flat-square)](./data.md)
 
-**Team CubeAce** · Ayush Maurya (Lead) · Yash Gupta · Alok Kumar Pandey · Kishan Kumar
+**Team CubeAce** · Yash Gupta · Alok Kumar Pandey · Kishan Kumar · Ayush Maurya
 
 <img width="1917" height="1030" alt="image" src="https://github.com/user-attachments/assets/72ba1fbb-65bd-4db4-b898-3ec404e92497" />
 

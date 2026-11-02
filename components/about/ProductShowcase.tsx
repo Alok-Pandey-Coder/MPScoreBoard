@@ -84,7 +84,11 @@ export function ProductShowcase() {
               </span>
               <span className="text-stone-300 dark:text-stone-600">·</span>
               <span className="px-2 py-0.5 rounded bg-amber-500/10 text-[11px] text-amber-700 dark:text-amber-300 border border-amber-500/20 font-sans font-semibold">
+<<<<<<< HEAD
                 {lang === 'hi' ? 'नमूना डेटा मॉडल (काल्पनिक प्रोफाइल)' : 'Sample Data Model (Fictional Profile)'}
+=======
+                {lang === 'hi' ? 'नमूना डेटा (लीडर 1)' : 'Sample Data (Leader 1)'}
+>>>>>>> main
               </span>
             </div>
             {/* Interactive Tab Toggle */}
@@ -139,6 +143,7 @@ export function ProductShowcase() {
           {/* Member Banner Mockup */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-[#162130] border border-stone-200/70 dark:border-[#223145]">
             <div className="flex items-center gap-4">
+<<<<<<< HEAD
               <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center relative shrink-0 border ${
                 activeCardTab === 'minister'
                   ? 'bg-purple-500/10 border-purple-500/30 text-purple-600 dark:text-purple-400'
@@ -146,6 +151,11 @@ export function ProductShowcase() {
               }`}>
                 <User className="w-8 h-8 sm:w-10 sm:h-10" />
                 <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[9px] font-mono font-bold rounded bg-stone-900/80 text-white">
+=======
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500 relative">
+                <User className="w-8 h-8 sm:w-10 sm:h-10" />
+                <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[9px] font-mono font-bold rounded bg-amber-500 text-white">
+>>>>>>> main
                   MOCK
                 </span>
               </div>
@@ -153,34 +163,54 @@ export function ProductShowcase() {
                 <div className="flex items-center gap-2">
                   <h4 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-white">
                     {activeCardTab === 'minister'
+<<<<<<< HEAD
                       ? (lang === 'hi' ? 'विक्रमादित्य वर्मा (काल्पनिक मंत्री)' : 'Vikramaditya Verma (Sample Minister)')
                       : (lang === 'hi' ? 'राजेश कुमार (काल्पनिक सांसद)' : 'Rajesh Kumar (Sample MP)')}
                   </h4>
                   <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
                     {lang === 'hi' ? 'निर्दलीय (काल्पनिक)' : 'IND (Sample)'}
+=======
+                      ? (lang === 'hi' ? 'लीडर 1 (काल्पनिक मंत्री)' : 'Leader 1 (Sample Minister)')
+                      : (lang === 'hi' ? 'लीडर 1 (काल्पनिक सांसद)' : 'Leader 1 (Sample MP)')}
+                  </h4>
+                  <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
+                    {lang === 'hi' ? 'नमूना दल' : 'Sample Party'}
+>>>>>>> main
                   </span>
                 </div>
                 <p className="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-stone-400" />
+<<<<<<< HEAD
                   <span>
                     {activeCardTab === 'minister'
                       ? (lang === 'hi' ? 'काल्पनिक निर्वाचन क्षेत्र (पश्चिम अंचल)' : 'Sample Constituency (West Region)')
                       : (lang === 'hi' ? 'काल्पनिक संसदीय क्षेत्र (उत्तर अंचल)' : 'Sample Parliamentary Constituency (North)')}
                   </span>
+=======
+                  <span>{lang === 'hi' ? 'काल्पनिक संसदीय क्षेत्र (जोन ए)' : 'Sample Parliamentary Constituency (Zone A)'}</span>
+>>>>>>> main
                   <span>·</span>
                   <span>18th Lok Sabha (2024–29)</span>
                 </p>
                 {activeCardTab === 'minister' && (
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-300 text-[11px] font-bold border border-purple-500/20">
                     <ShieldCheck className="w-3.5 h-3.5" />
+<<<<<<< HEAD
                     <span>{lang === 'hi' ? 'केंद्रीय राज्य मंत्री (काल्पनिक प्रभार)' : 'Union Minister of State (Sample Portfolio)'}</span>
+=======
+                    <span>{lang === 'hi' ? 'केंद्रीय मंत्री (काल्पनिक प्रभार)' : 'Union Minister of State (Illustrative Portfolio)'}</span>
+>>>>>>> main
                   </div>
                 )}
               </div>
             </div>
 
             <div className="text-xs font-mono text-stone-500 bg-white dark:bg-[#121A26] px-3 py-2 rounded-xl border border-stone-200 dark:border-[#222E42]">
+<<<<<<< HEAD
               {lang === 'hi' ? 'सिस्टम प्रदर्शन · काल्पनिक नमूना डेटा' : 'System Demo · Fictional Sample Data'}
+=======
+              {lang === 'hi' ? 'इलस्ट्रेटिव नमूना डेटा · केवल पूर्वावलोकन हेतु' : 'Illustrative Mock Data · For UI Preview Only'}
+>>>>>>> main
             </div>
           </div>
 
@@ -429,30 +459,52 @@ export function ProductShowcase() {
           <div className="grid grid-cols-2 gap-4 pb-4 border-b border-stone-100 dark:border-[#1E293B]">
             {/* MP 1 */}
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
+=======
+              <div className="w-12 h-12 rounded-xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500">
+>>>>>>> main
                 <User className="w-6 h-6" />
               </div>
               <div>
                 <h5 className="font-bold text-stone-900 dark:text-white text-sm">
+<<<<<<< HEAD
                   {lang === 'hi' ? 'आरव मेहता (सांसद क)' : 'Aarav Mehta (Sample MP A)'}
                 </h5>
                 <p className="text-xs text-stone-500">
                   {lang === 'hi' ? 'काल्पनिक क्षेत्र 1 · निर्दलीय' : 'Sample North Seat · IND'}
+=======
+                  {lang === 'hi' ? 'लीडर 1' : 'Leader 1'}
+                </h5>
+                <p className="text-xs text-stone-500">
+                  {lang === 'hi' ? 'काल्पनिक क्षेत्र ए · दल 1' : 'Sample Constituency A · Party 1'}
+>>>>>>> main
                 </p>
               </div>
             </div>
 
             {/* MP 2 */}
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+=======
+              <div className="w-12 h-12 rounded-xl bg-stone-200/70 dark:bg-[#1E2636] border border-stone-300/80 dark:border-[#2A384F] flex items-center justify-center shrink-0 text-stone-400 dark:text-stone-500">
+>>>>>>> main
                 <User className="w-6 h-6" />
               </div>
               <div>
                 <h5 className="font-bold text-stone-900 dark:text-white text-sm">
+<<<<<<< HEAD
                   {lang === 'hi' ? 'प्रिया सेन (सांसद ख)' : 'Priya Sen (Sample MP B)'}
                 </h5>
                 <p className="text-xs text-stone-500">
                   {lang === 'hi' ? 'काल्पनिक क्षेत्र 2 · निर्दलीय' : 'Sample South Seat · IND'}
+=======
+                  {lang === 'hi' ? 'लीडर 2' : 'Leader 2'}
+                </h5>
+                <p className="text-xs text-stone-500">
+                  {lang === 'hi' ? 'काल्पनिक क्षेत्र बी · दल 2' : 'Sample Constituency B · Party 2'}
+>>>>>>> main
                 </p>
               </div>
             </div>
@@ -494,7 +546,9 @@ export function ProductShowcase() {
           </div>
 
           <p className="text-[11px] text-stone-500 font-mono text-center">
-            ✓ Strictly neutral alignment: No winner badges, ranking stars, or subjective color judgments.
+            {lang === 'hi'
+              ? '✓ पूर्णतः निष्पक्ष प्रस्तुति: लीडर 1 और लीडर 2 के बीच बिना किसी रैंकिंग या विजेता बैज का वर्णनात्मक तुलनात्मक मॉडल।'
+              : '✓ Strictly neutral alignment: Illustrative comparison between Leader 1 and Leader 2 with no winner badges, ranking stars, or subjective scoring.'}
           </p>
         </div>
       </section>
