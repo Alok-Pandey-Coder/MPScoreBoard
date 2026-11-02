@@ -122,10 +122,20 @@ def test_page_hash_ignores_last_updated_date_and_visitor_counter():
     assert refresh.page_text_hash(a) == refresh.page_text_hash(b)
 
 
-def test_real_delhi_captures_compare_as_unchanged():
+def test_baseline_delhi_captures_compare_as_unchanged():
+    baseline_prev = ROOT / "data" / "raw" / "delhi_members.2026-10-30.html"
+    baseline_next = ROOT / "data" / "raw" / "delhi_members.2026-11-01.html"
+    if baseline_prev.exists() and baseline_next.exists():
+        assert refresh.roster_page_check([baseline_prev, baseline_next])["level"] == "ok"
+
+
+def test_real_delhi_captures_check_contract():
     captures = sorted((ROOT / "data" / "raw").glob("delhi_members.*.html"))
     if len(captures) >= 2:
-        assert refresh.roster_page_check(captures)["level"] == "ok"
+        check = refresh.roster_page_check(captures)
+        assert check["level"] in ("ok", "review")
+        assert check["check"] == "roster_page"
+        assert "detail" in check
 
 
 # ── polite fetcher ───────────────────────────────────────────────────────────

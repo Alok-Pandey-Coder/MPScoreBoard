@@ -160,7 +160,8 @@ def page_text_hash(html: bytes) -> str:
     text = re.sub(rb"<(script|style)[\s\S]*?</\1>", b" ", html, flags=re.I)
     text = re.sub(rb"<[^>]+>", b" ", text)
     text = re.sub(rb"\b\d{1,4}[/.-]\d{1,2}[/.-]\d{1,4}\b", b" ", text)  # dates
-    text = re.sub(rb"\b\d+\b", b" ", text)  # counters and other bare numbers
+    text = re.sub(rb"\b\d{1,2}:\d{2}(?::\d{2})?\s*(?:am|pm)?\b", b" ", text, flags=re.I)  # timestamps
+    text = re.sub(rb"\b\d[\d,]*\b", b" ", text)  # counters and other bare numbers
     return hashlib.sha256(re.sub(rb"\s+", b" ", text).strip()).hexdigest()
 
 

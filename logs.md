@@ -1433,6 +1433,22 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - The file stays in git history; it is the provider's public CA chain, not a secret.
   - Add the repository secret `DATABASE_CA_CERT` before the next `db-load` run, or the load will fail certificate verification.
 
+## 2026-11-01 — Fix disclaimer card styling and context-aware heading on About page
+
+- **Summary:**
+  - Replaced forced dark background (`bg-stone-900`) on the Legal & Academic Disclaimer card with theme-adaptive styling (`bg-white dark:bg-[#121A26] border border-stone-200 dark:border-[#202C3F]`) so it blends seamlessly into light mode without creating a jarring black box.
+  - Made the disclaimer heading context-aware: removes the orphaned `"8. "` section number prefix on the Product Tour tab while keeping the full heading on the Data methodology tab.
+  - Improved contrast of snapshot version text and GitHub feedback link in both light and dark themes.
+- **Files or areas changed:**
+  - `app/about/AboutContent.tsx`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest __tests__/i18n-pages.test.ts`: 224 passed.
+  - `python -m pytest tests -q`: 55 passed.
+- **Remaining caveat or next step:**
+  - Committed on feature branch.
+
 ## 2026-11-02 — Fix initial scroll position on /chat page
 
 - **Summary:**
@@ -1447,4 +1463,23 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `npx jest __tests__/ai-chat.test.ts`: 8/8 passed.
   - `python -m pytest tests -q`: 55 passed.
 - **Remaining caveat or next step:**
-  - Committed locally on `fix/chat-page-scroll-top` without pushing, per user instructions.
+  - Merged via PR #22.
+
+## 2026-11-02 — Fix refresh cronjob contract tests and page text hashing
+
+- **Summary:**
+  - Resolved failure in the daily data refresh GitHub Actions cronjob where advisory `level: "review"` on the Delhi roster page caused `test_real_delhi_captures_compare_as_unchanged` and `test_refresh_checks_every_state` to throw assertion errors, aborting the workflow before a review PR could be created.
+  - Replaced the brittle assertion on real dynamic disk captures with `test_baseline_delhi_captures_compare_as_unchanged` (which guarantees the checked-in baseline fixtures compare cleanly) and `test_real_delhi_captures_check_contract` (which verifies schema contract without failing on expected advisory review flags).
+  - Updated `test_refresh_checks_every_state` to assert strict `ok` status specifically on official Digital Sansad member records while allowing state roster page change monitors to report advisory `review` levels.
+  - Enhanced `page_text_hash` in `scripts/refresh.py` to strip timestamps (`hh:mm:ss am/pm`) and comma-formatted integers (`1,234,567`) to eliminate false-positive page-change reviews triggered by daily visitor count formatting.
+- **Files or areas changed:**
+  - `scripts/refresh.py`
+  - `tests/test_refresh.py`
+  - `tests/test_states.py`
+  - `logs.md`
+- **Validation performed:**
+  - `python -m pytest tests -q`: 56 passed.
+  - `npx jest`: 746 passed across 15 test suites.
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+- **Remaining caveat or next step:**
+  - Branch ready for review and pull request.
