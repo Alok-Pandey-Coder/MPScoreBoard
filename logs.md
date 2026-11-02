@@ -1483,3 +1483,22 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `npx tsc --noEmit`: 0 TypeScript errors.
 - **Remaining caveat or next step:**
   - Branch ready for review and pull request.
+
+## 2026-11-02 — Render rich markdown formatting in JanSeva AI chat responses
+
+- **Summary:**
+  - Integrated `react-markdown` and `remark-gfm` with `@tailwindcss/typography` in the JanSeva AI chat client.
+  - Formats markdown elements from the AI (bold text, lists, section headers, tables, links, and horizontal rules) into styled typography elements instead of displaying raw asterisks (`**`), dashes (`*`), and markdown syntax.
+  - Styled prose components specifically for dark and light modes, preserving brand colors (`prose-a:text-amber-600`, amber inline code chips, subtle separators).
+- **Files or areas changed:**
+  - `components/chat/ChatClient.tsx`
+  - `tailwind.config.js`
+  - `package.json`
+  - `package-lock.json`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest __tests__/ai-chat.test.ts`: 8/8 passed.
+  - `python -m pytest tests -q`: 56 passed.
+- **Remaining caveat or next step:**
+  - Ready for commit and push to PR #23.

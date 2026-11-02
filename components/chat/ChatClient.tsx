@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   Sparkles,
   Send,
@@ -333,9 +335,21 @@ export const ChatClient: React.FC<ChatClientProps> = ({ initialMpSlug = '' }) =>
                   }`}
                 >
                   {/* Message Content */}
-                  <div className="whitespace-pre-wrap font-sans space-y-2">
-                    {m.content}
-                  </div>
+                  {isUser ? (
+                    <div className="whitespace-pre-wrap font-sans">{m.content}</div>
+                  ) : (
+                    <div className="prose prose-sm dark:prose-invert max-w-none font-sans
+                      prose-p:my-1 prose-p:leading-relaxed
+                      prose-headings:font-semibold prose-headings:my-2
+                      prose-ul:my-1 prose-ul:pl-4
+                      prose-ol:my-1 prose-ol:pl-4
+                      prose-li:my-0.5
+                      prose-strong:font-semibold
+                      prose-a:text-amber-600 dark:prose-a:text-amber-400 prose-a:underline
+                      prose-code:text-amber-700 dark:prose-code:text-amber-300 prose-code:bg-amber-50 dark:prose-code:bg-amber-900/20 prose-code:rounded prose-code:px-1 prose-hr:my-2.5 prose-hr:border-stone-200 dark:prose-hr:border-[#222E42]">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                    </div>
+                  )}
 
                   {/* Sources & Citations Footer for Assistant */}
                   {!isUser && m.sources && m.sources.length > 0 && (
