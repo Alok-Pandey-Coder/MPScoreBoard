@@ -1432,3 +1432,19 @@ This file records key data changes, pipeline updates, schema modifications, and 
 - **Remaining caveat or next step:**
   - The file stays in git history; it is the provider's public CA chain, not a secret.
   - Add the repository secret `DATABASE_CA_CERT` before the next `db-load` run, or the load will fail certificate verification.
+
+## 2026-11-02 — Fix initial scroll position on /chat page
+
+- **Summary:**
+  - Resolved an issue on `/chat` where page load automatically scrolled the entire browser window down to the input bar, cutting off the header, language toggle, MP focus dropdown, and suggested inquiries.
+  - Replaced `messagesEndRef.current?.scrollIntoView()` with container-level scrolling (`messagesContainerRef.current.scrollTo({ top: ... })`) so only the messages overflow div scrolls, never the document window.
+  - Prevented auto-scrolling on initial mount using `isInitialMount.current` and explicitly ensured `window.scrollTo({ top: 0, left: 0 })` on page load.
+- **Files or areas changed:**
+  - `components/chat/ChatClient.tsx`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `npx jest __tests__/ai-chat.test.ts`: 8/8 passed.
+  - `python -m pytest tests -q`: 55 passed.
+- **Remaining caveat or next step:**
+  - Committed locally on `fix/chat-page-scroll-top` without pushing, per user instructions.

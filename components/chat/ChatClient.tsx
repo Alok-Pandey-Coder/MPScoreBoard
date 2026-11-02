@@ -88,14 +88,31 @@ export const ChatClient: React.FC<ChatClientProps> = ({ initialMpSlug = '' }) =>
     },
   ]);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // Guarantee that navigating to /chat always shows the page from the very top
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, []);
+
+  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior,
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    scrollToBottom('smooth');
   }, [messages, loading]);
 
   const handleSend = async (queryText?: string) => {
@@ -294,7 +311,7 @@ export const ChatClient: React.FC<ChatClientProps> = ({ initialMpSlug = '' }) =>
       {/* Chat Thread Container */}
       <div className="rounded-2xl border border-stone-200 dark:border-[#1E2636] bg-white dark:bg-[#0D121F] shadow-sm flex flex-col h-[520px] sm:h-[580px] overflow-hidden">
         {/* Messages Scroll Area */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
           {messages.map((m) => {
             const isUser = m.role === 'user';
             return (
@@ -389,7 +406,6 @@ export const ChatClient: React.FC<ChatClientProps> = ({ initialMpSlug = '' }) =>
               </div>
             </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Bar */}
