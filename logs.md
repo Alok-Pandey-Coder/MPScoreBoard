@@ -1519,3 +1519,26 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `python -m pytest tests -q`: 56 passed.
 - **Remaining caveat or next step:**
   - Committed on feature branch `fix/about-page-preview-data-consistency`.
+
+
+## 2026-11-02 — Fictional mock leader showcase, 800+ test count unification, and chat markdown rendering
+
+- **Summary:**
+  - Replaced all real MP identities in the About page's interactive previews (`components/about/ProductShowcase.tsx`) with clearly labeled fictional mock representatives (`Rajesh Kumar (Sample MP)`, `Vikramaditya Verma (Sample Minister)`, `Aarav Mehta (Sample MP A)`, and `Priya Sen (Sample MP B)`).
+  - Used neutral styled avatar silhouettes with a `MOCK` badge instead of real portraits to eliminate any possibility of confusion between live report cards and illustrative previews.
+  - Harmonized automated test figures across `README.md` and `DataPipelineShowcase.tsx` to **800+ Automated Tests (746 Jest + 56 pytest)**, eliminating discrepancies across platforms.
+  - Added `react-markdown` and `remark-gfm` styling to `FloatingChatButton.tsx` matching `ChatClient.tsx`, ensuring bold text, bulleted lists, and tables render smoothly without showing raw markup asterisks.
+  - Fortified `/chat` page initialization with multi-phase scroll-to-top (`window.scrollTo`, `requestAnimationFrame`, and post-mount timer) to guarantee the page always opens cleanly at the top.
+- **Files or areas changed:**
+  - `components/about/ProductShowcase.tsx`
+  - `components/about/DataPipelineShowcase.tsx`
+  - `README.md`
+  - `components/chat/FloatingChatButton.tsx`
+  - `components/chat/ChatClient.tsx`
+  - `logs.md`
+- **Validation performed:**
+  - `npx tsc --noEmit`: 0 TypeScript errors.
+  - `python -m pytest tests -q`: 56 passed.
+  - `npx jest`: 746 passed (1 skipped, 15 suites passed).
+- **Remaining caveat or next step:**
+  - Ready for local commit and confirmation prior to push.

@@ -49,8 +49,8 @@ export function DataPipelineShowcase() {
     {
       step: '05',
       title: 'Invariant Validation',
-      desc: 'Automated 07_validate.py suite enforces: null never zero, ministers not applicable, attendance ≤ 100%, cross-check tolerance.',
-      badge: '55 Automated Tests',
+      desc: 'Automated validation suite (part of 800+ automated tests across 746 Jest and 56 pytest checks) enforces: null never zero, ministers not applicable, attendance ≤ 100%, and cross-check tolerance.',
+      badge: '800+ Automated Tests',
     },
   ];
 

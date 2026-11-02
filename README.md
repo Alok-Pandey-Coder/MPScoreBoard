@@ -5,7 +5,7 @@
 [![Status](https://img.shields.io/badge/Status-Live%20Pilot-22c55e?style=flat-square)](https://mp-score-board.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/Tests-670%2B%20Automated-22c55e?style=flat-square)](./__tests__)
+[![Tests](https://img.shields.io/badge/Tests-800%2B%20Automated-22c55e?style=flat-square)](./__tests__)
 [![License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)](./LICENSE)
 [![Data](https://img.shields.io/badge/Data-Open%20%26%20Sourced-6366f1?style=flat-square)](./data.md)
 
@@ -35,7 +35,7 @@
 |---|---|
 | **Delhi** | 7 / 7 MPs audited, interactive ward-level map, "Find my constituency" by pincode or location |
 | **Goa** | 2 / 2 MPs audited, its own constituency map and location lookup, proving the pipeline works across states |
-| **Quality** | 670+ automated tests, 7-step idempotent data pipeline |
+| **Quality** | 800+ automated tests (746 Jest + 56 pytest), 7-step idempotent data pipeline |
 | **Access** | Bilingual (English / हिन्दी), mobile-first, WCAG 2.2 AA-oriented |
 
 ---
@@ -142,7 +142,7 @@ The pipeline is **idempotent** and **database-optional**. By default it runs fro
 | Maps / GIS | Leaflet 1.9 + ESRI tiles, custom Python GeoJSON processing |
 | Data pipeline | Python 3 scripts, flat-JSON snapshot, optional YugabyteDB / PostgreSQL |
 | AI | Gemini API (input-constrained summaries) |
-| Testing | Jest (670+ tests) and pytest for the data pipeline |
+| Testing | Jest (746 contract & UI tests) and pytest (56 pipeline & validation tests) |
 | Deployment | Vercel ([live app](https://mp-score-board.vercel.app/)) / Node.js |
 
 ---
@@ -220,7 +220,7 @@ npm run data:refresh    # fetch sources and rebuild (network)
 |---|---|
 | **Innovation** | A neutral MP report card with an input-constrained AI summariser and pincode / location-based constituency lookup. |
 | **Impact** | Helps first-time and non-technical voters find and verify their MP in seconds. Delhi alone has over 14M voters. |
-| **Technical depth** | 7-step idempotent pipeline, cross-source validation, 670+ tests, GIS with hundreds of polygons. |
+| **Technical depth** | 7-step idempotent pipeline, cross-source validation, 800+ automated tests, GIS with hundreds of polygons. |
 | **Social value** | Strict neutrality rules, bilingual, accessible, and no scores or rankings that could mislead. |
 | **Scalability** | Proven on 2 states with no redesign and deployed at [mp-score-board.vercel.app](https://mp-score-board.vercel.app/); architected for all 543 seats. |
 | **Data quality** | Every fact has a primary-source URL and retrieval date. |

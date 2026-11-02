@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   Sparkles,
   X,
@@ -167,13 +169,26 @@ export const FloatingChatButton: React.FC = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[85%] rounded-xl p-3 leading-relaxed whitespace-pre-wrap ${
+                    className={`max-w-[85%] rounded-xl p-3 leading-relaxed ${
                       isUser
-                        ? 'bg-amber-500 text-white rounded-tr-none'
+                        ? 'bg-amber-500 text-white rounded-tr-none whitespace-pre-wrap'
                         : 'bg-stone-100 dark:bg-[#161D2A] text-stone-900 dark:text-stone-100 border border-stone-200/60 dark:border-[#222E42] rounded-tl-none'
                     }`}
                   >
-                    {m.content}
+                    {isUser ? (
+                      m.content
+                    ) : (
+                      <div className="prose prose-xs dark:prose-invert max-w-none font-sans
+                        prose-p:my-1 prose-p:leading-relaxed
+                        prose-headings:font-semibold prose-headings:my-1.5
+                        prose-ul:my-1 prose-ul:pl-3
+                        prose-ol:my-1 prose-ol:pl-3
+                        prose-li:my-0.5
+                        prose-strong:font-semibold
+                        prose-a:text-amber-600 dark:prose-a:text-amber-400 prose-a:underline">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                      </div>
+                    )}
                     {!isUser && m.sources && m.sources.length > 0 && (
                       <div className="mt-2 pt-2 border-t border-stone-200/40 dark:border-[#222E42] flex flex-wrap gap-1 text-[10px] text-stone-500 dark:text-stone-400">
                         {m.sources.map((s, sIdx) => (
