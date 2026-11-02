@@ -59,7 +59,7 @@
 
 | Role | Source | Raw capture | Units | Review status |
 |---|---|---|---|---|
-| Primary (published, labelled secondary) | **Empowered Indian (aggregating MoSPI eSAKSHI)** — `api.empoweredindian.in/api/mplads/mps/{id}` and `/works`; MP pages `https://empoweredindian.in/mps/{id}` | `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` (latest dated capture is picked automatically) | Rupees | `secondary_only` |
+| Primary (published, labelled secondary) | **Empowered Indian (aggregating MoSPI eSAKSHI)** — `api.empoweredindian.in/api/mplads/mps/{id}` and `/works`; MP pages `https://empoweredindian.in/mplads/mps/{slug}` | `data/raw/mplads.delhi.empoweredindian.2026-10-31.json` (latest dated capture is picked automatically) | Rupees | `secondary_only` |
 | Cross-check only | **JanWatchdog** — `https://www.janwatchdog.in/mplads/delhi` (secondary aggregator citing the MoSPI MPLADS dashboard), snapshot 2026-10-06 | `data/raw/mplads.delhi.janwatchdog.2026-10-06.csv` | Crore | Not published; shown only as `cross_check` |
 | Official (pending) | MoSPI eSAKSHI dashboard `mplads.mospi.gov.in` / `mplads.gov.in` | none — `mplads.gov.in` refused connections on 2026-10-31 | — | — |
 

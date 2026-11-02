@@ -1542,3 +1542,30 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `npx jest`: 746 passed (1 skipped, 15 suites passed).
 - **Remaining caveat or next step:**
   - Ready for local commit and confirmation prior to push.
+
+
+## 2026-11-02 — Fix Empowered Indian MPLADS source links from 404 to canonical public route
+
+- **Summary:**
+  - Resolved broken 404 source links on MP profile pages where the MPLADS source link previously pointed to `https://empoweredindian.in/mps/<hash>` instead of the live public route `https://empoweredindian.in/mplads/mps/<slug>`.
+  - Updated `scripts/09_intake_mplads.py` with canonical URL mappings for all 7 Delhi MPs (e.g. `https://empoweredindian.in/mplads/mps/manoj-tiwari-north-east-delhi-delhi-18th-lok-sabha`), ensuring public links resolve with HTTP 200.
+  - Updated `scripts/fetch_empowered_delhi.py` to ensure future API fetches generate the canonical public route format.
+  - Rebuilt normalized records with `python scripts/build_data.py`, regenerating `data/processed/mplads.delhi.json`, `data/processed/mps.json`, and `data/processed/snapshot.json`.
+  - Added test assertions in `tests/test_mplads.py` verifying that all Delhi MPLADS source URLs point to `https://empoweredindian.in/mplads/mps/` and exclude the dead `/mps/<hash>` pattern.
+- **Files or areas changed:**
+  - `scripts/09_intake_mplads.py`
+  - `scripts/fetch_empowered_delhi.py`
+  - `docs/dataSources.md`
+  - `data/processed/mplads.delhi.json`
+  - `data/processed/mps.json`
+  - `data/processed/snapshot.json`
+  - `tests/test_mplads.py`
+  - `tests/test_states.py`
+  - `logs.md`
+- **Validation performed:**
+  - Verified HTTP 200 status for all 7 canonical Empowered Indian MPLADS URLs.
+  - `python -m pytest tests -q`: 56 passed.
+  - `npx jest`: 746 passed (1 skipped, 15 suites passed).
+  - `npx tsc --noEmit`: 0 errors.
+- **Remaining caveat or next step:**
+  - Ready for local commit and confirmation prior to push.

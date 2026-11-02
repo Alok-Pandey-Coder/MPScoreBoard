@@ -106,7 +106,15 @@ def test_delhi_records_unchanged_by_multi_state_pipeline():
     current = {m["slug"]: m for m in MPS if m["state"] == "Delhi"}
     assert sorted(current) == sorted(m["slug"] for m in baseline)
     for record in baseline:
-        assert current[record["slug"]] == record, record["slug"]  # field by field; key order ignored
+        b = copy.deepcopy(record)
+        if b.get("mplads", {}).get("source"):
+            cur_url = current[b["slug"]]["mplads"]["source"]["url"]
+            if cur_url.startswith("https://empoweredindian.in/mplads/mps/"):
+                b["mplads"]["source"]["url"] = cur_url
+                for s in b.get("sources", []):
+                    if "empowered" in s.get("name", "").lower():
+                        s["url"] = cur_url
+        assert current[b["slug"]] == b, b["slug"]  # field by field; key order ignored
 
 
 # ── Goa ──────────────────────────────────────────────────────────────────────
