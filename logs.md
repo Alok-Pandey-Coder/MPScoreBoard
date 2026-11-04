@@ -1569,3 +1569,54 @@ This file records key data changes, pipeline updates, schema modifications, and 
   - `npx tsc --noEmit`: 0 errors.
 - **Remaining caveat or next step:**
   - Ready for local commit and confirmation prior to push.
+
+
+## 2026-11-04 — Fix civic jurisdiction and MLA data grounding in CI for JanSeva AI chat
+
+- **Summary:**
+  - Resolved CI test failure in `__tests__/ai-chat.test.ts` where `searchLocalCivicRecords` failed to locate MLA records in clean CI checkouts (e.g. Rohini MLA Vijender Gupta) because the loader previously depended solely on `meko_datapack` (which is excluded by `.gitignore`).
+  - Updated `lib/ai/localSearch.ts` to load MLA rosters and AC-to-PC mapping with a resilient tiered strategy:
+    1. Primary: load directly from tracked `data/processed/delhi_regional_hierarchy.json` (7 PCs × 10 MLAs = 70 MLAs).
+    2. Secondary fallback: load from tracked reference packs `data/reference_packs/officials_enriched_pack/data/mla_constituency_roster.csv` and `data/reference_packs/delhi_jurisdiction_collection_01/assembly_to_parliamentary_mapping.csv`.
+    3. Tertiary fallback: fall back to local `meko_datapack` CSVs if present.
+  - Enhanced search matching in `searchLocalCivicRecords` to clean reservation tags (e.g. `(SC)`), match queries against constituency names, and match against MLA names.
+  - Populated 3 previously null MLA entries in `data/processed/delhi_regional_hierarchy.json` (AC 10 Sultan Pur Majra: Mukesh Kumar Ahlawat [AAP], AC 39 Rajinder Nagar: Umang Bajaj [BJP], AC 63 Seemapuri: Veer Singh Dhingan [AAP]) using verified 2025 election affidavit records from `mla_affidavit_enrichment.csv`.
+  - Updated `data.md` master catalog describing the role of `delhi_regional_hierarchy.json` in civic query grounding.
+- **Files or areas changed:**
+  - `lib/ai/localSearch.ts`
+  - `data/processed/delhi_regional_hierarchy.json`
+  - `data.md`
+  - `logs.md`
+- **Validation performed:**
+  - Simulated clean checkout environment (without `meko_datapack`): `npx jest __tests__/ai-chat.test.ts` passed 8/8 tests.
+  - Full test suite: `npx jest` passed 746/747 tests (15 passed suites, 1 skipped).
+  - Python tests: `python -m pytest tests -q` passed 56/56 tests.
+  - Daily refresh validation: `python scripts/refresh.py --no-fetch` passed validation with 0 errors and 0 needs-review flags.
+  - TypeScript check: `npx tsc --noEmit` passed with 0 errors.
+- **Remaining caveat or next step:**
+  - Changes isolated on feature branch `fix-local-civic-search`. Ready for review.
+
+
+## 2026-11-04 — Harden local civic search, works isolation, and multi-area MLA query grounding
+
+- **Summary:**
+  - Conducted adversarial audit of the JanSeva AI civic search grounding (`lib/ai/localSearch.ts`).
+  - Identified and fixed a fatal functional bug where generic search tokens (such as `park`, `gym`, `development`, `which`, `works`) in local queries caused works from unrelated Parliamentary Constituencies (e.g. Chandni Chowk) to drown out works in the queried locality (e.g. Rohini).
+  - Implemented an expanded `STOP_WORDS` filter and strict locality-first relevance scoring so that when an area is queried, works matching that area or its parent Lok Sabha PC are prioritized and unrelated constituencies are strictly excluded.
+  - Eliminated premature `break` in AC/MLA matching, enabling queries that ask about multiple areas or multiple MLAs (e.g. Rohini and Shalimar Bagh) to return all matching civic jurisdiction records (capped at 5).
+  - Attached Sitting Lok Sabha MP name and party directly to the civic jurisdiction record chunk, fulfilling rule 8 of `SYSTEM_PROMPT_CHAT` across all 3 civic tiers (MP, MLA, MCD).
+  - Added robust AC name normalization (`cleanName`, `compactName`) to handle spacing and spelling variants (e.g. "Sultanpur Majra" vs "Sultan Pur Majra (SC)", "Narela" vs "Nerela").
+  - Dynamically resolved the latest Empowered Indian MPLADS raw capture file rather than relying on a hardcoded date.
+  - Added 4 new automated unit tests in `__tests__/ai-chat.test.ts` covering multi-area queries, MLA name search, space-insensitive matching, and works locality isolation.
+- **Files or areas changed:**
+  - `lib/ai/localSearch.ts`
+  - `__tests__/ai-chat.test.ts`
+  - `logs.md`
+- **Validation performed:**
+  - `npx jest __tests__/ai-chat.test.ts`: 12/12 passed (including all 4 new edge case tests).
+  - `npx jest`: 15 passed test suites, 1 skipped, 750 passed tests.
+  - `python -m pytest tests -q`: 56 passed in 0.28s.
+  - `python scripts/07_validate.py`: 0 hard errors, 12 expected advisory warnings.
+  - `npx tsc --noEmit`: 0 TypeScript compilation errors.
+- **Remaining caveat or next step:**
+  - Changes are local on feature branch `fix-local-civic-search`. Awaiting confirmation prior to git push per repository rules.

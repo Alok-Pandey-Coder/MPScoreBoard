@@ -56,3 +56,6 @@ __pycache__/
 
 # Database CA certificate (downloaded from the Aeon console; see docs/deploy.md)
 certs/
+
+# runner logs
+logs_*/

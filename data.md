@@ -25,7 +25,7 @@ d:\MPScoreBoard\data\
 │   ├── state_images.json                # Monument/emblem picture per state card (file under public/images/states/, subject, source URL, licence, author, retrieved date); empty until pictures are added; read by lib/stateImages.ts, credits shown on /about
 │   ├── goa_pc.geojson                   # 2 Goa Lok Sabha PC polygons (DataMeet 2019, CC-BY-4.0, unchanged for the 18th LS); slug = MP slug; served by /api/geojson?state=goa; built by scripts/build_state_pc_geojson.py from raw/india_pc_2019_simplified.geojson
 │   ├── delhi_pc_boundaries.geojson      # 7 Delhi Lok Sabha PC boundaries (DataMeet CC-BY-4.0); input to the geo build scripts, not read by the app
-│   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs with affidavit & party data; NOT read by the app (out of current scope)
+│   ├── delhi_regional_hierarchy.json    # 7 PCs × 10 MLAs (all 70 Delhi MLAs with affidavit & party data); read by lib/ai/localSearch.ts for hyper-local civic and MLA query grounding
 │   ├── delhiConstituenciesGeo.json      # 7 Delhi Lok Sabha constituencies GeoJSON with centroids; NOT read by the app (superseded by delhi_pc.json)
 │   ├── prs.parsed.delhi.json            # Intermediate PRS parse (03_parse_prs.py)
 │   ├── prs.parsed.goa.json              # Intermediate PRS parse for Goa (03_parse_prs.py)

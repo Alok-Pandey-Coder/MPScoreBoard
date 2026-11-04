@@ -1,6 +1,5 @@
 import { searchMekoKnowledgeBase } from '../lib/ai/meko';
 import { searchLocalCivicRecords } from '../lib/ai/localSearch';
-import { generateChatResponse, type ChatMessage } from '../lib/ai/chat';
 import { containsBannedWords, isAiLang } from '../lib/ai/summary';
 import { NextRequest } from 'next/server';
 import { POST } from '../app/api/chat/route';
@@ -14,6 +13,41 @@ describe('JanSeva AI / Chat with AI Unit Tests', () => {
       expect(text.toLowerCase()).toContain('rohini');
       expect(text).toContain('Vijender Gupta');
       expect(text).toContain('Work ID #');
+      expect(text).toContain('Sitting Lok Sabha MP: Yogender Chandolia');
+    });
+
+    it('retrieves multiple MLAs when a query specifies more than one constituency', () => {
+      const chunks = searchLocalCivicRecords('Who are the MLAs for Rohini and Shalimar Bagh?');
+      const text = chunks.map(c => c.chunk_text).join(' ');
+      expect(text).toContain('Vijender Gupta');
+      expect(text).toContain('Rekha Gupta');
+      expect(chunks.length).toBeGreaterThanOrEqual(2);
+    });
+
+    it('matches MLAs by name or alias', () => {
+      const chunks = searchLocalCivicRecords('What is the jurisdiction of Vijender Gupta?');
+      expect(chunks.length).toBeGreaterThan(0);
+      const mlaChunk = chunks.find(c => c.id.startsWith('local-mla-'));
+      expect(mlaChunk).toBeDefined();
+      expect(mlaChunk?.chunk_text).toContain('AC-13 Rohini');
+      expect(mlaChunk?.chunk_text).toContain('Vijender Gupta');
+    });
+
+    it('handles spelling and space variants like Sultanpur Majra', () => {
+      const chunks = searchLocalCivicRecords('Who is the MLA of Sultanpur Majra?');
+      const text = chunks.map(c => c.chunk_text).join(' ');
+      expect(text).toContain('Mukesh Kumar Ahlawat');
+      expect(text).toContain('AC-10');
+    });
+
+    it('confines works to queried locality without returning irrelevant works from other PCs', () => {
+      const chunks = searchLocalCivicRecords('Which park or gym works are in Rohini?');
+      const worksChunk = chunks.find(c => c.id === 'local-mplads-matches');
+      expect(worksChunk).toBeDefined();
+      expect(worksChunk?.chunk_text.toLowerCase()).toContain('rohini');
+      expect(worksChunk?.chunk_text).toContain('North West Delhi');
+      // Must not pollute with Chandni Chowk works
+      expect(worksChunk?.chunk_text).not.toContain('Chandni Chowk');
     });
   });
 
