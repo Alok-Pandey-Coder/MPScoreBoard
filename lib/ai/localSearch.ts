@@ -66,41 +66,110 @@ function loadData() {
 
   // Load MLA & AC mappings
   try {
-    const mlaPath = path.join(process.cwd(), 'meko_datapack', '07_delhi_mla_roster.csv');
-    const mapPath = path.join(process.cwd(), 'meko_datapack', '03_delhi_assembly_to_parliament_mapping.csv');
-    
-    const acToPc: Record<string, string> = {};
-    if (fs.existsSync(mapPath)) {
-      const mapLines = fs.readFileSync(mapPath, 'utf-8').split('\n');
-      for (const line of mapLines.slice(1)) {
-        const parts = line.split(',');
-        if (parts.length >= 2) {
-          acToPc[parts[0].trim().toLowerCase()] = parts[1].trim();
+    const regionalPath = path.join(process.cwd(), 'data', 'processed', 'delhi_regional_hierarchy.json');
+    const mappingList: Array<{ ac_no: string; ac_name: string; pc_name: string; mla_name?: string; party?: string }> = [];
+
+    // 1. Primary: load from canonical tracked processed hierarchy
+    if (fs.existsSync(regionalPath)) {
+      try {
+        const pcs = JSON.parse(fs.readFileSync(regionalPath, 'utf-8'));
+        if (Array.isArray(pcs)) {
+          for (const pc of pcs) {
+            const pcName = pc.parliamentary_constituency || 'Delhi';
+            for (const mla of pc.mlas || []) {
+              if (mla.assembly_constituency) {
+                mappingList.push({
+                  ac_no: String(mla.ac_number || ''),
+                  ac_name: mla.assembly_constituency,
+                  pc_name: pcName,
+                  mla_name: mla.mla_name || undefined,
+                  party: mla.party || undefined,
+                });
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('[LocalSearch] Failed to parse delhi_regional_hierarchy.json:', e);
+      }
+    }
+
+    // 2. Secondary fallback: load from tracked officials reference pack
+    if (mappingList.length === 0) {
+      const rosterCsvPath = path.join(process.cwd(), 'data', 'reference_packs', 'officials_enriched_pack', 'data', 'mla_constituency_roster.csv');
+      const acMapCsvPath = path.join(process.cwd(), 'data', 'reference_packs', 'delhi_jurisdiction_collection_01', 'assembly_to_parliamentary_mapping.csv');
+
+      const acToPc: Record<string, string> = {};
+      if (fs.existsSync(acMapCsvPath)) {
+        const mapLines = fs.readFileSync(acMapCsvPath, 'utf-8').split('\n');
+        for (const line of mapLines.slice(1)) {
+          const parts = line.split(',');
+          if (parts.length >= 4) {
+            acToPc[parts[1].trim().toLowerCase()] = parts[3].trim();
+          }
+        }
+      }
+
+      if (fs.existsSync(rosterCsvPath)) {
+        const mlaLines = fs.readFileSync(rosterCsvPath, 'utf-8').split('\n');
+        for (const line of mlaLines.slice(1)) {
+          const parts = line.split(',');
+          if (parts.length >= 4) {
+            const acNo = parts[0].trim();
+            const acName = parts[1].trim();
+            const mlaName = parts[2].trim();
+            const party = parts[3].trim();
+            const pc = acToPc[acName.toLowerCase()] || 'Delhi';
+            mappingList.push({
+              ac_no: acNo,
+              ac_name: acName,
+              pc_name: pc,
+              mla_name: mlaName,
+              party,
+            });
+          }
         }
       }
     }
 
-    const mappingList: Array<{ ac_no: string; ac_name: string; pc_name: string; mla_name?: string; party?: string }> = [];
-    if (fs.existsSync(mlaPath)) {
-      const mlaLines = fs.readFileSync(mlaPath, 'utf-8').split('\n');
-      for (const line of mlaLines.slice(1)) {
-        const parts = line.split(',');
-        if (parts.length >= 6) {
-          const acNo = parts[0].trim();
-          const acName = parts[1].trim();
-          const mlaName = parts[3].trim();
-          const party = parts[5].trim();
-          const pc = acToPc[acName.toLowerCase()] || 'Delhi';
-          mappingList.push({
-            ac_no: acNo,
-            ac_name: acName,
-            pc_name: pc,
-            mla_name: mlaName,
-            party,
-          });
+    // 3. Tertiary fallback: check meko_datapack if present
+    if (mappingList.length === 0) {
+      const mlaPath = path.join(process.cwd(), 'meko_datapack', '07_delhi_mla_roster.csv');
+      const mapPath = path.join(process.cwd(), 'meko_datapack', '03_delhi_assembly_to_parliament_mapping.csv');
+
+      const acToPc: Record<string, string> = {};
+      if (fs.existsSync(mapPath)) {
+        const mapLines = fs.readFileSync(mapPath, 'utf-8').split('\n');
+        for (const line of mapLines.slice(1)) {
+          const parts = line.split(',');
+          if (parts.length >= 2) {
+            acToPc[parts[0].trim().toLowerCase()] = parts[1].trim();
+          }
+        }
+      }
+
+      if (fs.existsSync(mlaPath)) {
+        const mlaLines = fs.readFileSync(mlaPath, 'utf-8').split('\n');
+        for (const line of mlaLines.slice(1)) {
+          const parts = line.split(',');
+          if (parts.length >= 6) {
+            const acNo = parts[0].trim();
+            const acName = parts[1].trim();
+            const mlaName = parts[3].trim();
+            const party = parts[5].trim();
+            const pc = acToPc[acName.toLowerCase()] || 'Delhi';
+            mappingList.push({
+              ac_no: acNo,
+              ac_name: acName,
+              pc_name: pc,
+              mla_name: mlaName,
+              party,
+            });
+          }
         }
       }
     }
+
     cachedAcMapping = mappingList;
   } catch (err) {
     console.warn('[LocalSearch] Failed to load AC mappings:', err);
@@ -117,12 +186,18 @@ export function searchLocalCivicRecords(query: string): MekoKnowledgeChunk[] {
   if (cachedAcMapping) {
     for (const item of cachedAcMapping) {
       const acLower = item.ac_name.toLowerCase();
-      if (q.includes(acLower) || (acLower.length > 3 && q.includes(acLower))) {
+      const cleanAc = acLower.replace(/\s*\((sc|st)\)\s*/g, '').trim();
+      const mlaLower = item.mla_name ? item.mla_name.toLowerCase() : '';
+      if (
+        q.includes(acLower) ||
+        (cleanAc.length > 3 && q.includes(cleanAc)) ||
+        (mlaLower.length > 3 && q.includes(mlaLower))
+      ) {
         chunks.push({
           id: `local-mla-${item.ac_no}`,
           chunk_text: `Delhi Civic Jurisdiction Record:
 - Assembly Constituency: AC-${item.ac_no} ${item.ac_name}
-- Member of Legislative Assembly (MLA): ${item.mla_name} (${item.party})
+- Member of Legislative Assembly (MLA): ${item.mla_name || 'Not reported'} (${item.party || 'Independent'})
 - Parent Lok Sabha Parliamentary Constituency: ${item.pc_name}
 - Municipal Responsibility: Municipal Corporation of Delhi (MCD) local zone & ward councillors handle sanitation, neighborhood parks, and street cleaning.`,
           rerank_score: 0.98,
