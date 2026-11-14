@@ -1,39 +1,107 @@
 {
-  "run_at": "2026-11-01T00:20:35+00:00",
-  "fetch": [],
+  "run_at": "2026-11-14T06:47:44+00:00",
+  "fetch": [
+    {
+      "source": "Digital Sansad member API (official) — Delhi",
+      "ok": true,
+      "result": "✅ saved 7 members (7 reported) -> /home/runner/work/MPScoreBoard/MPScoreBoard/data/raw/sansad.members.delhi.2026-11-14.json"
+    },
+    {
+      "source": "Govt of NCT of Delhi MP list (official)",
+      "ok": true,
+      "result": "✅ saved 48621 bytes -> /home/runner/work/MPScoreBoard/MPScoreBoard/data/raw/delhi_members.2026-11-14.html"
+    },
+    {
+      "source": "PRS MP Track (CC BY 4.0) — Delhi",
+      "ok": true,
+      "result": "✅ saved 7 pages -> /home/runner/work/MPScoreBoard/MPScoreBoard/data/raw/prs.delhi.2026-11-14"
+    },
+    {
+      "source": "Digital Sansad member API (official) — Goa",
+      "ok": true,
+      "result": "✅ saved 2 members (2 reported) -> /home/runner/work/MPScoreBoard/MPScoreBoard/data/raw/sansad.members.goa.2026-11-14.json"
+    },
+    {
+      "source": "PRS MP Track (CC BY 4.0) — Goa",
+      "ok": true,
+      "result": "✅ saved 2 pages -> /home/runner/work/MPScoreBoard/MPScoreBoard/data/raw/prs.goa.2026-11-14"
+    }
+  ],
   "build": "passed validation",
   "official_checks": [
     {
       "level": "ok",
       "check": "official_records",
-      "detail": "All 7 seats for Delhi match the sitting member, name and party on Digital Sansad (2026-11-01).",
+      "detail": "All 7 seats for Delhi match the sitting member, name and party on Digital Sansad (2026-11-14).",
       "state": "Delhi"
     },
     {
       "level": "ok",
       "check": "roster_page",
-      "detail": "Delhi MP list page unchanged (delhi_members.2026-10-30.html → delhi_members.2026-11-01.html).",
+      "detail": "Delhi MP list page unchanged (delhi_members.2026-11-01.html → delhi_members.2026-11-14.html).",
       "state": "Delhi"
     },
     {
       "level": "ok",
       "check": "official_records",
-      "detail": "All 2 seats for Goa match the sitting member, name and party on Digital Sansad (2026-11-01).",
+      "detail": "All 2 seats for Goa match the sitting member, name and party on Digital Sansad (2026-11-14).",
       "state": "Goa"
     }
   ],
   "needs_review": [
     {
+      "seat": "chandni-chowk-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "east-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "new-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "north-east-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
       "seat": "north-goa-goa",
-      "field": "record",
-      "old": "absent",
-      "new": "added"
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "north-west-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "south-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
     },
     {
       "seat": "south-goa-goa",
-      "field": "record",
-      "old": "absent",
-      "new": "added"
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
+    },
+    {
+      "seat": "west-delhi-delhi",
+      "field": "since_date",
+      "old": "2024-06-09",
+      "new": null
     }
   ],
   "updated": []

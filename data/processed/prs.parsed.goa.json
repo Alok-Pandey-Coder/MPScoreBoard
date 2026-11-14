@@ -2,20 +2,20 @@
   "source": {
     "name": "PRS Legislative Research MP Track",
     "url": "https://prsindia.org/mptrack/18th-lok-sabha",
-    "capture": "data/raw/prs.goa.2026-11-01",
-    "retrieved_at": "2026-11-01",
+    "capture": "data/raw/prs.goa.2026-11-14",
+    "retrieved_at": "2026-11-14",
     "parser": "scripts/03_parse_prs.py"
   },
   "records": [
     {
-      "file": "data/raw/prs.goa.2026-11-01/shripad-yesso-naik.html",
+      "file": "data/raw/prs.goa.2026-11-14/shripad-yesso-naik.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/shripad-yesso-naik",
       "name": "Shripad Yesso Naik",
       "state": "Goa",
       "constituency": "North Goa",
       "party": "Bharatiya Janata Party",
       "nature_of_membership": "Elected",
-      "term_start": "09-06-2024",
+      "term_start": "2024-06-09",
       "term_end": "In Office",
       "term_number": "Sixth Term",
       "age": "73",
@@ -70,14 +70,14 @@
       "licence": "CC BY 4.0"
     },
     {
-      "file": "data/raw/prs.goa.2026-11-01/viriato-fernandes.html",
+      "file": "data/raw/prs.goa.2026-11-14/viriato-fernandes.html",
       "source_url": "https://prsindia.org/mptrack/18th-lok-sabha/captain-viriato-fernandes",
       "name": "Viriato Fernandes",
       "state": "Goa",
       "constituency": "South Goa",
       "party": "Indian National Congress",
       "nature_of_membership": "Elected",
-      "term_start": "09-06-2024",
+      "term_start": "2024-06-09",
       "term_end": "In Office",
       "term_number": "First Term",
       "age": "57",
