@@ -1,8 +1,8 @@
 {
   "snapshot_version": "18ls-v3",
-  "generated_at": "2026-11-02T17:41:56.089478+00:00",
+  "generated_at": "2026-11-28T08:12:14.798127+00:00",
   "record_count": 9,
-  "sha256": "cc9a219fd4393a5ad74aab156f2db99b85ca9f6eb9a1cfa09db88f327eaeff12",
+  "sha256": "8f878ca4398369b7fb95347254d4ff3056093a6855fd08d5930107eac5c28b21",
   "pipeline": "scripts/03_parse_prs.py -> scripts/05_normalise.py -> scripts/09_intake_mplads.py -> scripts/06_merge.py -> scripts/07_validate.py -> scripts/08_snapshot.py",
   "coverage": "18th Lok Sabha: Delhi (7 of 7 seats); Goa (2 of 2 seats)",
   "states": [
